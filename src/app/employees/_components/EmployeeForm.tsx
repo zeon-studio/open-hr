@@ -290,6 +290,34 @@ const EmployeeForm = ({
 
       <div className="lg:col-6 mb-4">
         <div className="flex border rounded p-4 justify-between items-center space-x-2">
+          <Label>Discord</Label>
+          <Input
+            type="text"
+            value={employeeData.discord || ""}
+            onChange={(e) =>
+              setEmployeeData({ ...employeeData, discord: e.target.value })
+            }
+            placeholder="discord"
+          />
+        </div>
+      </div>
+
+      <div className="lg:col-6 mb-4">
+        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+          <Label>Personality Type</Label>
+          <Input
+            type="text"
+            value={employeeData.personality || ""}
+            onChange={(e) =>
+              setEmployeeData({ ...employeeData, personality: e.target.value })
+            }
+            placeholder="personality"
+          />
+        </div>
+      </div>
+
+      <div className="lg:col-6 mb-4">
+        <div className="flex border rounded p-4 justify-between items-center space-x-2">
           <Label>Note</Label>
           <Input
             type="text"
