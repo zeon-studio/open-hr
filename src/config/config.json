@@ -1,0 +1,13 @@
+{
+  "site": {
+    "title": "Erp Solution",
+    "base_url": "https://erp.teamosis.com",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "",
+    "logo_width": 80,
+    "logo_height": 36,
+    "logo_text": "Themefisher ERP"
+  }
+}

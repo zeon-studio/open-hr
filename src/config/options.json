@@ -1,0 +1,128 @@
+{
+  "employee_gender": [
+    {
+      "label": "Male",
+      "value": "male"
+    },
+    {
+      "label": "Female",
+      "value": "female"
+    }
+  ],
+  "employee_blood_group": [
+    {
+      "label": "A+",
+      "value": "a+"
+    },
+    {
+      "label": "A-",
+      "value": "a-"
+    },
+    {
+      "label": "B+",
+      "value": "b+"
+    },
+    {
+      "label": "B-",
+      "value": "b-"
+    },
+    {
+      "label": "O+",
+      "value": "o+"
+    },
+    {
+      "label": "O-",
+      "value": "o-"
+    },
+    {
+      "label": "AB+",
+      "value": "ab+"
+    },
+    {
+      "label": "AB-",
+      "value": "ab-"
+    }
+  ],
+  "employee_marital_status": [
+    {
+      "label": "Married",
+      "value": "married"
+    },
+    {
+      "label": "Unmarried",
+      "value": "unmarried"
+    },
+    {
+      "label": "Divorced",
+      "value": "divorced"
+    },
+    {
+      "label": "Widowed",
+      "value": "widowed"
+    }
+  ],
+  "employee_status": [
+    {
+      "label": "Pending",
+      "value": "pending"
+    },
+    {
+      "label": "Active",
+      "value": "active"
+    },
+    {
+      "label": "Archived",
+      "value": "archived"
+    }
+  ],
+  "employee_role": [
+    {
+      "label": "User",
+      "value": "user"
+    },
+    {
+      "label": "Moderator",
+      "value": "moderator"
+    },
+    {
+      "label": "Admin",
+      "value": "admin"
+    }
+  ],
+  "employee_department": [
+    {
+      "label": "Development",
+      "value": "development"
+    },
+    {
+      "label": "Design",
+      "value": "design"
+    },
+    {
+      "label": "Marketing",
+      "value": "marketing"
+    },
+    {
+      "label": "Admin",
+      "value": "admin"
+    }
+  ],
+  "employee_job_type": [
+    {
+      "label": "Full Time",
+      "value": "full_time"
+    },
+    {
+      "label": "Part Time",
+      "value": "part_time"
+    },
+    {
+      "label": "Remote",
+      "value": "remote"
+    },
+    {
+      "label": "Contractual",
+      "value": "contractual"
+    }
+  ]
+}

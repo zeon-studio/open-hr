@@ -1,0 +1,25 @@
+.widget-title {
+  @apply text-base mb-2 text-dark font-semibold;
+}
+
+/* table loader */
+.loader {
+  @apply bg-slate-50 w-full h-2 rounded relative;
+}
+
+.loader .loader-line {
+  @apply bg-primary w-[200px] h-2 rounded absolute left-0 z-10;
+  animation: line-bounce 5s infinite;
+}
+
+@keyframes line-bounce {
+  0% {
+    left: calc(100% - 200px);
+  }
+  50% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 200px);
+  }
+}

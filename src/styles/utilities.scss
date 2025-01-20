@@ -1,0 +1,12 @@
+.text-dark {
+  @apply text-[#18181a];
+}
+.text-light {
+  @apply text-[#71717A];
+}
+.scroll-box {
+  @apply overflow-y-auto overflow-x-hidden;
+}
+.scroll-hide::-webkit-scrollbar {
+  width: 0px;
+}
