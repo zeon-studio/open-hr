@@ -1,6 +1,7 @@
 import { TPagination } from "@/types";
 import { apiSlice } from "../apiSlice/apiSlice";
 import {
+  TAllOnboardingTaskState,
   TEmployeeOnboarding,
   TEmployeeOnboardingState,
 } from "./employeeOnboardingType";
@@ -33,6 +34,18 @@ export const employeeOnboardingApi =
           method: "GET",
         }),
         providesTags: ["employee-onboardings"],
+      }),
+
+      getPendingOnboardingTask: builder.query<
+        TAllOnboardingTaskState,
+        undefined
+      >({
+        query: () => ({
+          url: `/employee-onboarding/pending`,
+          method: "GET",
+        }),
+        providesTags: ["employee-onboardings"],
+        keepUnusedDataFor: 30 * 60,
       }),
 
       addEmployeeOnboarding: builder.mutation<

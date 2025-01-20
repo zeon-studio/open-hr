@@ -1,6 +1,6 @@
 import { TPagination } from "@/types";
 import { apiSlice } from "../apiSlice/apiSlice";
-import { TTool, TToolState } from "./toolType";
+import { TAllToolsState, TTool, TToolState } from "./toolType";
 
 const toolApiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ["tools"],
@@ -20,6 +20,14 @@ export const toolApi = toolApiWithTag.injectEndpoints({
     getTool: builder.query<TToolState<TTool>, string>({
       query: (id) => ({
         url: `/tool/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["tools"],
+    }),
+
+    getToolsByUser: builder.query<TAllToolsState, string>({
+      query: (id) => ({
+        url: `/tool/user/${id}`,
         method: "GET",
       }),
       providesTags: ["tools"],
@@ -59,6 +67,7 @@ export const {
   useGetToolsQuery,
   useGetToolQuery,
   useAddToolMutation,
+  useGetToolsByUserQuery,
   useUpdateToolMutation,
   useDeleteToolMutation,
 } = toolApi;

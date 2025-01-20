@@ -5,7 +5,7 @@ export type TLog = {
 
 export type TAsset = {
   asset_id: string;
-  user_id: string;
+  user: string;
   name: string;
   type: "laptop" | "desktop" | "mobile" | "keyboard" | "mouse" | "monitor";
   serial_number: string;
@@ -25,4 +25,10 @@ export type TAssetState<T = TAsset[]> = {
     total: number;
   };
   error: boolean;
+};
+
+export type TAllAssetsState = {
+  success: boolean;
+  message: string;
+  result: TAsset[];
 };

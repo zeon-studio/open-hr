@@ -25,6 +25,15 @@ export const leaveRequestApi = leaveRequestApiWithTag.injectEndpoints({
       providesTags: ["leave-requests"],
     }),
 
+    getUpcomingLeaveRequests: builder.query<TLeaveRequestState, string>({
+      query: (date) => ({
+        url: `/leave-request/upcoming?current_date=${date}`,
+        method: "GET",
+      }),
+      providesTags: ["leave-requests"],
+      keepUnusedDataFor: 30 * 60,
+    }),
+
     addLeaveRequest: builder.mutation<TLeaveRequestState, TLeaveRequest>({
       query: (data) => ({
         url: `/leave-request`,

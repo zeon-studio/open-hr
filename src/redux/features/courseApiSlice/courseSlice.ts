@@ -1,6 +1,6 @@
 import { TPagination } from "@/types";
 import { apiSlice } from "../apiSlice/apiSlice";
-import { TCourse, TCourseState } from "./courseType";
+import { TAllCoursesState, TCourse, TCourseState } from "./courseType";
 
 const courseApiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ["courses"],
@@ -20,6 +20,14 @@ export const courseApi = courseApiWithTag.injectEndpoints({
     getCourse: builder.query<TCourseState<TCourse>, string>({
       query: (id) => ({
         url: `/course/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["courses"],
+    }),
+
+    getCoursesByUser: builder.query<TAllCoursesState, string>({
+      query: (id) => ({
+        url: `/course/user/${id}`,
         method: "GET",
       }),
       providesTags: ["courses"],
@@ -58,6 +66,7 @@ export const courseApi = courseApiWithTag.injectEndpoints({
 export const {
   useGetCoursesQuery,
   useGetCourseQuery,
+  useGetCoursesByUserQuery,
   useAddCourseMutation,
   useUpdateCourseMutation,
   useDeleteCourseMutation,

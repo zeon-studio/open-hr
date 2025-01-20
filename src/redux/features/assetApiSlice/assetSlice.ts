@@ -1,6 +1,6 @@
 import { TPagination } from "@/types";
 import { apiSlice } from "../apiSlice/apiSlice";
-import { TAsset, TAssetState } from "./assetType";
+import { TAllAssetsState, TAsset, TAssetState } from "./assetType";
 
 const assetApiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ["assets"],
@@ -20,6 +20,14 @@ export const assetApi = assetApiWithTag.injectEndpoints({
     getAsset: builder.query<TAssetState<TAsset>, string>({
       query: (id) => ({
         url: `/asset/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["assets"],
+    }),
+
+    getAssetsByUser: builder.query<TAllAssetsState, string>({
+      query: (id) => ({
+        url: `/asset/user/${id}`,
         method: "GET",
       }),
       providesTags: ["assets"],
@@ -58,6 +66,7 @@ export const assetApi = assetApiWithTag.injectEndpoints({
 export const {
   useGetAssetsQuery,
   useGetAssetQuery,
+  useGetAssetsByUserQuery,
   useAddAssetMutation,
   useUpdateAssetMutation,
   useDeleteAssetMutation,

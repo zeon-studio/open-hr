@@ -1,6 +1,7 @@
 import { TPagination } from "@/types";
 import { apiSlice } from "../apiSlice/apiSlice";
 import {
+  TAllOffboardingTaskState,
   TEmployeeOffboarding,
   TEmployeeOffboardingState,
 } from "./employeeOffboardingType";
@@ -33,6 +34,18 @@ export const employeeOffboardingApi =
           method: "GET",
         }),
         providesTags: ["employee-offboardings"],
+      }),
+
+      getPendingOffboardingTask: builder.query<
+        TAllOffboardingTaskState,
+        undefined
+      >({
+        query: () => ({
+          url: `/employee-offboarding/pending`,
+          method: "GET",
+        }),
+        providesTags: ["employee-offboardings"],
+        keepUnusedDataFor: 30 * 60,
       }),
 
       addEmployeeOffboarding: builder.mutation<
@@ -71,6 +84,7 @@ export const employeeOffboardingApi =
 export const {
   useGetEmployeeOffboardingsQuery,
   useGetEmployeeOffboardingQuery,
+  useGetPendingOffboardingTaskQuery,
   useAddEmployeeOffboardingMutation,
   useUpdateEmployeeOffboardingMutation,
   useDeleteEmployeeOffboardingMutation,

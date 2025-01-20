@@ -1,4 +1,5 @@
 export type TLeaveRequest = {
+  _id: string;
   employee_id: string;
   leave_type: "casual" | "sick" | "earned" | "without_pay";
   start_date: Date;

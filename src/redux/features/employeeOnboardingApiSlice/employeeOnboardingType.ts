@@ -24,3 +24,9 @@ export type TEmployeeOnboardingState<T = TEmployeeOnboarding[]> = {
   };
   error: boolean;
 };
+
+export type TAllOnboardingTaskState = {
+  success: boolean;
+  message: string;
+  result: (TOnboardingTask & { employee_id: string; createdAt: Date })[];
+};

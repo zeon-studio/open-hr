@@ -1,4 +1,5 @@
 export type TCourseItem = {
+  _id: string;
   name: string;
   price: number;
   currency: string;
@@ -23,4 +24,15 @@ export type TCourseState<T = TCourse[]> = {
     total: number;
   };
   error: boolean;
+};
+
+export type TAllCoursesState = {
+  success: boolean;
+  message: string;
+  result: (TCourseItem & {
+    platform: string;
+    website: string;
+    email: string;
+    password: string;
+  })[];
 };
