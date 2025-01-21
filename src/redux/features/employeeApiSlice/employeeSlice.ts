@@ -1,4 +1,5 @@
 import { TPagination } from "@/types";
+import { toast } from "sonner";
 import { apiSlice } from "../apiSlice/apiSlice";
 import { TEmployee, TEmployeeState } from "./employeeType";
 
@@ -51,6 +52,16 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
           body: data,
         };
       },
+
+      async onQueryStarted(arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          toast.success("Update data successfully!");
+        } catch (error) {
+          toast.error("Something went wrong!");
+        }
+      },
+
       invalidatesTags: ["employees"],
     }),
 

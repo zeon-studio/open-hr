@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex justify-between overflow-x-hidden">
-      <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none md:w-72 bg-background min-h-screen relative">
+      <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none md:w-72 bg-background min-h-screen relative border-r border-r-border/10">
         <Sidebar />
       </aside>
 
