@@ -20,8 +20,6 @@ const PendingTasks = () => {
     ];
   }, [offboardingTasks, onboardingTasks]);
 
-  console.log(mergeTasks);
-
   return (
     <Card className="mb-4">
       <CardHeader>

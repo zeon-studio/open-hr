@@ -21,3 +21,10 @@ export type TCalendarState<T = TCalendar[]> = {
   };
   error: boolean;
 };
+
+export type TAllCalendarEvents = {
+  result: {
+    holidays: TEvent[];
+    events: TEvent[];
+  };
+};

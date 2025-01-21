@@ -4,13 +4,15 @@ import ClearCache from "@/helpers/ClearCache";
 import { useSession } from "next-auth/react";
 import Gravatar from "react-gravatar";
 import PendingTasks from "./_components/PendingTasks";
+import UpcomingEvents from "./_components/UpcomingEvents";
+import UpcomingHolidays from "./_components/UpcomingHolidays";
 import UpcomingLeaves from "./_components/UpcomingLeaves";
 
 const Home = () => {
   const { data } = useSession();
   return (
     <section className="p-8">
-      <div className="row">
+      <div className="row gx-3">
         <div className="col-12 mb-8">
           <ClearCache />
           <div className="flex">
@@ -35,6 +37,12 @@ const Home = () => {
         </div>
         <div className="lg:col-6">
           <PendingTasks />
+        </div>
+        <div className="lg:col-6">
+          <UpcomingHolidays />
+        </div>
+        <div className="lg:col-6">
+          <UpcomingEvents />
         </div>
       </div>
     </section>

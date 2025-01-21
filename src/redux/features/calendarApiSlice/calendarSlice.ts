@@ -1,6 +1,6 @@
 import { TPagination } from "@/types";
 import { apiSlice } from "../apiSlice/apiSlice";
-import { TCalendar, TCalendarState } from "./calendarType";
+import { TAllCalendarEvents, TCalendar, TCalendarState } from "./calendarType";
 
 const calendarApiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ["calendars"],
@@ -20,6 +20,14 @@ export const calendarApi = calendarApiWithTag.injectEndpoints({
     getCalendar: builder.query<TCalendarState<TCalendar>, string>({
       query: (id) => ({
         url: `/calendar/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["calendars"],
+    }),
+
+    getUpcomingHolidaysAndEvents: builder.query<TAllCalendarEvents, string>({
+      query: (date) => ({
+        url: `/calendar/upcoming?current_date=${date}`,
         method: "GET",
       }),
       providesTags: ["calendars"],
@@ -58,6 +66,7 @@ export const calendarApi = calendarApiWithTag.injectEndpoints({
 export const {
   useGetCalendarsQuery,
   useGetCalendarQuery,
+  useGetUpcomingHolidaysAndEventsQuery,
   useAddCalendarMutation,
   useUpdateCalendarMutation,
   useDeleteCalendarMutation,
