@@ -17,7 +17,7 @@ import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetEmployeesQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
-import EmployeeInsert from "../employees/_components/EmployeeInsert";
+import EmployeeInsert from "./_components/EmployeeInsert";
 import UserPage from "./_components/EmployeePage";
 
 const Customers = () => {
