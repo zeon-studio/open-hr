@@ -7,9 +7,12 @@ import PendingTasks from "./_components/PendingTasks";
 import UpcomingEvents from "./_components/UpcomingEvents";
 import UpcomingHolidays from "./_components/UpcomingHolidays";
 import UpcomingLeaves from "./_components/UpcomingLeaves";
+import UserAssets from "./_components/UserAssets";
+import UserGreetings from "./_components/UserGreetings";
 
 const Home = () => {
   const { data } = useSession();
+
   return (
     <section className="p-8">
       <div className="row gx-3">
@@ -32,18 +35,31 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="lg:col-6">
-          <UpcomingLeaves />
-        </div>
-        <div className="lg:col-6">
-          <PendingTasks />
-        </div>
-        <div className="lg:col-6">
-          <UpcomingHolidays />
-        </div>
-        <div className="lg:col-6">
-          <UpcomingEvents />
-        </div>
+        {data?.user.role === "user" ? (
+          <>
+            <div className="col-12">
+              <UserGreetings userName={data?.user?.name!} />
+            </div>
+            <div className="lg:col-6">
+              <UserAssets userId={data?.user?.id!} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="lg:col-6">
+              <UpcomingLeaves />
+            </div>
+            <div className="lg:col-6">
+              <PendingTasks />
+            </div>
+            <div className="lg:col-6">
+              <UpcomingHolidays />
+            </div>
+            <div className="lg:col-6">
+              <UpcomingEvents />
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

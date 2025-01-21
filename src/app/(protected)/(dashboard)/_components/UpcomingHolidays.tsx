@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dateFormat } from "@/lib/dateFormat";
 import { useGetUpcomingHolidaysAndEventsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
+import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { Calendar1 } from "lucide-react";
 
 const UpcomingHolidays = () => {
@@ -20,10 +21,10 @@ const UpcomingHolidays = () => {
           <p className="text-center py-4">No upcoming holidays</p>
         ) : (
           <ul className="space-y-3">
-            {data?.result?.holidays?.map((holiday: any) => (
+            {data?.result?.holidays?.map((holiday: TEvent, index: number) => (
               <li
                 className="bg-destructive/10 px-3 py-2 rounded"
-                key={holiday.id}
+                key={`holiday-${index}`}
               >
                 <p className="capitalize text-destructive block">
                   {holiday.reason}

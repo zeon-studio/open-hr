@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dateFormat } from "@/lib/dateFormat";
 import { useGetUpcomingHolidaysAndEventsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
+import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { CalendarCheck } from "lucide-react";
 
 const UpcomingEvents = () => {
@@ -20,8 +21,11 @@ const UpcomingEvents = () => {
           <p className="text-center py-4">No upcoming events</p>
         ) : (
           <ul className="space-y-3">
-            {data?.result?.events?.map((event: any) => (
-              <li className="bg-success/10 px-3 py-2 rounded" key={event.id}>
+            {data?.result?.events?.map((event: TEvent, index: number) => (
+              <li
+                className="bg-success/10 px-3 py-2 rounded"
+                key={`event-${index}`}
+              >
                 <p className="capitalize text-success block">{event.reason}</p>
                 <small className="text-text-light">
                   {dateFormat(event.start_date)} - {dateFormat(event.end_date)}
