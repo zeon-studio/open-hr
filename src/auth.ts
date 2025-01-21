@@ -16,7 +16,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       // @ts-ignore
       profile(profile) {
-        console.log(profile);
         return {
           name: profile.name,
           email: profile.email,

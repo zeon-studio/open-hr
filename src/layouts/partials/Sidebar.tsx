@@ -1,10 +1,10 @@
+import Logo from "@/components/logo";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import config from "@/config/config.json";
 import { menu } from "@/config/menu";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { LogOut, LucideIcon } from "lucide-react";
@@ -22,11 +22,7 @@ interface Menu {
   children?: Menu[];
 }
 
-interface SidebarProps {
-  className: string;
-}
-
-const Sidebar = ({ className }: SidebarProps) => {
+const Sidebar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
 
@@ -39,13 +35,9 @@ const Sidebar = ({ className }: SidebarProps) => {
   };
 
   return (
-    <div
-      className={`bg-[#FAFAFB] z-30 fixed top-0 sm:left-0 min-h-screen py-4 w-[180px] border-r ${className}`}
-    >
-      <div className="mb-10">
-        <Link href="/" className="block h6 font-bold text-center">
-          {config.site.logo_text}
-        </Link>
+    <div>
+      <div className="my-10">
+        <Logo className="pl-5" />
       </div>
       <nav className="px-5">
         <ul>
@@ -94,7 +86,7 @@ const Sidebar = ({ className }: SidebarProps) => {
                 <li className="mb-2" key={item.name}>
                   <Link
                     href={item.path!}
-                    className={`rounded text-[#09090B] text-sm font-medium block px-2 py-1.5 ${
+                    className={`rounded text-black text-sm font-medium block px-2 py-2.5 ${
                       pathname === item.path ? "bg-[#EDEEF1]" : ""
                     } `}
                   >
