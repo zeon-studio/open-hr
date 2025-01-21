@@ -8,15 +8,13 @@ const Home = () => {
   const { data } = useSession();
   console.log(data?.user);
   return (
-    <section className="px-8 py-4">
+    <section className="p-8">
       <div className="row">
         <div className="col-12">
           <ClearCache />
         </div>
         <div className="lg:col-6">
-          <div className="row">
-            <UpcomingLeaves />
-          </div>
+          <UpcomingLeaves />
         </div>
       </div>
     </section>

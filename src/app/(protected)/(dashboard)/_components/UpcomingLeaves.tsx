@@ -1,4 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import UserInfo from "@/components/UserInfo";
+import { dateFormat } from "@/lib/dateFormat";
+import { getEmployeeInfo } from "@/lib/employeeId2Info";
 import { useGetUpcomingLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { useMemo } from "react";
 
@@ -49,8 +52,67 @@ const UpcomingLeaves = () => {
 
   return (
     <Card className="mb-4">
+      <CardHeader>
+        <CardTitle>Who's Out</CardTitle>
+      </CardHeader>
       <CardContent>
-        <h3 className="widget-title">Today</h3>
+        <div className="mb-6">
+          <h4 className="h6 mb-3">Today</h4>
+          {todaysLeave?.length === 0 ? (
+            <p className="text-text-light">
+              Nobody requested time off for today
+            </p>
+          ) : (
+            <ul className="space-y-3">
+              {todaysLeave?.map((leave: any) => (
+                <li key={leave._id}>
+                  <UserInfo
+                    user={getEmployeeInfo(leave.employee_id)!}
+                    description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="mb-6">
+          <h4 className="h6 mb-3">Tomorrow</h4>
+          {todaysLeave?.length === 0 ? (
+            <p className="text-text-light">
+              Nobody requested time off for tomorrow
+            </p>
+          ) : (
+            <ul className="space-y-3">
+              {todaysLeave?.map((leave: any) => (
+                <li key={leave._id}>
+                  <UserInfo
+                    user={getEmployeeInfo(leave.employee_id)!}
+                    description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="mb-6">
+          <h4 className="h6 mb-3">Upcoming Leaves</h4>
+          {todaysLeave?.length === 0 ? (
+            <p className="text-text-light">
+              Nobody requested time off for upcoming days
+            </p>
+          ) : (
+            <ul className="space-y-3">
+              {todaysLeave?.map((leave: any) => (
+                <li key={leave._id}>
+                  <UserInfo
+                    user={getEmployeeInfo(leave.employee_id)!}
+                    description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

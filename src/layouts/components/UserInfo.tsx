@@ -7,9 +7,13 @@ import Gravatar from "react-gravatar";
 const UserInfo = ({
   user,
   className,
+  description,
+  imgSize = 50,
 }: {
-  user: Partial<TEmployee>;
+  user: Partial<TEmployee & { department: string; designation: string }>;
   className?: string;
+  description?: string;
+  imgSize?: number;
 }): JSX.Element => {
   const dispatch = useAppDispatch();
 
@@ -23,21 +27,26 @@ const UserInfo = ({
           <img
             className="object-cover rounded-full"
             src={user?.image}
-            height={70}
-            width={70}
+            height={imgSize}
+            width={imgSize}
             alt="user image"
           />
         ) : (
           <Gravatar
             email={user?.work_email}
-            size={70}
+            size={imgSize}
             default="mp"
             className="rounded-full"
           />
         )}
       </div>
       <div className="ml-3">
-        <h6 className={`font-medium text-sm cursor-pointer`}>{user?.name}</h6>
+        <h6 className={`font-medium mb-1.5 text-sm cursor-pointer`}>
+          {user?.name}
+        </h6>
+        <p className="text-xs text-muted-foreground">
+          {description ? description : user?.designation}
+        </p>
       </div>
     </div>
   );
