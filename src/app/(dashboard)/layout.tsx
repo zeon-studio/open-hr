@@ -21,9 +21,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Sidebar />
       </aside>
 
-      <div className="w-full">
+      <div className="w-full p-5">
         <Header setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
-        <main className="h-full">{children}</main>
+        <main className="h-full rounded-lg bg-light">{children}</main>
       </div>
     </div>
   );

@@ -17,16 +17,22 @@
   --popover-foreground: var(--text-default-color);
 
   --primary: var(--primary-color);
-  --primary-foreground: var(--text-primary-color);
+  --primary-foreground: var(--text-white-color);
 
   --muted: var(--mute-color);
   --muted-foreground: var(--text-light-color);
 
   --accent: var(--accent-color);
-  --accent-foreground: #fff;
+  --accent-foreground: var(--text-white-color);
 
   --destructive: var(--danger-color);
-  --destructive-foreground: #fff;
+  --destructive-foreground: var(--text-white-color);
+
+  --success: var(--success-color);
+  --success-foreground: var(--text-white-color);
+
+  --warning: var(--warning-color);
+  --warning-foreground: var(--text-white-color);
 
   --text-color: var(--text-default-color);
   --text-dark: var(--text-dark-color);

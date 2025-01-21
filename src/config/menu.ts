@@ -1,12 +1,12 @@
 import {
-  Book,
+  BookKey,
   Calendar,
   CalendarOff,
   CircleHelp,
   CircleUser,
   LayoutDashboard,
   Package,
-  Settings2,
+  SquareLibrary,
   Users,
 } from "lucide-react";
 
@@ -32,12 +32,12 @@ export const menu = [
   {
     name: "Tools",
     path: "/tools",
-    icon: Settings2,
+    icon: BookKey,
     access: ["admin", "moderator"],
   },
   {
     name: "Courses",
-    icon: Book,
+    icon: SquareLibrary,
     access: ["admin", "moderator"],
     path: "/courses",
   },

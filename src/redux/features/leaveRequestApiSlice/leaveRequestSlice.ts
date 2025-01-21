@@ -67,6 +67,7 @@ export const leaveRequestApi = leaveRequestApiWithTag.injectEndpoints({
 export const {
   useGetLeaveRequestsQuery,
   useGetLeaveRequestQuery,
+  useGetUpcomingLeaveRequestsQuery,
   useAddLeaveRequestMutation,
   useUpdateLeaveRequestMutation,
   useDeleteLeaveRequestMutation,
