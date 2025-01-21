@@ -3,6 +3,7 @@ import {
   Calendar,
   CalendarOff,
   CircleHelp,
+  CircleUser,
   LayoutDashboard,
   Package,
   Settings2,
@@ -21,6 +22,12 @@ export const menu = [
     path: "/employees",
     icon: Users,
     access: ["admin", "moderator"],
+  },
+  {
+    name: "My Info",
+    path: "/my-info",
+    icon: CircleUser,
+    access: ["user"],
   },
   {
     name: "Tools",
