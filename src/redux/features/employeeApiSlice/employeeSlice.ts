@@ -46,7 +46,7 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
     updateEmployee: builder.mutation({
       query: (data) => {
         return {
-          url: `/employee/${data.id}`,
+          url: `/employee/update/${data.id}`,
           method: "PATCH",
           body: data,
         };
@@ -54,10 +54,32 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployeeNote: builder.mutation({
+    updateEmployeeEmail: builder.mutation({
       query: (data) => {
         return {
-          url: `/employee/update-note/${data.id}`,
+          url: `/employee/email/${data.id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["employees"],
+    }),
+
+    updateEmployeeDiscord: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/employee/discord/${data.id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["employees"],
+    }),
+
+    updateEmployeePersonality: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/employee/personality/${data.id}`,
           method: "PATCH",
           body: data,
         };
@@ -82,5 +104,7 @@ export const {
   useAddEmployeeMutation,
   useUpdateEmployeeMutation,
   useDeleteEmployeeMutation,
-  useUpdateEmployeeNoteMutation,
+  useUpdateEmployeeEmailMutation,
+  useUpdateEmployeeDiscordMutation,
+  useUpdateEmployeePersonalityMutation,
 } = employeeApi;

@@ -2,17 +2,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import EditFrom from "@/partials/EditFrom";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { useSession } from "next-auth/react";
 
 export default function PersonalInfo() {
   const { data: session } = useSession();
   const { data } = useGetEmployeeQuery(session?.user.id!);
 
-  console.log({ data });
-
   return (
     <div>
-      <EditFrom data={data}>
+      <EditFrom<TEmployee> data={data?.result!}>
         {({ handleChange, isReadOnly, data }) => {
           return (
             <form>

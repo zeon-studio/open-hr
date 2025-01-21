@@ -16,6 +16,8 @@ export type TEmployee = {
   facebook: string;
   twitter: string;
   linkedin: string;
+  discord: string;
+  personality: string;
   note: string;
   status: "pending" | "active" | "archived" | "";
   role: "user" | "moderator" | "admin" | "";
