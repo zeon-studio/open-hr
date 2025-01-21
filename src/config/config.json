@@ -5,9 +5,9 @@
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.png",
-    "logo": "",
-    "logo_width": 80,
-    "logo_height": 36,
+    "logo": "/images/logo.png",
+    "logo_width": 160,
+    "logo_height": 40,
     "logo_text": "Themefisher ERP"
   }
 }

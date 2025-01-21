@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 
 const Providers = ({ children }: { children: ReactNode }) => {
   const { data: session } = useSession();
-
   return (
     <>
       {session?.user.role === "admin" ? (

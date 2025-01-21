@@ -1,12 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { signIn, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function SignIn() {
-  const { data: session } = useSession();
-  if (session?.user?.email) redirect("/");
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="p-20 flex flex-col items-center rounded-lg bg-background">
