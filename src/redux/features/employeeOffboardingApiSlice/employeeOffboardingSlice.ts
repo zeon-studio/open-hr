@@ -41,7 +41,7 @@ export const employeeOffboardingApi =
         undefined
       >({
         query: () => ({
-          url: `/employee-offboarding/pending`,
+          url: `/employee-offboarding/pending-task`,
           method: "GET",
         }),
         providesTags: ["employee-offboardings"],

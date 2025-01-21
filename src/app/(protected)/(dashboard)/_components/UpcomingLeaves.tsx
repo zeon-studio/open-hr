@@ -3,6 +3,7 @@ import UserInfo from "@/components/UserInfo";
 import { dateFormat } from "@/lib/dateFormat";
 import { getEmployeeInfo } from "@/lib/employeeId2Info";
 import { useGetUpcomingLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
+import { UserRoundMinus } from "lucide-react";
 import { useMemo } from "react";
 
 const UpcomingLeaves = () => {
@@ -53,9 +54,12 @@ const UpcomingLeaves = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle>Who's Out</CardTitle>
+        <CardTitle>
+          <UserRoundMinus className="mr-2 inline-block" />
+          Who's Out
+        </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="h-[300px] scroll-box">
         <div className="mb-6">
           <h4 className="h6 mb-3">Today</h4>
           {todaysLeave?.length === 0 ? (
@@ -65,7 +69,7 @@ const UpcomingLeaves = () => {
           ) : (
             <ul className="space-y-3">
               {todaysLeave?.map((leave: any) => (
-                <li key={leave._id}>
+                <li key={leave.employee_id}>
                   <UserInfo
                     user={getEmployeeInfo(leave.employee_id)!}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
@@ -77,14 +81,14 @@ const UpcomingLeaves = () => {
         </div>
         <div className="mb-6">
           <h4 className="h6 mb-3">Tomorrow</h4>
-          {todaysLeave?.length === 0 ? (
+          {tomorrowsLeave?.length === 0 ? (
             <p className="text-text-light">
               Nobody requested time off for tomorrow
             </p>
           ) : (
             <ul className="space-y-3">
-              {todaysLeave?.map((leave: any) => (
-                <li key={leave._id}>
+              {tomorrowsLeave?.map((leave: any) => (
+                <li key={leave.employee_id}>
                   <UserInfo
                     user={getEmployeeInfo(leave.employee_id)!}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
@@ -96,14 +100,14 @@ const UpcomingLeaves = () => {
         </div>
         <div className="mb-6">
           <h4 className="h6 mb-3">Upcoming Leaves</h4>
-          {todaysLeave?.length === 0 ? (
+          {othersLeave?.length === 0 ? (
             <p className="text-text-light">
               Nobody requested time off for upcoming days
             </p>
           ) : (
             <ul className="space-y-3">
-              {todaysLeave?.map((leave: any) => (
-                <li key={leave._id}>
+              {othersLeave?.map((leave: any) => (
+                <li key={leave.employee_id}>
                   <UserInfo
                     user={getEmployeeInfo(leave.employee_id)!}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}

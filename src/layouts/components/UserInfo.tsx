@@ -23,7 +23,7 @@ const UserInfo = ({
       onClick={() => dispatch(filterEmployee(user?.id!))}
     >
       <div className={`shrink-0`}>
-        {user.image ? (
+        {user?.image ? (
           <img
             className="object-cover rounded-full"
             src={user?.image}
