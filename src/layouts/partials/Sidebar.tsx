@@ -57,7 +57,7 @@ const Sidebar = () => {
                   <AccordionItem className="border-none" value={item.name}>
                     <AccordionTrigger className="pl-2 hover:no-underline pb-3 pt-2 text-sm">
                       <div className="flex items-center justify-start">
-                        <item.icon className="inline h-[15px] mb-0.5" />
+                        <item.icon className="inline h-5 mr-2 mb-0.5" />
                         {item.name}
                       </div>
                     </AccordionTrigger>
@@ -68,10 +68,10 @@ const Sidebar = () => {
                             <Link
                               href={child.path!}
                               className={`rounded text-[#09090B] text-sm font-medium block px-2 py-1.5 ${
-                                pathname === child.path ? "bg-[#EDEEF1]" : ""
+                                pathname === child.path ? "bg-light" : ""
                               } `}
                             >
-                              <child.icon className="inline h-[15px] mb-0.5" />
+                              <child.icon className="inline h-5 mr-2 mb-0.5" />
                               {child.name}
                             </Link>
                           </li>
@@ -87,10 +87,10 @@ const Sidebar = () => {
                   <Link
                     href={item.path!}
                     className={`rounded text-black text-sm font-medium block px-2 py-2.5 ${
-                      pathname === item.path ? "bg-[#EDEEF1]" : ""
+                      pathname === item.path ? "bg-light" : ""
                     } `}
                   >
-                    <item.icon className="inline h-[15px] mb-0.5" />
+                    <item.icon className="inline h-5 mr-2 mb-0.5" />
                     {item.name}
                   </Link>
                 </li>
@@ -102,21 +102,22 @@ const Sidebar = () => {
         {/* User section */}
         <div className="absolute w-[calc(100%-50px)] bottom-8">
           <Dialog>
-            <DialogTrigger className="border w-full rounded flex justify-between items-center pl-2 py-2">
+            <DialogTrigger className="bg-light w-full rounded flex items-center px-3 py-2">
               <Gravatar
-                className="rounded-full"
+                className="rounded-full mr-2 size-5"
                 email={session?.user?.email!}
-                size={20}
+                size={30}
               />
               <span className="text-sm capitalize font-medium text-[#09090B]">
                 {session?.user?.name
                   ? session?.user?.name
                   : session?.user?.role}
               </span>
-              <LogOut className="inline h-[15px] mb-0.5" />
+              <LogOut className="inline ml-auto h-5 mb-0.5" />
             </DialogTrigger>
             <ConfirmationPopup
               handleConfirmation={handleLogout}
+              description="You will be logged out"
               skipWrite={true}
             />
           </Dialog>
