@@ -14,17 +14,32 @@ import {
   useUpdateEmployeeMutation,
 } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { useGetEmployeeBankQuery } from "@/redux/features/employeeBankApiSlice/employeeBankSlice";
+import { TEmployeeBank } from "@/redux/features/employeeBankApiSlice/employeeBankType";
+import { useGetEmployeeEducationQuery } from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
 import { useSession } from "next-auth/react";
+import { notFound, useParams } from "next/navigation";
 import { useRef } from "react";
 
 export default function PersonalInfo() {
+  const { employeeId } = useParams<{ employeeId: string }>();
   const formRef = useRef<HTMLFormElement>(null);
   const { data: session } = useSession();
-  const { data, isLoading } = useGetEmployeeQuery(session?.user.id!);
+  const { data, isLoading } = useGetEmployeeQuery(
+    employeeId ?? session?.user.id!
+  );
   const [updateEmployee, { isLoading: isUpdating }] =
     useUpdateEmployeeMutation();
 
-  if (isLoading) {
+  const { data: bankDetails, isLoading: isBankLoading } =
+    useGetEmployeeBankQuery(employeeId ?? session?.user.id!);
+  console.log(bankDetails);
+
+  const { data: educationDetails } = useGetEmployeeEducationQuery(
+    employeeId ?? session?.user.id!
+  );
+
+  if (isLoading || isBankLoading) {
     return (
       <div>
         <p>loading...</p>
@@ -32,16 +47,21 @@ export default function PersonalInfo() {
     );
   }
 
+  if (!isLoading && !data?.result) {
+    notFound();
+  }
+
   const handleSubmit = (data: TEmployee) => {
     updateEmployee(data);
   };
 
   return (
-    <div>
+    <div className="space-y-10">
       <EditFrom<TEmployee>
         isUpdating={isUpdating}
         formRef={formRef}
         data={data?.result!}
+        title="Personal Details"
       >
         {({ handleChange, isReadOnly, data }) => {
           return (
@@ -66,6 +86,7 @@ export default function PersonalInfo() {
                   value={data.name}
                   readOnly={isReadOnly}
                   name="name"
+                  placeholder="Your Name"
                 />
               </div>
               <div>
@@ -81,11 +102,17 @@ export default function PersonalInfo() {
                   value={data.work_email}
                   readOnly={isReadOnly}
                   name="work_email"
+                  placeholder="Your Work Email"
                 />
               </div>
               <div>
                 <Label>Mobile Phone:</Label>
-                <Input readOnly={isReadOnly} name="phone" value={data.phone} />
+                <Input
+                  readOnly={isReadOnly}
+                  name="phone"
+                  value={data.phone}
+                  placeholder="Your phone number"
+                />
               </div>
 
               <div>
@@ -95,6 +122,7 @@ export default function PersonalInfo() {
                   type="number"
                   name="nid"
                   value={data.nid}
+                  placeholder="Your NID"
                 />
               </div>
               <div>
@@ -103,6 +131,7 @@ export default function PersonalInfo() {
                   readOnly={isReadOnly}
                   name="present_address"
                   value={data.present_address}
+                  placeholder="Your present address"
                 />
               </div>
               <div>
@@ -111,6 +140,7 @@ export default function PersonalInfo() {
                   readOnly={isReadOnly}
                   name="present_address"
                   value={data.permanent_address}
+                  placeholder="Your permanent address"
                 />
               </div>
               <div>
@@ -190,6 +220,75 @@ export default function PersonalInfo() {
                   </div>
                 </>
               )}
+            </form>
+          );
+        }}
+      </EditFrom>
+
+      <EditFrom<TEmployeeBank>
+        isUpdating={isUpdating}
+        formRef={formRef}
+        data={bankDetails?.result!}
+        title="Bank Details (If any)"
+      >
+        {({ handleChange, isReadOnly, data }) => {
+          return (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+              className="grid grid-cols-2 gap-3"
+              ref={formRef}
+            >
+              {data?.banks?.map((bank, index) => {
+                return (
+                  <div key={index}>
+                    <div>
+                      <Label>Account Name</Label>
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            [name]: value,
+                          });
+                        }}
+                        readOnly={isReadOnly}
+                        name="name"
+                        placeholder="Your Name"
+                      />
+                    </div>
+                    <div>
+                      <Label>Bank Account Number</Label>
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            [name]: value,
+                          });
+                        }}
+                        readOnly={isReadOnly}
+                        name="work_email"
+                        placeholder="Your Email"
+                      />
+                    </div>
+                    <div>
+                      <Label>Bank Name</Label>
+                      <Input
+                        readOnly={isReadOnly}
+                        name="phone"
+                        placeholder="Your Phone Number"
+                      />
+                    </div>
+
+                    <div>
+                      <Label>Branch</Label>
+                      <Input readOnly={isReadOnly} type="number" name="nid" />
+                    </div>
+                  </div>
+                );
+              })}
             </form>
           );
         }}

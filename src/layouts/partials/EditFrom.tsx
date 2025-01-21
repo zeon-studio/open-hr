@@ -8,6 +8,7 @@ export default function EditFrom<T>({
   data: initialData,
   isUpdating,
   formRef,
+  title,
 }: {
   children: ({
     handleChange,
@@ -19,6 +20,7 @@ export default function EditFrom<T>({
   data: T;
   isUpdating?: boolean;
   formRef: RefObject<HTMLFormElement | null>;
+  title: string;
 }) {
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [data, setData] = useState<T>(initialData);
@@ -34,9 +36,9 @@ export default function EditFrom<T>({
   }, [isUpdating]);
 
   return (
-    <Card className="border-none mb-0">
-      <CardTitle className="justify-between flex items-center">
-        <span>Personal Details</span>
+    <Card>
+      <CardTitle className="justify-between flex items-center px-6 pt-6">
+        <span>{title}</span>
         {isReadOnly ? (
           <Button
             onClick={() => {
@@ -67,9 +69,7 @@ export default function EditFrom<T>({
           </Button>
         )}
       </CardTitle>
-      <CardContent className="pl-0">
-        {children({ handleChange, isReadOnly, data })}
-      </CardContent>
+      <CardContent>{children({ handleChange, isReadOnly, data })}</CardContent>
     </Card>
   );
 }

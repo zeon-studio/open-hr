@@ -1,12 +1,12 @@
 "use client";
 
-import { Toaster } from "@/components/ui/toaster";
 import config from "@/config/config.json";
 import TwSizeIndicator from "@/helpers/TwSizeIndicator";
 import { AuthProvider } from "@/partials/AuthProvider";
 import Providers from "@/partials/Providers";
 import "@/styles/main.scss";
 import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 
 const fontPrimary = Inter({ subsets: ["latin"] });
 

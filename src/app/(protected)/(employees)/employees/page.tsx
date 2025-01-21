@@ -20,7 +20,7 @@ import { useSearchParams } from "next/navigation";
 import EmployeeInsert from "./_components/EmployeeInsert";
 import UserPage from "./_components/EmployeePage";
 
-const Customers = () => {
+export default function Employees() {
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
@@ -87,6 +87,4 @@ const Customers = () => {
       </Table>
     </section>
   );
-};
-
-export default Customers;
+}
