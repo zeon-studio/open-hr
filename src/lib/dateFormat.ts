@@ -1,4 +1,4 @@
-import { formatDistance } from "date-fns";
+import { Duration, formatDistance, intervalToDuration } from "date-fns";
 
 const monthNames = [
   "Jan",
@@ -54,3 +54,14 @@ export const dateDistance = (date: string) => {
 
   return formatDistance(currentDate, new Date(date));
 };
+
+export function getDuration(
+  startDate: string | Date,
+  endDate: string | Date
+): Duration {
+  const duration = intervalToDuration({
+    start: new Date(startDate),
+    end: new Date(endDate),
+  });
+  return duration;
+}

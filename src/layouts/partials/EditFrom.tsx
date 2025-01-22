@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Check, Loader2, Pen } from "lucide-react";
-import React, { RefObject, useEffect, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 
 export default function EditFrom<T>({
   children,
   data: initialData,
   isUpdating,
-  formRef,
   title,
 }: {
   children: ({
@@ -16,12 +15,13 @@ export default function EditFrom<T>({
     handleChange: (value: T) => void;
     isReadOnly: boolean;
     data: T;
+    formRef: RefObject<HTMLFormElement | null>;
   }) => React.ReactNode;
   data: T;
   isUpdating?: boolean;
-  formRef: RefObject<HTMLFormElement | null>;
   title: string;
 }) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [data, setData] = useState<T>(initialData);
 
@@ -30,8 +30,8 @@ export default function EditFrom<T>({
   };
 
   useEffect(() => {
-    if (isUpdating) {
-      setIsReadOnly(false);
+    if (!isUpdating) {
+      setIsReadOnly(true);
     }
   }, [isUpdating]);
 
@@ -69,7 +69,9 @@ export default function EditFrom<T>({
           </Button>
         )}
       </CardTitle>
-      <CardContent>{children({ handleChange, isReadOnly, data })}</CardContent>
+      <CardContent>
+        {children({ handleChange, isReadOnly, data, formRef })}
+      </CardContent>
     </Card>
   );
 }

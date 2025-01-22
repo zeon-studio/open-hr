@@ -1,6 +1,7 @@
 "use client";
 
 import Avatar from "@/components/Avatar";
+import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,9 @@ import { Building, Calendar, Mail, Phone, UserRoundCog } from "lucide-react";
 import { notFound, useParams } from "next/navigation";
 import PersonalInfo from "./_components/personal-info";
 
-import { SiFacebook, SiInstagram, SiX } from "@icons-pack/react-simple-icons";
+import { getDuration } from "@/lib/dateFormat";
+import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
+import { SiFacebook, SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
 
 const tabs = [
@@ -53,6 +56,9 @@ export default function Info() {
   const { data, isLoading } = useGetEmployeeQuery(
     employeeId ?? session?.user.id!
   );
+  const { data: jobData } = useGetEmployeeJobQuery(
+    employeeId ?? session?.user.id!
+  );
 
   if (!isLoading && !data?.result) {
     return notFound();
@@ -66,10 +72,17 @@ export default function Info() {
         }
       : session?.user;
 
+  const employmentDuration = getDuration(
+    jobData?.result.joining_date!,
+    new Date().toISOString()
+  );
+
+  const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
+
   return (
     <div className="bg-light mt-10 relative pt-10 flex space-x-6 after:bg-primary after:absolute after:left-0 after:w-full after:h-[20em] after:max-h-[212px] after:rounded after:-top-0.5 px-8">
       <div className="relative z-20 flex-none">
-        <div className="size-[210px] bg-light">
+        <div className="size-[210px] bg-light rounded">
           <Avatar
             className="rounded flex-none"
             width={210}
@@ -90,29 +103,35 @@ export default function Info() {
                   <span className="text-xs block font-semibold">
                     Present Address
                   </span>
-                  <span className="text-xs block">Dhaka, Bangladesh</span>
+                  <span className="text-xs block">
+                    {data?.result.present_address}
+                  </span>
                 </div>
               </li>
 
               <li className="flex space-x-2">
                 <Phone className="size-4" />
-                <span className="flex space-x-2 text-xs">801-724-6600</span>
+                <span className="flex space-x-2 text-xs">
+                  {data?.result.phone}
+                </span>
               </li>
 
               <li className="flex space-x-2">
                 <Mail className="size-4" />
                 <span className="flex space-x-2 text-xs">
-                  farhad.themefisher@gmail.com
+                  {data?.result.work_email}
                 </span>
               </li>
 
               <li className="flex space-x-2">
                 <UserRoundCog className="size-4" />
                 <div className="space-y-1.5">
-                  <span className="text-xs block font-semibold">
-                    Sr. HR Administrator
+                  <span className="text-xs block font-semibold capitalize">
+                    {jobData?.result.designation}
                   </span>
-                  <span className="text-xs block">Full-Time</span>
+                  <span className="text-xs block capitalize">
+                    {jobData?.result.job_type.replace("_", " ")}
+                  </span>
                 </div>
               </li>
 
@@ -122,11 +141,10 @@ export default function Info() {
                   <span className="text-xs block font-semibold">
                     Employee Id
                   </span>
-                  <span className="text-xs block">Ad4660523</span>
+                  <span className="text-xs block">{data?.result.id}</span>
                 </div>
               </li>
             </ul>
-
             <Separator className="my-5" />
           </div>
 
@@ -137,9 +155,17 @@ export default function Info() {
                 <Calendar className="size-4" />
                 <div className="space-y-1.5">
                   <span className="text-xs block font-semibold">
-                    Sep 28, 2021
+                    {jobData?.result.joining_date
+                      ? format(
+                          new Date(
+                            jobData?.result.joining_date ??
+                              "2025-01-01T00:00:00.000Z"
+                          ),
+                          "MMM d, yyyy"
+                        )
+                      : null}
                   </span>
-                  <span className="text-xs block">3y - 1m - 30d</span>
+                  <span className="text-xs block">{formattedDuration}</span>
                 </div>
               </li>
             </ul>
@@ -149,18 +175,13 @@ export default function Info() {
             <h6 className="text-base font-semibold mb-4">Social</h6>
             <ul className="flex space-x-2">
               <li>
-                <Link href={""}>
+                <Link href={data?.result.twitter ?? ""}>
                   <SiX className="size-4" />
                 </Link>
               </li>
               <li>
-                <Link href={""}>
+                <Link href={data?.result.facebook ?? ""}>
                   <SiFacebook className="size-4" />
-                </Link>
-              </li>
-              <li className="flex space-x-2">
-                <Link href={""}>
-                  <SiInstagram className="size-4" />
                 </Link>
               </li>
             </ul>

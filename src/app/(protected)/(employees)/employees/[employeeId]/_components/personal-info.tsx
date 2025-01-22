@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import EditFrom from "@/partials/EditFrom";
 import {
@@ -17,13 +18,12 @@ import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { useGetEmployeeBankQuery } from "@/redux/features/employeeBankApiSlice/employeeBankSlice";
 import { TEmployeeBank } from "@/redux/features/employeeBankApiSlice/employeeBankType";
 import { useGetEmployeeEducationQuery } from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
+import { TEmployeeEducation } from "@/redux/features/employeeEducationApiSlice/employeeEducationType";
 import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
-import { useRef } from "react";
 
 export default function PersonalInfo() {
   const { employeeId } = useParams<{ employeeId: string }>();
-  const formRef = useRef<HTMLFormElement>(null);
   const { data: session } = useSession();
   const { data, isLoading } = useGetEmployeeQuery(
     employeeId ?? session?.user.id!
@@ -33,13 +33,11 @@ export default function PersonalInfo() {
 
   const { data: bankDetails, isLoading: isBankLoading } =
     useGetEmployeeBankQuery(employeeId ?? session?.user.id!);
-  console.log(bankDetails);
 
-  const { data: educationDetails } = useGetEmployeeEducationQuery(
-    employeeId ?? session?.user.id!
-  );
+  const { data: educationDetails, isLoading: isEducationLoading } =
+    useGetEmployeeEducationQuery(employeeId ?? session?.user.id!);
 
-  if (isLoading || isBankLoading) {
+  if (isLoading || isBankLoading || isEducationLoading) {
     return (
       <div>
         <p>loading...</p>
@@ -59,19 +57,18 @@ export default function PersonalInfo() {
     <div className="space-y-10">
       <EditFrom<TEmployee>
         isUpdating={isUpdating}
-        formRef={formRef}
         data={data?.result!}
         title="Personal Details"
       >
-        {({ handleChange, isReadOnly, data }) => {
+        {({ handleChange, isReadOnly, data, formRef }) => {
           return (
             <form
+              ref={formRef}
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmit(data);
               }}
               className="grid grid-cols-2 gap-3"
-              ref={formRef}
             >
               <div>
                 <Label>Name</Label>
@@ -227,22 +224,21 @@ export default function PersonalInfo() {
 
       <EditFrom<TEmployeeBank>
         isUpdating={isUpdating}
-        formRef={formRef}
         data={bankDetails?.result!}
         title="Bank Details (If any)"
       >
-        {({ handleChange, isReadOnly, data }) => {
+        {({ handleChange, isReadOnly, data, formRef }) => {
           return (
             <form
               onSubmit={(e) => {
                 e.preventDefault();
               }}
-              className="grid grid-cols-2 gap-3"
+              className="grid grid-cols-1 gap-3"
               ref={formRef}
             >
-              {data?.banks?.map((bank, index) => {
+              {data?.banks?.map((bank, index, banks) => {
                 return (
-                  <div key={index}>
+                  <div key={index} className="grid grid-cols-2 gap-3">
                     <div>
                       <Label>Account Name</Label>
                       <Input
@@ -250,12 +246,39 @@ export default function PersonalInfo() {
                           const { name, value } = e.target;
                           handleChange({
                             ...data,
-                            [name]: value,
+                            banks: banks.map((bank, i) => {
+                              if (index === i) {
+                                return { ...bank, [name]: value };
+                              }
+                              return bank;
+                            }),
+                          });
+                        }}
+                        value={bank.bank_ac_name}
+                        readOnly={isReadOnly}
+                        name="bank_ac_name"
+                        placeholder="Bank Account Name"
+                      />
+                    </div>
+                    <div>
+                      <Label>Bank Name</Label>
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            banks: banks.map((bank, i) => {
+                              if (index === i) {
+                                return { ...bank, [name]: value };
+                              }
+                              return bank;
+                            }),
                           });
                         }}
                         readOnly={isReadOnly}
-                        name="name"
-                        placeholder="Your Name"
+                        value={bank.bank_name}
+                        name="bank_name"
+                        placeholder="Your Bank Account Number"
                       />
                     </div>
                     <div>
@@ -265,27 +288,175 @@ export default function PersonalInfo() {
                           const { name, value } = e.target;
                           handleChange({
                             ...data,
-                            [name]: value,
+                            banks: banks.map((bank, i) => {
+                              if (index === i) {
+                                return { ...bank, [name]: value };
+                              }
+                              return bank;
+                            }),
                           });
                         }}
                         readOnly={isReadOnly}
-                        name="work_email"
-                        placeholder="Your Email"
+                        name="bank_ac_no"
+                        value={bank.bank_ac_no}
+                        placeholder="Your Bank Account Number"
                       />
                     </div>
                     <div>
-                      <Label>Bank Name</Label>
+                      <Label>Branch</Label>
                       <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            banks: banks.map((bank, i) => {
+                              if (index === i) {
+                                return { ...bank, [name]: value };
+                              }
+                              return bank;
+                            }),
+                          });
+                        }}
                         readOnly={isReadOnly}
-                        name="phone"
-                        placeholder="Your Phone Number"
+                        value={bank.bank_branch}
+                        name="bank_branch"
+                      />
+                    </div>
+                    {banks.length - 1 !== index && (
+                      <Separator className="my-4 col-span-2" />
+                    )}
+                  </div>
+                );
+              })}
+            </form>
+          );
+        }}
+      </EditFrom>
+
+      <EditFrom<TEmployeeEducation>
+        isUpdating={isUpdating}
+        data={educationDetails?.result!}
+        title="Educational Details"
+      >
+        {({ handleChange, isReadOnly, data, formRef }) => {
+          return (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+              className="grid grid-cols-1 gap-3"
+              ref={formRef}
+            >
+              {data?.educations?.map((education, index, educations) => {
+                return (
+                  <div key={index} className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label>Degree</Label>
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            educations: educations.map((education, i) => {
+                              if (index === i) {
+                                return { ...education, [name]: value };
+                              }
+                              return education;
+                            }),
+                          });
+                        }}
+                        value={education.degree}
+                        readOnly={isReadOnly}
+                        name="degree"
+                        placeholder="Degree"
+                      />
+                    </div>
+                    <div>
+                      <Label>Name of Institution</Label>
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            educations: educations.map((education, i) => {
+                              if (index === i) {
+                                return { ...education, [name]: value };
+                              }
+                              return education;
+                            }),
+                          });
+                        }}
+                        readOnly={isReadOnly}
+                        value={education.institute}
+                        name="institute"
+                        placeholder="Institute name"
+                      />
+                    </div>
+                    <div>
+                      <Label>Passing Year</Label>
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            educations: educations.map((education, i) => {
+                              if (index === i) {
+                                return { ...education, [name]: value };
+                              }
+                              return education;
+                            }),
+                          });
+                        }}
+                        readOnly={isReadOnly}
+                        name="bank_ac_no"
+                        value={education.passing_year}
+                        placeholder="Passing year"
+                      />
+                    </div>
+                    <div>
+                      <Label>Branch</Label>
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            educations: educations.map((education, i) => {
+                              if (index === i) {
+                                return { ...education, [name]: value };
+                              }
+                              return education;
+                            }),
+                          });
+                        }}
+                        readOnly={isReadOnly}
+                        value={education.major}
+                        name="major"
                       />
                     </div>
 
                     <div>
                       <Label>Branch</Label>
-                      <Input readOnly={isReadOnly} type="number" name="nid" />
+                      <Input
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          handleChange({
+                            ...data,
+                            educations: educations.map((education, i) => {
+                              if (index === i) {
+                                return { ...education, [name]: value };
+                              }
+                              return education;
+                            }),
+                          });
+                        }}
+                        readOnly={isReadOnly}
+                        value={education.result}
+                        name="result"
+                      />
                     </div>
+                    {educations.length - 1 !== index && (
+                      <Separator className="my-4 col-span-2" />
+                    )}
                   </div>
                 );
               })}

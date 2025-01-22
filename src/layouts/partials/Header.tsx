@@ -1,39 +1,23 @@
-import config from "@/config/config.json";
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import Logo from "@/components/logo";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+import Sidebar from "./Sidebar";
 
-const Header = ({
-  sidebarOpen,
-  setSidebarOpen,
-}: {
-  sidebarOpen: boolean;
-  setSidebarOpen: Function;
-}) => {
-  const { logo, logo_height, logo_width, logo_text } = config.site;
+const Header = () => {
   return (
-    <header className="sticky px-4 py-2 h-[50px] top-0 shadow-sm bg-white sm:hidden">
-      {!sidebarOpen && (
-        <Link href="/">
-          <Image
-            src={logo}
-            alt={logo_text}
-            width={logo_width}
-            height={logo_height}
-          />
-        </Link>
-      )}
-      <div
-        className={`p-3 absolute top-0 ${
-          sidebarOpen ? "right-[180px]" : "right-0"
-        }`}
-      >
-        {sidebarOpen ? (
-          <X size={25} onClick={() => setSidebarOpen(!sidebarOpen)} />
-        ) : (
-          <Menu size={25} onClick={() => setSidebarOpen(!sidebarOpen)} />
-        )}
-      </div>
+    <header className="sticky px-4 h-[50px] top-0 shadow-sm bg-white lg:hidden flex justify-between items-center">
+      <Logo />
+      <Sheet>
+        <SheetTrigger>
+          <Button>
+            <Menu />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side={"left"} className="max-w-xs">
+          <Sidebar />
+        </SheetContent>
+      </Sheet>
     </header>
   );
 };

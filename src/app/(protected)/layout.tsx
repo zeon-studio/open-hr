@@ -18,13 +18,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   }, [pathname, dispatch]);
 
   return (
-    <div className="flex justify-between overflow-x-hidden">
-      <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none md:w-72 bg-background min-h-screen relative">
+    <div className="flex justify-between">
+      <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none md:w-72 bg-background min-h-screen h-screen sticky left-0 top-0">
         <Sidebar />
       </aside>
 
       <div className="w-full p-5">
-        <Header setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
+        <Header />
         <main className="h-full rounded-lg bg-light">{children}</main>
       </div>
     </div>
