@@ -31,5 +31,5 @@ export type TAssetState<T = TAsset[]> = {
 export type TAllAssetsState = {
   success: boolean;
   message: string;
-  result: TAsset[];
+  result: (TAsset & { handover: TLog })[];
 };

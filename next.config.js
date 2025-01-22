@@ -22,7 +22,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "graph.facebook.com",
+        hostname: "t1.gstatic.com",
         pathname: "/**",
       },
     ],
