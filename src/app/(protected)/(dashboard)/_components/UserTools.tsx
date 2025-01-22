@@ -1,8 +1,9 @@
 import PasswordCopy from "@/components/PasswordCopy";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetToolsByUserQuery } from "@/redux/features/toolApiSlice/toolSlice";
-import { BookKey } from "lucide-react";
+import { BookKey, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const UserTools = ({ userId }: { userId: string }) => {
   const { data } = useGetToolsByUserQuery(userId);
@@ -23,7 +24,7 @@ const UserTools = ({ userId }: { userId: string }) => {
             <ul className="space-y-3">
               {data?.result?.map((tool) => (
                 <li
-                  className="row mx-0 row-cols-4 items-center bg-light rounded py-3"
+                  className="row mx-0 space-y-3 lg:space-y-0 lg:row-cols-4 items-center bg-light rounded py-3"
                   key={tool._id}
                 >
                   <div className="flex items-center">
@@ -32,14 +33,21 @@ const UserTools = ({ userId }: { userId: string }) => {
                       alt={tool.name}
                       width={50}
                       height={50}
-                      className="rounded-md shrink-0"
+                      className="rounded-md shrink-0 hidden lg:block mr-4"
                     />
-                    <div className="ml-4">
+                    <div>
                       <small className="text-xs text-muted-foreground block">
                         Platform:
                       </small>
                       <strong className="text-h6 font-medium capitalize">
-                        {tool.platform}
+                        <Link
+                          target="_blank"
+                          rel="noopener nofollow noreferrer"
+                          href={tool.website}
+                        >
+                          {tool.platform}
+                          <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
+                        </Link>
                       </strong>
                     </div>
                   </div>
@@ -55,7 +63,7 @@ const UserTools = ({ userId }: { userId: string }) => {
                     <small className="text-xs text-muted-foreground block">
                       User ID:
                     </small>
-                    <strong className="text-h6 font-medium capitalize">
+                    <strong className="text-h6 font-medium">
                       {tool.login_id}
                     </strong>
                   </div>
