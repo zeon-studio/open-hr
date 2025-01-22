@@ -5,7 +5,7 @@ export type TOrganization = {
   password: string;
   price: number;
   currency: string;
-  billing: "monthly" | "yearly" | "one-time";
+  billing: "monthly" | "yearly" | "onetime";
   users: string[];
   purchase_date: Date;
   expire_date: Date;
