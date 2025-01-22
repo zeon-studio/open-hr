@@ -16,14 +16,13 @@ export default function Avatar(props: Props) {
     return <Image src={preview ? src : source} {...rest} />;
   } else if (props.email) {
     const { email, ...rest } = props;
-
     return (
       <Gravatar
         email={props.email}
         className={cn("rounded-full", rest.className)}
         alt={rest.alt}
-        height={rest.height}
-        width={rest.width}
+        default="mp"
+        size={+(rest.width || 200)}
       />
     );
   }

@@ -69,7 +69,7 @@ export default function PersonalInfo() {
                 e.preventDefault();
                 handleSubmit(data);
               }}
-              className="grid grid-cols-2 gap-3"
+              className="lg:grid lg:grid-cols-2 gap-3"
             >
               <div>
                 <Label>Name</Label>
@@ -234,12 +234,12 @@ export default function PersonalInfo() {
               onSubmit={(e) => {
                 e.preventDefault();
               }}
-              className="grid grid-cols-1 gap-3"
+              className="grid gap-3"
               ref={formRef}
             >
               {data?.banks?.map((bank, index, banks) => {
                 return (
-                  <div key={index} className="grid grid-cols-2 gap-3">
+                  <div key={index} className="grid lg:grid-cols-2 gap-3">
                     <div>
                       <Label>Account Name</Label>
                       <Input
@@ -324,13 +324,12 @@ export default function PersonalInfo() {
                       />
                     </div>
                     {banks.length - 1 !== index && (
-                      <Separator className="my-4 col-span-2" />
+                      <Separator className="my-4 lg:col-span-2" />
                     )}
                   </div>
                 );
               })}
               <Button
-                type="button"
                 onClick={() => {
                   handleChange({
                     ...data,
@@ -371,7 +370,7 @@ export default function PersonalInfo() {
             >
               {data?.educations?.map((education, index, educations) => {
                 return (
-                  <div key={index} className="grid grid-cols-2 gap-3">
+                  <div key={index} className="lg:grid lg:grid-cols-2 gap-3">
                     <div>
                       <Label>Degree</Label>
                       <Input
@@ -477,7 +476,7 @@ export default function PersonalInfo() {
                       />
                     </div>
                     {educations.length - 1 !== index && (
-                      <Separator className="my-4 col-span-2" />
+                      <Separator className="my-4 lg:col-span-2" />
                     )}
                   </div>
                 );

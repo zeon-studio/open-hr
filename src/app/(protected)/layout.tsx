@@ -5,21 +5,32 @@ import Sidebar from "@/partials/Sidebar";
 import { useGetEmployeesIdQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { updatePage } from "@/redux/features/filterSlice/filterSlice";
 import { useAppDispatch } from "@/redux/hook";
+import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   useGetEmployeesIdQuery(undefined);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(updatePage(1));
   }, [pathname, dispatch]);
 
+  const { status } = useSession();
+
+  if (status === "loading") {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
+        <Loader2 className="animate-spin size-8" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-between">
-      <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none md:w-72 bg-background min-h-screen h-screen sticky left-0 top-0">
+      <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none lg:w-72 bg-background min-h-screen h-screen sticky left-0 top-0">
         <Sidebar />
       </aside>
 

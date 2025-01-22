@@ -97,8 +97,7 @@ const Sidebar = () => {
             }
           })}
         </ul>
-
-        <div>
+        <div className="pb-4">
           <Dialog>
             <DialogTrigger className="bg-light w-full rounded flex items-center px-3 py-2">
               <Gravatar

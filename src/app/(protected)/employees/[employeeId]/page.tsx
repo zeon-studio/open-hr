@@ -14,7 +14,7 @@ import PersonalInfo from "./_components/personal-info";
 
 import { getDuration } from "@/lib/dateFormat";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import { SiFacebook, SiX } from "@icons-pack/react-simple-icons";
+import { SiDiscord, SiFacebook, SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
 import JobDetails from "./_components/job-details";
 
@@ -81,13 +81,13 @@ export default function Info() {
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
 
   return (
-    <div className="bg-light mt-10 relative pt-10 flex space-x-6 after:bg-primary after:absolute after:left-0 after:w-full after:h-[20em] after:max-h-[212px] after:rounded after:-top-0.5 px-8">
-      <div className="relative z-20 flex-none">
-        <div className="size-[210px] bg-light rounded">
+    <div className="bg-light mt-10 relative xl:pt-10 pt-4 flex sm:space-x-6 after:bg-primary after:absolute after:left-0 after:w-full min-[588px]:after:h-[166px] xl:after:h-[212px] after:rounded after:-top-0.5 xl:px-8 px-4 after:h-[206px]">
+      <div className="relative z-20 flex-none hidden xl:block">
+        <div className="lg:size-28 xl:size-[210px] bg-light rounded overflow-hidden">
           <Avatar
-            className="rounded flex-none"
-            width={500}
-            height={500}
+            className="flex-none w-full rounded-none"
+            width={200}
+            height={200}
             email={user?.email!}
             src=""
             alt={user?.name || "employee"}
@@ -182,6 +182,12 @@ export default function Info() {
                   <SiFacebook className="size-4" />
                 </Link>
               </li>
+
+              <li>
+                <Link href={data?.result.discord ?? ""}>
+                  <SiDiscord className="size-4" />
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -189,19 +195,43 @@ export default function Info() {
 
       <div className="relative z-20 flex-1">
         <div className="">
-          <div>
-            <h2 className="text-primary-foreground">Hi, {user?.name}</h2>
-            <p className="text-primary-foreground/90">Sr. Developer</p>
+          <div className="flex space-x-3 xl:space-x-0">
+            <div className="xl:hidden size-[80px] flex-none bg-light rounded overflow-hidden">
+              <Avatar
+                className="flex-none w-full rounded-none"
+                width={80}
+                height={80}
+                email={user?.email!}
+                src=""
+                alt={user?.name || "employee"}
+              />
+            </div>
+            <div>
+              <h2 className="text-primary-foreground">
+                Hi, {data?.result.name}
+              </h2>
+              <p className="text-primary-foreground/90">
+                {jobData?.result.designation}
+              </p>
+            </div>
           </div>
 
-          <Tabs defaultValue={tabs[0].value} className="mt-[55px]">
-            <TabsList defaultValue={tabs[0].value} className="bg-transparent">
+          <Tabs
+            defaultValue={tabs[0].value}
+            className="mt-6 xl:mt-[51px] shadow-none"
+          >
+            <TabsList
+              defaultValue={tabs[0].value}
+              className="h-auto flex-wrap space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full"
+            >
               {tabs.map((tab, index) => (
-                <TabsTrigger value={tab.value} key={index} asChild>
-                  <Button className="rounded-none data-[state=active]:rounded !rounded-b-none">
-                    {tab.label}
-                  </Button>
-                </TabsTrigger>
+                <div key={index} className="md:flex-1">
+                  <TabsTrigger value={tab.value} key={index} asChild>
+                    <Button className="rounded-none data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none md:px-6">
+                      {tab.label}
+                    </Button>
+                  </TabsTrigger>
+                </div>
               ))}
             </TabsList>
             {tabs.map((tab, index) => (
