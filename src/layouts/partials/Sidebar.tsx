@@ -34,12 +34,12 @@ const Sidebar = () => {
   };
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <div className="my-10">
         <Logo className="pl-5" />
       </div>
-      <nav className="px-5">
-        <ul>
+      <nav className="px-5 flex-1 flex flex-col">
+        <ul className="flex-1">
           {filterMenu.map((item) => {
             const isActive = item?.children?.some(
               (child) => pathname === child.path
@@ -98,8 +98,7 @@ const Sidebar = () => {
           })}
         </ul>
 
-        {/* User section */}
-        <div className="absolute w-[calc(100%-50px)] bottom-8">
+        <div>
           <Dialog>
             <DialogTrigger className="bg-light w-full rounded flex items-center px-3 py-2">
               <Gravatar

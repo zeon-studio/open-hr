@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -328,6 +329,27 @@ export default function PersonalInfo() {
                   </div>
                 );
               })}
+              <Button
+                type="button"
+                onClick={() => {
+                  handleChange({
+                    ...data,
+                    banks: [
+                      ...data.banks,
+                      {
+                        bank_ac_no: "",
+                        bank_branch: "",
+                        bank_ac_name: "",
+                        bank_district: "",
+                        bank_name: "",
+                        bank_routing_no: "",
+                      },
+                    ],
+                  });
+                }}
+              >
+                Add More
+              </Button>
             </form>
           );
         }}
@@ -460,6 +482,27 @@ export default function PersonalInfo() {
                   </div>
                 );
               })}
+
+              <Button
+                onClick={() => {
+                  handleChange({
+                    ...data,
+                    educations: [
+                      ...data.educations,
+                      {
+                        degree: "",
+                        major: "",
+                        result: "",
+                        institute: "",
+                        passing_year: 0,
+                      },
+                    ],
+                  });
+                }}
+                type="button"
+              >
+                Add More
+              </Button>
             </form>
           );
         }}

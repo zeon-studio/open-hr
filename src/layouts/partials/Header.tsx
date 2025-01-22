@@ -9,7 +9,7 @@ const Header = () => {
     <header className="sticky px-4 h-[50px] top-0 shadow-sm bg-white lg:hidden flex justify-between items-center">
       <Logo />
       <Sheet>
-        <SheetTrigger>
+        <SheetTrigger asChild>
           <Button>
             <Menu />
           </Button>

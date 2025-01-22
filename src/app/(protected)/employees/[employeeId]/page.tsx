@@ -16,6 +16,7 @@ import { getDuration } from "@/lib/dateFormat";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { SiFacebook, SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
+import JobDetails from "./_components/job-details";
 
 const tabs = [
   {
@@ -26,7 +27,7 @@ const tabs = [
   {
     label: "Job",
     value: "job",
-    content: <></>,
+    content: <JobDetails />,
   },
   {
     label: "Courses",
@@ -85,8 +86,8 @@ export default function Info() {
         <div className="size-[210px] bg-light rounded">
           <Avatar
             className="rounded flex-none"
-            width={210}
-            height={210}
+            width={500}
+            height={500}
             email={user?.email!}
             src=""
             alt={user?.name || "employee"}
@@ -157,10 +158,7 @@ export default function Info() {
                   <span className="text-xs block font-semibold">
                     {jobData?.result.joining_date
                       ? format(
-                          new Date(
-                            jobData?.result.joining_date ??
-                              "2025-01-01T00:00:00.000Z"
-                          ),
+                          new Date(jobData?.result.joining_date),
                           "MMM d, yyyy"
                         )
                       : null}
@@ -200,7 +198,7 @@ export default function Info() {
             <TabsList defaultValue={tabs[0].value} className="bg-transparent">
               {tabs.map((tab, index) => (
                 <TabsTrigger value={tab.value} key={index} asChild>
-                  <Button className="rounded-none data-[state=active]:rounded">
+                  <Button className="rounded-none data-[state=active]:rounded !rounded-b-none">
                     {tab.label}
                   </Button>
                 </TabsTrigger>
