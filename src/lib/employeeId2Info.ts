@@ -18,5 +18,13 @@ export const getEmployeeInfo = (id: string) => {
     (employee: any) => employee.id === id
   );
 
-  return employee;
+  const fallback = {
+    id,
+    name: id,
+    work_email: "N/A",
+    department: "N/A",
+    designation: "N/A",
+  };
+
+  return employee ? employee : fallback;
 };

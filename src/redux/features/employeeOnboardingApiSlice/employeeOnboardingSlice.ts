@@ -41,7 +41,7 @@ export const employeeOnboardingApi =
         undefined
       >({
         query: () => ({
-          url: `/employee-onboarding/pending`,
+          url: `/employee-onboarding/pending-task`,
           method: "GET",
         }),
         providesTags: ["employee-onboardings"],
@@ -85,6 +85,7 @@ export const {
   useGetEmployeeOnboardingsQuery,
   useGetEmployeeOnboardingQuery,
   useAddEmployeeOnboardingMutation,
+  useGetPendingOnboardingTaskQuery,
   useUpdateEmployeeOnboardingMutation,
   useDeleteEmployeeOnboardingMutation,
 } = employeeOnboardingApi;
