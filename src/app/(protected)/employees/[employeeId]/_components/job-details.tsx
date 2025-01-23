@@ -1,21 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { getDuration } from "@/lib/dateFormat";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import { format } from "date-fns";
-import { EllipsisIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
@@ -34,56 +19,6 @@ export default function JobDetails() {
 
   return (
     <div className="space-y-8">
-      <Card>
-        <CardHeader className="border-b-transparent">
-          <CardTitle>Employment Status</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader className="bg-accent hover:bg-accent rounded-t-md rounded">
-              <TableRow className="hover:bg-accent border-b-transparent rounded-lg overflow-hidden">
-                <TableHead className="text-text-dark font-semibold">
-                  Joining Date
-                </TableHead>
-                <TableHead className="text-text-dark font-semibold">
-                  Permanent Date
-                </TableHead>
-                <TableHead className="text-text-dark font-semibold">
-                  Designation
-                </TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow className="hover:bg-transparent border-transparent">
-                <TableCell className="font-medium">
-                  {data?.result.joining_date
-                    ? format(new Date(data?.result.joining_date), "MMM d, yyyy")
-                    : null}
-                </TableCell>
-                <TableCell>
-                  {data?.result.permanent_date
-                    ? format(
-                        new Date(data?.result.permanent_date),
-                        "MMM d, yyyy"
-                      )
-                    : null}
-                </TableCell>
-                <TableCell>{data?.result.designation}</TableCell>
-                <TableCell>
-                  <Popover>
-                    <PopoverTrigger>
-                      <EllipsisIcon />
-                    </PopoverTrigger>
-                    <PopoverContent>fasj</PopoverContent>
-                  </Popover>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
       <Card>
         <CardHeader className="border-b-transparent">
           <CardTitle>Job Information</CardTitle>
