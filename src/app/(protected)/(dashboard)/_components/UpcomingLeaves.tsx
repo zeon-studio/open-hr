@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import UserInfo from "@/components/UserInfo";
 import { dateFormat } from "@/lib/dateFormat";
-import { getEmployeeInfo } from "@/lib/employeeId2Info";
+import { employeeInfoById } from "@/lib/employeeInfo";
 import { useGetUpcomingLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { UserRoundMinus } from "lucide-react";
 import { useMemo } from "react";
@@ -71,7 +71,7 @@ const UpcomingLeaves = () => {
               {todaysLeave?.map((leave: any) => (
                 <li key={leave.employee_id}>
                   <UserInfo
-                    user={getEmployeeInfo(leave.employee_id)!}
+                    user={employeeInfoById(leave.employee_id)!}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
                   />
                 </li>
@@ -90,7 +90,7 @@ const UpcomingLeaves = () => {
               {tomorrowsLeave?.map((leave: any) => (
                 <li key={leave.employee_id}>
                   <UserInfo
-                    user={getEmployeeInfo(leave.employee_id)!}
+                    user={employeeInfoById(leave.employee_id)!}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
                   />
                 </li>
@@ -109,7 +109,7 @@ const UpcomingLeaves = () => {
               {othersLeave?.map((leave: any) => (
                 <li key={leave.employee_id}>
                   <UserInfo
-                    user={getEmployeeInfo(leave.employee_id)!}
+                    user={employeeInfoById(leave.employee_id)!}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
                   />
                 </li>

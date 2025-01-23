@@ -2,7 +2,7 @@
 
 import Header from "@/partials/Header";
 import Sidebar from "@/partials/Sidebar";
-import { useGetEmployeesIdQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { updatePage } from "@/redux/features/filterSlice/filterSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { Loader2 } from "lucide-react";
@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  useGetEmployeesIdQuery(undefined);
+  useGetEmployeesBasicsQuery(undefined);
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   useEffect(() => {

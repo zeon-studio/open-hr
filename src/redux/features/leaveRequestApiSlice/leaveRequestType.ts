@@ -1,5 +1,5 @@
 export type TLeaveRequest = {
-  _id: string;
+  _id?: string;
   employee_id: string;
   leave_type: "casual" | "sick" | "earned" | "without_pay";
   start_date: Date;
@@ -9,7 +9,7 @@ export type TLeaveRequest = {
   status: "pending" | "approved" | "rejected";
   submit_date: Date;
   response_date: Date;
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TLeaveRequestState<T = TLeaveRequest[]> = {

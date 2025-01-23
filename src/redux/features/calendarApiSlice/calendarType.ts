@@ -10,7 +10,7 @@ export type TCalendar = {
   year: number;
   holidays: TEvent[];
   events: TEvent[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TCalendarState<T = TCalendar[]> = {

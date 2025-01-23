@@ -124,5 +124,15 @@
       "label": "Contractual",
       "value": "contractual"
     }
+  ],
+  "currency": [
+    {
+      "label": "BDT",
+      "value": "bdt"
+    },
+    {
+      "label": "USD",
+      "value": "usd"
+    }
   ]
 }

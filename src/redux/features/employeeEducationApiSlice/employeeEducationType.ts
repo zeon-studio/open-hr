@@ -9,7 +9,7 @@ export type TEducation = {
 export type TEmployeeEducation = {
   employee_id: string;
   educations: TEducation[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeEducationState<T = TEmployeeEducation[]> = {

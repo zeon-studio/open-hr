@@ -10,7 +10,7 @@ export type TBank = {
 export type TEmployeeBank = {
   employee_id: string;
   banks: TBank[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeBankState<T = TEmployeeBank[]> = {

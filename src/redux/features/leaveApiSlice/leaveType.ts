@@ -21,7 +21,7 @@ export type TLeaveYear = {
 export type TLeave = {
   employee_id: string;
   years: TLeaveYear[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TLeaveState<T = TLeave[]> = {

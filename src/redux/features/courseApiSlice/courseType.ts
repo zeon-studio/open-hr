@@ -1,5 +1,4 @@
 export type TCourseItem = {
-  _id: string;
   name: string;
   price: number;
   currency: string;
@@ -9,12 +8,13 @@ export type TCourseItem = {
 };
 
 export type TCourse = {
+  _id?: string;
   platform: string;
   website: string;
   email: string;
   password: string;
   courses: TCourseItem[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TCourseState<T = TCourse[]> = {

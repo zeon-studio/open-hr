@@ -1,5 +1,4 @@
 export type TOrganization = {
-  _id: string;
   name: string;
   login_id: string;
   password: string;
@@ -12,10 +11,11 @@ export type TOrganization = {
 };
 
 export type TTool = {
+  _id?: string;
   platform: string;
   website: string;
   organizations: TOrganization[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TToolState<T = TTool[]> = {

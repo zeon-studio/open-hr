@@ -26,7 +26,7 @@ export type TEmployeeJob = {
   prev_jobs: TPrevJob[];
   promotions: TPromotion[];
   note: string;
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeJobState<T = TEmployeeJob[]> = {

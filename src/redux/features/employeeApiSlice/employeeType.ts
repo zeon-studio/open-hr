@@ -21,7 +21,7 @@ export type TEmployee = {
   note: string;
   status: "pending" | "active" | "archived" | "";
   role: "user" | "moderator" | "admin" | "";
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeCreate = {

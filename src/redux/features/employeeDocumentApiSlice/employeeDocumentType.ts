@@ -7,7 +7,7 @@ export type TDocument = {
 export type TEmployeeDocument = {
   employee_id: string;
   documents: TDocument[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeDocumentState<T = TEmployeeDocument[]> = {

@@ -14,7 +14,7 @@ export type TEmployeeOffboarding = {
   nda_agreement: TOffboardingTask;
   provide_certificate: TOffboardingTask;
   farewell: TOffboardingTask;
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeOffboardingState<T = TEmployeeOffboarding[]> = {

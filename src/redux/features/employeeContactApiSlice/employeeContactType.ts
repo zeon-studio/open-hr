@@ -7,7 +7,7 @@ export type TContact = {
 export type TEmployeeContact = {
   employee_id: string;
   contacts: TContact[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeContactState<T = TEmployeeContact[]> = {
