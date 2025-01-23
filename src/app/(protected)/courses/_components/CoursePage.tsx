@@ -1,11 +1,25 @@
 "use client";
 
+import ConfirmationPopup from "@/components/ConfirmationPopup";
+import CopyText from "@/components/CopyText";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useDialog } from "@/hooks/useDialog";
+import { useDeleteCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
-import { EditIcon } from "lucide-react";
+import { Ellipsis, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { memo, useMemo, useState } from "react";
+import { toast } from "sonner";
+import CoursePreview from "./CoursePreview";
 import CourseUpdate from "./CourseUpdate";
 
 const CoursePage = ({ course }: { course: TCourse[] }) => {
@@ -43,28 +57,112 @@ const CourseModal = ({
     return courseId === item._id ? item : null;
   }, [courseId, item]);
 
+  const [deleteCourse] = useDeleteCourseMutation();
+
+  const handleCourseDelete = () => {
+    deleteCourse(item._id);
+    toast("Course deleted complete");
+  };
+
   return (
-    <Dialog
-      key={item?._id}
-      modal={true}
-      open={isDialogOpen}
-      onOpenChange={onDialogChange}
-    >
+    <DropdownMenu key={item._id}>
       <TableRow>
-        <TableCell>{item.platform}</TableCell>
-        <TableCell>{item.courses.length}</TableCell>
-        <TableCell>{item.email}</TableCell>
-        <TableCell>{item.password}</TableCell>
-        <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
-          <TableCell className="text-right">
-            <EditIcon className="cursor-pointer inline-block" size={20} />
-          </TableCell>
-        </DialogTrigger>
+        <TableCell>
+          <div className="flex items-center">
+            <Image
+              src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
+              alt={item.platform}
+              width={30}
+              height={30}
+              className="rounded-full object-cover shrink-0 hidden lg:block mr-4"
+            />
+            <Link
+              href={item.website}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
+              {item.platform}
+              <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
+            </Link>
+          </div>
+        </TableCell>
+        <TableCell>{item.courses?.length}</TableCell>
+        <TableCell>
+          <CopyText text={item.email} />
+        </TableCell>
+        <TableCell>
+          <CopyText text={item.password} isPassword />
+        </TableCell>
+        <TableCell className="text-right">
+          <DropdownMenuTrigger>
+            <Ellipsis className="size-4" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {/* preview */}
+            <DropdownMenuItem asChild>
+              <Dialog modal={true}>
+                <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
+                  <Button
+                    className="w-full justify-start"
+                    variant={"ghost"}
+                    size={"sm"}
+                  >
+                    Preview
+                  </Button>
+                </DialogTrigger>
+                {singleCourse?._id && (
+                  <CoursePreview courseData={singleCourse!} />
+                )}
+              </Dialog>
+            </DropdownMenuItem>
+            {/* edit */}
+            <DropdownMenuItem asChild>
+              <Dialog
+                modal={true}
+                open={isDialogOpen}
+                onOpenChange={onDialogChange}
+              >
+                <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
+                  <Button
+                    className="w-full justify-start"
+                    variant={"ghost"}
+                    size={"sm"}
+                  >
+                    Edit
+                  </Button>
+                </DialogTrigger>
+                {singleCourse?._id && (
+                  <CourseUpdate
+                    course={singleCourse!}
+                    onDialogChange={onDialogChange}
+                  />
+                )}
+              </Dialog>
+            </DropdownMenuItem>
+            {/* delete */}
+            <DropdownMenuItem asChild>
+              <Dialog>
+                <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
+                  <Button
+                    className="w-full text-destructive hover:bg-destructive justify-start"
+                    variant={"ghost"}
+                    size={"sm"}
+                  >
+                    Delete
+                  </Button>
+                </DialogTrigger>
+                {singleCourse?._id && (
+                  <ConfirmationPopup
+                    handleConfirmation={handleCourseDelete}
+                    id={singleCourse?._id!}
+                  />
+                )}
+              </Dialog>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </TableCell>
       </TableRow>
-      {singleCourse?._id && (
-        <CourseUpdate course={singleCourse!} onDialogChange={onDialogChange} />
-      )}
-    </Dialog>
+    </DropdownMenu>
   );
 };
 

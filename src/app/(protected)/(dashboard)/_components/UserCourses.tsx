@@ -1,4 +1,4 @@
-import PasswordCopy from "@/components/PasswordCopy";
+import CopyText from "@/components/CopyText";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetCoursesByUserQuery } from "@/redux/features/courseApiSlice/courseSlice";
 import { ExternalLink, SquareLibrary } from "lucide-react";
@@ -22,10 +22,10 @@ const UserCourses = ({ userId }: { userId: string }) => {
         ) : (
           <div className="flex flex-col gap-4">
             <ul className="space-y-3">
-              {data?.result?.map((course) => (
+              {data?.result?.map((course, index) => (
                 <li
                   className="row mx-0 space-y-3 lg:space-y-0 lg:row-cols-4 items-center bg-light rounded py-3"
-                  key={course._id}
+                  key={`course-${index}`}
                 >
                   <div className="flex items-center">
                     <Image
@@ -64,7 +64,7 @@ const UserCourses = ({ userId }: { userId: string }) => {
                       User ID:
                     </small>
                     <strong className="text-h6 font-medium">
-                      {course.email}
+                      <CopyText text={course.email} />
                     </strong>
                   </div>
                   <div>
@@ -72,7 +72,7 @@ const UserCourses = ({ userId }: { userId: string }) => {
                       Password:
                     </small>
                     <strong className="text-h6 font-medium capitalize">
-                      <PasswordCopy text={course.password} />
+                      <CopyText text={course.password} isPassword={true} />
                     </strong>
                   </div>
                 </li>

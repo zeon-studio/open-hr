@@ -1,8 +1,8 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { useUpdateCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import CourseForm from "./CourseForm";
 
 const CourseUpdate = ({
@@ -12,7 +12,6 @@ const CourseUpdate = ({
   course: TCourse;
   onDialogChange: (open: boolean) => void;
 }) => {
-  const { toast } = useToast();
   const [loader, setLoader] = useState(false);
   const [courseData, setCourseData] = useState({
     _id: course._id,
@@ -35,16 +34,12 @@ const CourseUpdate = ({
   useEffect(() => {
     if (isSuccess) {
       setLoader(false);
-      toast({
-        title: "Course Update complete",
-      });
+      toast("Course Update complete");
       // close modal
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast({
-        title: "something went wrong",
-      });
+      toast("something went wrong");
       console.log(error);
     }
   }, [isSuccess]);

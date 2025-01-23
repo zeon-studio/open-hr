@@ -1,9 +1,9 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { useUpdateEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { ExternalLinkIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import EmployeeForm from "./employee-form";
 
 const EmployeeUpdate = ({
@@ -37,7 +37,6 @@ const EmployeeUpdate = ({
     role: "",
   });
 
-  const { toast } = useToast();
   const [updateProduct, { isSuccess, isError, error }] =
     useUpdateEmployeeMutation();
 
@@ -49,16 +48,12 @@ const EmployeeUpdate = ({
   useEffect(() => {
     if (isSuccess) {
       setLoader(false);
-      toast({
-        title: "Product updated complete",
-      });
+      toast("Product updated complete");
       // close modal
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast({
-        title: "something went wrong",
-      });
+      toast("something went wrong");
       console.log(error);
     }
   }, [isSuccess]);

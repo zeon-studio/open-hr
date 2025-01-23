@@ -3,11 +3,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 const badgeVariants = cva(
-  "inline-flex capitalize items-center rounded-md border px-2.5 py-1 font-medium text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex capitalize items-center rounded-md border px-2.5 py-1 font-medium text-xs transition-colors focus:outline-none focus:ring-0",
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground",
+        default: "border-transparent bg-light text-text",
         success: "border-transparent bg-[#E5F5EC] text-[#009B3E]",
         error: "border-transparent bg-[#FAE6E4] text-[#E14524]",
         info: "border-transparent bg-[#c4d9f7] text-[#0d6efd]",
@@ -15,7 +15,7 @@ const badgeVariants = cva(
         secondary: "border-transparent bg-secondary text-secondary-foreground ",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground ",
-        outline: "text-foreground",
+        outline: "text-foreground border",
       },
     },
     defaultVariants: {

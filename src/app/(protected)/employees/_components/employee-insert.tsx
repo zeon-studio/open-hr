@@ -1,8 +1,8 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
 import { useAddEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployeeCreate } from "@/redux/features/employeeApiSlice/employeeType";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import EmployeeInsertForm from "./employee-insert-form";
 
 const EmployeeInsert = ({
@@ -10,7 +10,6 @@ const EmployeeInsert = ({
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
-  const { toast } = useToast();
   const [loader, setLoader] = useState(false);
   const [employeeData, setEmployeeData] = useState<TEmployeeCreate>({
     personal_email: "",
@@ -47,14 +46,10 @@ const EmployeeInsert = ({
       });
       // close modal/dialog
       onDialogChange(false);
-      toast({
-        title: "Product added complete",
-      });
+      toast("Product added complete");
     } else if (isError) {
       setLoader(false);
-      toast({
-        title: "something went wrong",
-      });
+      toast("something went wrong");
       console.log(error);
     }
   }, [isSuccess]);
