@@ -1,4 +1,9 @@
-import { Duration, formatDistance, intervalToDuration } from "date-fns";
+import {
+  differenceInDays,
+  Duration,
+  formatDistance,
+  intervalToDuration,
+} from "date-fns";
 
 const monthNames = [
   "Jan",
@@ -65,3 +70,8 @@ export function getDuration(
   });
   return duration;
 }
+
+export const dateCount = (startDate: string | Date, endDate: string | Date) => {
+  const countedDate = differenceInDays(endDate, startDate) + 1;
+  return countedDate;
+};
