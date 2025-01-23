@@ -26,10 +26,10 @@ export default function Courses() {
           ) : data?.result.length! > 0 ? (
             <div className="flex flex-col gap-4">
               <ul className="space-y-3">
-                {data?.result?.map((course) => (
+                {data?.result?.map((course, index) => (
                   <li
                     className="row mx-0 space-y-3 lg:space-y-0 2xl:row-cols-5 items-center bg-light rounded py-3"
-                    key={course._id}
+                    key={index}
                   >
                     <div className="flex items-center">
                       <Image

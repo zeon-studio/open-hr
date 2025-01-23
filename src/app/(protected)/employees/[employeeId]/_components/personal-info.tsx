@@ -241,7 +241,7 @@ export default function PersonalInfo() {
               className="grid gap-3"
               ref={formRef}
             >
-              {data.banks.length > 0 ? (
+              {data?.banks.length > 0 ? (
                 data?.banks?.map((bank, index, banks) => {
                   return (
                     <div key={index} className="grid lg:grid-cols-2 gap-3">
@@ -376,7 +376,7 @@ export default function PersonalInfo() {
               className="grid grid-cols-1 gap-3"
               ref={formRef}
             >
-              {data.educations.length > 0 ? (
+              {data?.educations.length > 0 ? (
                 data?.educations?.map((education, index, educations) => {
                   return (
                     <div key={index} className="lg:grid lg:grid-cols-2 gap-3">

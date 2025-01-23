@@ -62,8 +62,8 @@ export default function Assets() {
                         Handover Date:
                       </small>
                       <strong className="text-h6 font-medium">
-                        {asset.handover.date &&
-                          format(new Date(asset.handover.date), "MMM d, yyyy")}
+                        {asset.handover?.date &&
+                          format(new Date(asset.handover?.date), "MMM d, yyyy")}
                       </strong>
                     </div>
                   </li>

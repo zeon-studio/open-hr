@@ -6,7 +6,7 @@ import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeS
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { memo, useMemo, useState } from "react";
-import EmployeeUpdate from "./EmployeeUpdate";
+import EmployeeUpdate from "./employee-update";
 
 const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
   const [id, setId] = useState<string>("");
@@ -57,7 +57,7 @@ const EmployeeModal = ({
           <TableCell>{employee?.work_email}</TableCell>
           <TableCell>{employee?.phone}</TableCell>
           <TableCell>{employee?.role}</TableCell>
-          <TableCell>{dateFormat(employee?.createdAt)}</TableCell>
+          <TableCell>{dateFormat(employee?.createdAt!)}</TableCell>
         </TableRow>
       </DialogTrigger>
       {singleEmployee?.id && (

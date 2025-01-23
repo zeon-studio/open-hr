@@ -16,145 +16,132 @@ export default function Emergency() {
 
   return (
     <div>
-      <Card>
-        <CardContent
-          className={
-            isLoading || !data?.result! ? "py-20" : "p-0 overflow-hidden"
-          }
-        >
-          {isLoading ? (
+      {isLoading ? (
+        <Card>
+          <CardContent className={"py-20"}>
             <div className="flex justify-center items-center">
               <Loader2 className="animate-spin size-5" />
             </div>
-          ) : data?.result ? (
-            <div className="flex flex-col gap-4">
-              <EditFrom<TEmployeeContact>
-                isUpdating={false}
-                data={data?.result!}
-                title="Family Details"
-              >
-                {({ handleChange, isReadOnly, data, formRef }) => {
-                  return (
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                      }}
-                      className="grid gap-3"
-                      ref={formRef}
-                    >
-                      {data.contacts.length > 0 ? (
-                        data?.contacts?.map((contact, index, contacts) => {
-                          return (
-                            <div
-                              key={index}
-                              className="grid lg:grid-cols-2 gap-3"
-                            >
-                              <div>
-                                <Label>Name of Family Member</Label>
-                                <Input
-                                  onChange={(e) => {
-                                    const { name, value } = e.target;
-                                    handleChange({
-                                      ...data,
-                                      contacts: contacts.map((contact, i) => {
-                                        if (index === i) {
-                                          return { ...contact, [name]: value };
-                                        }
-                                        return contact;
-                                      }),
-                                    });
-                                  }}
-                                  value={contact.name}
-                                  readOnly={isReadOnly}
-                                  name="name"
-                                  placeholder="Your answer"
-                                />
-                              </div>
-                              <div>
-                                <Label>Relation</Label>
-                                <Input
-                                  onChange={(e) => {
-                                    const { name, value } = e.target;
-                                    handleChange({
-                                      ...data,
-                                      contacts: contacts.map((contact, i) => {
-                                        if (index === i) {
-                                          return { ...contact, [name]: value };
-                                        }
-                                        return contact;
-                                      }),
-                                    });
-                                  }}
-                                  readOnly={isReadOnly}
-                                  value={contact.relation}
-                                  name="relation"
-                                  placeholder="Your answer"
-                                />
-                              </div>
-                              <div>
-                                <Label>Bank Account Number</Label>
-                                <Input
-                                  onChange={(e) => {
-                                    const { name, value } = e.target;
-                                    handleChange({
-                                      ...data,
-                                      contacts: contacts.map((contact, i) => {
-                                        if (index === i) {
-                                          return { ...contact, [name]: value };
-                                        }
-                                        return contact;
-                                      }),
-                                    });
-                                  }}
-                                  readOnly={isReadOnly}
-                                  name="bank_ac_no"
-                                  value={contact.phone}
-                                  placeholder="Your answer"
-                                />
-                              </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="flex flex-col gap-4">
+          <EditFrom<TEmployeeContact>
+            isUpdating={false}
+            data={data?.result!}
+            title="Emergency Contact Details"
+          >
+            {({ handleChange, isReadOnly, data, formRef }) => {
+              return (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                  }}
+                  className="grid gap-3"
+                  ref={formRef}
+                >
+                  {data?.contacts.length > 0 ? (
+                    data?.contacts?.map((contact, index, contacts) => {
+                      return (
+                        <div key={index} className="grid lg:grid-cols-2 gap-3">
+                          <div>
+                            <Label>Name of Emergency Contact</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  contacts: contacts.map((contact, i) => {
+                                    if (index === i) {
+                                      return { ...contact, [name]: value };
+                                    }
+                                    return contact;
+                                  }),
+                                });
+                              }}
+                              value={contact.name}
+                              readOnly={isReadOnly}
+                              name="name"
+                              placeholder="Your answer"
+                            />
+                          </div>
+                          <div>
+                            <Label>Relation</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  contacts: contacts.map((contact, i) => {
+                                    if (index === i) {
+                                      return { ...contact, [name]: value };
+                                    }
+                                    return contact;
+                                  }),
+                                });
+                              }}
+                              readOnly={isReadOnly}
+                              value={contact.relation}
+                              name="relation"
+                              placeholder="Your answer"
+                            />
+                          </div>
+                          <div>
+                            <Label>Bank Account Number</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  contacts: contacts.map((contact, i) => {
+                                    if (index === i) {
+                                      return { ...contact, [name]: value };
+                                    }
+                                    return contact;
+                                  }),
+                                });
+                              }}
+                              readOnly={isReadOnly}
+                              name="bank_ac_no"
+                              value={contact.phone}
+                              placeholder="Your answer"
+                            />
+                          </div>
 
-                              {contacts.length - 1 !== index && (
-                                <Separator className="my-4 lg:col-span-2" />
-                              )}
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <p className="py-4">
-                          No contacts available. Please add a contact to view
-                        </p>
-                      )}
-                      <Button
-                        onClick={() => {
-                          handleChange({
-                            ...data,
-                            contacts: [
-                              ...data.contacts,
-                              {
-                                name: "",
-                                phone: "",
-                                relation: "",
-                              },
-                            ],
-                          });
-                        }}
-                      >
-                        Add More
-                      </Button>
-                    </form>
-                  );
-                }}
-              </EditFrom>
-            </div>
-          ) : (
-            <>
-              <p className="text-center text-muted-foreground">
-                No data available
-              </p>
-            </>
-          )}
-        </CardContent>
-      </Card>
+                          {contacts.length - 1 !== index && (
+                            <Separator className="my-4 lg:col-span-2" />
+                          )}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p className="py-4">
+                      No contacts available. Please add a contact to view
+                    </p>
+                  )}
+                  <Button
+                    onClick={() => {
+                      handleChange({
+                        ...data,
+                        contacts: [
+                          ...data.contacts,
+                          {
+                            name: "",
+                            phone: "",
+                            relation: "",
+                          },
+                        ],
+                      });
+                    }}
+                  >
+                    Add More
+                  </Button>
+                </form>
+              );
+            }}
+          </EditFrom>
+        </div>
+      )}
     </div>
   );
 }

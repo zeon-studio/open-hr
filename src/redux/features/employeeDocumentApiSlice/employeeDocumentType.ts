@@ -1,4 +1,5 @@
 export type TDocument = {
+  _id?: string;
   name: string;
   file: string;
   date: Date;
