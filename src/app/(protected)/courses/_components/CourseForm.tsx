@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import options from "@/config/options.json";
+import MultipleSelector from "@/layouts/components/ui/multiple-selector";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
@@ -25,7 +26,6 @@ import {
 } from "@/redux/features/courseApiSlice/courseType";
 import { CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { SetStateAction, useEffect, useState } from "react";
-import ReactSelect from "react-select";
 
 const CourseForm = ({
   courseData,
@@ -327,49 +327,26 @@ const CourseForm = ({
                 <Label htmlFor="organization" className="col-span-4">
                   Users
                 </Label>
-                <ReactSelect
-                  required
+                <MultipleSelector
                   value={item.users.map((user) => ({
                     label: employeeInfoById(user).name,
                     value: user,
                   }))}
-                  defaultValue={item.users.map((user) => ({
-                    label: employeeInfoById(user).name,
-                    value: user,
-                  }))}
-                  isSearchable={true}
-                  options={employeeGroupByDepartment()}
-                  isMulti
-                  closeMenuOnSelect={false}
-                  classNamePrefix={"rs"}
-                  menuPlacement="auto"
+                  options={employeeGroupByDepartment().flatMap(
+                    (group) => group.options
+                  )}
+                  placeholder="Select users"
+                  hidePlaceholderWhenSelected={true}
                   onChange={(value) => {
                     const updatedCourseItems = [...courseItems];
                     updatedCourseItems[index] = {
                       ...item,
-                      users: (value as { label: string; value: string }[]).map(
-                        (user) => user.value
-                      ),
+                      users: value.map((user) => user.value),
                     };
                     setCourseItems(updatedCourseItems);
                   }}
-                  theme={(theme) => ({
-                    ...theme,
-                    colors: {
-                      ...theme.colors,
-                      primary: "black",
-                    },
-                  })}
-                  styles={{
-                    control: (baseStyles) => ({
-                      ...baseStyles,
-                      borderColor: "#e2e4e8",
-                      boxShadow: "none",
-                      "&:hover": {
-                        borderColor: "#e2e4e8",
-                      },
-                    }),
-                  }}
+                  className="border-border/30"
+                  groupBy="department"
                 />
               </div>
             </div>

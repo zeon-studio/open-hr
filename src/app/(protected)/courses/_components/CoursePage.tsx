@@ -98,6 +98,7 @@ const CourseModal = ({
             <Ellipsis className="size-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            {/* preview */}
             <DropdownMenuItem asChild>
               <Dialog modal={true}>
                 <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
@@ -114,6 +115,7 @@ const CourseModal = ({
                 )}
               </Dialog>
             </DropdownMenuItem>
+            {/* edit */}
             <DropdownMenuItem asChild>
               <Dialog
                 modal={true}
@@ -137,13 +139,9 @@ const CourseModal = ({
                 )}
               </Dialog>
             </DropdownMenuItem>
-
+            {/* delete */}
             <DropdownMenuItem asChild>
-              <Dialog
-                modal={true}
-                open={isDialogOpen}
-                onOpenChange={onDialogChange}
-              >
+              <Dialog>
                 <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
                   <Button
                     className="w-full text-destructive hover:bg-destructive justify-start"

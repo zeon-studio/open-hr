@@ -42,18 +42,27 @@ export const employeeGroupByDepartment = () => {
       options: [{ label: "Everyone", value: "everyone" }],
     },
   ];
+
   const merged = employees || [];
   const result = merged.reduce((acc: any[], curr: Employee) => {
-    const groupIndex = acc.findIndex((dept) => dept.label === curr.department);
+    const department = (curr.department || "unassigned").toUpperCase();
+    const employee = {
+      label: curr.name,
+      value: curr.id,
+      department,
+    };
+
+    const groupIndex = acc.findIndex((dept) => dept.label === department);
     if (groupIndex !== -1) {
-      acc[groupIndex].options.push({ label: curr.name, value: curr.id });
+      acc[groupIndex].options.push(employee);
     } else {
       acc.push({
-        label: curr.department || "unassigned",
-        options: [{ label: curr.name, value: curr.id }],
+        label: department,
+        options: [employee],
       });
     }
     return acc;
   }, []);
+
   return everyoneField.concat(result);
 };

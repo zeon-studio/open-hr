@@ -10,16 +10,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/redux/hook";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const Account = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState({
@@ -43,9 +42,7 @@ const Account = () => {
 
     if (res.status === 401) {
       setLoading(false);
-      toast({
-        title: "Invalid Credentials",
-      });
+      toast("Invalid Credentials");
     }
   };
 
