@@ -1,20 +1,20 @@
 export type TCourseItem = {
-  _id: string;
   name: string;
   price: number;
   currency: string;
   users: string[];
-  purchase_date: Date;
-  expire_date: Date;
+  purchase_date?: Date;
+  expire_date?: Date;
 };
 
 export type TCourse = {
+  _id?: string;
   platform: string;
   website: string;
   email: string;
   password: string;
   courses: TCourseItem[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TCourseState<T = TCourse[]> = {

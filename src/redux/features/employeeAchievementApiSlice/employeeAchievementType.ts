@@ -7,7 +7,7 @@ export type TAchievement = {
 export type TEmployeeAchievement = {
   employee_id: string;
   achievements: TAchievement[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeAchievementState<T = TEmployeeAchievement[]> = {

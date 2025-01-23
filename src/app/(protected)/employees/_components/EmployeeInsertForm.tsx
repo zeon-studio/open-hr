@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import options from "@/config/options.json";
-import { useGetEmployeesIdQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployeeCreate } from "@/redux/features/employeeApiSlice/employeeType";
 import { Loader2 } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
@@ -25,7 +25,7 @@ const EmployeeInsertForm = ({
   setEmployeeData: Dispatch<SetStateAction<TEmployeeCreate>>;
   loader: boolean;
 }) => {
-  const { data } = useGetEmployeesIdQuery(undefined);
+  const { data } = useGetEmployeesBasicsQuery(undefined);
 
   return (
     <form className="row" onSubmit={handleSubmit}>

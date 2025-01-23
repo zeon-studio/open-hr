@@ -34,16 +34,14 @@ const Pagination = ({
   useEffect(() => setInputPage(page), [page]);
 
   return (
-    <div
-      className={`flex justify-end rounded items-center bg-white ${className}`}
-    >
+    <div className={`flex justify-end rounded items-center ${className}`}>
       <p className="mx-8 hidden md:block">
         Page {page ? page : 1} of {totalPages}
       </p>
       <div>
         <ul className="flex space-x-2">
           <li
-            className={`border rounded ${
+            className={`border rounded bg-white ${
               page === 1 ? "text-light" : "text-primary"
             }`}
             onClick={() => onSelect("1", "page")}
@@ -54,7 +52,7 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border rounded  ${
+            className={`border rounded bg-white  ${
               page === 1 ? " text-light" : "text-primary"
             }`}
             onClick={() => onSelect(`${page - 1}`, "page")}
@@ -72,12 +70,12 @@ const Pagination = ({
                 value={inputPage}
                 onChange={(e) => setInputPage(Number(e.target.value))}
                 autoComplete="off"
-                className="w-8 text-center border border-border rounded h-8 p-0 focus:outline-none focus:ring-0 focus:border-dark"
+                className="w-8 text-center border border-border rounded bg-white h-8 p-0 focus:outline-none focus:ring-0 focus:border-dark"
               />
             </form>{" "}
           </li>
           <li
-            className={`border rounded  ${
+            className={`border rounded bg-white  ${
               page === totalPages ? "text-light" : "text-primary"
             }`}
             onClick={() => onSelect(`${page + 1}`, "page")}
@@ -88,7 +86,7 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border rounded  ${
+            className={`border rounded bg-white  ${
               page === totalPages ? "text-light" : "text-primary"
             }`}
             onClick={() => onSelect(`${totalPages}`, "page")}

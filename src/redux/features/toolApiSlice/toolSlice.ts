@@ -45,7 +45,7 @@ export const toolApi = toolApiWithTag.injectEndpoints({
     updateTool: builder.mutation({
       query: (data) => {
         return {
-          url: `/tool/${data.id}`,
+          url: `/tool/${data._id}`,
           method: "PATCH",
           body: data,
         };

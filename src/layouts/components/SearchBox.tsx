@@ -3,12 +3,10 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 
 const SearchBox = ({
-  className,
-  searchBy = "search",
+  className = "ml-2",
   onSearch,
 }: {
   className?: string;
-  searchBy?: string;
   onSearch?: (value: string) => void;
 }) => {
   const ref = useRef<HTMLInputElement>(null);
@@ -16,7 +14,7 @@ const SearchBox = ({
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch?.(ref.current?.value || "");
-    router.push(`?${searchBy}=${ref.current?.value}`);
+    router.push(`?search=${ref.current?.value}`);
   };
 
   useEffect(() => {

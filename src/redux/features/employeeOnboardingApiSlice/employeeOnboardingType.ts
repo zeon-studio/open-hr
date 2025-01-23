@@ -13,7 +13,7 @@ export type TEmployeeOnboarding = {
   provide_welcome_kit: TOnboardingTask;
   provide_devices: TOnboardingTask;
   provide_office_intro: TOnboardingTask;
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TEmployeeOnboardingState<T = TEmployeeOnboarding[]> = {

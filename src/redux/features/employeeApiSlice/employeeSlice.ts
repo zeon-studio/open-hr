@@ -18,9 +18,9 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       keepUnusedDataFor: 30 * 60,
     }),
 
-    getEmployeesId: builder.query<TEmployeeState, undefined>({
+    getEmployeesBasics: builder.query<TEmployeeState, undefined>({
       query: () => ({
-        url: `/employee/id`,
+        url: `/employee/basics`,
         method: "GET",
       }),
       providesTags: ["employees"],
@@ -110,7 +110,7 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
 
 export const {
   useGetEmployeesQuery,
-  useGetEmployeesIdQuery,
+  useGetEmployeesBasicsQuery,
   useGetEmployeeQuery,
   useAddEmployeeMutation,
   useUpdateEmployeeMutation,

@@ -1,5 +1,4 @@
 export type TOrganization = {
-  _id: string;
   name: string;
   login_id: string;
   password: string;
@@ -7,15 +6,16 @@ export type TOrganization = {
   currency: string;
   billing: "monthly" | "yearly" | "onetime";
   users: string[];
-  purchase_date: Date;
-  expire_date: Date;
+  purchase_date?: Date;
+  expire_date?: Date;
 };
 
 export type TTool = {
+  _id?: string;
   platform: string;
   website: string;
   organizations: TOrganization[];
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type TToolState<T = TTool[]> = {

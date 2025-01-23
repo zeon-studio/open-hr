@@ -45,7 +45,7 @@ export const courseApi = courseApiWithTag.injectEndpoints({
     updateCourse: builder.mutation({
       query: (data) => {
         return {
-          url: `/course/${data.id}`,
+          url: `/course/${data._id}`,
           method: "PATCH",
           body: data,
         };

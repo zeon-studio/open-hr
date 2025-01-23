@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dateFormat } from "@/lib/dateFormat";
-import { getEmployeeInfo } from "@/lib/employeeId2Info";
+import { employeeInfoById } from "@/lib/employeeInfo";
 import { useGetPendingOffboardingTaskQuery } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
 import { useGetPendingOnboardingTaskQuery } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
 import { TOnboardingTask } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingType";
@@ -46,10 +46,10 @@ const PendingTasks = () => {
                   <div className="flex-1">
                     <strong>{task.task_name}</strong>
                     <small className="block text-text-light">
-                      Employee: {getEmployeeInfo(task.employee_id)?.name}
+                      Employee: {employeeInfoById(task.employee_id)?.name}
                     </small>
                     <small className="block text-text-light">
-                      Assigned: {getEmployeeInfo(task.assigned_to)?.name}
+                      Assigned: {employeeInfoById(task.assigned_to)?.name}
                     </small>
                     <small className="block text-text-light">
                       Started: {dateFormat(task.createdAt)}
