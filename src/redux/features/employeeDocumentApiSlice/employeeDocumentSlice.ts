@@ -35,18 +35,9 @@ export const employeeDocumentApi = employeeDocumentApiWithTag.injectEndpoints({
       TEmployeeDocumentState,
       TEmployeeDocument
     >({
-      query: (data) => ({
-        url: `/employee-document`,
-        method: "PATCH",
-        body: data,
-      }),
-      invalidatesTags: ["employee-documents"],
-    }),
-
-    updateEmployeeDocument: builder.mutation({
       query: (data) => {
         return {
-          url: `/employee-document/${data.id}`,
+          url: `/employee-document/${data.employee_id}`,
           method: "PATCH",
           body: data,
         };
@@ -54,7 +45,21 @@ export const employeeDocumentApi = employeeDocumentApiWithTag.injectEndpoints({
       invalidatesTags: ["employee-documents"],
     }),
 
-    deleteEmployeeDocument: builder.mutation({
+    updateEmployeeDocument: builder.mutation<
+      TEmployeeDocumentState,
+      TEmployeeDocument
+    >({
+      query: (data) => {
+        return {
+          url: `/employee-document/${data.employee_id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["employee-documents"],
+    }),
+
+    deleteEmployeeDocument: builder.mutation<TEmployeeDocumentState, string>({
       query: (id) => ({
         url: `/employee-document/${id}`,
         method: "DELETE",

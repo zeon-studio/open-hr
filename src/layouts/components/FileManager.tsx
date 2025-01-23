@@ -67,7 +67,6 @@ const FileManager = ({
       if (files?.length) {
         formData.append("file", files[0]);
       }
-
       const res = await axios.post("bucket/upload", formData);
       const {
         result: { key },
@@ -113,7 +112,7 @@ const FileManager = ({
           onValueChange={setFiles}
           dropzoneOptions={dropZoneConfig}
           className={cn(
-            "relative bg-accent border border-border/30 mt-4 rounded p-8",
+            "relative bg-slate-100 border border-border/30 mt-4 rounded p-8",
             !enable && "opacity-50 cursor-not-allowed outline",
             files?.length && "bg-transparent p-0 border-transparent"
           )}

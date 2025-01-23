@@ -46,6 +46,7 @@ export default function UploadDialog() {
           permission="public-read"
           setFile={(location: any) => {
             const fileName = location.split("/").pop();
+            console.log({ fileName });
             uploaded({
               createdAt: new Date(),
               employee_id: employeeId,
