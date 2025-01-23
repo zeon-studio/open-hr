@@ -60,10 +60,8 @@ const Course = () => {
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
             <TableHead className="sticky top-0 bg-white">Platform</TableHead>
-            <TableHead className="sticky top-0 bg-white">
-              Total Courses
-            </TableHead>
-            <TableHead className="sticky top-0 bg-white">User ID</TableHead>
+            <TableHead className="sticky top-0 bg-white">Courses</TableHead>
+            <TableHead className="sticky top-0 bg-white">Login ID</TableHead>
             <TableHead className="sticky top-0 bg-white">Password</TableHead>
             <TableHead className="sticky top-0 bg-white text-right">
               Edit

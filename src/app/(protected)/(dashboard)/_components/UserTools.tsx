@@ -1,4 +1,4 @@
-import PasswordCopy from "@/components/PasswordCopy";
+import CopyText from "@/components/CopyText";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetToolsByUserQuery } from "@/redux/features/toolApiSlice/toolSlice";
 import { BookKey, ExternalLink } from "lucide-react";
@@ -22,10 +22,10 @@ const UserTools = ({ userId }: { userId: string }) => {
         ) : (
           <div className="flex flex-col gap-4">
             <ul className="space-y-3">
-              {data?.result?.map((tool) => (
+              {data?.result?.map((tool, index) => (
                 <li
                   className="row mx-0 space-y-3 lg:space-y-0 lg:row-cols-4 items-center bg-light rounded py-3"
-                  key={tool._id}
+                  key={`tool-${index}`}
                 >
                   <div className="flex items-center">
                     <Image
@@ -64,7 +64,7 @@ const UserTools = ({ userId }: { userId: string }) => {
                       User ID:
                     </small>
                     <strong className="text-h6 font-medium">
-                      {tool.login_id}
+                      <CopyText text={tool.login_id} />
                     </strong>
                   </div>
                   <div>
@@ -72,7 +72,7 @@ const UserTools = ({ userId }: { userId: string }) => {
                       Password:
                     </small>
                     <strong className="text-h6 font-medium capitalize">
-                      <PasswordCopy text={tool.password} />
+                      <CopyText text={tool.password} isPassword={true} />
                     </strong>
                   </div>
                 </li>

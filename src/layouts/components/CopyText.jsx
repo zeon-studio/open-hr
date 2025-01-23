@@ -1,7 +1,7 @@
 import { Check, CopyIcon } from "lucide-react";
 import { useState } from "react";
 
-const PasswordCopy = ({ text }) => {
+const CopyText = ({ text, isPassword = false }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyClick = () => {
@@ -14,8 +14,11 @@ const PasswordCopy = ({ text }) => {
   };
 
   return (
-    <code className="cursor-pointer" onClick={handleCopyClick}>
-      ********
+    <code
+      className="cursor-pointer flex items-center"
+      onClick={handleCopyClick}
+    >
+      <span className="line-clamp-1">{isPassword ? "********" : text}</span>
       <span className="ml-1">
         {copied ? (
           <Check className="inline-block size-[1em]" />
@@ -27,4 +30,4 @@ const PasswordCopy = ({ text }) => {
   );
 };
 
-export default PasswordCopy;
+export default CopyText;
