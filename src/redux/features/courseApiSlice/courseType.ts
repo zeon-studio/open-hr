@@ -3,8 +3,8 @@ export type TCourseItem = {
   price: number;
   currency: string;
   users: string[];
-  purchase_date: Date;
-  expire_date: Date;
+  purchase_date?: Date;
+  expire_date?: Date;
 };
 
 export type TCourse = {

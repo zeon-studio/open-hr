@@ -13,7 +13,7 @@ const CourseInsert = ({
   const { toast } = useToast();
   const [addCourse, { isSuccess, isError }] = useAddCourseMutation();
   const [loader, setLoader] = useState(false);
-  const [courseData, setCourseData] = useState<Partial<TCourse>>({
+  const [courseData, setCourseData] = useState<TCourse>({
     platform: "",
     website: "",
     email: "",
@@ -22,10 +22,8 @@ const CourseInsert = ({
       {
         name: "",
         price: 0,
-        currency: "",
-        users: [""],
-        purchase_date: new Date(),
-        expire_date: new Date(),
+        currency: "bdt",
+        users: [],
       },
     ],
   });
@@ -34,7 +32,6 @@ const CourseInsert = ({
     e.preventDefault();
     setLoader(true);
     try {
-      // @ts-ignore
       addCourse(courseData);
     } catch (error) {
       console.log(error);

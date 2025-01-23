@@ -36,7 +36,14 @@ export const employeeInfoById = (id: string) => {
 
 export const employeeGroupByDepartment = () => {
   const employees = getEmployeesData();
-  return employees?.reduce((acc: any[], curr: Employee) => {
+  const everyoneField = [
+    {
+      label: "Everyone",
+      options: [{ label: "Everyone", value: "everyone" }],
+    },
+  ];
+  const merged = employees || [];
+  const result = merged.reduce((acc: any[], curr: Employee) => {
     const groupIndex = acc.findIndex((dept) => dept.label === curr.department);
     if (groupIndex !== -1) {
       acc[groupIndex].options.push({ label: curr.name, value: curr.id });
@@ -48,4 +55,5 @@ export const employeeGroupByDepartment = () => {
     }
     return acc;
   }, []);
+  return everyoneField.concat(result);
 };

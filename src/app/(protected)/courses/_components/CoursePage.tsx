@@ -4,6 +4,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useDialog } from "@/hooks/useDialog";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+import { EditIcon } from "lucide-react";
 import { memo, useMemo, useState } from "react";
 import CourseUpdate from "./CourseUpdate";
 
@@ -49,15 +50,17 @@ const CourseModal = ({
       open={isDialogOpen}
       onOpenChange={onDialogChange}
     >
-      <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
-        <TableRow className="cursor-pointer">
-          <TableCell>{item.platform}</TableCell>
-          <TableCell>{item.courses.length}</TableCell>
-          <TableCell>{item.email}</TableCell>
-          <TableCell>{item.password}</TableCell>
-          <TableCell className="text-right">...</TableCell>
-        </TableRow>
-      </DialogTrigger>
+      <TableRow>
+        <TableCell>{item.platform}</TableCell>
+        <TableCell>{item.courses.length}</TableCell>
+        <TableCell>{item.email}</TableCell>
+        <TableCell>{item.password}</TableCell>
+        <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
+          <TableCell className="text-right">
+            <EditIcon className="cursor-pointer inline-block" size={20} />
+          </TableCell>
+        </DialogTrigger>
+      </TableRow>
       {singleCourse?._id && (
         <CourseUpdate course={singleCourse!} onDialogChange={onDialogChange} />
       )}

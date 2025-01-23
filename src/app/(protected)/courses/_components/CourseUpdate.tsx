@@ -28,6 +28,7 @@ const CourseUpdate = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoader(true);
     updateCourse(courseData);
   };
 

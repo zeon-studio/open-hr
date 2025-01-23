@@ -27,7 +27,7 @@ import {
   TCourse,
   TCourseItem,
 } from "@/redux/features/courseApiSlice/courseType";
-import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
+import { CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { SetStateAction, useEffect, useState } from "react";
 import ReactSelect from "react-select";
 
@@ -72,10 +72,8 @@ const CourseForm = ({
       {
         name: "",
         price: 0,
-        currency: "",
+        currency: "bdt",
         users: [],
-        purchase_date: new Date(),
-        expire_date: new Date(),
       },
     ]);
   };
@@ -86,7 +84,7 @@ const CourseForm = ({
   };
 
   const handleCourseDelete = () => {
-    deleteCourse(courseData.platform);
+    deleteCourse(courseData._id);
     toast({
       title: "Course deleted complete",
     });
@@ -130,7 +128,7 @@ const CourseForm = ({
       <div className="lg:col-6 mb-4">
         <Label>Password</Label>
         <Input
-          type="password"
+          type="text"
           value={courseData.password!}
           onChange={(e: any) =>
             setCourseData({ ...courseData, password: e.target.value })
@@ -138,22 +136,10 @@ const CourseForm = ({
           required
         />
       </div>
-      <div className="col-12 mb-4 mt-6">
-        <div className="flex mb-2 justify-between items-center">
-          <Label className="mb-0">Course Items</Label>
-          <Button
-            type="button"
-            onClick={handleAddCourseItem}
-            size={"sm"}
-            className="ml-2"
-            variant="outline"
-          >
-            Add Course
-          </Button>
-        </div>
-        <div className="bg-light p-4 rounded">
-          {courseItems.map((item, index) => (
-            <div key={index} className="row bg-white py-4 mx-1.5 rounded">
+      <div className="col-12 mb-6">
+        {courseItems.map((item, index) => (
+          <div className="border mb-6 bg-light rounded-md p-3" key={index}>
+            <div className="row">
               {/* Course Name */}
               <div className="col-12 mb-4">
                 <Label className="flex justify-between items-center">
@@ -202,6 +188,7 @@ const CourseForm = ({
               <div className="lg:col-6 mb-4">
                 <Label>Course Currency</Label>
                 <Select
+                  value={item.currency}
                   onValueChange={(value) => {
                     const updatedCourseItems = [...courseItems];
                     updatedCourseItems[index] = {
@@ -238,7 +225,29 @@ const CourseForm = ({
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <span className="flex items-center">
+                        {item.purchase_date && (
+                          <span className="p-2">
+                            <X
+                              className="cursor-pointer border-box ml-auto h-4 w-4 opacity-50"
+                              onClick={() =>
+                                setCourseItems((prevItems) => {
+                                  const updatedItems = [...prevItems];
+                                  updatedItems[index] = {
+                                    ...item,
+                                    purchase_date: undefined,
+                                  };
+                                  return updatedItems;
+                                })
+                              }
+                            />
+                          </span>
+                        )}
+                        <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="pl-2  block">
+                          <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                        </span>
+                      </span>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -254,7 +263,7 @@ const CourseForm = ({
                           const updatedItems = [...prevItems];
                           updatedItems[index] = {
                             ...item,
-                            purchase_date: e.toISOString(),
+                            purchase_date: e,
                           };
                           return updatedItems;
                         })
@@ -278,7 +287,29 @@ const CourseForm = ({
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <span className="flex items-center">
+                        {item.expire_date && (
+                          <span className="p-2">
+                            <X
+                              className="cursor-pointer border-box ml-auto h-4 w-4 opacity-50"
+                              onClick={() =>
+                                setCourseItems((prevItems) => {
+                                  const updatedItems = [...prevItems];
+                                  updatedItems[index] = {
+                                    ...item,
+                                    expire_date: undefined,
+                                  };
+                                  return updatedItems;
+                                })
+                              }
+                            />
+                          </span>
+                        )}
+                        <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="pl-2  block">
+                          <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                        </span>
+                      </span>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -294,7 +325,7 @@ const CourseForm = ({
                           const updatedItems = [...prevItems];
                           updatedItems[index] = {
                             ...item,
-                            expire_date: e.toISOString(),
+                            expire_date: e,
                           };
                           return updatedItems;
                         })
@@ -323,6 +354,7 @@ const CourseForm = ({
                   options={employeeGroupByDepartment()}
                   isMulti
                   closeMenuOnSelect={false}
+                  classNamePrefix={"rs"}
                   menuPlacement="auto"
                   onChange={(value) => {
                     const updatedCourseItems = [...courseItems];
@@ -342,16 +374,30 @@ const CourseForm = ({
                     },
                   })}
                   styles={{
-                    control: (baseStyles, state) => ({
+                    control: (baseStyles) => ({
                       ...baseStyles,
-                      borderColor: state.isFocused ? "#e2e4e8" : "#e2e4e8",
+                      borderColor: "#e2e4e8",
+                      boxShadow: "none",
+                      "&:hover": {
+                        borderColor: "#e2e4e8",
+                      },
                     }),
                   }}
                 />
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+
+        <Button
+          type="button"
+          onClick={handleAddCourseItem}
+          size={"sm"}
+          className="w-full"
+          variant="outline"
+        >
+          Add Course
+        </Button>
       </div>
 
       {/* for insert */}
@@ -376,7 +422,7 @@ const CourseForm = ({
           <Dialog>
             <DialogTrigger className="mr-2" asChild>
               <Button className="border-red-700 text-red-700" variant="outline">
-                Delete Platform
+                Delete Course Platform
               </Button>
             </DialogTrigger>
             <ConfirmationPopup
@@ -391,7 +437,7 @@ const CourseForm = ({
                 <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
               </>
             ) : (
-              "Update Course"
+              "Update Course Platform"
             )}
           </Button>
         </div>

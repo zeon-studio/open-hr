@@ -6,8 +6,8 @@ export type TOrganization = {
   currency: string;
   billing: "monthly" | "yearly" | "onetime";
   users: string[];
-  purchase_date: Date;
-  expire_date: Date;
+  purchase_date?: Date;
+  expire_date?: Date;
 };
 
 export type TTool = {

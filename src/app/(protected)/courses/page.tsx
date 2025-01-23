@@ -52,7 +52,7 @@ const Course = () => {
           </DialogTrigger>
           <CourseInsert onDialogChange={onDialogChange} />
         </Dialog>
-        <SearchBox searchBy="product_id" className="ml-2" />
+        <SearchBox />
         <Pagination total={meta?.total!} className="ml-auto" />
       </div>
 
@@ -66,7 +66,7 @@ const Course = () => {
             <TableHead className="sticky top-0 bg-white">User ID</TableHead>
             <TableHead className="sticky top-0 bg-white">Password</TableHead>
             <TableHead className="sticky top-0 bg-white text-right">
-              More
+              Edit
             </TableHead>
           </TableRow>
         </TableHeader>

@@ -6,11 +6,11 @@ import Sidebar from "./Sidebar";
 
 const Header = () => {
   return (
-    <header className="sticky px-4 h-[50px] top-0 shadow-sm lg:hidden flex justify-between items-center pb-5">
+    <header className="sticky px-4 h-[50px] top-0 lg:hidden flex justify-between items-center pb-5">
       <Logo />
       <Sheet>
         <SheetTrigger asChild>
-          <Button>
+          <Button size={"sm"} variant={"ghost"} className="p-2">
             <Menu />
           </Button>
         </SheetTrigger>
