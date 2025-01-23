@@ -16,7 +16,12 @@ import { getDuration } from "@/lib/dateFormat";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { SiDiscord, SiFacebook, SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
+import Assets from "./_components/assets-details";
+import Courses from "./_components/course-details";
+import Document from "./_components/document-details";
+import Emergency from "./_components/emergency-details";
 import JobDetails from "./_components/job-details";
+import Offboarding from "./_components/offboarding";
 
 const tabs = [
   {
@@ -30,24 +35,29 @@ const tabs = [
     content: <JobDetails />,
   },
   {
+    label: "Documents",
+    value: "documents",
+    content: <Document />,
+  },
+  {
     label: "Courses",
     value: "courses",
-    content: <></>,
+    content: <Courses />,
   },
   {
     label: "Assets",
     value: "assets",
-    content: <></>,
+    content: <Assets />,
   },
   {
     label: "Emergency",
     value: "emergency",
-    content: <></>,
+    content: <Emergency />,
   },
   {
     label: "Offboarding",
     value: "offboarding",
-    content: <></>,
+    content: <Offboarding />,
   },
 ];
 

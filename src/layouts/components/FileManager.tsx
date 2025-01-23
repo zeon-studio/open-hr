@@ -2,45 +2,18 @@ import {
   FileInput,
   FileUploader,
   FileUploaderContent,
-  FileUploaderItem,
 } from "@/components/ui/file-uploader";
 import useAxios from "@/hooks/useAxios";
+import { BUCKET_URL } from "@/lib/constant";
+import { cn } from "@/lib/shadcn";
 import { Dialog } from "@radix-ui/react-dialog";
-import { Paperclip } from "lucide-react";
+import { CloudUpload, Paperclip, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ConfirmationPopup from "./ConfirmationPopup";
 import { Button } from "./ui/button";
 import { DialogTrigger } from "./ui/dialog";
-
-const bucket = process.env.NEXT_PUBLIC_BUCKET_URL;
-
-const FileSvgDraw = () => {
-  return (
-    <>
-      <svg
-        className="w-8 h-8 mb-3 text-gray-500 dark:text-gray-400"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 20 16"
-      >
-        <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-        />
-      </svg>
-      <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-        <span className="font-semibold">Click to upload</span>
-        &nbsp; or drag and drop
-      </p>
-    </>
-  );
-};
 
 const FileManager = ({
   enable,
@@ -139,11 +112,26 @@ const FileManager = ({
           value={files}
           onValueChange={setFiles}
           dropzoneOptions={dropZoneConfig}
-          className={`relative bg-light rounded-lg p-2 ${!enable && "opacity-50 cursor-not-allowed"}`}
+          className={cn(
+            "relative bg-accent border border-border/30 mt-4 rounded p-8",
+            !enable && "opacity-50 cursor-not-allowed outline",
+            files?.length && "bg-transparent p-0 border-transparent"
+          )}
         >
-          <FileInput className="outline-dashed outline-1 outline-white">
-            <div className="flex items-center justify-center flex-col pt-3 pb-4 w-full">
-              <FileSvgDraw />
+          <FileInput>
+            <div
+              className={cn(
+                "flex items-center justify-center flex-col pt-3 pb-4 w-full",
+                files?.length && "hidden"
+              )}
+            >
+              <CloudUpload className="text-text-light" />
+              <p className="text-text-light text-sm">
+                Drag and Drop or{" "}
+                <Button className="p-0" variant={"link"}>
+                  Choose file
+                </Button>
+              </p>
             </div>
           </FileInput>
           <FileUploaderContent>
@@ -151,22 +139,29 @@ const FileManager = ({
               files.length > 0 &&
               files.map((file, i) => (
                 <React.Fragment key={i}>
-                  <FileUploaderItem key={i} index={i}>
-                    <Paperclip className="h-4 w-4 stroke-current" />
-                    <span>{file.name}</span>
-                  </FileUploaderItem>
                   {file.type.includes("image") && (
                     <img
                       src={`${URL.createObjectURL(file)}`}
                       alt={file.name}
-                      className="object-cover max-w-full rounded-md"
+                      className="object-cover aspect-video w-auto max-w-full rounded-md"
                       height={300}
                       width={400}
                     />
                   )}
-                  <Button type="button" size={"sm"} onClick={handleUpload}>
-                    Upload
-                  </Button>
+                  <div className="flex justify-end space-x-3 mt-5">
+                    <Button type="button" onClick={handleUpload}>
+                      Upload
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setFiles(files.filter((f) => f !== file));
+                      }}
+                      variant={"destructive"}
+                      type="button"
+                    >
+                      <Trash2 className="size-4 mr-2" /> Delete
+                    </Button>
+                  </div>
                 </React.Fragment>
               ))}
           </FileUploaderContent>
@@ -183,7 +178,7 @@ const FileManager = ({
             location.split(".").pop() === "webp") ? (
             <div className="max-h-[300px] overflow-auto">
               <img
-                src={`${bucket}/${location}`}
+                src={`${BUCKET_URL}/${location}`}
                 alt={location}
                 className="object-cover rounded-md"
                 width={400}

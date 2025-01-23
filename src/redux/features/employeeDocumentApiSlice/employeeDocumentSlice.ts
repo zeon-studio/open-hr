@@ -37,7 +37,7 @@ export const employeeDocumentApi = employeeDocumentApiWithTag.injectEndpoints({
     >({
       query: (data) => ({
         url: `/employee-document`,
-        method: "POST",
+        method: "PATCH",
         body: data,
       }),
       invalidatesTags: ["employee-documents"],
