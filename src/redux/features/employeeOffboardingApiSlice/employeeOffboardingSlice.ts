@@ -71,6 +71,16 @@ export const employeeOffboardingApi =
         invalidatesTags: ["employee-offboardings"],
       }),
 
+      updateOffboardingTaskStatus: builder.mutation({
+        query: (data) => {
+          return {
+            url: `/employee-offboarding/task/${data.employee_id}/${data.task}`,
+            method: "PATCH",
+          };
+        },
+        invalidatesTags: ["employee-offboardings"],
+      }),
+
       deleteEmployeeOffboarding: builder.mutation({
         query: (id) => ({
           url: `/employee-offboarding/${id}`,
@@ -87,5 +97,6 @@ export const {
   useGetPendingOffboardingTaskQuery,
   useAddEmployeeOffboardingMutation,
   useUpdateEmployeeOffboardingMutation,
+  useUpdateOffboardingTaskStatusMutation,
   useDeleteEmployeeOffboardingMutation,
 } = employeeOffboardingApi;

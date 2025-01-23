@@ -29,5 +29,9 @@ export type TEmployeeOffboardingState<T = TEmployeeOffboarding[]> = {
 export type TAllOffboardingTaskState = {
   success: boolean;
   message: string;
-  result: (TOffboardingTask & { employee_id: string; createdAt: Date })[];
+  result: (TOffboardingTask & {
+    employee_id: string;
+    task_id: string;
+    createdAt: Date;
+  })[];
 };
