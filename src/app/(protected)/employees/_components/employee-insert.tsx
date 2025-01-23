@@ -3,7 +3,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAddEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployeeCreate } from "@/redux/features/employeeApiSlice/employeeType";
 import { useEffect, useState } from "react";
-import EmployeeInsertForm from "./EmployeeInsertForm";
+import EmployeeInsertForm from "./employee-insert-form";
 
 const EmployeeInsert = ({
   onDialogChange,

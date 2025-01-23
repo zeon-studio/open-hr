@@ -4,7 +4,7 @@ import { useUpdateEmployeeMutation } from "@/redux/features/employeeApiSlice/emp
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { ExternalLinkIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import EmployeeForm from "./EmployeeForm";
+import EmployeeForm from "./employee-form";
 
 const EmployeeUpdate = ({
   employee,

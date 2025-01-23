@@ -1,25 +1,16 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BUCKET_URL } from "@/lib/constant";
 import {
   useDeleteEmployeeDocumentMutation,
   useGetEmployeeDocumentQuery,
 } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
-import { EllipsisVertical, Loader2 } from "lucide-react";
+import { Ellipsis, Loader2, Upload } from "lucide-react";
 import { useParams } from "next/navigation";
 import UploadDialog from "./upload-dialog";
 
+import ConfirmationPopup from "@/components/ConfirmationPopup";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,15 +37,18 @@ export default function Document() {
   return (
     <div>
       <div className="text-right mb-4">
-        <UploadDialog />
+        <UploadDialog>
+          <Upload className="size-4 mr-2.5" />
+          Upload
+        </UploadDialog>
       </div>
       <Card>
         <CardHeader>
           <CardTitle>Employee Uploads</CardTitle>
         </CardHeader>
         <CardContent>
-          {data?.result ? (
-            <ul className="grid grid-cols-5 gap-4">
+          {data?.result && data?.result?.documents.length! > 0 ? (
+            <ul className="grid grid-cols-3 2xl:grid-cols-5 gap-4">
               {data.result.documents.map((document, index) => {
                 return (
                   <li
@@ -75,13 +69,23 @@ export default function Document() {
 
                       <DropdownMenu>
                         <DropdownMenuTrigger>
-                          <EllipsisVertical className="size-4" />
+                          <Ellipsis className="size-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
                           <DropdownMenuItem asChild>
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
+                            <UploadDialog
+                              size={"sm"}
+                              type="button"
+                              file={document.file}
+                              variant={"outline"}
+                              className="h-auto p-1.5 border-none w-full justify-start bg-transparent"
+                            >
+                              Preview
+                            </UploadDialog>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Dialog>
+                              <DialogTrigger asChild>
                                 <Button
                                   size={"sm"}
                                   className="border-none w-full bg-transparent text-left justify-start text-sm h-auto py-1.5 px-1.5"
@@ -90,31 +94,17 @@ export default function Document() {
                                 >
                                   Delete
                                 </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>
-                                    Are you absolutely sure?
-                                  </AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    This action cannot be undone. This will
-                                    permanently delete your account and remove
-                                    your data from our servers.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => {
-                                      deleteDocument(employeeId);
-                                    }}
-                                    disabled={isDeleting}
-                                  >
-                                    Continue
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
+                              </DialogTrigger>
+
+                              <ConfirmationPopup
+                                handleConfirmation={() => {
+                                  deleteDocument({
+                                    documentId: document._id!,
+                                    employeeId: employeeId,
+                                  });
+                                }}
+                              />
+                            </Dialog>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

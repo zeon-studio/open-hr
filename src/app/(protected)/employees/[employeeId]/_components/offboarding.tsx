@@ -1,107 +1,62 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/shadcn";
-import { useAddEmployeeOffboardingMutation } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
-import { format } from "date-fns";
-import { CalendarIcon, ChevronLeft, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Card, CardContent } from "@/components/ui/card";
+import { useGetEmployeeOffboardingQuery } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
+import { Loader2 } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 
 export default function Offboarding() {
   const router = useRouter();
-  const date = new Date().toISOString();
-  const [offboarding, { isLoading }] = useAddEmployeeOffboardingMutation();
+  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data, isLoading } = useGetEmployeeOffboardingQuery(employeeId);
+  const task = data?.result ?? {};
 
   return (
     <div>
-      <h5>Onboarding</h5>
+      <h5 className="mb-4">Onboarding</h5>
+
       <Card>
-        <CardHeader>
-          <CardTitle>
-            <Button
-              className="p-0"
-              type="button"
-              variant={"link"}
-              onClick={router.back}
-            >
-              <ChevronLeft className="size-4 mr-3" />
-              Back
-            </Button>
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <form className="grid grid-cols-2 gap-4">
-            <div>
-              <Label className="block">Resignation Date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "justify-between text-left w-full font-normal border-border/30",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                    <CalendarIcon className="size-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar mode="single" initialFocus />
-                </PopoverContent>
-              </Popover>
+        <CardContent className={isLoading ? "py-20" : "p-0 overflow-hidden"}>
+          {isLoading ? (
+            <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin size-5" />
             </div>
-            <div>
-              <Label className="block">Last Working day</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "justify-between text-left w-full font-normal border-border/30",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                    <CalendarIcon className="size-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar mode="single" initialFocus />
-                </PopoverContent>
-              </Popover>
+          ) : data?.result ? (
+            <div className="flex flex-col gap-4">
+              <ul className="space-y-3">
+                <li className="row mx-0 space-y-3 lg:space-y-0 2xl:row-cols-5 items-center bg-light rounded py-3">
+                  <div className="flex items-center">
+                    <div>
+                      <small className="text-xs text-muted-foreground block">
+                        Task Name:
+                      </small>
+                      <strong className="text-h6 font-medium capitalize"></strong>
+                    </div>
+                  </div>
+                  <div>
+                    <small className="text-xs text-muted-foreground block">
+                      Assign To:
+                    </small>
+                    <strong className="text-h6 font-medium capitalize"></strong>
+                  </div>
+                  <div>
+                    <small className="text-xs text-muted-foreground block">
+                      Designation:
+                    </small>
+                    <strong className="text-h6 font-medium"></strong>
+                  </div>
+                  <div>
+                    <small className="text-xs text-muted-foreground block">
+                      Due Date:
+                    </small>
+                    <strong className="text-h6 font-medium capitalize"></strong>
+                  </div>
+                </li>
+              </ul>
             </div>
-
-            <div>
-              <Label className="block">Reason</Label>
-              <Textarea
-                placeholder="Disable Access to Internal System & Shared
-Drive"
-              />
-            </div>
-
-            <div className="col-span-2">
-              <Button type="button">
-                <Plus className="size-5" />
-                Add Document File
-              </Button>
-            </div>
-
-            <div className="space-x-3">
-              <Button>Save</Button>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </div>
-          </form>
+          ) : (
+            <>
+              <p className="text-center text-muted-foreground"></p>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>

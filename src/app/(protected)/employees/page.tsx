@@ -17,8 +17,8 @@ import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetEmployeesQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
-import EmployeeInsert from "./_components/EmployeeInsert";
-import UserPage from "./_components/EmployeePage";
+import EmployeeInsert from "./_components/employee-insert";
+import UserPage from "./_components/employee-page";
 
 export default function Employees() {
   const searchParams = useSearchParams();

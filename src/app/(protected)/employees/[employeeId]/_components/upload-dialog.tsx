@@ -1,5 +1,5 @@
 import FileManager from "@/components/FileManager";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,14 @@ import {
 } from "@/components/ui/dialog";
 import { MAX_SIZE } from "@/lib/constant";
 import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 
-export default function UploadDialog() {
+export default function UploadDialog({
+  file,
+  children,
+  ...buttonProps
+}: ButtonProps & { file?: string }) {
   const { employeeId } = useParams<{ employeeId: string }>();
   const [uploaded, { isLoading: isUploading }] =
     useAddEmployeeDocumentMutation();
@@ -20,16 +24,18 @@ export default function UploadDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="ml-auto" disabled={isUploading}>
+        <Button
+          className={buttonProps.className}
+          variant={buttonProps.variant}
+          type="button"
+          disabled={isUploading}
+        >
           {isUploading ? (
             <>
               <Loader2 className="animate-spin size-6" />
             </>
           ) : (
-            <>
-              <Upload className="size-4 mr-2.5" />
-              Upload
-            </>
+            <>{children}</>
           )}
         </Button>
       </DialogTrigger>
@@ -40,13 +46,12 @@ export default function UploadDialog() {
         </DialogHeader>
         <FileManager
           enable={true}
-          existingFile={""}
+          existingFile={file}
           folder={`erp/document`}
           maxSize={MAX_SIZE}
           permission="public-read"
           setFile={(location: any) => {
             const fileName = location.split("/").pop();
-            console.log({ fileName });
             uploaded({
               createdAt: new Date(),
               employee_id: employeeId,

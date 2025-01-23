@@ -59,9 +59,15 @@ export const employeeDocumentApi = employeeDocumentApiWithTag.injectEndpoints({
       invalidatesTags: ["employee-documents"],
     }),
 
-    deleteEmployeeDocument: builder.mutation<TEmployeeDocumentState, string>({
-      query: (id) => ({
-        url: `/employee-document/${id}`,
+    deleteEmployeeDocument: builder.mutation<
+      TEmployeeDocumentState,
+      {
+        employeeId: string;
+        documentId: string;
+      }
+    >({
+      query: ({ employeeId, documentId }) => ({
+        url: `/employee-document/${employeeId}/${documentId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["employee-documents"],
