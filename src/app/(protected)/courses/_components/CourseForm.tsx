@@ -1,7 +1,5 @@
-import ConfirmationPopup from "@/components/ConfirmationPopup";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -16,13 +14,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
 import options from "@/config/options.json";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
 } from "@/lib/employeeInfo";
-import { useDeleteCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
 import {
   TCourse,
   TCourseItem,
@@ -44,8 +40,6 @@ const CourseForm = ({
   loader: boolean;
   formType: string;
 }) => {
-  const [deleteCourse] = useDeleteCourseMutation();
-
   const [courseItems, setCourseItems] = useState<TCourseItem[]>(
     courseData.courses || []
   );
@@ -81,13 +75,6 @@ const CourseForm = ({
   // delete product file
   const handleDeleteCourseItem = async (index: number) => {
     setCourseItems((prevItems) => prevItems.filter((_, i) => i !== index));
-  };
-
-  const handleCourseDelete = () => {
-    deleteCourse(courseData._id);
-    toast({
-      title: "Course deleted complete",
-    });
   };
 
   return (
@@ -419,17 +406,6 @@ const CourseForm = ({
       {/* for update */}
       {formType === "update" && (
         <div className="col-12 text-right">
-          <Dialog>
-            <DialogTrigger className="mr-2" asChild>
-              <Button className="border-red-700 text-red-700" variant="outline">
-                Delete Course Platform
-              </Button>
-            </DialogTrigger>
-            <ConfirmationPopup
-              handleConfirmation={handleCourseDelete}
-              id={courseData.platform!}
-            />
-          </Dialog>
           <Button type="submit" disabled={loader}>
             {loader ? (
               <>

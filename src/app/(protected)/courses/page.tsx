@@ -64,7 +64,7 @@ const Course = () => {
             <TableHead className="sticky top-0 bg-white">Login ID</TableHead>
             <TableHead className="sticky top-0 bg-white">Password</TableHead>
             <TableHead className="sticky top-0 bg-white text-right">
-              Edit
+              More
             </TableHead>
           </TableRow>
         </TableHeader>
