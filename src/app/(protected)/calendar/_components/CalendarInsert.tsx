@@ -19,8 +19,20 @@ const CalendarInsert = ({
   const [loader, setLoader] = useState(false);
   const [calendarData, setCalendarData] = useState<TCalendar>({
     year: new Date().getFullYear(),
-    holidays: [],
-    events: [],
+    holidays: [
+      {
+        start_date: new Date(),
+        end_date: new Date(),
+        reason: "",
+      },
+    ],
+    events: [
+      {
+        start_date: new Date(),
+        end_date: new Date(),
+        reason: "",
+      },
+    ],
     createdAt: new Date(),
   });
   const [sheetData, setSheetData] = useState<TCalSheet>({
@@ -34,7 +46,16 @@ const CalendarInsert = ({
     e.preventDefault();
     setLoader(true);
     try {
-      // @ts-ignore
+      addCalendar(calendarData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSheetSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoader(true);
+    try {
       const data = transformCalSheetData(sheetData);
       addCalendar(data);
     } catch (error) {
@@ -69,7 +90,7 @@ const CalendarInsert = ({
       <DialogTitle className="mb-4">Add New Year Calendar</DialogTitle>
 
       <CalendarInsertSheet
-        handleSubmit={handleSubmit}
+        handleSubmit={handleSheetSubmit}
         sheetData={sheetData}
         setSheetData={setSheetData}
         loader={loader}
@@ -81,7 +102,12 @@ const CalendarInsert = ({
         <Separator className="w-2/5" />
       </div>
 
-      <CalendarInsertForm handleSubmit={handleSubmit} loader={loader} />
+      <CalendarInsertForm
+        calendarData={calendarData}
+        setCalendarData={setCalendarData}
+        handleSubmit={handleSubmit}
+        loader={loader}
+      />
     </DialogContent>
   );
 };

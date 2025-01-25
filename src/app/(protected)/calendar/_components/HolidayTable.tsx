@@ -18,8 +18,8 @@ const HolidayTable = ({
 }) => {
   return (
     <Table className="rounded-md bg-background overflow-hidden">
-      <TableHeader className="bg-dark">
-        <TableRow className="hover:bg-dark">
+      <TableHeader>
+        <TableRow className="bg-primary hover:bg-primary">
           <TableHead className="text-white">{reason}</TableHead>
           <TableHead className="w-[20%] text-white">Start</TableHead>
           <TableHead className="w-[20%] text-white">End</TableHead>
@@ -34,7 +34,7 @@ const HolidayTable = ({
               <TableCell>{dateFormat(el?.start_date)}</TableCell>
               <TableCell>{dateFormat(el?.end_date)}</TableCell>
               <TableCell>
-                {el?.day_count} {el?.day_count > 1 ? "days" : "day"}
+                {el?.day_count} {el?.day_count! > 1 ? "days" : "day"}
               </TableCell>
             </TableRow>
           ))}

@@ -1,9 +1,9 @@
 export type TEvent = {
-  start_date: string | Date;
-  end_date: string | Date;
-  day_count: number;
-  reason: string | null;
-  type: string | null;
+  start_date: Date;
+  end_date: Date;
+  day_count?: number;
+  reason: string;
+  type?: string;
 };
 
 export type TCalendar = {
@@ -16,11 +16,11 @@ export type TCalendar = {
 export type TCalSheet = {
   year: number;
   events: {
-    start_date: string | Date;
-    end_date: string | Date;
-    day_count: number;
-    reason: string | null;
-    type: string | null;
+    start_date: Date;
+    end_date: Date;
+    day_count?: number;
+    reason: string;
+    type: string;
   }[];
 };
 

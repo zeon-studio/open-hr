@@ -1,4 +1,3 @@
-import { dateCount } from "@/lib/dateFormat";
 import {
   TCalendar,
   TCalSheet,
@@ -59,12 +58,6 @@ export const readCalSheet = (file: Blob): Promise<TCalendar[]> => {
 };
 
 export const transformCalSheetData = (sheetData: TCalSheet) => {
-  // Ensure sheetData and its properties exist
-  // if (!sheetData || sheetData?.events) {
-  //   console.error("Invalid sheet data", sheetData);
-  //   return { year: sheetData?.year || null, holidays: [], events: [] };
-  // }
-
   return sheetData?.events?.reduce(
     (acc, item) => {
       acc.year = sheetData.year;
@@ -74,7 +67,6 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
           ...item,
           start_date: new Date(item.start_date),
           end_date: new Date(item.end_date),
-          day_count: dateCount(item.start_date, item.end_date),
           reason: item.reason,
         });
       } else if (item.type === "events") {
@@ -82,7 +74,6 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
           ...item,
           start_date: new Date(item.start_date),
           end_date: new Date(item.end_date),
-          day_count: dateCount(item.start_date, item.end_date),
           reason: item.reason,
         });
       }
