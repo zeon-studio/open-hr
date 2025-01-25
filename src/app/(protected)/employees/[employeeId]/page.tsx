@@ -236,7 +236,7 @@ export default function Info() {
 
       <div className="relative z-20 flex-1">
         <div>
-          <div className="flex space-x-4 xl:space-x-0 relative after:absolute xl:after:-left-[var(--distance)] after:-z-10 after:bg-primary after:w-full xl:after:w-[calc(100%_+_var(--distance))] after:h-full after:rounded-t after:bottom-1 xl:px-8 px-4 lg:pb-6 2xl:pb-[60px] after:left-0 pt-4 xl:pt-8 max-lg:after:rounded">
+          <div className="flex space-x-4 xl:space-x-0 relative after:absolute xl:after:-left-[var(--distance)] after:-z-10 after:bg-primary after:w-full xl:after:w-[calc(100%_+_var(--distance))] after:h-full after:rounded-t lg:after:bottom-1 after:bottom-[5px] xl:px-8 px-4 lg:pb-6 2xl:pb-[60px] after:left-0 pt-4 xl:pt-8 max-lg:after:rounded">
             <div className="xl:hidden size-[100px] flex-none bg-light rounded overflow-hidden translate-y-1">
               <Avatar
                 className="flex-none w-full rounded-none"
@@ -259,7 +259,7 @@ export default function Info() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant={"secondary"}
-                    className="bg-background mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 lg:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0"
+                    className="mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 lg:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 !bg-light rounded-b-none"
                   >
                     <span>{activeTab.label}</span>
                     <ChevronDown className="size-4" />
