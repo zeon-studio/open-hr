@@ -19,6 +19,7 @@ import {
 import { notFound, useParams } from "next/navigation";
 import PersonalInfo from "./_components/personal-info";
 
+import { Discord, Facebook, Linkedin, Twitter } from "@/components/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +29,6 @@ import {
 import { getDuration } from "@/lib/dateFormat";
 import { cn } from "@/lib/shadcn";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import { SiDiscord, SiFacebook, SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
 import { useState } from "react";
 import Assets from "./_components/assets-details";
@@ -214,19 +214,24 @@ export default function Info() {
             <h6 className="text-base font-semibold mb-4">Social</h6>
             <ul className="flex space-x-2">
               <li>
+                <Link href={data?.result.linkedin ?? ""}>
+                  <Linkedin className="size-7" />
+                </Link>
+              </li>
+              <li>
                 <Link href={data?.result.twitter ?? ""}>
-                  <SiX className="size-4" />
+                  <Twitter className="size-6" />
                 </Link>
               </li>
               <li>
                 <Link href={data?.result.facebook ?? ""}>
-                  <SiFacebook className="size-4" />
+                  <Facebook className="size-7" />
                 </Link>
               </li>
 
               <li>
                 <Link href={data?.result.discord ?? ""}>
-                  <SiDiscord className="size-4" />
+                  <Discord className="size-7" />
                 </Link>
               </li>
             </ul>
