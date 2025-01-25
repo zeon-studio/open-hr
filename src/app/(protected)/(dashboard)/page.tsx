@@ -4,13 +4,13 @@ import Loader from "@/components/Loader";
 import ClearCache from "@/helpers/ClearCache";
 import { useSession } from "next-auth/react";
 import Gravatar from "react-gravatar";
-import PendingTasks from "./_components/PendingTasks";
-import UpcomingEvents from "./_components/UpcomingEvents";
-import UpcomingHolidays from "./_components/UpcomingHolidays";
-import UpcomingLeaves from "./_components/UpcomingLeaves";
-import UserAssets from "./_components/UserAssets";
-import UserCourses from "./_components/UserCourses";
-import UserTools from "./_components/UserTools";
+import PendingTasks from "./_components/pending-tasks";
+import UpcomingEvents from "./_components/upcoming-events";
+import UpcomingHolidays from "./_components/upcoming-holidays";
+import UpcomingLeaves from "./_components/upcoming-leaves";
+import UserAssets from "./_components/user-assets";
+import UserCourses from "./_components/user-courses";
+import UserTools from "./_components/user-tools";
 
 const Home = () => {
   const { data } = useSession();

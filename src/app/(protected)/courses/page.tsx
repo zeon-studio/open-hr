@@ -17,8 +17,8 @@ import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetCoursesQuery } from "@/redux/features/courseApiSlice/courseSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
-import CourseInsert from "./_components/CourseInsert";
-import CoursePage from "./_components/CoursePage";
+import CourseInsert from "./_components/course-insert";
+import CoursePage from "./_components/course-page";
 
 const Course = () => {
   const searchParams = useSearchParams();
@@ -53,7 +53,7 @@ const Course = () => {
           <CourseInsert onDialogChange={onDialogChange} />
         </Dialog>
         <SearchBox />
-        <Pagination total={meta?.total!} className="ml-auto" />
+        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
       </div>
 
       <Table>
@@ -85,6 +85,11 @@ const Course = () => {
           )}
         </TableBody>
       </Table>
+
+      <Pagination
+        total={meta?.total!}
+        className="ml-auto flex md:hidden mt-5"
+      />
     </section>
   );
 };

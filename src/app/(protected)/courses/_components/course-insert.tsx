@@ -3,7 +3,7 @@ import { useAddCourseMutation } from "@/redux/features/courseApiSlice/courseSlic
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import CourseForm from "./CourseForm";
+import CourseForm from "./course-form";
 
 const CourseInsert = ({
   onDialogChange,

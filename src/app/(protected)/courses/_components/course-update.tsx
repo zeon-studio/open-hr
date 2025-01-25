@@ -3,7 +3,7 @@ import { useUpdateCourseMutation } from "@/redux/features/courseApiSlice/courseS
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import CourseForm from "./CourseForm";
+import CourseForm from "./course-form";
 
 const CourseUpdate = ({
   course,

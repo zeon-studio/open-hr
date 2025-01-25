@@ -35,7 +35,7 @@ const Pagination = ({
 
   return (
     <div className={`flex justify-end rounded items-center ${className}`}>
-      <p className="mx-8 hidden md:block">
+      <p className="mr-4">
         Page {page ? page : 1} of {totalPages}
       </p>
       <div>
