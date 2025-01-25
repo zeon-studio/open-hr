@@ -54,10 +54,10 @@ export const menu = [
     path: "/leaves",
   },
   {
-    name: "Requests",
+    name: "Leave Requests",
     icon: CircleHelp,
     access: ["admin", "moderator", "user"],
-    path: "/requests",
+    path: "/leave-requests",
   },
   {
     name: "Calendar",

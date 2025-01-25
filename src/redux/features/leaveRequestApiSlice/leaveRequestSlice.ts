@@ -46,7 +46,7 @@ export const leaveRequestApi = leaveRequestApiWithTag.injectEndpoints({
     updateLeaveRequest: builder.mutation({
       query: (data) => {
         return {
-          url: `/leave-request/${data.id}`,
+          url: `/leave-request/${data._id}`,
           method: "PATCH",
           body: data,
         };

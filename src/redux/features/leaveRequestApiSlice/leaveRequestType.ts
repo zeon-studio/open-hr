@@ -4,11 +4,10 @@ export type TLeaveRequest = {
   leave_type: "casual" | "sick" | "earned" | "without_pay";
   start_date: Date;
   end_date: Date;
-  day_count: number;
+  day_count?: number;
   reason: string;
   status: "pending" | "approved" | "rejected";
-  submit_date: Date;
-  response_date: Date;
+  response_date?: Date;
   createdAt?: Date;
 };
 
