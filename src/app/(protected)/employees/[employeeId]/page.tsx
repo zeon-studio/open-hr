@@ -8,20 +8,36 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { Building, Calendar, Mail, Phone, UserRoundCog } from "lucide-react";
+import {
+  Building,
+  Calendar,
+  ChevronDown,
+  Mail,
+  Phone,
+  UserRoundCog,
+} from "lucide-react";
 import { notFound, useParams } from "next/navigation";
 import PersonalInfo from "./_components/personal-info";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { getDuration } from "@/lib/dateFormat";
+import { cn } from "@/lib/shadcn";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { SiDiscord, SiFacebook, SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
+import { useState } from "react";
 import Assets from "./_components/assets-details";
 import Courses from "./_components/course-details";
 import Document from "./_components/document-details";
 import Emergency from "./_components/emergency-details";
 import JobDetails from "./_components/job-details";
 import Offboarding from "./_components/offboarding";
+import Onboarding from "./_components/onboarding-details";
 
 const tabs = [
   {
@@ -55,11 +71,18 @@ const tabs = [
     content: <Emergency />,
   },
   {
+    label: "Onboarding",
+    value: "onboarding",
+    content: <Onboarding />,
+  },
+  {
     label: "Offboarding",
     value: "offboarding",
     content: <Offboarding />,
   },
 ];
+
+const DISTANCE = "278px";
 
 export default function Info() {
   const { employeeId } = useParams<{ employeeId: string }>();
@@ -89,10 +112,18 @@ export default function Info() {
   );
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
+  const [activeTab, setTab] = useState(tabs[0]);
 
   return (
-    <div className="bg-light mt-10 relative xl:pt-10 pt-4 flex sm:space-x-6 after:bg-primary after:absolute after:left-0 after:w-full min-[588px]:after:h-[166px] xl:after:h-[212px] after:rounded after:-top-0.5 xl:px-8 px-4 after:h-[206px]">
-      <div className="relative z-20 flex-none hidden xl:block">
+    <div
+      style={
+        {
+          "--distance": DISTANCE,
+        } as React.CSSProperties
+      }
+      className="bg-light mt-10 xl:pt-10 pt-4 flex xl:space-x-6"
+    >
+      <div className="z-30 relative flex-none hidden xl:block pl-8 pt-8">
         <div className="lg:size-28 xl:size-[210px] bg-light rounded overflow-hidden">
           <Avatar
             className="flex-none w-full rounded-none"
@@ -204,44 +235,84 @@ export default function Info() {
       </div>
 
       <div className="relative z-20 flex-1">
-        <div className="">
-          <div className="flex space-x-3 xl:space-x-0">
-            <div className="xl:hidden size-[80px] flex-none bg-light rounded overflow-hidden">
+        <div>
+          <div className="flex space-x-4 xl:space-x-0 relative after:absolute xl:after:-left-[var(--distance)] after:-z-10 after:bg-primary after:w-full xl:after:w-[calc(100%_+_var(--distance))] after:h-full after:rounded-t after:bottom-1 xl:px-8 px-4 lg:pb-6 2xl:pb-[60px] after:left-0 pt-4 xl:pt-8 max-lg:after:rounded">
+            <div className="xl:hidden size-[100px] flex-none bg-light rounded overflow-hidden translate-y-1">
               <Avatar
                 className="flex-none w-full rounded-none"
-                width={80}
-                height={80}
+                width={100}
+                height={100}
                 email={user?.email!}
-                src=""
+                src={""}
                 alt={user?.name || "employee"}
               />
             </div>
             <div>
-              <h2 className="text-primary-foreground">
+              <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5">
                 Hi, {data?.result.name}
               </h2>
-              <p className="text-primary-foreground/90">
+              <p className="text-sm font-semibold lg:text-base text-primary-foreground/90">
                 {jobData?.result.designation}
               </p>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant={"secondary"}
+                    className="bg-background mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 lg:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0"
+                  >
+                    <span>{activeTab.label}</span>
+                    <ChevronDown className="size-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="start"
+                  className="p-2 border-none bg-background"
+                >
+                  {tabs.map((tab, index) => (
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setTab(tab);
+                      }}
+                      key={tab.value}
+                      asChild
+                    >
+                      <Button
+                        className={cn(
+                          "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 lg:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 cursor-pointer p-1.5",
+
+                          tab.value === activeTab.value &&
+                            "bg-[#F3F4F6] text-text-dark"
+                        )}
+                        variant={"ghost"}
+                      >
+                        {tab.label}
+                      </Button>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
-          <Tabs
-            defaultValue={tabs[0].value}
-            className="mt-6 xl:mt-[51px] shadow-none"
-          >
-            <TabsList
-              defaultValue={tabs[0].value}
-              className="h-auto flex-wrap space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full"
-            >
+          <Tabs value={activeTab.value} className="shadow-none">
+            <TabsList className="h-auto flex-wrap gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full after:bg-primary relative after:absolute xl:after:w-[calc(100%_+_var(--distance))] xl:after:-left-[var(--distance)] after:w-full after:rounded-b after:bottom-1 xl:px-8 px-4 after:h-full after:-z-10 after:left-0 hidden lg:flex">
               {tabs.map((tab, index) => (
-                <div key={index} className="md:flex-1">
-                  <TabsTrigger value={tab.value} key={index} asChild>
-                    <Button className="rounded-none data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none md:px-6">
-                      {tab.label}
-                    </Button>
-                  </TabsTrigger>
-                </div>
+                <TabsTrigger
+                  value={tab.value}
+                  key={index}
+                  asChild
+                  className="data-[state=active]:bg-light"
+                >
+                  <Button
+                    onClick={() => {
+                      setTab(tab);
+                    }}
+                    className="rounded-none data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none md:px-6 data-[state=active]:ring-offset-0 data-[state=active]:ring-0 !shadow-none"
+                  >
+                    {tab.label}
+                  </Button>
+                </TabsTrigger>
               ))}
             </TabsList>
             {tabs.map((tab, index) => (

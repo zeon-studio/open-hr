@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Sidebar />
       </aside>
 
-      <div className="w-full p-5">
+      <div className="w-full p-5 bg-light">
         <Header />
         <main className="h-full rounded-lg bg-light">{children}</main>
       </div>
