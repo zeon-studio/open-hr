@@ -61,7 +61,7 @@ const Calendarcomponent = () => {
 
   return (
     <section className="p-4">
-      <div className="flex justify-between items-center relative -mb-10 z-10">
+      <div className="flex justify-between items-center relative -mb-10 z-10 w-fit">
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
             <Button>Add New</Button>
