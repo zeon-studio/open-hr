@@ -19,8 +19,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { memo, useMemo, useState } from "react";
 import { toast } from "sonner";
-import CoursePreview from "./CoursePreview";
-import CourseUpdate from "./CourseUpdate";
+import CoursePreview from "./course-preview";
+import CourseUpdate from "./course-update";
 
 const CoursePage = ({ course }: { course: TCourse[] }) => {
   const [courseId, setCourseId] = useState<string>("");

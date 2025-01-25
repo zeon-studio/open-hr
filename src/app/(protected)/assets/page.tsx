@@ -14,13 +14,13 @@ import {
 } from "@/components/ui/table";
 import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetCoursesQuery } from "@/redux/features/courseApiSlice/courseSlice";
+import { useGetAssetsQuery } from "@/redux/features/assetApiSlice/assetSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
-import CourseInsert from "./_components/course-insert";
-import CoursePage from "./_components/course-page";
+import AssetInsert from "./_components/asset-insert";
+import AssetPage from "./_components/asset-page";
 
-const Course = () => {
+const Asset = () => {
   const searchParams = useSearchParams();
   const { isDialogOpen, onDialogChange } = useDialog();
   const { limit } = useAppSelector((state) => state.filter);
@@ -28,19 +28,19 @@ const Course = () => {
   const search = searchParams.get("search");
 
   // get all Data
-  const { data } = useGetCoursesQuery({
+  const { data } = useGetAssetsQuery({
     page: page ? Number(page) : 1,
     limit: limit,
     search: search ? search : "",
   });
 
-  const { result: courses, meta } = data || {};
+  const { result: assets, meta } = data || {};
 
   const { localData } = useLocalCacheHook(
     {
-      data: courses!,
+      data: assets!,
     },
-    "erp-courses"
+    "erp-assets"
   );
 
   return (
@@ -50,7 +50,7 @@ const Course = () => {
           <DialogTrigger asChild>
             <Button>Add New Platform</Button>
           </DialogTrigger>
-          <CourseInsert onDialogChange={onDialogChange} />
+          <AssetInsert onDialogChange={onDialogChange} />
         </Dialog>
         <SearchBox />
         <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
@@ -59,17 +59,18 @@ const Course = () => {
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0 bg-white">Platform</TableHead>
-            <TableHead className="sticky top-0 bg-white">Courses</TableHead>
-            <TableHead className="sticky top-0 bg-white">Login ID</TableHead>
-            <TableHead className="sticky top-0 bg-white">Password</TableHead>
+            <TableHead className="sticky top-0 bg-white">Name</TableHead>
+            <TableHead className="sticky top-0 bg-white">User</TableHead>
+            <TableHead className="sticky top-0 bg-white">Tag ID</TableHead>
+            <TableHead className="sticky top-0 bg-white">Handover</TableHead>
+            <TableHead className="sticky top-0 bg-white">Purchase</TableHead>
             <TableHead className="sticky top-0 bg-white text-right">
               More
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {!courses?.length && (
+          {!assets?.length && (
             <TableRow>
               <TableCell colSpan={5}>
                 <div className="loader">
@@ -78,10 +79,10 @@ const Course = () => {
               </TableCell>
             </TableRow>
           )}
-          {courses?.length ? (
-            <CoursePage course={courses} />
+          {assets?.length ? (
+            <AssetPage asset={assets} />
           ) : (
-            <CoursePage course={localData} />
+            <AssetPage asset={localData} />
           )}
         </TableBody>
       </Table>
@@ -94,4 +95,4 @@ const Course = () => {
   );
 };
 
-export default Course;
+export default Asset;

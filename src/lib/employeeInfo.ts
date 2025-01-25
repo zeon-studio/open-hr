@@ -36,16 +36,8 @@ export const employeeInfoById = (id: string) => {
 };
 
 export const employeeGroupByDepartment = () => {
-  const employees = getEmployeesData();
-  const everyoneField = [
-    {
-      label: "Everyone",
-      options: [{ label: "Everyone", value: "everyone" }],
-    },
-  ];
-
-  const merged = employees || [];
-  const result = merged.reduce((acc: any[], curr: Employee) => {
+  const employees = getEmployeesData() || [];
+  const result = employees.reduce((acc: any[], curr: Employee) => {
     const department = (curr.department || "unassigned").toUpperCase();
     const employee = {
       label: curr.name,
@@ -65,5 +57,15 @@ export const employeeGroupByDepartment = () => {
     return acc;
   }, []);
 
-  return everyoneField.concat(result);
+  const extraFields = [
+    {
+      label: "COMMON",
+      options: [
+        { label: "No One", value: "none", department: "COMMON" },
+        { label: "Everyone", value: "everyone", department: "COMMON" },
+      ],
+    },
+  ];
+
+  return [...result, ...extraFields];
 };

@@ -1,6 +1,5 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
 import { transformCalSheetData } from "@/lib/calendarDataFormat";
 import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
 import {
@@ -8,6 +7,7 @@ import {
   TCalSheet,
 } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import CalendarInsertForm from "./CalendarInsertForm";
 import CalendarInsertSheet from "./CalendarInsertSheet";
 
@@ -16,12 +16,23 @@ const CalendarInsert = ({
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
-  const { toast } = useToast();
   const [loader, setLoader] = useState(false);
   const [calendarData, setCalendarData] = useState<TCalendar>({
     year: new Date().getFullYear(),
-    holidays: [],
-    events: [],
+    holidays: [
+      {
+        start_date: new Date(),
+        end_date: new Date(),
+        reason: "",
+      },
+    ],
+    events: [
+      {
+        start_date: new Date(),
+        end_date: new Date(),
+        reason: "",
+      },
+    ],
     createdAt: new Date(),
   });
   const [sheetData, setSheetData] = useState<TCalSheet>({
@@ -35,7 +46,16 @@ const CalendarInsert = ({
     e.preventDefault();
     setLoader(true);
     try {
-      // @ts-ignore
+      addCalendar(calendarData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSheetSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoader(true);
+    try {
       const data = transformCalSheetData(sheetData);
       addCalendar(data);
     } catch (error) {
@@ -54,14 +74,10 @@ const CalendarInsert = ({
       });
       // close modal/dialog
       onDialogChange(false);
-      toast({
-        title: "Calendar added complete",
-      });
+      toast("Calendar added complete");
     } else if (isError) {
       setLoader(false);
-      toast({
-        title: "something went wrong",
-      });
+      toast("something went wrong");
       console.log(error);
     }
   }, [isSuccess]);
@@ -74,7 +90,7 @@ const CalendarInsert = ({
       <DialogTitle className="mb-4">Add New Year Calendar</DialogTitle>
 
       <CalendarInsertSheet
-        handleSubmit={handleSubmit}
+        handleSubmit={handleSheetSubmit}
         sheetData={sheetData}
         setSheetData={setSheetData}
         loader={loader}
@@ -86,7 +102,12 @@ const CalendarInsert = ({
         <Separator className="w-2/5" />
       </div>
 
-      <CalendarInsertForm handleSubmit={handleSubmit} loader={loader} />
+      <CalendarInsertForm
+        calendarData={calendarData}
+        setCalendarData={setCalendarData}
+        handleSubmit={handleSubmit}
+        loader={loader}
+      />
     </DialogContent>
   );
 };

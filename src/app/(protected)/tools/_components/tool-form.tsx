@@ -20,52 +20,55 @@ import {
   employeeGroupByDepartment,
   employeeInfoById,
 } from "@/lib/employeeInfo";
-import {
-  TCourse,
-  TCourseItem,
-} from "@/redux/features/courseApiSlice/courseType";
+import { TOrganization, TTool } from "@/redux/features/toolApiSlice/toolType";
 import { CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { SetStateAction, useEffect, useState } from "react";
 
-const CourseForm = ({
-  courseData,
-  setCourseData,
+const ToolForm = ({
+  toolData,
+  setToolData,
   handleSubmit,
   loader,
   formType,
 }: {
-  courseData: Partial<TCourse>;
-  setCourseData: SetStateAction<any>;
+  toolData: Partial<TTool>;
+  setToolData: SetStateAction<any>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
   formType: string;
 }) => {
-  const [courseItems, setCourseItems] = useState<TCourseItem[]>(
-    courseData.courses || []
+  const [toolItems, setToolItems] = useState<TOrganization[]>(
+    toolData.organizations || []
   );
 
   // set product files to productData state
   useEffect(() => {
-    setCourseData((prev: Partial<TCourse>) => ({
+    setToolData((prev: Partial<TTool>) => ({
       ...prev,
-      courses: courseItems.map((courseItem) => ({
-        name: courseItem.name,
-        price: courseItem.price,
-        currency: courseItem.currency,
-        users: courseItem.users,
-        purchase_date: courseItem.purchase_date,
-        expire_date: courseItem.expire_date,
+      organizations: toolItems.map((toolItem) => ({
+        name: toolItem.name,
+        price: toolItem.price,
+        billing: toolItem.billing,
+        login_id: toolItem.login_id,
+        password: toolItem.password,
+        currency: toolItem.currency,
+        users: toolItem.users,
+        purchase_date: toolItem.purchase_date,
+        expire_date: toolItem.expire_date,
       })),
     }));
-  }, [courseItems]);
+  }, [toolItems]);
 
   // add new product field for upload files to bucket
-  const handleAddCourseItem = () => {
-    setCourseItems([
-      ...courseItems,
+  const handleAddToolItem = () => {
+    setToolItems([
+      ...toolItems,
       {
         name: "",
         price: 0,
+        billing: "onetime",
+        login_id: "",
+        password: "",
         currency: "bdt",
         users: [],
       },
@@ -73,8 +76,8 @@ const CourseForm = ({
   };
 
   // delete product file
-  const handleDeleteCourseItem = async (index: number) => {
-    setCourseItems((prevItems) => prevItems.filter((_, i) => i !== index));
+  const handleDeleteToolItem = async (index: number) => {
+    setToolItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };
 
   return (
@@ -83,9 +86,9 @@ const CourseForm = ({
         <Label>Platform</Label>
         <Input
           type="text"
-          value={courseData.platform!}
+          value={toolData.platform!}
           onChange={(e: any) =>
-            setCourseData({ ...courseData, platform: e.target.value })
+            setToolData({ ...toolData, platform: e.target.value })
           }
           required
         />
@@ -94,95 +97,76 @@ const CourseForm = ({
         <Label>Website</Label>
         <Input
           type="text"
-          value={courseData.website!}
+          value={toolData.website!}
           onChange={(e: any) =>
-            setCourseData({ ...courseData, website: e.target.value })
-          }
-          required
-        />
-      </div>
-      <div className="lg:col-6 mb-4">
-        <Label>Email</Label>
-        <Input
-          type="email"
-          value={courseData.email!}
-          onChange={(e: any) =>
-            setCourseData({ ...courseData, email: e.target.value })
-          }
-          required
-        />
-      </div>
-      <div className="lg:col-6 mb-4">
-        <Label>Password</Label>
-        <Input
-          type="text"
-          value={courseData.password!}
-          onChange={(e: any) =>
-            setCourseData({ ...courseData, password: e.target.value })
+            setToolData({ ...toolData, website: e.target.value })
           }
           required
         />
       </div>
       <div className="col-12 mb-6">
-        {courseItems.map((item, index) => (
-          <div className="border mb-6 bg-light rounded-md p-3" key={index}>
+        {toolItems.map((item, index) => (
+          <div
+            className="border relative mb-6 bg-light rounded-md p-3"
+            key={index}
+          >
+            <div className="absolute right-3 top-3">
+              <Button
+                type="button"
+                onClick={() => handleDeleteToolItem(index)}
+                size={"xs"}
+                variant="outline"
+              >
+                <Trash2 size={16} />
+              </Button>
+            </div>
             <div className="row">
-              {/* Course Name */}
-              <div className="col-12 mb-4">
-                <Label className="flex justify-between items-center">
-                  Course Name{" "}
-                  <Button
-                    type="button"
-                    onClick={() => handleDeleteCourseItem(index)}
-                    size={"xs"}
-                    variant="outline"
-                  >
-                    <Trash2 size={16} />
-                  </Button>
-                </Label>
+              {/* Tool Name */}
+              <div className="lg:col-6 mb-4">
+                <Label>Tool Name</Label>
                 <Input
                   type="text"
                   value={item.name}
                   onChange={(e) => {
-                    const updatedCourseItems = [...courseItems];
-                    updatedCourseItems[index] = {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
                       ...item,
                       name: e.target.value,
                     };
-                    setCourseItems(updatedCourseItems);
+                    setToolItems(updatedToolItems);
                   }}
                   required
                 />
               </div>
-              {/* Course Price */}
+              {/* Tool Price */}
               <div className="lg:col-6 mb-4">
-                <Label>Course Price</Label>
+                <Label>Tool Price</Label>
                 <Input
                   type="number"
                   value={item.price}
                   onChange={(e) => {
-                    const updatedCourseItems = [...courseItems];
-                    updatedCourseItems[index] = {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
                       ...item,
                       price: Number(e.target.value),
                     };
-                    setCourseItems(updatedCourseItems);
+                    setToolItems(updatedToolItems);
                   }}
                   required
                 />
               </div>
-              {/* Course Currency */}
+              {/* Tool Currency */}
               <div className="lg:col-6 mb-4">
-                <Label>Course Currency</Label>
+                <Label>Tool Currency</Label>
                 <Select
                   value={item.currency}
                   onValueChange={(value) => {
-                    const updatedCourseItems = [...courseItems];
-                    updatedCourseItems[index] = {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
                       ...item,
                       currency: value,
                     };
-                    setCourseItems(updatedCourseItems);
+                    setToolItems(updatedToolItems);
                   }}
                 >
                   <SelectTrigger className="w-full">
@@ -196,6 +180,69 @@ const CourseForm = ({
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Tool Billing */}
+              <div className="lg:col-6 mb-4">
+                <Label>Tool Billing</Label>
+                <Select
+                  value={item.billing}
+                  onValueChange={(value) => {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
+                      ...item,
+                      billing: value as "monthly" | "yearly" | "onetime",
+                    };
+                    setToolItems(updatedToolItems);
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Currency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {options.billing.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* login id */}
+              <div className="lg:col-6 mb-4">
+                <Label>Login ID</Label>
+                <Input
+                  type="text"
+                  value={item.login_id}
+                  onChange={(e) => {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
+                      ...item,
+                      login_id: e.target.value,
+                    };
+                    setToolItems(updatedToolItems);
+                  }}
+                  required
+                />
+              </div>
+
+              {/* password */}
+              <div className="lg:col-6 mb-4">
+                <Label>Password</Label>
+                <Input
+                  type="text"
+                  value={item.password}
+                  onChange={(e) => {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
+                      ...item,
+                      password: e.target.value,
+                    };
+                    setToolItems(updatedToolItems);
+                  }}
+                  required
+                />
               </div>
 
               {/* purchase date */}
@@ -218,7 +265,7 @@ const CourseForm = ({
                             <X
                               className="cursor-pointer border-box ml-auto h-4 w-4 opacity-50"
                               onClick={() =>
-                                setCourseItems((prevItems) => {
+                                setToolItems((prevItems) => {
                                   const updatedItems = [...prevItems];
                                   updatedItems[index] = {
                                     ...item,
@@ -246,7 +293,7 @@ const CourseForm = ({
                           : new Date()
                       }
                       onSelect={(e: any) =>
-                        setCourseItems((prevItems) => {
+                        setToolItems((prevItems) => {
                           const updatedItems = [...prevItems];
                           updatedItems[index] = {
                             ...item,
@@ -280,7 +327,7 @@ const CourseForm = ({
                             <X
                               className="cursor-pointer border-box ml-auto h-4 w-4 opacity-50"
                               onClick={() =>
-                                setCourseItems((prevItems) => {
+                                setToolItems((prevItems) => {
                                   const updatedItems = [...prevItems];
                                   updatedItems[index] = {
                                     ...item,
@@ -308,7 +355,7 @@ const CourseForm = ({
                           : new Date()
                       }
                       onSelect={(e: any) =>
-                        setCourseItems((prevItems) => {
+                        setToolItems((prevItems) => {
                           const updatedItems = [...prevItems];
                           updatedItems[index] = {
                             ...item,
@@ -338,12 +385,12 @@ const CourseForm = ({
                   placeholder="Select users"
                   hidePlaceholderWhenSelected={true}
                   onChange={(value) => {
-                    const updatedCourseItems = [...courseItems];
-                    updatedCourseItems[index] = {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
                       ...item,
                       users: value.map((user) => user.value),
                     };
-                    setCourseItems(updatedCourseItems);
+                    setToolItems(updatedToolItems);
                   }}
                   className="border-border/30"
                   groupBy="department"
@@ -355,12 +402,12 @@ const CourseForm = ({
 
         <Button
           type="button"
-          onClick={handleAddCourseItem}
+          onClick={handleAddToolItem}
           size={"sm"}
           className="w-full"
           variant="outline"
         >
-          Add Course
+          Add Tool
         </Button>
       </div>
 
@@ -390,7 +437,7 @@ const CourseForm = ({
                 <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
               </>
             ) : (
-              "Update Course Platform"
+              "Update Tool Platform"
             )}
           </Button>
         </div>
@@ -399,4 +446,4 @@ const CourseForm = ({
   );
 };
 
-export default CourseForm;
+export default ToolForm;
