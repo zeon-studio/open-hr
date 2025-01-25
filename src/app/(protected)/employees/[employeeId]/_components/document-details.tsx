@@ -43,7 +43,7 @@ export default function Document() {
         </UploadDialog>
       </div>
       <Card>
-        <CardHeader>
+        <CardHeader className="border-0 pb-0">
           <CardTitle>Employee Uploads</CardTitle>
         </CardHeader>
         <CardContent>

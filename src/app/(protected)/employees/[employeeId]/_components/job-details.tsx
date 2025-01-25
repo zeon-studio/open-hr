@@ -33,7 +33,7 @@ export default function JobDetails() {
   return (
     <div className="space-y-8">
       <Card>
-        <CardHeader className="border-b-transparent">
+        <CardHeader className="border-b-transparent pb-0">
           <CardTitle>Job Information</CardTitle>
         </CardHeader>
         <CardContent>
@@ -94,7 +94,7 @@ export default function JobDetails() {
       </Card>
 
       <Card>
-        <CardHeader className="border-transparent">
+        <CardHeader className="border-transparent pb-0">
           <CardTitle>Previous jobs</CardTitle>
         </CardHeader>
         <CardContent>

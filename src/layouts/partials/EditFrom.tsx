@@ -37,7 +37,7 @@ export default function EditFrom<T>({
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="border-0 pb-0">
         <CardTitle className="justify-between flex items-center">
           <span>{title}</span>
           {isReadOnly ? (
