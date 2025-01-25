@@ -319,8 +319,8 @@ const AssetForm = ({
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
-                      variant={"outline"}
-                      className="w-full flex justify-between border-border/30 rounded"
+                      variant={"input"}
+                      className="w-full flex justify-between"
                     >
                       {item.date ? (
                         new Date(item.date).toDateString()
