@@ -134,5 +134,19 @@
       "label": "USD",
       "value": "usd"
     }
+  ],
+  "billing": [
+    {
+      "label": "Monthly",
+      "value": "monthly"
+    },
+    {
+      "label": "Yearly",
+      "value": "yearly"
+    },
+    {
+      "label": "One Time",
+      "value": "onetime"
+    }
   ]
 }
