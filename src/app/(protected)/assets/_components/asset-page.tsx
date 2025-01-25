@@ -84,7 +84,9 @@ const AssetModal = ({
           <UserInfo user={employeeInfoById(item.user)} />
         </TableCell>
         <TableCell>{item.asset_id}</TableCell>
-        <TableCell>Handover</TableCell>
+        <TableCell>
+          {item.price} <span className="uppercase">{item.currency}</span>
+        </TableCell>
         <TableCell>{dateFormat(item.purchase_date)}</TableCell>
         <TableCell className="text-right">
           <DropdownMenuTrigger>

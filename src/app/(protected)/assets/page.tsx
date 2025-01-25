@@ -62,7 +62,7 @@ const Asset = () => {
             <TableHead className="sticky top-0 bg-white">Name</TableHead>
             <TableHead className="sticky top-0 bg-white">User</TableHead>
             <TableHead className="sticky top-0 bg-white">Tag ID</TableHead>
-            <TableHead className="sticky top-0 bg-white">Handover</TableHead>
+            <TableHead className="sticky top-0 bg-white">Price</TableHead>
             <TableHead className="sticky top-0 bg-white">Purchase</TableHead>
             <TableHead className="sticky top-0 bg-white text-right">
               More
