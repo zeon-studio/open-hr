@@ -207,8 +207,8 @@ const CourseForm = ({
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
-                      variant={"outline"}
-                      className="w-full flex justify-between border-border/30 rounded"
+                      variant={"input"}
+                      className="w-full flex justify-between"
                     >
                       {item.purchase_date ? (
                         new Date(item.purchase_date).toDateString()
@@ -269,8 +269,8 @@ const CourseForm = ({
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
-                      variant={"outline"}
-                      className="w-full flex justify-between border-border/30 rounded"
+                      variant={"input"}
+                      className="w-full flex justify-between"
                     >
                       {item.expire_date ? (
                         new Date(item.expire_date).toDateString()
