@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import options from "@/config/options.json";
 import EditFrom from "@/partials/EditFrom";
 import {
   useGetEmployeeQuery,
@@ -157,14 +158,18 @@ export default function PersonalInfo() {
                       <SelectValue placeholder="Blood" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="A+">A+</SelectItem>
-                      <SelectItem value="A-">A-</SelectItem>
-                      <SelectItem value="B+">B+</SelectItem>
-                      <SelectItem value="B-">B-</SelectItem>
-                      <SelectItem value="AB+">AB+</SelectItem>
-                      <SelectItem value="AB-">AB-</SelectItem>
-                      <SelectItem value="O+">O+</SelectItem>
-                      <SelectItem value="O-">O-</SelectItem>
+                      {options.employee_blood_group.map(
+                        (employee_blood_group) => {
+                          return (
+                            <SelectItem
+                              key={employee_blood_group.value}
+                              value={employee_blood_group.value}
+                            >
+                              {employee_blood_group.label}
+                            </SelectItem>
+                          );
+                        }
+                      )}
                     </SelectContent>
                   </Select>
                 )}
@@ -179,12 +184,16 @@ export default function PersonalInfo() {
                 ) : (
                   <Select name="marital_status" value={data.marital_status}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Blood" />
+                      <SelectValue placeholder="Marital Status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Married">Married</SelectItem>
-                      <SelectItem value="Unmarried">Unmarried</SelectItem>
-                      <SelectItem value="Divorced">Divorced</SelectItem>
+                      {options.employee_marital_status.map((status) => {
+                        return (
+                          <SelectItem key={status.value} value={status.value}>
+                            {status.label}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 )}
