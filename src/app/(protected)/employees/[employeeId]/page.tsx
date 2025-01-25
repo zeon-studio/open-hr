@@ -83,8 +83,6 @@ const tabs = [
   },
 ];
 
-const DISTANCE = "278px";
-
 export default function Info() {
   const { employeeId } = useParams<{ employeeId: string }>();
   const { data: session } = useSession();
@@ -116,14 +114,7 @@ export default function Info() {
   const [activeTab, setTab] = useState(tabs[0]);
 
   return (
-    <div
-      style={
-        {
-          "--distance": DISTANCE,
-        } as React.CSSProperties
-      }
-      className="bg-light"
-    >
+    <div className="bg-light">
       <Tabs value={activeTab.value}>
         <div className="flex xl:grid grid-cols-10 gap-5 2xl:grid-cols-12 bg-primary p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6">
           <div className="col-span-5 lg:col-span-2 2xl:col-span-2 translate-y-6 2xl:translate-y-8">
@@ -212,7 +203,7 @@ export default function Info() {
         </div>
 
         <div className="grid gap-5 xl:grid-cols-12 mt-14 xl:mt-16">
-          <div className="space-y-5 col-span-3 hidden xl:block">
+          <div className="space-y-5 col-span-3 2xl:col-span-2 hidden xl:block">
             <div>
               <h6 className="text-base font-semibold mb-4">Vitals</h6>
               <ul className="list-none space-y-4">
@@ -229,14 +220,14 @@ export default function Info() {
                 </li>
 
                 <li className="flex space-x-2">
-                  <Phone className="size-4" />
+                  <Phone className="size-4 flex-none" />
                   <span className="flex space-x-2 text-xs">
                     {data?.result.phone}
                   </span>
                 </li>
 
                 <li className="flex space-x-2">
-                  <Mail className="size-4" />
+                  <Mail className="size-4 flex-none" />
                   <span className="flex space-x-2 text-xs">
                     {data?.result.work_email}
                   </span>
@@ -314,7 +305,7 @@ export default function Info() {
               </ul>
             </div>
           </div>
-          <div className="col-span-9 xl:pl-6">
+          <div className="2xl:col-span-10 col-span-9 xl:pl-6">
             {tabs.map((tab, index) => (
               <TabsContent
                 key={index}
