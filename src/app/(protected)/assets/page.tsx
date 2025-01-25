@@ -14,13 +14,13 @@ import {
 } from "@/components/ui/table";
 import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetToolsQuery } from "@/redux/features/toolApiSlice/toolSlice";
+import { useGetAssetsQuery } from "@/redux/features/assetApiSlice/assetSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
-import ToolInsert from "./_components/tool-insert";
-import ToolPage from "./_components/tool-page";
+import AssetInsert from "./_components/asset-insert";
+import AssetPage from "./_components/asset-page";
 
-const Tool = () => {
+const Asset = () => {
   const searchParams = useSearchParams();
   const { isDialogOpen, onDialogChange } = useDialog();
   const { limit } = useAppSelector((state) => state.filter);
@@ -28,19 +28,19 @@ const Tool = () => {
   const search = searchParams.get("search");
 
   // get all Data
-  const { data } = useGetToolsQuery({
+  const { data } = useGetAssetsQuery({
     page: page ? Number(page) : 1,
     limit: limit,
     search: search ? search : "",
   });
 
-  const { result: tools, meta } = data || {};
+  const { result: assets, meta } = data || {};
 
   const { localData } = useLocalCacheHook(
     {
-      data: tools!,
+      data: assets!,
     },
-    "erp-tools"
+    "erp-assets"
   );
 
   return (
@@ -50,7 +50,7 @@ const Tool = () => {
           <DialogTrigger asChild>
             <Button>Add New Platform</Button>
           </DialogTrigger>
-          <ToolInsert onDialogChange={onDialogChange} />
+          <AssetInsert onDialogChange={onDialogChange} />
         </Dialog>
         <SearchBox />
         <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
@@ -59,30 +59,30 @@ const Tool = () => {
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0 bg-white">Platform</TableHead>
-            <TableHead className="sticky top-0 bg-white">Website</TableHead>
-            <TableHead className="sticky top-0 bg-white">
-              Organizations
-            </TableHead>
+            <TableHead className="sticky top-0 bg-white">Name</TableHead>
+            <TableHead className="sticky top-0 bg-white">User</TableHead>
+            <TableHead className="sticky top-0 bg-white">Tag ID</TableHead>
+            <TableHead className="sticky top-0 bg-white">Handover</TableHead>
+            <TableHead className="sticky top-0 bg-white">Purchase</TableHead>
             <TableHead className="sticky top-0 bg-white text-right">
               More
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {!tools?.length && (
+          {!assets?.length && (
             <TableRow>
-              <TableCell colSpan={4}>
+              <TableCell colSpan={5}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>
               </TableCell>
             </TableRow>
           )}
-          {tools?.length ? (
-            <ToolPage tool={tools} />
+          {assets?.length ? (
+            <AssetPage asset={assets} />
           ) : (
-            <ToolPage tool={localData} />
+            <AssetPage asset={localData} />
           )}
         </TableBody>
       </Table>
@@ -95,4 +95,4 @@ const Tool = () => {
   );
 };
 
-export default Tool;
+export default Asset;

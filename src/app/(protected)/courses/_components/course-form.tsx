@@ -125,7 +125,10 @@ const CourseForm = ({
       </div>
       <div className="col-12 mb-6">
         {courseItems.map((item, index) => (
-          <div className="border mb-6 bg-light rounded-md p-3" key={index}>
+          <div
+            className="border mb-6 relative bg-light rounded-md p-3"
+            key={index}
+          >
             <div className="absolute right-3 top-3">
               <Button
                 type="button"

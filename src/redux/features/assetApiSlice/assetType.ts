@@ -1,11 +1,11 @@
-export type TLog = {
+export type TAssetLog = {
   type: "handover" | "return" | "repair" | "lost" | "damaged";
   description: string;
   date: Date;
 };
 
 export type TAsset = {
-  asset_id: string;
+  asset_id?: string;
   user: string;
   name: string;
   type:
@@ -26,9 +26,9 @@ export type TAsset = {
   price: number;
   currency: "bdt" | "usd";
   purchase_date: Date;
-  archive: boolean;
+  status: "active" | "inactive" | "lost" | "damaged";
   note: string;
-  logs: TLog[];
+  logs: TAssetLog[];
   createdAt?: Date;
 };
 
@@ -44,5 +44,5 @@ export type TAssetState<T = TAsset[]> = {
 export type TAllAssetsState = {
   success: boolean;
   message: string;
-  result: (TAsset & { handover: TLog })[];
+  result: (TAsset & { handover: TAssetLog })[];
 };

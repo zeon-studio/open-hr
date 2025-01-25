@@ -45,7 +45,7 @@ export const assetApi = assetApiWithTag.injectEndpoints({
     updateAsset: builder.mutation({
       query: (data) => {
         return {
-          url: `/asset/${data.id}`,
+          url: `/asset/${data.asset_id}`,
           method: "PATCH",
           body: data,
         };

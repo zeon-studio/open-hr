@@ -148,5 +148,99 @@
       "label": "One Time",
       "value": "onetime"
     }
+  ],
+  "asset_type": [
+    {
+      "label": "Macbook",
+      "value": "macbook"
+    },
+    {
+      "label": "Mac Mini",
+      "value": "macmini"
+    },
+    {
+      "label": "iMac",
+      "value": "imac"
+    },
+    {
+      "label": "Laptop",
+      "value": "laptop"
+    },
+    {
+      "label": "Desktop",
+      "value": "desktop"
+    },
+    {
+      "label": "Mobile",
+      "value": "mobile"
+    },
+    {
+      "label": "Keyboard",
+      "value": "keyboard"
+    },
+    {
+      "label": "Mouse",
+      "value": "mouse"
+    },
+    {
+      "label": "Monitor",
+      "value": "monitor"
+    },
+    {
+      "label": "Headset",
+      "value": "headset"
+    },
+    {
+      "label": "Printer",
+      "value": "printer"
+    },
+    {
+      "label": "Router",
+      "value": "router"
+    },
+    {
+      "label": "Other",
+      "value": "other"
+    }
+  ],
+  "asset_status": [
+    {
+      "label": "Active",
+      "value": "active"
+    },
+    {
+      "label": "Inactive",
+      "value": "inactive"
+    },
+    {
+      "label": "Lost",
+      "value": "lost"
+    },
+    {
+      "label": "Damaged",
+      "value": "damaged"
+    }
+  ],
+  "asset_log_type": [
+    {
+      "label": "Handover",
+      "value": "handover"
+    },
+    {
+      "label": "Return",
+      "value": "return"
+    },
+    {
+      "label": "Repair",
+      "value": "repair"
+    },
+    {
+      "label": "Lost",
+      "value": "lost"
+    },
+    {
+      "label": "Damaged",
+      "value": "damaged"
+    }
   ]
 }
