@@ -13,7 +13,7 @@ export default function Courses() {
   return (
     <div>
       <h5 className="mb-4">Courses</h5>
-      <Card>
+      <Card className="overflow-hidden">
         <CardContent
           className={
             isLoading || !data?.result.length! ? "py-20" : "p-0 overflow-hidden"

@@ -10,8 +10,8 @@ export default function Assets() {
 
   return (
     <div>
-      <h5 className="mb-4">Courses</h5>
-      <Card>
+      <h5 className="mb-4">Assets</h5>
+      <Card className="overflow-hidden">
         <CardContent
           className={
             isLoading || !data?.result.length! ? "py-20" : "p-0 overflow-hidden"

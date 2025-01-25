@@ -1,35 +1,43 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useGetEmployeeOffboardingQuery } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
-import { TOffboardingTask } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingType";
+import { employeeInfoById } from "@/lib/employeeInfo";
+import { useGetEmployeeOnboardingQuery } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
+import { TOnboardingTask } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingType";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 
-export default function Offboarding() {
+export default function Onboarding() {
   const { employeeId } = useParams<{ employeeId: string }>();
-  const { data, isLoading } = useGetEmployeeOffboardingQuery(employeeId);
-  const task = data?.result ?? {};
+  const { isLoading, data } = useGetEmployeeOnboardingQuery(employeeId);
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className={"py-20"}>
+          <div className="flex justify-center items-center">
+            <Loader2 className="animate-spin size-5" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <div>
       <h5 className="mb-4">Onboarding</h5>
-      <Card className="overflow-hidden">
-        <CardContent className={isLoading ? "py-20" : "p-0 overflow-hidden"}>
-          {isLoading ? (
-            <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin size-5" />
-            </div>
-          ) : data?.result ? (
+      <Card>
+        <CardContent>
+          {data?.result ? (
             <div className="flex flex-col gap-4">
               <ul className="space-y-3">
-                {Object.entries(task).map(([taskName, value]) => {
-                  const taskValue = value as TOffboardingTask;
+                {Object.entries(data.result).map(([taskName, value]) => {
+                  const taskValue = value as TOnboardingTask;
                   if (!taskValue.task_name) return null;
                   const variants = {
-                    Completed: "success",
-                    Pending: "warning",
-                    Scheduled: "info",
-                    "Not Started": "error",
+                    completed: "success",
+                    pending: "warning",
+                    scheduled: "info",
+                    "not started": "error",
                   };
 
                   return (
@@ -52,7 +60,7 @@ export default function Offboarding() {
                           Assign To:
                         </small>
                         <strong className="text-h6 font-medium capitalize">
-                          {taskValue.assigned_to}
+                          {employeeInfoById(taskValue.assigned_to).name}
                         </strong>
                       </div>
                       <div>

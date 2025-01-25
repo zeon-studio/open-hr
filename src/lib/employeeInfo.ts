@@ -16,6 +16,7 @@ const getEmployeesData = () => {
       result: Employee[];
     };
   };
+
   return employees?.data?.result;
 };
 

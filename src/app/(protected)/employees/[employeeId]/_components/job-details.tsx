@@ -1,15 +1,28 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getDuration } from "@/lib/dateFormat";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 export default function JobDetails() {
   const { data: session } = useSession();
   const user = session?.user;
-  const { data } = useGetEmployeeJobQuery(user?.id!, {
+  const { data, isLoading } = useGetEmployeeJobQuery(user?.id!, {
     skip: !user?.id,
   });
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className={"py-20"}>
+          <div className="flex justify-center items-center">
+            <Loader2 className="animate-spin size-5" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const employmentDuration = getDuration(
     data?.result.joining_date!,
@@ -20,7 +33,7 @@ export default function JobDetails() {
   return (
     <div className="space-y-8">
       <Card>
-        <CardHeader className="border-b-transparent">
+        <CardHeader className="border-b-transparent pb-0">
           <CardTitle>Job Information</CardTitle>
         </CardHeader>
         <CardContent>
@@ -81,7 +94,7 @@ export default function JobDetails() {
       </Card>
 
       <Card>
-        <CardHeader className="border-transparent">
+        <CardHeader className="border-transparent pb-0">
           <CardTitle>Previous jobs</CardTitle>
         </CardHeader>
         <CardContent>
