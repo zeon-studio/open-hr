@@ -42,7 +42,6 @@ const Calendarcomponent = () => {
   );
   let events = currentYear?.map((a) => [
     ...a.holidays.map((holiday) => ({
-      name: holiday.reason,
       start_date: new Date(holiday.start_date),
       end_date: new Date(holiday.end_date),
       day_count: holiday.day_count,
@@ -50,7 +49,6 @@ const Calendarcomponent = () => {
       type: "holiday",
     })),
     ...a.events.map((event) => ({
-      name: event.reason,
       start_date: new Date(event.start_date),
       end_date: new Date(event.end_date),
       day_count: event.day_count,
@@ -63,7 +61,7 @@ const Calendarcomponent = () => {
 
   return (
     <section className="p-4">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center relative -mb-10 z-10">
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
             <Button>Add New</Button>
