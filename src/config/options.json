@@ -242,5 +242,23 @@
       "label": "Damaged",
       "value": "damaged"
     }
+  ],
+  "leave_type": [
+    {
+      "label": "Casual",
+      "value": "casual"
+    },
+    {
+      "label": "Earned",
+      "value": "earned"
+    },
+    {
+      "label": "Sick",
+      "value": "sick"
+    },
+    {
+      "label": "Without Pay",
+      "value": "without_pay"
+    }
   ]
 }
