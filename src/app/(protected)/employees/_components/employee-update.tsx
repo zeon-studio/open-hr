@@ -1,90 +1,43 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useUpdateEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useDialog } from "@/hooks/useDialog";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
-import { ExternalLinkIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { EllipsisVerticalIcon } from "lucide-react";
 import EmployeeForm from "./employee-form";
 
-const EmployeeUpdate = ({
+export default function EmployeeUpdateModal({
   employee,
-  onDialogChange,
 }: {
   employee: TEmployee;
-  onDialogChange: (open: boolean) => void;
-}) => {
-  const [loader, setLoader] = useState(false);
-  const [employeeData, setEmployeeData] = useState<Partial<TEmployee>>({
-    id: employee?.id,
-    name: "",
-    image: "",
-    work_email: "",
-    personal_email: "",
-    dob: new Date(),
-    nid: "",
-    tin: "",
-    phone: "",
-    gender: "",
-    blood_group: "",
-    marital_status: "",
-    present_address: "",
-    permanent_address: "",
-    facebook: "",
-    twitter: "",
-    linkedin: "",
-    note: "",
-    status: "",
-    role: "",
-  });
-
-  const [updateProduct, { isSuccess, isError, error }] =
-    useUpdateEmployeeMutation();
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    updateProduct(employeeData as TEmployee);
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      setLoader(false);
-      toast("Product updated complete");
-      // close modal
-      onDialogChange(false);
-    } else if (isError) {
-      setLoader(false);
-      toast("something went wrong");
-      console.log(error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
+}) {
+  const { isDialogOpen, onDialogChange } = useDialog();
 
   return (
-    <DialogContent
-      className="max-w-4xl overflow-y-auto h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
-      <DialogTitle className="mb-4 capitalize">
-        Update {employee?.name} (
-        <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href={`https://uihut.com/employees/${employee?.id}`}
-        >
-          {employee?.id}{" "}
-          <ExternalLinkIcon className="w-5 h-5 align-bottom inline-block" />
-        </a>
-        )
-      </DialogTitle>
-      <EmployeeForm
-        handleSubmit={handleSubmit}
-        employeeData={employeeData}
-        setEmployeeData={setEmployeeData}
-        formType="update"
-        loader={loader}
-      />
-    </DialogContent>
-  );
-};
+    <Dialog modal open={isDialogOpen} onOpenChange={onDialogChange}>
+      <DialogTrigger>
+        <EllipsisVerticalIcon />
+      </DialogTrigger>
 
-export default EmployeeUpdate;
+      <DialogContent className="max-w-4xl overflow-y-auto h-[90vh]">
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+
+          <EmployeeForm
+            onDialogChange={onDialogChange}
+            formType="update"
+            data={employee}
+          />
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+}
