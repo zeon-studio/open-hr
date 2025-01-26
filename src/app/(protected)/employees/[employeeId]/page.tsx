@@ -143,7 +143,10 @@ export default function Info() {
             <div className="mt-auto xl:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 rounded-b-none bg-light">
+                  <Button
+                    variant={"secondary"}
+                    className="mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 rounded-b-none bg-light shadow-none"
+                  >
                     <span>{activeTab.label}</span>
                     <ChevronDown className="size-4" />
                   </Button>
