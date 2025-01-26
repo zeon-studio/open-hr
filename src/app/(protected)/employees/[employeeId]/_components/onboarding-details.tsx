@@ -1,13 +1,18 @@
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { employeeInfoById } from "@/lib/employeeInfo";
 import { useGetEmployeeOnboardingQuery } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
 import { TOnboardingTask } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingType";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
 export default function Onboarding() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const { isLoading, data } = useGetEmployeeOnboardingQuery(employeeId);
 
   if (isLoading) {
@@ -24,9 +29,11 @@ export default function Onboarding() {
 
   return (
     <div>
-      <h5 className="mb-4">Onboarding</h5>
       <Card>
-        <CardContent>
+        <CardHeader className="border-b-transparent">
+          <CardTitle>Onboarding</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-0">
           {data?.result ? (
             <div className="flex flex-col gap-4">
               <ul className="space-y-3">
@@ -81,7 +88,9 @@ export default function Onboarding() {
             </div>
           ) : (
             <>
-              <p className="text-center text-muted-foreground"></p>
+              <p className="text-center text-muted-foreground py-20">
+                No tasks assigned.
+              </p>
             </>
           )}
         </CardContent>

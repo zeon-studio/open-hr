@@ -1,20 +1,29 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetAssetsByUserQuery } from "@/redux/features/assetApiSlice/assetSlice";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
 export default function Assets() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const { data, isLoading } = useGetAssetsByUserQuery(employeeId);
 
   return (
     <div>
-      <h5 className="mb-4">Assets</h5>
       <Card className="overflow-hidden">
+        <CardHeader className="border-b-transparent">
+          <CardTitle>Assets</CardTitle>
+        </CardHeader>
         <CardContent
           className={
-            isLoading || !data?.result.length! ? "py-20" : "p-0 overflow-hidden"
+            isLoading || !data?.result.length!
+              ? "py-20"
+              : "overflow-hidden pt-0"
           }
         >
           {isLoading ? (

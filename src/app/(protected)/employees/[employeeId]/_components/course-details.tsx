@@ -1,22 +1,31 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetCoursesByUserQuery } from "@/redux/features/courseApiSlice/courseSlice";
 import { format } from "date-fns";
 import { ExternalLink, Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export default function Courses() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const { data, isLoading } = useGetCoursesByUserQuery(employeeId);
 
   return (
     <div>
-      <h5 className="mb-4">Courses</h5>
       <Card className="overflow-hidden">
+        <CardHeader className="border-b-transparent">
+          <CardTitle>Courses</CardTitle>
+        </CardHeader>
         <CardContent
           className={
-            isLoading || !data?.result.length! ? "py-20" : "p-0 overflow-hidden"
+            isLoading || !data?.result.length!
+              ? "py-20"
+              : "pt-0 overflow-hidden"
           }
         >
           {isLoading ? (
@@ -37,7 +46,7 @@ export default function Courses() {
                         alt={course.name}
                         width={50}
                         height={50}
-                        className="rounded-md shrink-0 hidden lg:block mr-4"
+                        className="rounded-md shrink-0 hidden 2xl:block mr-4"
                       />
                       <div>
                         <small className="text-xs text-muted-foreground block">

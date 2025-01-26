@@ -17,9 +17,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSession } from "next-auth/react";
 
 export default function Document() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
+
   const { data, isLoading } = useGetEmployeeDocumentQuery(employeeId);
   const [deleteDocument] = useDeleteEmployeeDocumentMutation();
 
@@ -35,15 +41,13 @@ export default function Document() {
 
   return (
     <div>
-      <div className="text-right mb-4">
-        <UploadDialog>
-          <Upload className="size-4 mr-2.5" />
-          Upload
-        </UploadDialog>
-      </div>
       <Card>
-        <CardHeader className="border-0 pb-0">
-          <CardTitle>Employee Uploads</CardTitle>
+        <CardHeader className="border-0 flex-row pb-0 w-full flex items-center justify-between">
+          <CardTitle>Employee Document Uploads</CardTitle>
+          <UploadDialog className="mt-0">
+            <Upload className="size-4 mr-3" />
+            Upload
+          </UploadDialog>
         </CardHeader>
         <CardContent>
           {data?.result && data?.result?.documents.length! > 0 ? (

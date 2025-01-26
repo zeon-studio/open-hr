@@ -1,20 +1,27 @@
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetEmployeeOffboardingQuery } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
 import { TOffboardingTask } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingType";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
 export default function Offboarding() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const { data, isLoading } = useGetEmployeeOffboardingQuery(employeeId);
   const task = data?.result ?? {};
 
   return (
     <div>
-      <h5 className="mb-4">Onboarding</h5>
       <Card className="overflow-hidden">
-        <CardContent className={isLoading ? "py-20" : "p-0 overflow-hidden"}>
+        <CardHeader className="border-b-transparent">
+          <CardTitle>Offboarding</CardTitle>
+        </CardHeader>
+        <CardContent className={isLoading ? "py-20" : "pt-0 overflow-hidden"}>
           {isLoading ? (
             <div className="flex justify-center items-center">
               <Loader2 className="animate-spin size-5" />
@@ -73,7 +80,9 @@ export default function Offboarding() {
             </div>
           ) : (
             <>
-              <p className="text-center text-muted-foreground"></p>
+              <p className="text-center text-muted-foreground py-20">
+                No tasks assigned.
+              </p>
             </>
           )}
         </CardContent>

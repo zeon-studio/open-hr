@@ -4,13 +4,16 @@ import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/emp
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
 export default function JobDetails() {
   const { data: session } = useSession();
-  const user = session?.user;
-  const { data, isLoading } = useGetEmployeeJobQuery(user?.id!, {
-    skip: !user?.id,
-  });
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
+
+  const { data, isLoading } = useGetEmployeeJobQuery(employeeId);
 
   if (isLoading) {
     return (
@@ -99,38 +102,46 @@ export default function JobDetails() {
         </CardHeader>
         <CardContent>
           <ul className="space-y-4">
-            {data?.result.prev_jobs.map((job, index) => {
-              const employmentDuration = getDuration(
-                job.start_date,
-                job.end_date
-              );
-              const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
+            {data?.result.prev_jobs.length === 0 ? (
+              <li>
+                <p className="text-text-light font-semibold text-sm">
+                  No previous jobs
+                </p>
+              </li>
+            ) : (
+              data?.result.prev_jobs.map((job, index) => {
+                const employmentDuration = getDuration(
+                  job.start_date,
+                  job.end_date
+                );
+                const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
 
-              return (
-                <li className="flex space-x-4 group items-center" key={index}>
-                  <Image
-                    className="rounded size-[48px] flex-none"
-                    src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${job.company_website}&size=64`}
-                    width={48}
-                    height={48}
-                    alt={job.company_name ?? "brand logo"}
-                  />
-                  <div className="space-y-1 items-center">
-                    <p className="text-text-dark font-semibold text-sm">
-                      {job.designation}
-                    </p>
-                    <p className="text-text-light font-semibold text-xs capitalize">
-                      <span>{job.company_name} </span>
+                return (
+                  <li className="flex space-x-4 group items-center" key={index}>
+                    <Image
+                      className="rounded size-[48px] flex-none"
+                      src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${job.company_website}&size=64`}
+                      width={48}
+                      height={48}
+                      alt={job.company_name ?? "brand logo"}
+                    />
+                    <div className="space-y-1 items-center">
+                      <p className="text-text-dark font-semibold text-sm">
+                        {job.designation}
+                      </p>
+                      <p className="text-text-light font-semibold text-xs capitalize">
+                        <span>{job.company_name} </span>
 
-                      <span>&bull; {job.job_type.replace("_", " ")}</span>
-                    </p>
-                    <p className="text-text-light font-semibold text-xs">
-                      {formattedDuration}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
+                        <span>&bull; {job.job_type.replace("_", " ")}</span>
+                      </p>
+                      <p className="text-text-light font-semibold text-xs">
+                        {formattedDuration}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })
+            )}
           </ul>
         </CardContent>
       </Card>

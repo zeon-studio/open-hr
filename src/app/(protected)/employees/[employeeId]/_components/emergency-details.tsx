@@ -7,12 +7,16 @@ import EditFrom from "@/partials/EditFrom";
 import { useGetEmployeeContactQuery } from "@/redux/features/employeeContactApiSlice/employeeContactSlice";
 import { TEmployeeContact } from "@/redux/features/employeeContactApiSlice/employeeContactType";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
 export default function Emergency() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const { data, isLoading } = useGetEmployeeContactQuery(employeeId);
-  console.log(data);
 
   return (
     <div>
@@ -124,7 +128,7 @@ export default function Emergency() {
                       handleChange({
                         ...data,
                         contacts: [
-                          ...data.contacts,
+                          ...(data?.contacts ?? []),
                           {
                             name: "",
                             phone: "",
@@ -133,8 +137,10 @@ export default function Emergency() {
                         ],
                       });
                     }}
+                    type="button"
+                    disabled={isReadOnly}
                   >
-                    Add More
+                    {isReadOnly ? "Add Contact" : "Add Another Contact"}
                   </Button>
                 </form>
               );

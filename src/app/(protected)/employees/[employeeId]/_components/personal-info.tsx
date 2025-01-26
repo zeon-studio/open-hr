@@ -1,7 +1,13 @@
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -12,6 +18,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
+import { cn } from "@/lib/shadcn";
 import EditFrom from "@/partials/EditFrom";
 import {
   useGetEmployeeQuery,
@@ -22,13 +29,16 @@ import { useGetEmployeeBankQuery } from "@/redux/features/employeeBankApiSlice/e
 import { TEmployeeBank } from "@/redux/features/employeeBankApiSlice/employeeBankType";
 import { useGetEmployeeEducationQuery } from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
 import { TEmployeeEducation } from "@/redux/features/employeeEducationApiSlice/employeeEducationType";
-import { Loader2 } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
 
 export default function PersonalInfo() {
-  const { employeeId } = useParams<{ employeeId: string }>();
   const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const { data, isLoading } = useGetEmployeeQuery(
     employeeId ?? session?.user.id!
   );
@@ -122,12 +132,52 @@ export default function PersonalInfo() {
                 <Label>NID</Label>
                 <Input
                   readOnly={isReadOnly}
-                  type="number"
                   name="nid"
                   value={data.nid}
                   placeholder="Your NID"
                 />
               </div>
+
+              <div className="col-span-2 gap-3">
+                <Label>Date of Birth</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"input"}
+                      className={cn(
+                        "w-full flex justify-between",
+                        isReadOnly && "disabled:pl-0 disabled:border-none"
+                      )}
+                      disabled={isReadOnly}
+                    >
+                      {data.dob ? (
+                        new Date(data.dob).toDateString()
+                      ) : (
+                        <span>Select Date</span>
+                      )}
+                      <span className="flex items-center">
+                        <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="pl-2  block">
+                          <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                        </span>
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={data.dob ? new Date(data.dob) : new Date()}
+                      onSelect={(date) =>
+                        handleChange({
+                          ...data,
+                          dob: date!,
+                        })
+                      }
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
               <div>
                 <Label>Present Address:</Label>
                 <Input
@@ -351,7 +401,7 @@ export default function PersonalInfo() {
                   handleChange({
                     ...data,
                     banks: [
-                      ...data.banks,
+                      ...(data?.banks || []),
                       {
                         bank_ac_no: "",
                         bank_branch: "",
@@ -363,8 +413,9 @@ export default function PersonalInfo() {
                     ],
                   });
                 }}
+                disabled={isReadOnly}
               >
-                Add More
+                {data?.banks.length > 0 ? "Add More" : "Add Bank Account"}
               </Button>
             </form>
           );
@@ -508,7 +559,7 @@ export default function PersonalInfo() {
                   handleChange({
                     ...data,
                     educations: [
-                      ...data.educations,
+                      ...(data?.educations ?? []),
                       {
                         degree: "",
                         major: "",
@@ -520,8 +571,9 @@ export default function PersonalInfo() {
                   });
                 }}
                 type="button"
+                disabled={isReadOnly}
               >
-                Add More
+                {data?.educations.length > 0 ? "Add More" : "Add Education"}
               </Button>
             </form>
           );
