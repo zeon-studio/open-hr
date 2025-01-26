@@ -53,7 +53,7 @@ const UserTools = ({ userId }: { userId: string }) => {
                   </div>
                   <div>
                     <small className="text-xs text-muted-foreground block">
-                      Course Name:
+                      Organization
                     </small>
                     <strong className="text-h6 font-medium capitalize">
                       {tool.name}

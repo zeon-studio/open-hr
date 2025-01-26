@@ -88,7 +88,7 @@ const PendingTasks = () => {
                   <div className="flex items-start">
                     <CircleDashed className="mr-2 mt-1 size-5 text-muted" />
                     <div className="flex-1">
-                      <strong>{task.task_name}</strong>
+                      <strong className="font-medium">{task.task_name}</strong>
                       <small className="block text-text-light">
                         Employee: {employeeInfoById(task.employee_id)?.name}
                       </small>
