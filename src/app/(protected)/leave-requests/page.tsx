@@ -14,25 +14,36 @@ import {
 } from "@/components/ui/table";
 import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
+import {
+  useGetLeaveRequestQuery,
+  useGetLeaveRequestsQuery,
+} from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { useAppSelector } from "@/redux/hook";
+import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import {
+  default as EmployeeLeaveRequestPage,
+  default as LeaveRequestPage,
+} from "./_components/employee-leave-request-page";
 import LeaveRequestInsert from "./_components/leave-request-insert";
-import LeaveRequestPage from "./_components/leave-request-page";
 
 const LeaveRequest = () => {
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
   const { isDialogOpen, onDialogChange } = useDialog();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
   const search = searchParams.get("search");
 
   // get all Data
-  const { data } = useGetLeaveRequestsQuery({
-    page: page ? Number(page) : 1,
-    limit: limit,
-    search: search ? search : "",
-  });
+  const { data } = useGetLeaveRequestsQuery(
+    {
+      page: page ? Number(page) : 1,
+      limit: limit,
+      search: search ? search : "",
+    },
+    { skip: session?.user.role === "user" }
+  );
 
   const { result: leaveRequests, meta } = data || {};
 
@@ -43,55 +54,95 @@ const LeaveRequest = () => {
     "erp-leave-requests"
   );
 
+  // get single employee data
+  const { data: employeeData } = useGetLeaveRequestQuery(session?.user?.id!);
+
+  const employeeLeaveRequests = employeeData?.result!;
+
   return (
     <section className="p-8">
-      <div className="flex justify-between items-center mb-6">
-        <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
-          <DialogTrigger asChild>
-            <Button>Request Leave</Button>
-          </DialogTrigger>
-          <LeaveRequestInsert onDialogChange={onDialogChange} />
-        </Dialog>
-        <SearchBox />
-        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
-      </div>
-
-      <Table>
-        <TableHeader className="sticky top-0">
-          <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0 bg-white">Name</TableHead>
-            <TableHead className="sticky top-0 bg-white">Type</TableHead>
-            <TableHead className="sticky top-0 bg-white">Start Date</TableHead>
-            <TableHead className="sticky top-0 bg-white">End Date</TableHead>
-            <TableHead className="sticky top-0 bg-white">Days</TableHead>
-            <TableHead className="sticky top-0 bg-white">Reason</TableHead>
-            <TableHead className="sticky top-0 bg-white text-right">
-              Status
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {!leaveRequests?.length && (
-            <TableRow>
-              <TableCell colSpan={7}>
-                <div className="loader">
-                  <div className="loader-line" />
-                </div>
-              </TableCell>
+      {session?.user.role === "user" ? (
+        <Table>
+          <TableHeader className="sticky top-0">
+            <TableRow className="sticky top-0">
+              <TableHead className="sticky top-0 bg-white">Type</TableHead>
+              <TableHead className="sticky top-0 bg-white">
+                Start Date
+              </TableHead>
+              <TableHead className="sticky top-0 bg-white">End Date</TableHead>
+              <TableHead className="sticky top-0 bg-white">Days</TableHead>
+              <TableHead className="sticky top-0 bg-white">Reason</TableHead>
+              <TableHead className="sticky top-0 bg-white text-right">
+                Status
+              </TableHead>
             </TableRow>
-          )}
-          {leaveRequests?.length ? (
-            <LeaveRequestPage leaveRequest={leaveRequests} />
-          ) : (
-            <LeaveRequestPage leaveRequest={localData} />
-          )}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            <EmployeeLeaveRequestPage leaveRequest={employeeLeaveRequests} />
+          </TableBody>
+        </Table>
+      ) : (
+        <>
+          <div className="flex justify-between items-center mb-6">
+            <Dialog
+              modal={true}
+              open={isDialogOpen}
+              onOpenChange={onDialogChange}
+            >
+              <DialogTrigger asChild>
+                <Button>Request Leave</Button>
+              </DialogTrigger>
+              <LeaveRequestInsert onDialogChange={onDialogChange} />
+            </Dialog>
+            <SearchBox />
+            <Pagination
+              total={meta?.total!}
+              className="ml-auto hidden md:flex"
+            />
+          </div>
 
-      <Pagination
-        total={meta?.total!}
-        className="ml-auto flex md:hidden mt-5"
-      />
+          <Table>
+            <TableHeader className="sticky top-0">
+              <TableRow className="sticky top-0">
+                <TableHead className="sticky top-0 bg-white">Name</TableHead>
+                <TableHead className="sticky top-0 bg-white">Type</TableHead>
+                <TableHead className="sticky top-0 bg-white">
+                  Start Date
+                </TableHead>
+                <TableHead className="sticky top-0 bg-white">
+                  End Date
+                </TableHead>
+                <TableHead className="sticky top-0 bg-white">Days</TableHead>
+                <TableHead className="sticky top-0 bg-white">Reason</TableHead>
+                <TableHead className="sticky top-0 bg-white text-right">
+                  Status
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {!leaveRequests?.length && (
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <div className="loader">
+                      <div className="loader-line" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+              {leaveRequests?.length ? (
+                <LeaveRequestPage leaveRequest={leaveRequests} />
+              ) : (
+                <LeaveRequestPage leaveRequest={localData} />
+              )}
+            </TableBody>
+          </Table>
+
+          <Pagination
+            total={meta?.total!}
+            className="ml-auto flex md:hidden mt-5"
+          />
+        </>
+      )}
     </section>
   );
 };
