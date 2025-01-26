@@ -5,6 +5,7 @@ const ImageFallback = (props: any) => {
 
   return (
     <img
+      alt=""
       {...rest}
       src={src}
       onError={({ currentTarget }) => {

@@ -57,6 +57,7 @@ const ToolForm = ({
         expire_date: toolItem.expire_date,
       })),
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toolItems]);
 
   // add new product field for upload files to bucket

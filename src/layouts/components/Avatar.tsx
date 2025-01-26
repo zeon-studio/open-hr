@@ -11,14 +11,14 @@ const BUCKET_URL = process.env.NEXT_PUBLIC_BUCKET_URL;
 
 export default function Avatar(props: Props) {
   if (props.src) {
-    const { src, preview, ...rest } = props;
+    const { src, preview, alt, ...rest } = props;
     const source = src?.startsWith("http") ? src : `${BUCKET_URL}/${src}`;
-    return <Image src={preview ? src : source} {...rest} />;
+    return <Image src={preview ? src : source} alt={alt} {...rest} />;
   } else if (props.email) {
     const { email, ...rest } = props;
     return (
       <Gravatar
-        email={props.email}
+        email={email}
         className={cn("rounded-full", rest.className)}
         alt={rest.alt}
         default="mp"

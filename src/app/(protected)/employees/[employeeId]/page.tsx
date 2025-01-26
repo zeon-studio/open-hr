@@ -92,6 +92,7 @@ export default function Info() {
   const { data: jobData } = useGetEmployeeJobQuery(
     employeeId ?? session?.user.id!
   );
+  const [activeTab, setTab] = useState(tabs[0]);
 
   if (!isLoading && !data?.result) {
     return notFound();
@@ -111,7 +112,6 @@ export default function Info() {
   );
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
-  const [activeTab, setTab] = useState(tabs[0]);
 
   return (
     <div className="bg-light">
@@ -155,7 +155,7 @@ export default function Info() {
                   align="start"
                   className="p-2 border-none bg-background"
                 >
-                  {tabs.map((tab, index) => (
+                  {tabs.map((tab) => (
                     <DropdownMenuItem
                       onClick={() => {
                         setTab(tab);

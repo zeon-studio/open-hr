@@ -53,8 +53,8 @@ const PendingTasks = () => {
         }).unwrap();
       }
       toast.success("Task marked as completed");
-    } catch (error) {
-      toast.error("Failed to complete task");
+    } catch (error: any) {
+      toast.error(error.message ?? "Failed to complete task");
     }
   };
 

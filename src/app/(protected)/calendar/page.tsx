@@ -2,12 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { useDialog } from "@/hooks/useDialog";
-import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetCalendarsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import CustomEventCalendar from "./_components/CustomEventCalendar";
 
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -15,32 +13,23 @@ import CalendarInsert from "./_components/CalendarInsert";
 import HolidayTable from "./_components/HolidayTable";
 
 const Calendarcomponent = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
-
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
   const search = searchParams.get("search");
   // get all calendar Data
-  const { data, error } = useGetCalendarsQuery({
+  const { data } = useGetCalendarsQuery({
     page: page ? Number(page) : 1,
     limit: limit,
     search: search ? search : "",
   });
 
-  const { result: calendars, meta } = data || {};
-
-  const { localData } = useLocalCacheHook(
-    {
-      data: calendars!,
-    },
-    "erp-calendars"
-  );
+  const { result: calendars } = data || {};
 
   const currentYear = calendars?.filter(
     (cal) => new Date().getFullYear() === cal?.year
   );
-  let events = currentYear?.map((a) => [
+  const events = currentYear?.map((a) => [
     ...a.holidays.map((holiday) => ({
       start_date: new Date(holiday.start_date),
       end_date: new Date(holiday.end_date),

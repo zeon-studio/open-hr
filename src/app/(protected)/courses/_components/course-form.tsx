@@ -57,6 +57,7 @@ const CourseForm = ({
         expire_date: courseItem.expire_date,
       })),
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseItems]);
 
   // add new product field for upload files to bucket

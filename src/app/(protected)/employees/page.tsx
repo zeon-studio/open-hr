@@ -26,7 +26,7 @@ export default function Employees() {
   const page = searchParams.get("page");
   const search = searchParams.get("search");
   // get all user Data
-  const { data, error } = useGetEmployeesQuery({
+  const { data } = useGetEmployeesQuery({
     page: page ? Number(page) : 1,
     limit: limit,
     search: search ? search : "",

@@ -47,6 +47,7 @@ const AssetForm = ({
         date: assetItem.date,
       })),
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assetLogs]);
 
   // add new product field for upload files to bucket

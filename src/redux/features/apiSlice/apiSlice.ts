@@ -19,7 +19,7 @@ const axiosBaseQuery =
     unknown,
     unknown
   > =>
-  async (args, api, extraOptions) => {
+  async (args) => {
     const session = await getSession();
     const { url, method, body, params } = args;
     try {

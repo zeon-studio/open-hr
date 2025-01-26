@@ -21,8 +21,7 @@ import {
 export default function Document() {
   const { employeeId } = useParams<{ employeeId: string }>();
   const { data, isLoading } = useGetEmployeeDocumentQuery(employeeId);
-  const [deleteDocument, { isLoading: isDeleting }] =
-    useDeleteEmployeeDocumentMutation();
+  const [deleteDocument] = useDeleteEmployeeDocumentMutation();
 
   if (isLoading) {
     return (

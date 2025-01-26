@@ -44,6 +44,7 @@ const CalendarInsertForm = ({
         reason: item.reason,
       })),
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [holidayItems, eventItems]);
 
   // holiday

@@ -99,7 +99,7 @@ export default function JobDetails() {
         </CardHeader>
         <CardContent>
           <ul className="space-y-4">
-            {data?.result.prev_jobs.map((job, index, jobs) => {
+            {data?.result.prev_jobs.map((job, index) => {
               const employmentDuration = getDuration(
                 job.start_date,
                 job.end_date

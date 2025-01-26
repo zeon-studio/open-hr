@@ -63,6 +63,7 @@ const ToolInsert = ({
       setLoader(false);
       toast("something went wrong");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
   return (
