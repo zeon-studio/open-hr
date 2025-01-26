@@ -24,6 +24,7 @@ import {
   Building,
   Calendar,
   ChevronDown,
+  Hash,
   Mail,
   Phone,
   UserRoundCog,
@@ -115,7 +116,7 @@ export default function EmployeeSingle() {
       : session?.user;
 
   const employmentDuration = getDuration(
-    jobData?.result.joining_date!,
+    jobData?.result?.joining_date!,
     new Date().toISOString()
   );
 
@@ -150,7 +151,7 @@ export default function EmployeeSingle() {
                 Hi, {data?.result.name}
               </h2>
               <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90 capitalize">
-                {jobData?.result.designation}
+                {jobData?.result?.designation}
               </p>
             </div>
 
@@ -259,16 +260,16 @@ export default function EmployeeSingle() {
                   <UserRoundCog className="size-4 stroke-current" />
                   <div className="space-y-1.5">
                     <span className="text-xs block font-semibold capitalize">
-                      {jobData?.result.designation}
+                      {jobData?.result?.designation}
                     </span>
                     <span className="text-xs block capitalize">
-                      {jobData?.result.job_type.replace("_", " ")}
+                      {jobData?.result?.job_type?.replace("_", " ")}
                     </span>
                   </div>
                 </li>
 
                 <li className="flex space-x-2 text-text-light">
-                  <UserRoundCog className="size-4 stroke-current" />
+                  <Hash className="size-4 stroke-current" />
                   <div className="space-y-1.5">
                     <span className="text-xs block font-semibold">
                       Employee Id
@@ -289,9 +290,9 @@ export default function EmployeeSingle() {
                   <Calendar className="size-4 stroke-current" />
                   <div className="space-y-1.5">
                     <span className="text-xs block font-semibold">
-                      {jobData?.result.joining_date
+                      {jobData?.result?.joining_date
                         ? format(
-                            new Date(jobData?.result.joining_date),
+                            new Date(jobData?.result?.joining_date),
                             "MMM d, yyyy"
                           )
                         : null}

@@ -28,7 +28,7 @@ export default function JobDetails() {
   }
 
   const employmentDuration = getDuration(
-    data?.result.joining_date!,
+    data?.result?.joining_date!,
     new Date().toISOString()
   );
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
@@ -49,23 +49,26 @@ export default function JobDetails() {
             className="space-y-[--space] "
           >
             <li className="flex space-x-4">
-              <Image
-                className="rounded"
-                src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${data?.result.company_website}&size=64`}
-                width={48}
-                height={48}
-                alt={data?.result.company_name ?? "brand logo"}
-              />
+              {data?.result?.company_website && (
+                <Image
+                  className="rounded"
+                  src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${data?.result?.company_website}&size=64`}
+                  width={48}
+                  height={48}
+                  alt={data?.result.company_name ?? "brand logo"}
+                />
+              )}
+
               <div className="space-y-1 items-center">
                 <p className="text-text-dark font-semibold text-sm capitalize">
-                  {data?.result.company_name}
+                  {data?.result?.company_name}
                 </p>
                 <p className="text-text-light font-semibold text-xs">
                   {formattedDuration}
                 </p>
               </div>
             </li>
-            {data?.result.promotions.map((promotion, index, promotions) => {
+            {data?.result?.promotions?.map((promotion, index, promotions) => {
               const startDate =
                 index === promotions.length - 1
                   ? data.result.joining_date // If it's the last promotion, use joining date
@@ -102,14 +105,14 @@ export default function JobDetails() {
         </CardHeader>
         <CardContent>
           <ul className="space-y-4">
-            {data?.result.prev_jobs.length === 0 ? (
+            {data?.result?.prev_jobs.length === 0 || !data?.result ? (
               <li>
                 <p className="text-text-light font-semibold text-sm">
                   No previous jobs
                 </p>
               </li>
             ) : (
-              data?.result.prev_jobs.map((job, index) => {
+              data?.result?.prev_jobs.map((job, index) => {
                 const employmentDuration = getDuration(
                   job.start_date,
                   job.end_date
