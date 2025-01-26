@@ -56,7 +56,7 @@ const LeaveRequestInsert = ({
 
   return (
     <DialogContent
-      className="max-w-4xl overflow-y-auto h-[90vh]"
+      className="max-w-md"
       onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Leave Request</DialogTitle>

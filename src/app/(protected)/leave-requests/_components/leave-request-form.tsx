@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
@@ -14,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -33,7 +33,7 @@ const LeaveRequestForm = ({
   return (
     <form className="row justify-between items-center" onSubmit={handleSubmit}>
       {/* type */}
-      <div className="lg:col-6 mb-4">
+      <div className="col-12 mb-4">
         <Label>Type</Label>
         <Select
           value={leaveRequestData.leave_type}
@@ -53,15 +53,13 @@ const LeaveRequestForm = ({
           </SelectContent>
         </Select>
       </div>
+
       {/* start date */}
-      <div className="lg:col-6 mb-4">
+      <div className="col-12 mb-4">
         <Label>Start Date</Label>
         <Popover>
           <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className="w-full flex justify-between border-border/30 rounded"
-            >
+            <Button variant={"input"} className="w-full flex justify-between">
               {leaveRequestData.start_date ? (
                 new Date(leaveRequestData.start_date).toDateString()
               ) : (
@@ -95,14 +93,11 @@ const LeaveRequestForm = ({
       </div>
 
       {/* end date */}
-      <div className="lg:col-6 mb-4">
+      <div className="col-12 mb-4">
         <Label>End Date</Label>
         <Popover>
           <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className="w-full flex justify-between border-border/30 rounded"
-            >
+            <Button variant={"input"} className="w-full flex justify-between">
               {leaveRequestData.end_date ? (
                 new Date(leaveRequestData.end_date).toDateString()
               ) : (
@@ -137,8 +132,8 @@ const LeaveRequestForm = ({
       {/* reason */}
       <div className="lg:col-12 mb-4">
         <Label>Reason</Label>
-        <Input
-          type="text"
+        <Textarea
+          className="h-20"
           value={leaveRequestData.reason}
           onChange={(e: any) =>
             setLeaveRequestData({ ...leaveRequestData, reason: e.target.value })
