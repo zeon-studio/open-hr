@@ -8,9 +8,9 @@ export type TEmployee = {
   nid: string;
   tin: string;
   phone: string;
-  gender: "male" | "female" | "";
-  blood_group: "O+" | "O-" | "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "";
-  marital_status: "married" | "unmarried" | "divorced" | "widowed" | "";
+  gender: "male" | "female";
+  blood_group: "O+" | "O-" | "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-";
+  marital_status: "married" | "unmarried" | "divorced" | "widowed";
   present_address: string;
   permanent_address: string;
   facebook: string;
@@ -19,23 +19,17 @@ export type TEmployee = {
   discord: string;
   personality: string;
   note: string;
-  status: "pending" | "active" | "archived" | "";
-  role: "user" | "moderator" | "admin" | "";
-  department?: "development" | "design" | "marketing" | "admin";
+  status: "pending" | "active" | "archived";
+  role: "user" | "moderator" | "admin";
+  department: "development" | "design" | "marketing" | "admin";
   designation?: string;
   createdAt?: Date;
 };
 
 export type TEmployeeCreate = {
   personal_email: string;
-  department: "development" | "design" | "marketing" | "admin" | "";
-  job_type:
-    | "full_time"
-    | "part_time"
-    | "remote"
-    | "contractual"
-    | "internship"
-    | "";
+  department: "development" | "design" | "marketing" | "admin";
+  job_type: "full_time" | "part_time" | "remote" | "contractual" | "internship";
   joining_date: Date;
   designation: string;
   manager_id: string;
