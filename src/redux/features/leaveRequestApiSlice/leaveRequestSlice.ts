@@ -17,7 +17,7 @@ export const leaveRequestApi = leaveRequestApiWithTag.injectEndpoints({
       keepUnusedDataFor: 30 * 60,
     }),
 
-    getLeaveRequest: builder.query<TLeaveRequestState<TLeaveRequest>, string>({
+    getLeaveRequest: builder.query<TLeaveRequestState, string>({
       query: (id) => ({
         url: `/leave-request/${id}`,
         method: "GET",
