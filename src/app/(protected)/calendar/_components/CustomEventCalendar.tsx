@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 
 const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
+  const customWeekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
   const getEventsForDate = (date: Date) => {
     return events?.filter((event) => {
       const startDate = new Date(event.start_date);
@@ -81,29 +83,40 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
       mode="single"
       className="rounded-md w-full p-0 "
       classNames={{
-        button: "flex jucetify-center items-center w-[100%]",
+        button: "flex justify-center items-center w-[100%]",
         months:
           "flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1",
         caption:
-          "relative md:w-[30%] lg:w-[25%] xl:w-[20%] ml-auto text-center bg-background px-6 py-2.5 border border-muted rounded-md",
+          "relative w-full sm:w-[30%] lg:w-[25%] xl:w-[20%] ml-auto text-center bg-background px-6 py-2.5 border border-muted rounded-md overflow-hidden",
         month: "space-y-4 w-full flex flex-col",
-        day: "h-20 p-0 hover:text-unset cursor-default",
-        day_today: "bg-transparent text-blue-500",
+        day: "h-28 p-0 hover:text-unset cursor-default",
+        day_today: "bg-muted",
         table:
           "w-full h-full border-collapse bg-background overflow-hidden rounded-t-md",
         head_row: "bg-dark",
         head_cell: "font-normal text-white",
         row: "w-full",
         cell: "w-[14.2857%] relative border border-gray-300",
-        nav_button: "opacity-100 w-fit border-none",
+        nav_button: "h-full w-[20%] opacity-100",
         nav_button_previous:
-          "absolute left-2 top-1/2 transform -translate-y-1/2",
-        nav_button_next: "absolute right-2 top-1/2 transform -translate-y-1/2",
-      }}
-      modifiers={{
-        hasEvent: (date) => getEventsForDate(date)?.length > 0,
+          "absolute left-0 top-1/2 transform -translate-y-1/2",
+        nav_button_next: "absolute right-0 top-1/2 transform -translate-y-1/2",
       }}
       components={{
+        Head: () => (
+          <thead>
+            <tr className="bg-dark">
+              {customWeekDays.map((dayName) => (
+                <th
+                  key={dayName}
+                  className="border-r last:border-0 font-normal text-white"
+                >
+                  {dayName}
+                </th>
+              ))}
+            </tr>
+          </thead>
+        ),
         DayContent: ({ date }) => (
           <div className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             {date.getDate()}

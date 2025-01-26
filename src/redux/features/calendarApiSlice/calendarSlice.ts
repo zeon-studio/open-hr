@@ -45,7 +45,7 @@ export const calendarApi = calendarApiWithTag.injectEndpoints({
     updateCalendar: builder.mutation({
       query: (data) => {
         return {
-          url: `/calendar/${data.id}`,
+          url: `/calendar/${data.year}`,
           method: "PATCH",
           body: data,
         };
