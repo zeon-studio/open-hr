@@ -5,7 +5,13 @@ import { useSession } from "next-auth/react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { notFound, useParams } from "next/navigation";
+import {
+  notFound,
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import PersonalInfo from "./_components/personal-info";
 
 import { Discord, Facebook, Linkedin, Twitter } from "@/components/icons";
@@ -83,15 +89,17 @@ const tabs = [
   },
 ];
 
-export default function Info() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+export default function EmployeeSingle() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
   const { data: session } = useSession();
-  const { data, isLoading } = useGetEmployeeQuery(
-    employeeId ?? session?.user.id!
-  );
-  const { data: jobData } = useGetEmployeeJobQuery(
-    employeeId ?? session?.user.id!
-  );
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
+  const { data, isLoading } = useGetEmployeeQuery(employeeId);
+  const { data: jobData } = useGetEmployeeJobQuery(employeeId);
   const [activeTab, setTab] = useState(tabs[0]);
 
   if (!isLoading && !data?.result) {
@@ -99,7 +107,7 @@ export default function Info() {
   }
 
   const user =
-    session?.user.id === data?.result.id
+    session?.user.id !== data?.result.id
       ? {
           email: data?.result.work_email,
           name: data?.result.name,
@@ -113,9 +121,15 @@ export default function Info() {
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
 
+  const handleMouseDown = (tab: (typeof tabs)[0]) => {
+    const urlSearchParams = new URLSearchParams(params.toString());
+    urlSearchParams.set("tab", tab.value);
+    router.push(pathname + "?" + urlSearchParams.toString());
+  };
+
   return (
     <div className="bg-light">
-      <Tabs value={activeTab.value}>
+      <Tabs value={params.get("tab") || activeTab.value}>
         <div className="flex xl:grid grid-cols-10 gap-5 2xl:grid-cols-12 bg-primary p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6">
           <div className="col-span-5 lg:col-span-2 2xl:col-span-2 translate-y-6 2xl:translate-y-8">
             <div className="bg-light rounded overflow-hidden max-w-[210px]">
@@ -135,7 +149,7 @@ export default function Info() {
               <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5 lg:mb-2.5">
                 Hi, {data?.result.name}
               </h2>
-              <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90">
+              <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90 capitalize">
                 {jobData?.result.designation}
               </p>
             </div>
@@ -171,6 +185,10 @@ export default function Info() {
                             "bg-[#F3F4F6] text-text-dark"
                         )}
                         variant={"ghost"}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          handleMouseDown(tab);
+                        }}
                       >
                         {tab.label}
                       </Button>
@@ -187,6 +205,10 @@ export default function Info() {
                   key={index}
                   asChild
                   className="data-[state=active]:bg-light flex-1"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleMouseDown(tab);
+                  }}
                 >
                   <Button
                     onClick={() => {
@@ -207,34 +229,34 @@ export default function Info() {
             <div>
               <h6 className="text-base font-semibold mb-4">Vitals</h6>
               <ul className="list-none space-y-4">
-                <li className="flex space-x-2">
-                  <Building className="size-4" />
+                <li className="flex space-x-2 text-text-light">
+                  <Building className="size-4 stroke-current" />
                   <div className="space-y-1.5">
-                    <span className="text-xs block font-semibold">
+                    <span className="text-xs block font-semibold text-text-light">
                       Present Address
                     </span>
-                    <span className="text-xs block">
+                    <span className="text-xs block text-text-light">
                       {data?.result.present_address}
                     </span>
                   </div>
                 </li>
 
-                <li className="flex space-x-2">
-                  <Phone className="size-4 flex-none" />
+                <li className="flex space-x-2 text-text-light">
+                  <Phone className="size-4 flex-none stroke-current" />
                   <span className="flex space-x-2 text-xs">
                     {data?.result.phone}
                   </span>
                 </li>
 
-                <li className="flex space-x-2">
-                  <Mail className="size-4 flex-none" />
+                <li className="flex space-x-2 text-text-light">
+                  <Mail className="size-4 flex-none text-current" />
                   <span className="flex space-x-2 text-xs">
                     {data?.result.work_email}
                   </span>
                 </li>
 
-                <li className="flex space-x-2">
-                  <UserRoundCog className="size-4" />
+                <li className="flex space-x-2 text-text-light">
+                  <UserRoundCog className="size-4 stroke-current" />
                   <div className="space-y-1.5">
                     <span className="text-xs block font-semibold capitalize">
                       {jobData?.result.designation}
@@ -245,8 +267,8 @@ export default function Info() {
                   </div>
                 </li>
 
-                <li className="flex space-x-2">
-                  <UserRoundCog className="size-4" />
+                <li className="flex space-x-2 text-text-light">
+                  <UserRoundCog className="size-4 stroke-current" />
                   <div className="space-y-1.5">
                     <span className="text-xs block font-semibold">
                       Employee Id
@@ -259,10 +281,12 @@ export default function Info() {
             </div>
 
             <div>
-              <h6 className="text-base font-semibold mb-4">Join Date</h6>
+              <h6 className="text-base font-semibold mb-4 text-text-dark">
+                Join Date
+              </h6>
               <ul className="list-none space-y-4">
-                <li className="flex space-x-2">
-                  <Calendar className="size-4" />
+                <li className="flex space-x-2 text-text-light">
+                  <Calendar className="size-4 stroke-current" />
                   <div className="space-y-1.5">
                     <span className="text-xs block font-semibold">
                       {jobData?.result.joining_date
@@ -279,16 +303,18 @@ export default function Info() {
             </div>
 
             <div>
-              <h6 className="text-base font-semibold mb-4">Social</h6>
+              <h6 className="text-base font-semibold mb-4 text-text-dark">
+                Social
+              </h6>
               <ul className="flex space-x-2">
                 <li>
                   <Link href={data?.result.linkedin ?? ""}>
                     <Linkedin className="size-7" />
                   </Link>
                 </li>
-                <li>
+                <li className="flex items-center justify-center">
                   <Link href={data?.result.twitter ?? ""}>
-                    <Twitter className="size-6" />
+                    <Twitter className="size-7" />
                   </Link>
                 </li>
                 <li>

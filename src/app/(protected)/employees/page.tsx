@@ -68,9 +68,6 @@ export default function Employees() {
             <TableHead className="sticky top-0 bg-background text-left">
               Designation
             </TableHead>
-            <TableHead className="sticky top-0 bg-background text-left">
-              Actions
-            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

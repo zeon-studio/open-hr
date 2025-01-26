@@ -1,20 +1,29 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetAssetsByUserQuery } from "@/redux/features/assetApiSlice/assetSlice";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
 export default function Assets() {
-  const { employeeId } = useParams<{ employeeId: string }>();
+  const { data: session } = useSession();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const { data, isLoading } = useGetAssetsByUserQuery(employeeId);
 
   return (
     <div>
-      <h5 className="mb-4">Assets</h5>
       <Card className="overflow-hidden">
+        <CardHeader className="border-b-transparent">
+          <CardTitle>Assets</CardTitle>
+        </CardHeader>
         <CardContent
           className={
-            isLoading || !data?.result.length! ? "py-20" : "p-0 overflow-hidden"
+            isLoading || !data?.result.length!
+              ? "py-20"
+              : "overflow-hidden pt-0"
           }
         >
           {isLoading ? (
@@ -34,7 +43,7 @@ export default function Assets() {
                         <small className="text-xs text-muted-foreground block">
                           Name:
                         </small>
-                        <strong className="text-h6 font-medium capitalize">
+                        <strong className="text-h6 text-sm font-medium capitalize">
                           {asset.name}
                         </strong>
                       </div>
@@ -43,7 +52,7 @@ export default function Assets() {
                       <small className="text-xs text-muted-foreground block">
                         Serial No:
                       </small>
-                      <strong className="text-h6 font-medium capitalize">
+                      <strong className="text-h6 text-sm font-medium capitalize">
                         {asset.serial_number}
                       </strong>
                     </div>
@@ -51,7 +60,7 @@ export default function Assets() {
                       <small className="text-xs text-muted-foreground block">
                         Purchase Date:
                       </small>
-                      <strong className="text-h6 font-medium capitalize">
+                      <strong className="text-h6 text-sm font-medium capitalize">
                         {asset.purchase_date &&
                           format(new Date(asset.purchase_date), "MMM d, yyyy")}
                       </strong>
@@ -61,7 +70,7 @@ export default function Assets() {
                       <small className="text-xs text-muted-foreground block">
                         Handover Date:
                       </small>
-                      <strong className="text-h6 font-medium">
+                      <strong className="text-h6 text-sm font-medium">
                         {asset.handover?.date &&
                           format(new Date(asset.handover?.date), "MMM d, yyyy")}
                       </strong>

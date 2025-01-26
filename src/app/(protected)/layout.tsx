@@ -30,9 +30,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Sidebar />
       </aside>
 
-      <div className="w-full p-5 bg-light">
+      <div className="flex-1 p-5 bg-light max-w-full">
         <Header />
-        <main className="h-full rounded-lg bg-light">{children}</main>
+        <main className="flex-1 max-w-full h-full rounded-lg bg-light overflow-x-hidden">
+          {children}
+        </main>
       </div>
     </div>
   );

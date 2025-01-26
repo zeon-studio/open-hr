@@ -4,7 +4,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import Link from "next/link";
-import EmployeeUpdateModal from "./employee-update";
 
 const EmployeePage = ({
   employees,
@@ -15,7 +14,7 @@ const EmployeePage = ({
     <>
       {employees?.map((employee) => (
         <TableRow key={employee.id}>
-          <TableCell>
+          <TableCell className="min-w-[200px]">
             <div className="flex items-center space-x-2">
               <Avatar
                 width={50}
@@ -39,9 +38,6 @@ const EmployeePage = ({
           <TableCell className="capitalize">{employee.department}</TableCell>
           <TableCell className="capitalize text-left">
             {employee.designation}
-          </TableCell>
-          <TableCell>
-            <EmployeeUpdateModal employee={employee} />
           </TableCell>
         </TableRow>
       ))}

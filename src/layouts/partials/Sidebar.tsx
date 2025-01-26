@@ -22,7 +22,7 @@ interface Menu {
   children?: Menu[];
 }
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const filterMenu: Menu[] = menu.filter((item) =>
@@ -84,6 +84,7 @@ const Sidebar = () => {
               return (
                 <li className="mb-2" key={item.name}>
                   <Link
+                    {...(onClose && { onMouseDown: onClose })}
                     href={item.path!}
                     className={`rounded text-black text-sm font-medium block px-2 py-2.5 ${
                       pathname === item.path ? "bg-light" : ""
