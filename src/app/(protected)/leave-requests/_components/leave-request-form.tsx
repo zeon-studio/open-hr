@@ -16,8 +16,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
+import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { SetStateAction } from "react";
+import { SetStateAction, useEffect, useState } from "react";
+import { DateRange } from "react-day-picker";
 
 const LeaveRequestForm = ({
   leaveRequestData,
@@ -30,6 +32,24 @@ const LeaveRequestForm = ({
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
 }) => {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: leaveRequestData.start_date
+      ? new Date(leaveRequestData.start_date)
+      : undefined,
+    to: leaveRequestData.end_date
+      ? new Date(leaveRequestData.end_date)
+      : undefined,
+  });
+
+  useEffect(() => {
+    setLeaveRequestData({
+      ...leaveRequestData,
+      start_date: dateRange?.from,
+      end_date: dateRange?.to,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateRange]);
+
   return (
     <form className="row justify-between items-center" onSubmit={handleSubmit}>
       {/* type */}
@@ -54,14 +74,21 @@ const LeaveRequestForm = ({
         </Select>
       </div>
 
-      {/* start date */}
+      {/* date range */}
       <div className="col-12 mb-4">
-        <Label>Start Date</Label>
+        <Label>Date Range</Label>
         <Popover>
           <PopoverTrigger asChild>
             <Button variant={"input"} className="w-full flex justify-between">
-              {leaveRequestData.start_date ? (
-                new Date(leaveRequestData.start_date).toDateString()
+              {dateRange?.from ? (
+                dateRange.to ? (
+                  <>
+                    {format(dateRange.from, "LLL dd, y")} -{" "}
+                    {format(dateRange.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  format(dateRange.from, "LLL dd, y")
+                )
               ) : (
                 <span>Pick a date</span>
               )}
@@ -75,60 +102,15 @@ const LeaveRequestForm = ({
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar
-              mode="single"
-              selected={
-                leaveRequestData.start_date
-                  ? new Date(leaveRequestData.start_date)
-                  : new Date()
-              }
-              onSelect={(e: any) =>
-                setLeaveRequestData({
-                  ...leaveRequestData,
-                  start_date: e,
-                })
-              }
+              mode="range"
+              numberOfMonths={2}
+              selected={dateRange}
+              onSelect={setDateRange}
             />
           </PopoverContent>
         </Popover>
       </div>
 
-      {/* end date */}
-      <div className="col-12 mb-4">
-        <Label>End Date</Label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant={"input"} className="w-full flex justify-between">
-              {leaveRequestData.end_date ? (
-                new Date(leaveRequestData.end_date).toDateString()
-              ) : (
-                <span>Pick a date</span>
-              )}
-              <span className="flex items-center">
-                <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
-                <span className="pl-2  block">
-                  <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
-                </span>
-              </span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={
-                leaveRequestData.end_date
-                  ? new Date(leaveRequestData.end_date)
-                  : new Date()
-              }
-              onSelect={(e: any) =>
-                setLeaveRequestData({
-                  ...leaveRequestData,
-                  end_date: e,
-                })
-              }
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
       {/* reason */}
       <div className="lg:col-12 mb-4">
         <Label>Reason</Label>
