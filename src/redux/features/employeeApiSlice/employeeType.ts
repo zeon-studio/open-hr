@@ -21,6 +21,8 @@ export type TEmployee = {
   note: string;
   status: "pending" | "active" | "archived" | "";
   role: "user" | "moderator" | "admin" | "";
+  department?: "development" | "design" | "marketing" | "admin";
+  designation?: string;
   createdAt?: Date;
 };
 
