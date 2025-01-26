@@ -39,6 +39,7 @@ const ToolUpdate = ({
       toast("something went wrong");
       console.log(error);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
   return (

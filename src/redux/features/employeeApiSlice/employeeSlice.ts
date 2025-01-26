@@ -57,8 +57,8 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
         try {
           await queryFulfilled;
           toast.success("Update data successfully!");
-        } catch (error) {
-          toast.error("Something went wrong!");
+        } catch (error: any) {
+          toast.error(error.message ?? "Something went wrong!");
         }
       },
 

@@ -7,18 +7,13 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.config({
-    extends: ["next"],
+    extends: ["next/core-web-vitals", "next/typescript"],
     rules: {
-      "react/display-name": "off",
-      "react-hooks/exhaustive-deps": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       "react/no-unescaped-entities": "off",
-      "@next/next/no-page-custom-font": "off",
       "@next/next/no-img-element": "off",
-      "jsx-a11y/alt-text": "off",
-      "import/no-anonymous-default-export": "off",
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "off",
-      "react-hooks/rules-of-hooks": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   }),
 ];

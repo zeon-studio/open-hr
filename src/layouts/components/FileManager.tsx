@@ -102,6 +102,7 @@ const FileManager = ({
   // set location
   useEffect(() => {
     setFile(location);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   return (

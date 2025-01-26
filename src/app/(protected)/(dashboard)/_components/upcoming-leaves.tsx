@@ -56,7 +56,7 @@ const UpcomingLeaves = () => {
       <CardHeader>
         <CardTitle>
           <UserRoundMinus className="mr-2 inline-block" />
-          Who's Out
+          Who&apos;s Out
         </CardTitle>
       </CardHeader>
       <CardContent className="h-[300px] scroll-box">

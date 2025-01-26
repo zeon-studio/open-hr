@@ -26,7 +26,7 @@ const Sidebar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const filterMenu: Menu[] = menu.filter((item) =>
-    item.access?.includes(session?.user?.role!)
+    item.access?.includes(session?.user?.role ?? "")
   );
 
   const handleLogout = async () => {
