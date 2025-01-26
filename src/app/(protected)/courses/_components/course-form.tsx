@@ -44,7 +44,7 @@ const CourseForm = ({
     courseData.courses || []
   );
 
-  // set product files to productData state
+  // set course items
   useEffect(() => {
     setCourseData((prev: Partial<TCourse>) => ({
       ...prev,

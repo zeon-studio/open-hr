@@ -109,5 +109,4 @@ const LeaveRequestModal = ({
     </TableRow>
   );
 };
-
 const MemoizedLeaveRequestModal = memo(LeaveRequestModal);

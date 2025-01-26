@@ -41,7 +41,7 @@ const ToolForm = ({
     toolData.organizations || []
   );
 
-  // set product files to productData state
+  // set tool items
   useEffect(() => {
     setToolData((prev: Partial<TTool>) => ({
       ...prev,

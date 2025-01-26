@@ -38,8 +38,8 @@ const EmployeeInsert = ({
       setLoader(false);
       setEmployeeData({
         personal_email: "",
-        job_type: "",
         department: "",
+        job_type: "",
         joining_date: new Date(),
         designation: "",
         manager_id: "",
