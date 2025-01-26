@@ -10,6 +10,8 @@ import CustomEventCalendar from "./_components/CustomEventCalendar";
 
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CalendarInsert from "./_components/CalendarInsert";
+import CalendarInsertSheet from "./_components/CalendarInsertSheet";
+import CalendarUpdate from "./_components/CalendarUpdate";
 import HolidayTable from "./_components/HolidayTable";
 
 const Calendarcomponent = () => {
@@ -29,6 +31,9 @@ const Calendarcomponent = () => {
   const currentYear = calendars?.filter(
     (cal) => new Date().getFullYear() === cal?.year
   );
+
+  console.log("\x1b[35m%s\x1b[0m", "➡ ", currentYear);
+
   const events = currentYear?.map((a) => [
     ...a.holidays.map((holiday) => ({
       start_date: new Date(holiday.start_date),
@@ -50,20 +55,22 @@ const Calendarcomponent = () => {
 
   return (
     <section className="p-4">
-      <div className="flex justify-between items-center relative -mb-10 z-10 w-fit">
+      <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-4 items-center relative sm:-mb-10 mb-1 z-10 sm:w-fit">
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
-            <Button>Add New</Button>
+            <Button className="max-sm:w-full">Add New</Button>
           </DialogTrigger>
           <CalendarInsert onDialogChange={onDialogChange} />
         </Dialog>
+        <CalendarInsertSheet />
+        <CalendarUpdate />
       </div>
 
       <CustomEventCalendar events={events?.[0] as TEvent[]} />
 
       {(currentYear?.[0]?.holidays ?? []).length > 0 && (
         <>
-          <h3 className="mt-8 mb-4">Holidays {new Date().getFullYear()}</h3>
+          <h5 className="mt-8 mb-4">Holidays {new Date().getFullYear()}</h5>
           <HolidayTable
             reason={"Holidays"}
             calendar={currentYear![0]?.holidays}
@@ -73,7 +80,7 @@ const Calendarcomponent = () => {
 
       {(currentYear?.[0]?.events ?? []).length > 0 && (
         <>
-          <h3 className="mt-8 mb-4">Events {new Date().getFullYear()}</h3>
+          <h5 className="mt-8 mb-4">Events {new Date().getFullYear()}</h5>
           <HolidayTable reason={"Events"} calendar={currentYear![0]?.events} />
         </>
       )}

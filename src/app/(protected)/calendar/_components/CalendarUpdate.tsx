@@ -1,15 +1,19 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useDialog } from "@/hooks/useDialog";
 import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CalendarInsertForm from "./CalendarInsertForm";
 
-const CalendarInsert = ({
-  onDialogChange,
-}: {
-  onDialogChange: (open: boolean) => void;
-}) => {
+const CalendarUpdate = () => {
+  const { isDialogOpen, onDialogChange } = useDialog();
   const [loader, setLoader] = useState(false);
   const [calendarData, setCalendarData] = useState<TCalendar>({
     year: new Date().getFullYear(),
@@ -63,20 +67,27 @@ const CalendarInsert = ({
   }, [isSuccess]);
 
   return (
-    <DialogContent
-      className="max-w-4xl overflow-y-auto h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
-      <DialogTitle className="mb-4">Add New Year Calendar</DialogTitle>
+    <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="max-sm:w-full">
+          Update Calendar
+        </Button>
+      </DialogTrigger>
+      <DialogContent
+        className="max-w-4xl overflow-y-auto h-[90vh]"
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
+        <DialogTitle className="mb-4">Update Calendar</DialogTitle>
 
-      <CalendarInsertForm
-        calendarData={calendarData}
-        setCalendarData={setCalendarData}
-        handleSubmit={handleSubmit}
-        loader={loader}
-      />
-    </DialogContent>
+        <CalendarInsertForm
+          calendarData={calendarData}
+          setCalendarData={setCalendarData}
+          handleSubmit={handleSubmit}
+          loader={loader}
+        />
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default CalendarInsert;
+export default CalendarUpdate;

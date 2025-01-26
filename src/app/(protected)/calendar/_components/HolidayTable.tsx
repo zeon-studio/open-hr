@@ -17,19 +17,19 @@ const HolidayTable = ({
   reason: string;
 }) => {
   return (
-    <Table className="rounded-md bg-background overflow-hidden">
+    <Table className="bg-background">
       <TableHeader>
-        <TableRow className="bg-primary hover:bg-primary">
-          <TableHead className="text-white">{reason}</TableHead>
-          <TableHead className="w-[20%] text-white">Start</TableHead>
-          <TableHead className="w-[20%] text-white">End</TableHead>
-          <TableHead className="w-[10%] text-white">Total</TableHead>
+        <TableRow>
+          <TableHead className="bg-white">{reason}</TableHead>
+          <TableHead className="w-[20%] bg-white">Start</TableHead>
+          <TableHead className="w-[20%] bg-white">End</TableHead>
+          <TableHead className="w-[10%] bg-white">Total</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {calendar?.length > 0 &&
           calendar?.map((el: TEvent, i: number) => (
-            <TableRow key={i} className="border-none">
+            <TableRow key={i}>
               <TableCell>{el?.reason}</TableCell>
               <TableCell>{dateFormat(el?.start_date)}</TableCell>
               <TableCell>{dateFormat(el?.end_date)}</TableCell>
