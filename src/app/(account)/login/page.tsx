@@ -1,20 +1,14 @@
 "use client";
 
+import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
-import Image from "next/image";
 
 export default function SignIn() {
   return (
     <div className="h-screen flex items-center justify-center bg-light">
       <div className="p-20 flex flex-col items-center rounded-lg bg-background">
-        <Image
-          src="/images/logo.png"
-          alt="logo"
-          width={166}
-          height={36}
-          className="mb-5"
-        />
+        <Logo className="mb-4" />
         {/* <h1 className="text-center h5 mb-4">Welcome to Themefisher ERP</h1> */}
         <p className="text-center text-text-light">
           Login with your official google account
