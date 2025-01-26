@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 
 const SearchBox = ({
@@ -9,12 +9,17 @@ const SearchBox = ({
   className?: string;
   onSearch?: (value: string) => void;
 }) => {
+  const pathname = usePathname();
   const ref = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch?.(ref.current?.value || "");
-    router.push(`?search=${ref.current?.value}`);
+    if (ref.current?.value) {
+      router.push(`?search=${ref.current?.value}`);
+    } else {
+      router.push(pathname);
+    }
   };
 
   useEffect(() => {

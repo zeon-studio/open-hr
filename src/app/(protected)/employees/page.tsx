@@ -18,14 +18,15 @@ import { useGetEmployeesQuery } from "@/redux/features/employeeApiSlice/employee
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
 import EmployeeInsert from "./_components/employee-insert";
-import UserPage from "./_components/employee-page";
+import EmployeePage from "./_components/employee-page";
 
 export default function Employees() {
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
   const search = searchParams.get("search");
-  // get all user Data
+
+  // get all employees from cache or api
   const { data } = useGetEmployeesQuery({
     page: page ? Number(page) : 1,
     limit: limit,
@@ -37,9 +38,8 @@ export default function Employees() {
     {
       data: employees!,
     },
-    "erp-employees"
+    "erp-leave-requests"
   );
-
   const { isDialogOpen, onDialogChange } = useDialog();
 
   return (
@@ -47,44 +47,57 @@ export default function Employees() {
       <div className="flex justify-between items-center mb-6">
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
-            <Button>Add New</Button>
+            <Button>Add Employee</Button>
           </DialogTrigger>
           <EmployeeInsert onDialogChange={onDialogChange} />
         </Dialog>
         <SearchBox />
-        <Pagination total={meta?.total!} className="ml-auto" />
+        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
       </div>
+
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="sticky top-0 bg-white">Customer</TableHead>
-            <TableHead className="sticky top-0 bg-white">
-              Customer Created
+        <TableHeader className="sticky top-0">
+          <TableRow className="sticky top-0">
+            <TableHead className="sticky top-0 bg-background">Name</TableHead>
+            <TableHead className="sticky top-0 bg-background">Email</TableHead>
+            <TableHead className="sticky top-0 bg-background">Phone </TableHead>
+
+            <TableHead className="sticky top-0 bg-background">
+              Department
             </TableHead>
-            <TableHead className="sticky top-0 bg-white">Location</TableHead>
-            <TableHead className="sticky top-0 bg-white">Package</TableHead>
-            <TableHead className="text-right sticky top-0 bg-white">
-              Status
+            <TableHead className="sticky top-0 bg-background text-left">
+              Designation
+            </TableHead>
+            <TableHead className="sticky top-0 bg-background text-left">
+              Actions
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {!employees?.length && (
             <TableRow>
-              <TableCell colSpan={5}>
+              <TableCell colSpan={7}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>
               </TableCell>
             </TableRow>
           )}
+
           {employees?.length ? (
-            <UserPage employees={employees!} />
+            //  @ts-ignore
+            <EmployeePage employees={employees} />
           ) : (
-            <UserPage employees={localData!} />
+            //  @ts-ignore
+            <EmployeePage employees={localData} />
           )}
         </TableBody>
       </Table>
+
+      <Pagination
+        total={meta?.total!}
+        className="ml-auto flex md:hidden mt-5"
+      />
     </section>
   );
 }
