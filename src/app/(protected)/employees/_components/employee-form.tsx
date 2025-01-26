@@ -1,8 +1,14 @@
 import ConfirmationPopup from "@/components/ConfirmationPopup";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -11,63 +17,106 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import options from "@/config/options.json";
-import { useDeleteEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
+import {
+  useAddEmployeeMutation,
+  useDeleteEmployeeMutation,
+  useUpdateEmployeeMutation,
+} from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
-import { Loader2 } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const EmployeeForm = ({
-  handleSubmit,
-  employeeData,
-  setEmployeeData,
+  data,
   formType,
-  loader,
+  onDialogChange,
 }: {
-  handleSubmit: (e: any) => Promise<void>;
-  employeeData: Partial<TEmployee>;
-  setEmployeeData: Dispatch<SetStateAction<Partial<TEmployee>>>;
-  formType: string;
-  loader: boolean;
+  data: Partial<TEmployee>;
+  formType: "insert" | "update";
+  onDialogChange: (open: boolean) => void;
 }) => {
-  const [deleteProduct] = useDeleteEmployeeMutation();
+  const [deleteProduct, { isLoading: isDeleteLoading }] =
+    useDeleteEmployeeMutation();
+
+  const [insertEmployee, { isLoading: isAddLoading }] =
+    useAddEmployeeMutation();
+
+  const [updateEmployee, { isLoading: isUpdateLoading }] =
+    useUpdateEmployeeMutation();
 
   // product delete
   const handleProductDelete = async () => {
     if (employeeData.id) {
       try {
-        await deleteProduct({ id: employeeData.id });
+        await deleteProduct({ id: employeeData.id }).unwrap();
+        onDialogChange(false);
       } catch (error: any) {
         console.log(error.message);
       }
     }
   };
 
+  const handleUpdateEmployee = async () => {
+    if (employeeData.id) {
+      try {
+        await updateEmployee(employeeData).unwrap();
+        onDialogChange(false);
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
+
+  const handleAddEmployee = async () => {
+    try {
+      await insertEmployee(employeeData).unwrap();
+      onDialogChange(false);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  const [employeeData, setEmployeeData] = useState<TEmployee>(
+    data as TEmployee
+  );
+
   return (
-    <form className="row" onSubmit={handleSubmit}>
-      <div className="col-12 mb-4">
-        <Label>name</Label>
+    <form
+      className="grid grid-cols-1 gap-4"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (formType === "insert") {
+          handleAddEmployee();
+        } else if (formType === "update") {
+          handleUpdateEmployee();
+        }
+      }}
+    >
+      <div>
+        <Label>Name</Label>
         <Input
           type="text"
           value={employeeData.name || ""}
           onChange={(e) =>
             setEmployeeData((prev) => ({ ...prev, name: e.target.value }))
           }
-          placeholder="name"
+          placeholder="Name"
         />
       </div>
-      <div className="col-12 mb-4">
-        <Label>work email</Label>
+      <div>
+        <Label>Work email</Label>
         <Input
           type="email"
           value={employeeData.work_email || ""}
           onChange={(e) =>
             setEmployeeData((prev) => ({ ...prev, work_email: e.target.value }))
           }
-          placeholder="work_email"
+          placeholder="Work email"
         />
       </div>
-      <div className="col-12 mb-4">
-        <Label>personal email</Label>
+      <div>
+        <Label>Personal Email</Label>
         <Input
           type="email"
           value={employeeData.personal_email || ""}
@@ -77,32 +126,32 @@ const EmployeeForm = ({
               personal_email: e.target.value,
             }))
           }
-          placeholder="personal_email"
+          placeholder="Personal email"
         />
       </div>
-      <div className="col-12 mb-4">
-        <Label>tin</Label>
+      <div>
+        <Label>Tin</Label>
         <Input
           type="text"
           value={employeeData.tin || ""}
           onChange={(e) =>
             setEmployeeData((prev) => ({ ...prev, tin: e.target.value }))
           }
-          placeholder="tin"
+          placeholder="Tin"
         />
       </div>
-      <div className="col-12 mb-4">
-        <Label>nid</Label>
+      <div>
+        <Label>Nid</Label>
         <Input
           type="text"
           value={employeeData.nid || ""}
           onChange={(e) =>
             setEmployeeData((prev) => ({ ...prev, nid: e.target.value }))
           }
-          placeholder="nid"
+          placeholder="Nid"
         />
       </div>
-      <div className="col-12 mb-4">
+      <div>
         <Label>phone</Label>
         <Input
           type="text"
@@ -110,11 +159,11 @@ const EmployeeForm = ({
           onChange={(e) =>
             setEmployeeData((prev) => ({ ...prev, phone: e.target.value }))
           }
-          placeholder="phone"
+          placeholder="Phone"
         />
       </div>
-      <div className="lg:col-6 mb-4">
-        <Label>gender</Label>
+      <div>
+        <Label>Gender</Label>
         <Select
           value={employeeData.gender}
           onValueChange={(e: "male" | "female") =>
@@ -133,7 +182,7 @@ const EmployeeForm = ({
           </SelectContent>
         </Select>
       </div>
-      <div className="lg:col-6 mb-4">
+      <div>
         <Label>Blood Group</Label>
         <Select
           value={employeeData.blood_group}
@@ -164,8 +213,8 @@ const EmployeeForm = ({
           </SelectContent>
         </Select>
       </div>
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Marital Status</Label>
           <Select
             value={employeeData.marital_status}
@@ -193,28 +242,44 @@ const EmployeeForm = ({
           </Select>
         </div>
       </div>
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Date of Birth</Label>
-          <Input
-            type="date"
-            value={
-              employeeData.dob
-                ? new Date(employeeData.dob).toISOString().split("T")[0]
-                : ""
-            }
-            onChange={(e) =>
-              setEmployeeData({
-                ...employeeData,
-                dob: new Date(e.target.value),
-              })
-            }
-            placeholder="dob"
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant={"input"} className="w-full flex justify-between">
+                {employeeData.dob ? (
+                  new Date(employeeData.dob).toDateString()
+                ) : (
+                  <span>Pick a date</span>
+                )}
+                <span className="flex items-center">
+                  <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                  <span className="pl-2  block">
+                    <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                  </span>
+                </span>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={
+                  employeeData.dob ? new Date(employeeData.dob) : new Date()
+                }
+                onSelect={(e: any) =>
+                  setEmployeeData({
+                    ...employeeData,
+                    dob: e,
+                  })
+                }
+              />
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Present Address</Label>
           <Input
             type="text"
@@ -225,12 +290,12 @@ const EmployeeForm = ({
                 present_address: e.target.value,
               })
             }
-            placeholder="present_address"
+            placeholder="Present address"
           />
         </div>
       </div>
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Permanent Address</Label>
           <Input
             type="text"
@@ -241,13 +306,13 @@ const EmployeeForm = ({
                 permanent_address: e.target.value,
               })
             }
-            placeholder="permanent_address"
+            placeholder="Permanent address"
           />
         </div>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Facebook</Label>
           <Input
             type="text"
@@ -255,27 +320,27 @@ const EmployeeForm = ({
             onChange={(e) =>
               setEmployeeData({ ...employeeData, facebook: e.target.value })
             }
-            placeholder="facebook"
+            placeholder="Facebook"
           />
         </div>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
-          <Label>twitter</Label>
+      <div>
+        <div>
+          <Label>Twitter</Label>
           <Input
             type="text"
             value={employeeData.twitter || ""}
             onChange={(e) =>
               setEmployeeData({ ...employeeData, twitter: e.target.value })
             }
-            placeholder="twitter"
+            placeholder="Twitter"
           />
         </div>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Linkedin</Label>
           <Input
             type="text"
@@ -283,13 +348,13 @@ const EmployeeForm = ({
             onChange={(e) =>
               setEmployeeData({ ...employeeData, linkedin: e.target.value })
             }
-            placeholder="linkedin"
+            placeholder="Linkedin"
           />
         </div>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Discord</Label>
           <Input
             type="text"
@@ -297,13 +362,13 @@ const EmployeeForm = ({
             onChange={(e) =>
               setEmployeeData({ ...employeeData, discord: e.target.value })
             }
-            placeholder="discord"
+            placeholder="Discord"
           />
         </div>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Personality Type</Label>
           <Input
             type="text"
@@ -311,13 +376,13 @@ const EmployeeForm = ({
             onChange={(e) =>
               setEmployeeData({ ...employeeData, personality: e.target.value })
             }
-            placeholder="personality"
+            placeholder="Personality"
           />
         </div>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Note</Label>
           <Input
             type="text"
@@ -325,13 +390,13 @@ const EmployeeForm = ({
             onChange={(e) =>
               setEmployeeData({ ...employeeData, note: e.target.value })
             }
-            placeholder="note"
+            placeholder="Note"
           />
         </div>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Status</Label>
           <Select
             value={employeeData.status}
@@ -355,8 +420,8 @@ const EmployeeForm = ({
           </Select>
         </div>
       </div>
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
+      <div>
+        <div>
           <Label>Role</Label>
           <Select
             value={employeeData.role}
@@ -383,9 +448,9 @@ const EmployeeForm = ({
 
       {/* for Insert */}
       {formType === "insert" && (
-        <div className="col-12 text-right">
-          <Button className="self-end" disabled={loader}>
-            {loader ? (
+        <div>
+          <Button className="self-end" disabled={isAddLoading}>
+            {isAddLoading ? (
               <>
                 Please wait
                 <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
@@ -399,10 +464,19 @@ const EmployeeForm = ({
 
       {/* for Update */}
       {formType === "update" && (
-        <div className="col-12 text-right">
+        <div className="text-end">
           <Dialog>
             <DialogTrigger className="mr-2" asChild>
-              <Button variant="destructive">Delete Product</Button>
+              <Button disabled={isDeleteLoading} variant="destructive">
+                {isDeleteLoading ? (
+                  <>
+                    Please wait
+                    <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
+                  </>
+                ) : (
+                  "Delete Employee"
+                )}
+              </Button>
             </DialogTrigger>
             <ConfirmationPopup
               handleConfirmation={handleProductDelete}
@@ -410,8 +484,8 @@ const EmployeeForm = ({
               description="Delete Product will permanently delete all included file from the Bucket."
             />
           </Dialog>
-          <Button className="self-end" disabled={loader}>
-            {loader ? (
+          <Button className="self-end" disabled={isUpdateLoading}>
+            {isUpdateLoading ? (
               <>
                 Please wait
                 <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />

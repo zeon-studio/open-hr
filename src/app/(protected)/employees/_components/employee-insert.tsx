@@ -13,7 +13,9 @@ const EmployeeInsert = ({
   const [loader, setLoader] = useState(false);
   const [employeeData, setEmployeeData] = useState<TEmployeeCreate>({
     personal_email: "",
+    // @ts-ignore
     department: "",
+    // @ts-ignore
     job_type: "",
     joining_date: new Date(),
     designation: "",
@@ -38,7 +40,9 @@ const EmployeeInsert = ({
       setLoader(false);
       setEmployeeData({
         personal_email: "",
+        // @ts-ignore
         department: "",
+        // @ts-ignore
         job_type: "",
         joining_date: new Date(),
         designation: "",
