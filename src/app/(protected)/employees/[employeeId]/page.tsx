@@ -149,7 +149,7 @@ export default function EmployeeSingle() {
               <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5 lg:mb-2.5">
                 Hi, {data?.result.name}
               </h2>
-              <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90">
+              <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90 capitalize">
                 {jobData?.result.designation}
               </p>
             </div>

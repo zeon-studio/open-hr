@@ -49,7 +49,7 @@ export default function Offboarding() {
                           <small className="text-xs text-muted-foreground block">
                             Course Name:
                           </small>
-                          <strong className="text-h6 font-medium capitalize">
+                          <strong className="text-h6 text-sm font-medium capitalize">
                             {taskValue.task_name}
                           </strong>
                         </div>
@@ -58,7 +58,7 @@ export default function Offboarding() {
                         <small className="text-xs text-muted-foreground block">
                           Assign To:
                         </small>
-                        <strong className="text-h6 font-medium capitalize">
+                        <strong className="text-h6 text-sm font-medium capitalize">
                           {taskValue.assigned_to}
                         </strong>
                       </div>
@@ -66,7 +66,7 @@ export default function Offboarding() {
                         <small className="text-xs text-muted-foreground block">
                           Status
                         </small>
-                        <strong className="text-h6 font-medium">
+                        <strong className="text-h6 text-sm font-medium">
                           {/* @ts-ignore */}
                           <Badge variant={variants[taskValue.status]}>
                             {taskValue.status}

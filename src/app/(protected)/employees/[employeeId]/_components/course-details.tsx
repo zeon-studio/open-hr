@@ -52,7 +52,7 @@ export default function Courses() {
                         <small className="text-xs text-muted-foreground block">
                           Platform:
                         </small>
-                        <strong className="text-h6 font-medium capitalize">
+                        <strong className="text-h6 text-sm font-medium capitalize">
                           <Link
                             target="_blank"
                             rel="noopener nofollow noreferrer"
@@ -68,7 +68,7 @@ export default function Courses() {
                       <small className="text-xs text-muted-foreground block">
                         Course Name:
                       </small>
-                      <strong className="text-h6 font-medium capitalize">
+                      <strong className="text-h6 text-sm font-medium capitalize">
                         {course.name}
                       </strong>
                     </div>
@@ -76,7 +76,7 @@ export default function Courses() {
                       <small className="text-xs text-muted-foreground block">
                         User ID:
                       </small>
-                      <strong className="text-h6 font-medium">
+                      <strong className="text-h6 text-sm font-medium">
                         {course.email}
                       </strong>
                     </div>
@@ -84,7 +84,7 @@ export default function Courses() {
                       <small className="text-xs text-muted-foreground block">
                         Date:
                       </small>
-                      <strong className="text-h6 font-medium capitalize">
+                      <strong className="text-h6 text-sm font-medium capitalize">
                         {course.purchase_date &&
                           format(new Date(course.purchase_date), "MMM d, yyyy")}
                       </strong>
@@ -94,7 +94,7 @@ export default function Courses() {
                       <small className="text-xs text-muted-foreground block">
                         Price:
                       </small>
-                      <strong className="text-h6 font-medium">
+                      <strong className="text-h6 text-sm font-medium">
                         {course.price}
                       </strong>
                     </div>
