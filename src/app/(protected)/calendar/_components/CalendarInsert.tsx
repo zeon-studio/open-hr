@@ -74,6 +74,7 @@ const CalendarInsert = ({
         setCalendarData={setCalendarData}
         handleSubmit={handleSubmit}
         loader={loader}
+        buttonText="Add Calendar"
       />
     </DialogContent>
   );

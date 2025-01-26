@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +14,8 @@ import {
   TCalendar,
   TCalSheet,
 } from "@/redux/features/calendarApiSlice/calendarType";
-import { Loader2 } from "lucide-react";
+import { FileDown, Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -106,7 +107,7 @@ const CalendarInsertSheet = () => {
             <Input
               type="file"
               accept=".csv, .xlsx"
-              className="!border-solid"
+              className="!border-solid cursor-pointer"
               onChange={async (e) => {
                 const target = e.target as HTMLInputElement;
                 if (target.files) {
@@ -125,17 +126,32 @@ const CalendarInsertSheet = () => {
             />
           </div>
 
-          <div className="col-12 text-right">
-            <Button type="submit" className="self-end" disabled={loader}>
-              {loader ? (
-                <>
-                  Please wait
-                  <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
-                </>
-              ) : (
-                "Add Now"
-              )}
-            </Button>
+          <div className="col-12">
+            <div className="flex flex-col sm:flex-row gap-2 items-center justify-between">
+              <Link
+                className={buttonVariants({
+                  variant: "outline",
+                  className: "max-sm:w-full",
+                })}
+                href="/sample-calendar.xlsx"
+              >
+                Download Sample File <FileDown className="ml-2" size={16} />
+              </Link>
+              <Button
+                type="submit"
+                className="self-end max-sm:w-full"
+                disabled={loader}
+              >
+                {loader ? (
+                  <>
+                    Please wait
+                    <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
+                  </>
+                ) : (
+                  "Add Now"
+                )}
+              </Button>
+            </div>
           </div>
         </form>
       </DialogContent>

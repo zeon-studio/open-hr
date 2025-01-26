@@ -18,11 +18,13 @@ const CalendarInsertForm = ({
   calendarData,
   setCalendarData,
   handleSubmit,
+  buttonText,
   loader,
 }: {
   calendarData: Partial<TCalendar>;
   setCalendarData: Dispatch<SetStateAction<TCalendar>>;
   handleSubmit: (e: any) => Promise<void>;
+  buttonText: string;
   loader: boolean;
 }) => {
   const [year, setYear] = useState(
@@ -137,7 +139,7 @@ const CalendarInsertForm = ({
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
-                          variant={"outline"}
+                          variant={"input"}
                           className="w-full flex justify-between border-border/30 rounded"
                         >
                           {holiday.start_date ? (
@@ -146,7 +148,7 @@ const CalendarInsertForm = ({
                             <span>Pick a date</span>
                           )}
                           <span className="flex items-center ">
-                            <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
                             <span className="pl-2 block">
                               <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                             </span>
@@ -180,7 +182,7 @@ const CalendarInsertForm = ({
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
-                          variant={"outline"}
+                          variant={"input"}
                           className="w-full flex justify-between border-border/30 rounded"
                         >
                           {holiday.end_date ? (
@@ -189,7 +191,7 @@ const CalendarInsertForm = ({
                             <span>Pick a date</span>
                           )}
                           <span className="flex items-center ">
-                            <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
                             <span className="pl-2 block">
                               <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                             </span>
@@ -275,16 +277,16 @@ const CalendarInsertForm = ({
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
-                          variant={"outline"}
-                          className="w-full flex justify-between border-border/30 rounded"
+                          variant={"input"}
+                          className="w-full flex justify-between"
                         >
                           {event.start_date ? (
                             new Date(event.start_date).toDateString()
                           ) : (
                             <span>Pick a date</span>
                           )}
-                          <span className="flex items-center ">
-                            <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                          <span className="flex items-center">
+                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
                             <span className="pl-2 block">
                               <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                             </span>
@@ -300,12 +302,12 @@ const CalendarInsertForm = ({
                               : new Date()
                           }
                           onSelect={(e) => {
-                            const updatedHolidayItems = [...holidayItems];
-                            updatedHolidayItems[index] = {
+                            const updatedEventItems = [...eventItems];
+                            updatedEventItems[index] = {
                               ...event,
                               start_date: new Date(e?.toString()!),
                             };
-                            setEventItems(updatedHolidayItems);
+                            setEventItems(updatedEventItems);
                           }}
                         />
                       </PopoverContent>
@@ -318,8 +320,8 @@ const CalendarInsertForm = ({
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
-                          variant={"outline"}
-                          className="w-full flex justify-between border-border/30 rounded"
+                          variant={"input"}
+                          className="w-full flex justify-between"
                         >
                           {event.end_date ? (
                             new Date(event.end_date).toDateString()
@@ -327,7 +329,7 @@ const CalendarInsertForm = ({
                             <span>Pick a date</span>
                           )}
                           <span className="flex items-center ">
-                            <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
+                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
                             <span className="pl-2 block">
                               <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                             </span>
@@ -343,12 +345,12 @@ const CalendarInsertForm = ({
                               : new Date()
                           }
                           onSelect={(e) => {
-                            const updatedHolidayItems = [...holidayItems];
-                            updatedHolidayItems[index] = {
+                            const updatedEventItems = [...eventItems];
+                            updatedEventItems[index] = {
                               ...event,
                               end_date: new Date(e?.toString()!),
                             };
-                            setEventItems(updatedHolidayItems);
+                            setEventItems(updatedEventItems);
                           }}
                         />
                       </PopoverContent>
@@ -377,7 +379,7 @@ const CalendarInsertForm = ({
               <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
             </>
           ) : (
-            "Add Calendar"
+            buttonText
           )}
         </Button>
       </div>

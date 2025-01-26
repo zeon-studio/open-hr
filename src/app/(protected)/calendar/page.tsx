@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useDialog } from "@/hooks/useDialog";
 import { useGetCalendarsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
+import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
 import CustomEventCalendar from "./_components/CustomEventCalendar";
@@ -28,21 +28,19 @@ const Calendarcomponent = () => {
 
   const { result: calendars } = data || {};
 
-  const currentYear = calendars?.filter(
+  const currentYearCalendar = calendars?.filter(
     (cal) => new Date().getFullYear() === cal?.year
   );
 
-  console.log("\x1b[35m%s\x1b[0m", "➡ ", currentYear);
-
-  const events = currentYear?.map((a) => [
-    ...a.holidays.map((holiday) => ({
+  const events = currentYearCalendar?.flatMap((cal) => [
+    ...cal.holidays.map((holiday) => ({
       start_date: new Date(holiday.start_date),
       end_date: new Date(holiday.end_date),
       day_count: holiday.day_count,
       reason: holiday.reason,
       type: "holiday",
     })),
-    ...a.events.map((event) => ({
+    ...cal.events.map((event) => ({
       start_date: new Date(event.start_date),
       end_date: new Date(event.end_date),
       day_count: event.day_count,
@@ -63,25 +61,28 @@ const Calendarcomponent = () => {
           <CalendarInsert onDialogChange={onDialogChange} />
         </Dialog>
         <CalendarInsertSheet />
-        <CalendarUpdate />
+        <CalendarUpdate calendarData={currentYearCalendar?.[0] as TCalendar} />
       </div>
 
-      <CustomEventCalendar events={events?.[0] as TEvent[]} />
+      <CustomEventCalendar events={events ?? []} />
 
-      {(currentYear?.[0]?.holidays ?? []).length > 0 && (
+      {(currentYearCalendar?.[0]?.holidays ?? []).length > 0 && (
         <>
           <h5 className="mt-8 mb-4">Holidays {new Date().getFullYear()}</h5>
           <HolidayTable
             reason={"Holidays"}
-            calendar={currentYear![0]?.holidays}
+            calendar={currentYearCalendar![0]?.holidays}
           />
         </>
       )}
 
-      {(currentYear?.[0]?.events ?? []).length > 0 && (
+      {(currentYearCalendar?.[0]?.events ?? []).length > 0 && (
         <>
           <h5 className="mt-8 mb-4">Events {new Date().getFullYear()}</h5>
-          <HolidayTable reason={"Events"} calendar={currentYear![0]?.events} />
+          <HolidayTable
+            reason={"Events"}
+            calendar={currentYearCalendar![0]?.events}
+          />
         </>
       )}
     </section>

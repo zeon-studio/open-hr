@@ -6,65 +6,57 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
-import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
+import { useUpdateCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CalendarInsertForm from "./CalendarInsertForm";
 
-const CalendarUpdate = () => {
+const CalendarUpdate = ({ calendarData }: { calendarData: TCalendar }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
   const [loader, setLoader] = useState(false);
-  const [calendarData, setCalendarData] = useState<TCalendar>({
-    year: new Date().getFullYear(),
-    holidays: [
-      {
-        start_date: new Date(),
-        end_date: new Date(),
-        reason: "",
-      },
-    ],
-    events: [
-      {
-        start_date: new Date(),
-        end_date: new Date(),
-        reason: "",
-      },
-    ],
-    createdAt: new Date(),
-  });
 
-  const [addCalendar, { isSuccess, isError, error }] = useAddCalendarMutation();
+  const [updatedCalendarData, setUpdatedCalendarData] =
+    useState<TCalendar>(calendarData);
+
+  useEffect(() => {
+    if (calendarData) {
+      setUpdatedCalendarData(calendarData);
+    }
+  }, [calendarData]);
+
+  const [updateCalendar, { isSuccess, isError, error }] =
+    useUpdateCalendarMutation();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoader(true);
     try {
-      addCalendar(calendarData);
+      await updateCalendar(updatedCalendarData);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     if (isSuccess) {
       setLoader(false);
-      setCalendarData({
+      onDialogChange(false);
+      setUpdatedCalendarData({
         year: new Date().getFullYear(),
         holidays: [],
         events: [],
         createdAt: new Date(),
       });
-      // close modal/dialog
       onDialogChange(false);
-      toast("Calendar added complete");
+      toast("Calendar update complete");
     } else if (isError) {
       setLoader(false);
-      toast("something went wrong");
-      console.log(error);
+      toast("Something went wrong");
+      console.error(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
 
   return (
     <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
@@ -78,11 +70,11 @@ const CalendarUpdate = () => {
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogTitle className="mb-4">Update Calendar</DialogTitle>
-
         <CalendarInsertForm
-          calendarData={calendarData}
-          setCalendarData={setCalendarData}
+          calendarData={updatedCalendarData}
+          setCalendarData={setUpdatedCalendarData}
           handleSubmit={handleSubmit}
+          buttonText="Update Calendar"
           loader={loader}
         />
       </DialogContent>
