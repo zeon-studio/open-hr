@@ -37,7 +37,7 @@ const AssetForm = ({
 }) => {
   const [assetLogs, setAssetLogs] = useState<TAssetLog[]>(assetData.logs || []);
 
-  // set product files to productData state
+  // set asset logs
   useEffect(() => {
     setAssetData((prev: Partial<TAsset>) => ({
       ...prev,

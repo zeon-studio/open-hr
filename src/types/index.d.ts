@@ -1,8 +1,8 @@
 export type TPagination = {
   page: number;
   limit: number;
-  search: string;
-  product_id?: string;
+  search?: string;
+  year?: string;
 };
 
 export type TError = {

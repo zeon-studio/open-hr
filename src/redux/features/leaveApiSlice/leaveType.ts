@@ -1,4 +1,5 @@
 export type TLeaveYear = {
+  employee_id?: string;
   year: number;
   casual: {
     allotted: number;
@@ -21,10 +22,9 @@ export type TLeaveYear = {
 export type TLeave = {
   employee_id: string;
   years: TLeaveYear[];
-  createdAt?: Date;
 };
 
-export type TLeaveState<T = TLeave[]> = {
+export type TLeaveState<T = TLeaveYear[]> = {
   loading: boolean;
   result: T;
   meta: {

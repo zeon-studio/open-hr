@@ -9,8 +9,8 @@ const leaveApiWithTag = apiSlice.enhanceEndpoints({
 export const leaveApi = leaveApiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getLeaves: builder.query<TLeaveState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/leave?page=${page}&limit=${limit}&search=${search}`,
+      query: ({ page, limit, year }) => ({
+        url: `/leave?page=${page}&limit=${limit}&year=${year}`,
         method: "GET",
       }),
       providesTags: ["leaves"],
@@ -37,7 +37,7 @@ export const leaveApi = leaveApiWithTag.injectEndpoints({
     updateLeave: builder.mutation({
       query: (data) => {
         return {
-          url: `/leave/${data.id}`,
+          url: `/leave/${data.employee_id}/${data.year}`,
           method: "PATCH",
           body: data,
         };
