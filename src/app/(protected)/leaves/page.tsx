@@ -64,53 +64,58 @@ const Leave = () => {
   return (
     <section className="p-8">
       {session?.user.role === "user" ? (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-center border-r"></TableHead>
-              <TableHead className="text-center border-r" colSpan={3}>
-                Casual Leave
-              </TableHead>
-              <TableHead className="text-center border-r" colSpan={3}>
-                Earn Leave
-              </TableHead>
-              <TableHead className="text-center border-r" colSpan={3}>
-                Sick Leave
-              </TableHead>
-              <TableHead className="text-center border-r" colSpan={3}>
-                Leave Without Pay
-              </TableHead>
-            </TableRow>
-
-            <TableRow className="border-t-0">
-              <TableHead className="border-t-0">Year</TableHead>
-              <TableHead className="border-l">Allotted</TableHead>
-              <TableHead>Consumed</TableHead>
-              <TableHead className="border-t-0">Available</TableHead>
-              <TableHead className="border-l">Allotted</TableHead>
-              <TableHead>Consumed</TableHead>
-              <TableHead className="border-t-0">Available</TableHead>
-              <TableHead className="border-l">Allotted</TableHead>
-              <TableHead>Consumed</TableHead>
-              <TableHead className="border-t-0">Available</TableHead>
-              <TableHead className="border-l">Allotted</TableHead>
-              <TableHead>Consumed</TableHead>
-              <TableHead className="border-t-0">Available</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {!employeeLeaveYears?.length && (
+        <>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-h4">Leaves Summary</h2>
+          </div>
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={12}>
-                  <div className="loader">
-                    <div className="loader-line" />
-                  </div>
-                </TableCell>
+                <TableHead className="text-center border-r"></TableHead>
+                <TableHead className="text-center border-r" colSpan={3}>
+                  Casual Leave
+                </TableHead>
+                <TableHead className="text-center border-r" colSpan={3}>
+                  Earn Leave
+                </TableHead>
+                <TableHead className="text-center border-r" colSpan={3}>
+                  Sick Leave
+                </TableHead>
+                <TableHead className="text-center border-r" colSpan={3}>
+                  Leave Without Pay
+                </TableHead>
               </TableRow>
-            )}
-            <EmployeeLeavePage leave={employeeLeaveYears} />
-          </TableBody>
-        </Table>
+
+              <TableRow className="border-t-0">
+                <TableHead className="border-t-0">Year</TableHead>
+                <TableHead className="border-l">Allotted</TableHead>
+                <TableHead>Consumed</TableHead>
+                <TableHead className="border-t-0">Available</TableHead>
+                <TableHead className="border-l">Allotted</TableHead>
+                <TableHead>Consumed</TableHead>
+                <TableHead className="border-t-0">Available</TableHead>
+                <TableHead className="border-l">Allotted</TableHead>
+                <TableHead>Consumed</TableHead>
+                <TableHead className="border-t-0">Available</TableHead>
+                <TableHead className="border-l">Allotted</TableHead>
+                <TableHead>Consumed</TableHead>
+                <TableHead className="border-t-0">Available</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {!employeeLeaveYears?.length && (
+                <TableRow>
+                  <TableCell colSpan={12}>
+                    <div className="loader">
+                      <div className="loader-line" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+              <EmployeeLeavePage leave={employeeLeaveYears} />
+            </TableBody>
+          </Table>
+        </>
       ) : (
         <>
           <div className="flex justify-between items-center mb-6">

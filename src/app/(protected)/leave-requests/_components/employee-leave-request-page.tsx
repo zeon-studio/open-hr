@@ -26,7 +26,9 @@ const EmployeeLeaveRequestPage = ({
     <>
       {leaveRequest?.map((item) => (
         <TableRow key={item._id}>
-          <TableCell>{item.leave_type}</TableCell>
+          <TableCell className="capitalize font-medium">
+            {item.leave_type}
+          </TableCell>
           <TableCell>{dateFormat(item.start_date)}</TableCell>
           <TableCell>{dateFormat(item.end_date)}</TableCell>
           <TableCell>{item.day_count}</TableCell>

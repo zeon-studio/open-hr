@@ -82,10 +82,7 @@ const CalendarInsertSheet = () => {
       <DialogTrigger asChild>
         <Button className="max-sm:w-full">Add Calendar Sheet</Button>
       </DialogTrigger>
-      <DialogContent
-        className="max-w-4xl overflow-y-auto h-[90vh]"
-        onPointerDownOutside={(e) => e.preventDefault()}
-      >
+      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogTitle className="mb-4">Add New Year Calendar Sheet</DialogTitle>
         <form className="row" onSubmit={handleSubmit}>
           <div className="col-12 mb-4">

@@ -62,25 +62,42 @@ const LeaveRequest = () => {
   return (
     <section className="p-8">
       {session?.user.role === "user" ? (
-        <Table>
-          <TableHeader className="sticky top-0">
-            <TableRow className="sticky top-0">
-              <TableHead className="sticky top-0 bg-white">Type</TableHead>
-              <TableHead className="sticky top-0 bg-white">
-                Start Date
-              </TableHead>
-              <TableHead className="sticky top-0 bg-white">End Date</TableHead>
-              <TableHead className="sticky top-0 bg-white">Days</TableHead>
-              <TableHead className="sticky top-0 bg-white">Reason</TableHead>
-              <TableHead className="sticky top-0 bg-white text-right">
-                Status
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <EmployeeLeaveRequestPage leaveRequest={employeeLeaveRequests} />
-          </TableBody>
-        </Table>
+        <>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-h4">Leave Requests</h2>
+            <Dialog
+              modal={true}
+              open={isDialogOpen}
+              onOpenChange={onDialogChange}
+            >
+              <DialogTrigger asChild>
+                <Button>Request Leave</Button>
+              </DialogTrigger>
+              <LeaveRequestInsert onDialogChange={onDialogChange} />
+            </Dialog>
+          </div>
+          <Table>
+            <TableHeader className="sticky top-0">
+              <TableRow className="sticky top-0">
+                <TableHead className="sticky top-0 bg-white">Type</TableHead>
+                <TableHead className="sticky top-0 bg-white">
+                  Start Date
+                </TableHead>
+                <TableHead className="sticky top-0 bg-white">
+                  End Date
+                </TableHead>
+                <TableHead className="sticky top-0 bg-white">Days</TableHead>
+                <TableHead className="sticky top-0 bg-white">Reason</TableHead>
+                <TableHead className="sticky top-0 bg-white text-right">
+                  Status
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <EmployeeLeaveRequestPage leaveRequest={employeeLeaveRequests} />
+            </TableBody>
+          </Table>
+        </>
       ) : (
         <>
           <div className="flex justify-between items-center mb-6">
