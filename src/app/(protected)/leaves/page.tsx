@@ -81,7 +81,7 @@ const Leave = () => {
                 <TableHead className="text-center border-r" colSpan={3}>
                   Sick Leave
                 </TableHead>
-                <TableHead className="text-center border-r" colSpan={3}>
+                <TableHead className="text-center" colSpan={3}>
                   Leave Without Pay
                 </TableHead>
               </TableRow>

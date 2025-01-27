@@ -20,10 +20,10 @@ const HolidayTable = ({
     <Table className="bg-background">
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-white">{reason}</TableHead>
-          <TableHead className="w-[20%] bg-white">Start</TableHead>
-          <TableHead className="w-[20%] bg-white">End</TableHead>
-          <TableHead className="w-[10%] bg-white">Total</TableHead>
+          <TableHead>{reason}</TableHead>
+          <TableHead className="w-[20%]">Start</TableHead>
+          <TableHead className="w-[20%]">End</TableHead>
+          <TableHead className="w-[10%]">Total</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

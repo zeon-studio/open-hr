@@ -59,13 +59,11 @@ const Course = () => {
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0 bg-white">Platform</TableHead>
-            <TableHead className="sticky top-0 bg-white">Courses</TableHead>
-            <TableHead className="sticky top-0 bg-white">Login ID</TableHead>
-            <TableHead className="sticky top-0 bg-white">Password</TableHead>
-            <TableHead className="sticky top-0 bg-white text-right">
-              More
-            </TableHead>
+            <TableHead className="sticky top-0">Platform</TableHead>
+            <TableHead className="sticky top-0">Courses</TableHead>
+            <TableHead className="sticky top-0">Login ID</TableHead>
+            <TableHead className="sticky top-0">Password</TableHead>
+            <TableHead className="sticky top-0 text-right">More</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
