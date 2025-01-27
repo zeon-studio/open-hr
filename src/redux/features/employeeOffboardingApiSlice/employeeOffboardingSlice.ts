@@ -3,6 +3,7 @@ import { apiSlice } from "../apiSlice/apiSlice";
 import {
   TAllOffboardingTaskState,
   TEmployeeOffboarding,
+  TEmployeeOffboardingCreate,
   TEmployeeOffboardingState,
 } from "./employeeOffboardingType";
 
@@ -50,7 +51,7 @@ export const employeeOffboardingApi =
 
       addEmployeeOffboarding: builder.mutation<
         TEmployeeOffboardingState,
-        TEmployeeOffboarding
+        TEmployeeOffboardingCreate
       >({
         query: (data) => ({
           url: `/employee-offboarding`,

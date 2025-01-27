@@ -17,6 +17,11 @@ export type TEmployeeOffboarding = {
   createdAt?: Date;
 };
 
+export type TEmployeeOffboardingCreate = {
+  employee_id: string;
+  resignation_date: Date;
+};
+
 export type TEmployeeOffboardingState<T = TEmployeeOffboarding[]> = {
   loading: boolean;
   result: T;
