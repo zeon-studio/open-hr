@@ -3,7 +3,7 @@ export type TEvent = {
   end_date: Date;
   day_count: number;
   reason: string;
-  type?: string;
+  type: "holiday" | "event";
 };
 
 export type TCalendar = {
@@ -20,7 +20,7 @@ export type TCalSheet = {
     end_date: Date;
     day_count: number;
     reason: string;
-    type: string;
+    type: "holidays" | "events";
   }[];
 };
 

@@ -3,7 +3,7 @@ import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 
-const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
+const CalendarView = ({ events }: { events: TEvent[] }) => {
   const customWeekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const getEventsForDate = (date: Date) => {
@@ -127,4 +127,4 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
   );
 };
 
-export default CustomEventCalendar;
+export default CalendarView;

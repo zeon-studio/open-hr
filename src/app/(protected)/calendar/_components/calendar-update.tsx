@@ -18,7 +18,7 @@ import { useUpdateCalendarMutation } from "@/redux/features/calendarApiSlice/cal
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import CalendarForm from "./CalendarForm";
+import CalendarForm from "./calendar-form";
 
 const CalendarUpdate = ({ calendarData }: { calendarData: TCalendar[] }) => {
   const [year, setYear] = useState(new Date().getFullYear());

@@ -8,18 +8,18 @@ import {
 } from "@/components/ui/table";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 
-const HolidayTable = ({
+const CalendarList = ({
   calendar,
-  reason,
+  listType,
 }: {
   calendar: TEvent[];
-  reason: string;
+  listType: string;
 }) => {
   return (
-    <Table className="bg-background">
+    <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>{reason}</TableHead>
+          <TableHead>{listType}</TableHead>
           <TableHead className="w-[20%]">Start</TableHead>
           <TableHead className="w-[20%]">End</TableHead>
           <TableHead className="w-[10%]">Total</TableHead>
@@ -29,7 +29,9 @@ const HolidayTable = ({
         {calendar?.length > 0 &&
           calendar?.map((el: TEvent, i: number) => (
             <TableRow key={i}>
-              <TableCell>{el?.reason}</TableCell>
+              <TableCell className="capitalize font-medium">
+                {el?.reason}
+              </TableCell>
               <TableCell>
                 {new Date(el?.start_date)
                   .toDateString()
@@ -54,4 +56,4 @@ const HolidayTable = ({
   );
 };
 
-export default HolidayTable;
+export default CalendarList;

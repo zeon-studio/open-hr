@@ -3,7 +3,7 @@ import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calend
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import CalendarForm from "./CalendarForm";
+import CalendarForm from "./calendar-form";
 
 const CalendarInsert = ({
   onDialogChange,
