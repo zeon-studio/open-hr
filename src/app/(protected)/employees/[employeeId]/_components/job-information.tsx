@@ -34,7 +34,6 @@ export default function JobInformation({
   company_website,
   promotions,
   company_name,
-  joining_date,
   formattedDuration,
   employee,
 }: {
@@ -267,16 +266,14 @@ export default function JobInformation({
             </div>
           </li>
           {promotions?.map((promotion, index, promotions) => {
-            const startDate =
-              index === promotions.length - 1
-                ? joining_date // If it's the last promotion, use joining date
-                : promotions[index + 1].promotion_date; // Otherwise, use the next promotion's date as the start date
-
+            const endDate =
+              index === 0
+                ? Date.now().toString()
+                : promotions[index - 1]?.promotion_date;
             const employmentDuration = getDuration(
-              startDate,
-              promotion.promotion_date
+              promotion.promotion_date,
+              endDate
             );
-
             const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
 
             return (

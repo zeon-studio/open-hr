@@ -29,6 +29,12 @@ export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
             new Date(a.promotion_date).getTime()
           );
         });
+
+        response.result.prev_jobs = response.result.prev_jobs.sort((a, b) => {
+          return (
+            new Date(b.end_date).getTime() - new Date(a.end_date).getTime()
+          );
+        });
         return response;
       },
       providesTags: ["employee-jobs"],
