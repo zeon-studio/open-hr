@@ -51,7 +51,7 @@ export default function Document() {
         </CardHeader>
         <CardContent>
           {data?.result && data?.result?.documents.length! > 0 ? (
-            <ul className="grid grid-cols-3 2xl:grid-cols-5 gap-4">
+            <ul className="grid md:grid-cols-3 sm:grid-cols-2 2xl:grid-cols-4 gap-4">
               {data.result.documents.map((document, index) => {
                 return (
                   <li
@@ -86,29 +86,31 @@ export default function Document() {
                               Preview
                             </UploadDialog>
                           </DropdownMenuItem>
-                          <DropdownMenuItem asChild>
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button
-                                  size={"sm"}
-                                  className="border-none w-full bg-transparent text-left justify-start text-sm h-auto py-1.5 px-1.5"
-                                  variant={"outline"}
-                                  type="button"
-                                >
-                                  Delete
-                                </Button>
-                              </DialogTrigger>
+                          {session?.user.role !== "user" && (
+                            <DropdownMenuItem asChild>
+                              <Dialog>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    size={"sm"}
+                                    className="border-none w-full bg-transparent text-left justify-start text-sm h-auto py-1.5 px-1.5"
+                                    variant={"outline"}
+                                    type="button"
+                                  >
+                                    Delete
+                                  </Button>
+                                </DialogTrigger>
 
-                              <ConfirmationPopup
-                                handleConfirmation={() => {
-                                  deleteDocument({
-                                    documentId: document._id!,
-                                    employeeId: employeeId,
-                                  });
-                                }}
-                              />
-                            </Dialog>
-                          </DropdownMenuItem>
+                                <ConfirmationPopup
+                                  handleConfirmation={() => {
+                                    deleteDocument({
+                                      documentId: document._id!,
+                                      employeeId: employeeId,
+                                    });
+                                  }}
+                                />
+                              </Dialog>
+                            </DropdownMenuItem>
+                          )}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>

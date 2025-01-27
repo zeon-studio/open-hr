@@ -102,6 +102,16 @@ export default function PersonalInfo() {
                   placeholder="Your Name"
                 />
               </div>
+
+              <div>
+                <Label>Mobile Phone:</Label>
+                <Input
+                  readOnly={isReadOnly}
+                  name="phone"
+                  value={data.phone}
+                  placeholder="Your phone number"
+                />
+              </div>
               <div>
                 <Label>Work Email</Label>
                 <Input
@@ -119,26 +129,23 @@ export default function PersonalInfo() {
                 />
               </div>
               <div>
-                <Label>Mobile Phone:</Label>
+                <Label>Personal Email</Label>
                 <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  value={data.personal_email}
                   readOnly={isReadOnly}
-                  name="phone"
-                  value={data.phone}
-                  placeholder="Your phone number"
+                  name="personal_email"
+                  placeholder="Your Personal Email"
                 />
               </div>
 
               <div>
-                <Label>NID</Label>
-                <Input
-                  readOnly={isReadOnly}
-                  name="nid"
-                  value={data.nid}
-                  placeholder="Your NID"
-                />
-              </div>
-
-              <div className="col-span-2 gap-3">
                 <Label>Date of Birth</Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -156,8 +163,15 @@ export default function PersonalInfo() {
                         <span>Select Date</span>
                       )}
                       <span className="flex items-center">
-                        <span className="bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"></span>
-                        <span className="pl-2  block">
+                        <span
+                          className={cn(
+                            "bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]",
+                            isReadOnly && "hidden"
+                          )}
+                        ></span>
+                        <span
+                          className={cn("pl-2  block", isReadOnly && "hidden")}
+                        >
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
                       </span>
@@ -179,6 +193,30 @@ export default function PersonalInfo() {
               </div>
 
               <div>
+                <Label>Gender:</Label>
+                {isReadOnly ? (
+                  <p className="text-sm font-semibold text-text-light">
+                    {data.gender || "Not Available"}
+                  </p>
+                ) : (
+                  <Select name="marital_status" value={data.gender}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Gender" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {options.employee_gender.map((status) => {
+                        return (
+                          <SelectItem key={status.value} value={status.value}>
+                            {status.label}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+
+              <div>
                 <Label>Present Address:</Label>
                 <Input
                   readOnly={isReadOnly}
@@ -196,10 +234,55 @@ export default function PersonalInfo() {
                   placeholder="Your permanent address"
                 />
               </div>
+
+              <div>
+                <Label>Facebook Profile</Label>
+                <Input
+                  type="url"
+                  readOnly={isReadOnly}
+                  name="facebook"
+                  value={data.facebook}
+                  placeholder="Your facebook profile"
+                />
+              </div>
+
+              <div>
+                <Label>X Profile</Label>
+                <Input
+                  type="url"
+                  readOnly={isReadOnly}
+                  name="twitter"
+                  value={data.twitter}
+                  placeholder="Your X profile"
+                />
+              </div>
+
+              <div>
+                <Label>Linkedin Profile</Label>
+                <Input
+                  type="url"
+                  readOnly={isReadOnly}
+                  name="linkedin"
+                  value={data.linkedin}
+                  placeholder="Your Linkedin profile"
+                />
+              </div>
+
+              <div>
+                <Label>Discord Profile</Label>
+                <Input
+                  type="text"
+                  readOnly={isReadOnly}
+                  name="discord"
+                  value={data.discord}
+                  placeholder="Your Discord profile"
+                />
+              </div>
+
               <div>
                 <Label>Blood Group:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm font-semibold">
+                  <p className="text-sm font-semibold text-text-light">
                     {data.blood_group || "Not Available"}
                   </p>
                 ) : (
@@ -228,7 +311,7 @@ export default function PersonalInfo() {
               <div>
                 <Label>Marital Status:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm font-semibold">
+                  <p className="text-sm font-semibold text-text-light">
                     {data.marital_status || "Not Available"}
                   </p>
                 ) : (
@@ -254,6 +337,15 @@ export default function PersonalInfo() {
                   <div>
                     <Label>Tin</Label>
                     <Input name="tin" value={data.tin} />
+                  </div>
+                  <div>
+                    <Label>NID</Label>
+                    <Input
+                      readOnly={isReadOnly}
+                      name="nid"
+                      value={data.nid}
+                      placeholder="Your NID"
+                    />
                   </div>
                   <div>
                     <Label>Facebook</Label>
@@ -396,27 +488,29 @@ export default function PersonalInfo() {
               ) : (
                 <p className="py-4">No bank account information available.</p>
               )}
-              <Button
-                onClick={() => {
-                  handleChange({
-                    ...data,
-                    banks: [
-                      ...(data?.banks || []),
-                      {
-                        bank_ac_no: "",
-                        bank_branch: "",
-                        bank_ac_name: "",
-                        bank_district: "",
-                        bank_name: "",
-                        bank_routing_no: "",
-                      },
-                    ],
-                  });
-                }}
-                disabled={isReadOnly}
-              >
-                {data?.banks.length > 0 ? "Add More" : "Add Bank Account"}
-              </Button>
+              {!isReadOnly && (
+                <Button
+                  onClick={() => {
+                    handleChange({
+                      ...data,
+                      banks: [
+                        ...(data?.banks || []),
+                        {
+                          bank_ac_no: "",
+                          bank_branch: "",
+                          bank_ac_name: "",
+                          bank_district: "",
+                          bank_name: "",
+                          bank_routing_no: "",
+                        },
+                      ],
+                    });
+                  }}
+                  disabled={isReadOnly}
+                >
+                  {data?.banks.length > 0 ? "Add More" : "Add Bank Account"}
+                </Button>
+              )}
             </form>
           );
         }}
@@ -554,27 +648,29 @@ export default function PersonalInfo() {
                 <p className="py-4">No Education information available. </p>
               )}
 
-              <Button
-                onClick={() => {
-                  handleChange({
-                    ...data,
-                    educations: [
-                      ...(data?.educations ?? []),
-                      {
-                        degree: "",
-                        major: "",
-                        result: "",
-                        institute: "",
-                        passing_year: 0,
-                      },
-                    ],
-                  });
-                }}
-                type="button"
-                disabled={isReadOnly}
-              >
-                {data?.educations.length > 0 ? "Add More" : "Add Education"}
-              </Button>
+              {!isReadOnly && (
+                <Button
+                  onClick={() => {
+                    handleChange({
+                      ...data,
+                      educations: [
+                        ...(data?.educations ?? []),
+                        {
+                          degree: "",
+                          major: "",
+                          result: "",
+                          institute: "",
+                          passing_year: 0,
+                        },
+                      ],
+                    });
+                  }}
+                  type="button"
+                  disabled={isReadOnly}
+                >
+                  {data?.educations.length > 0 ? "Add More" : "Add Education"}
+                </Button>
+              )}
             </form>
           );
         }}

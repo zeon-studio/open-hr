@@ -58,6 +58,7 @@ export const employeeOffboardingApi =
           method: "POST",
           body: data,
         }),
+
         invalidatesTags: ["employee-offboardings"],
       }),
 

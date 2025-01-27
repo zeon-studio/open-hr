@@ -22,6 +22,15 @@ export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
         url: `/employee-job/${id}`,
         method: "GET",
       }),
+      transformResponse: (response: TEmployeeJobState<TEmployeeJob>) => {
+        response.result.promotions = response.result.promotions.sort((a, b) => {
+          return (
+            new Date(b.promotion_date).getTime() -
+            new Date(a.promotion_date).getTime()
+          );
+        });
+        return response;
+      },
       providesTags: ["employee-jobs"],
     }),
 
@@ -34,10 +43,10 @@ export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
       invalidatesTags: ["employee-jobs"],
     }),
 
-    updateEmployeeJob: builder.mutation({
+    updateEmployeeJob: builder.mutation<TEmployeeJobState, TEmployeeJob>({
       query: (data) => {
         return {
-          url: `/employee-job/${data.id}`,
+          url: `/employee-job/${data.employee_id}`,
           method: "PATCH",
           body: data,
         };
@@ -52,6 +61,16 @@ export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
       }),
       invalidatesTags: ["employee-jobs"],
     }),
+    promoteEmployee: builder.mutation<TEmployeeJobState, TEmployeeJob>({
+      query: (data) => {
+        return {
+          url: `/employee-job/promote/${data.employee_id}`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["employee-jobs"],
+    }),
   }),
 });
 
@@ -61,4 +80,5 @@ export const {
   useAddEmployeeJobMutation,
   useUpdateEmployeeJobMutation,
   useDeleteEmployeeJobMutation,
+  usePromoteEmployeeMutation,
 } = employeeJobApi;

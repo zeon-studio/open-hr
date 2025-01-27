@@ -20,3 +20,20 @@ export type ApiResponse<T> = {
   message: string;
   result: T;
 };
+
+export interface ErrorDetail {
+  path: string;
+  message: string;
+}
+
+export interface ErrorData {
+  success: boolean;
+  message: string;
+  errorMessage: ErrorDetail[];
+  stack: string;
+}
+
+export type ErrorResponse = {
+  status: number;
+  data: ErrorData;
+};
