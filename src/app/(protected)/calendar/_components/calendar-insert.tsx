@@ -3,7 +3,7 @@ import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calend
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import CalendarInsertForm from "./CalendarInsertForm";
+import CalendarForm from "./calendar-form";
 
 const CalendarInsert = ({
   onDialogChange,
@@ -17,6 +17,7 @@ const CalendarInsert = ({
       {
         start_date: new Date(),
         end_date: new Date(),
+        day_count: 0,
         reason: "",
       },
     ],
@@ -24,6 +25,7 @@ const CalendarInsert = ({
       {
         start_date: new Date(),
         end_date: new Date(),
+        day_count: 0,
         reason: "",
       },
     ],
@@ -69,12 +71,13 @@ const CalendarInsert = ({
     >
       <DialogTitle className="mb-4">Add New Year Calendar</DialogTitle>
 
-      <CalendarInsertForm
+      <CalendarForm
         calendarData={calendarData}
         setCalendarData={setCalendarData}
         handleSubmit={handleSubmit}
         loader={loader}
         buttonText="Add Calendar"
+        mode="insert"
       />
     </DialogContent>
   );

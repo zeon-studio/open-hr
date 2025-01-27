@@ -21,11 +21,9 @@ import {
 import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import {
-  default as EmployeeLeaveRequestPage,
-  default as LeaveRequestPage,
-} from "./_components/employee-leave-request-page";
+import EmployeeLeaveRequestPage from "./_components/employee-leave-request-page";
 import LeaveRequestInsert from "./_components/leave-request-insert";
+import LeaveRequestPage from "./_components/leave-request-page";
 
 const LeaveRequest = () => {
   const searchParams = useSearchParams();
@@ -79,16 +77,12 @@ const LeaveRequest = () => {
           <Table>
             <TableHeader className="sticky top-0">
               <TableRow className="sticky top-0">
-                <TableHead className="sticky top-0 bg-white">Type</TableHead>
-                <TableHead className="sticky top-0 bg-white">
-                  Start Date
-                </TableHead>
-                <TableHead className="sticky top-0 bg-white">
-                  End Date
-                </TableHead>
-                <TableHead className="sticky top-0 bg-white">Days</TableHead>
-                <TableHead className="sticky top-0 bg-white">Reason</TableHead>
-                <TableHead className="sticky top-0 bg-white text-right">
+                <TableHead className="sticky top-0">Type</TableHead>
+                <TableHead className="sticky top-0">Start Date</TableHead>
+                <TableHead className="sticky top-0">End Date</TableHead>
+                <TableHead className="sticky top-0">Days</TableHead>
+                <TableHead className="sticky top-0">Reason</TableHead>
+                <TableHead className="sticky top-0 text-right">
                   Status
                 </TableHead>
               </TableRow>
@@ -121,17 +115,13 @@ const LeaveRequest = () => {
           <Table>
             <TableHeader className="sticky top-0">
               <TableRow className="sticky top-0">
-                <TableHead className="sticky top-0 bg-white">Name</TableHead>
-                <TableHead className="sticky top-0 bg-white">Type</TableHead>
-                <TableHead className="sticky top-0 bg-white">
-                  Start Date
-                </TableHead>
-                <TableHead className="sticky top-0 bg-white">
-                  End Date
-                </TableHead>
-                <TableHead className="sticky top-0 bg-white">Days</TableHead>
-                <TableHead className="sticky top-0 bg-white">Reason</TableHead>
-                <TableHead className="sticky top-0 bg-white text-right">
+                <TableHead className="sticky top-0">Name</TableHead>
+                <TableHead className="sticky top-0">Type</TableHead>
+                <TableHead className="sticky top-0">Start Date</TableHead>
+                <TableHead className="sticky top-0">End Date</TableHead>
+                <TableHead className="sticky top-0">Days</TableHead>
+                <TableHead className="sticky top-0">Reason</TableHead>
+                <TableHead className="sticky top-0 text-right">
                   Status
                 </TableHead>
               </TableRow>

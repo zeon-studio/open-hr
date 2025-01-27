@@ -3,7 +3,7 @@ import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 
-const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
+const CalendarView = ({ events }: { events: TEvent[] }) => {
   const customWeekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const getEventsForDate = (date: Date) => {
@@ -50,11 +50,11 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
       }, [event.reason]);
       return (
         <div
-          className={`${event?.type === "holiday" ? "bg-rose-100 border-l-2 border-l-rose-500" : "bg-blue-100 border-l-2 border-l-blue-500"} rounded-md py-1.5 px-1.5 mb-0.5`}
+          className={`${event?.type === "holiday" ? "bg-rose-500 sm:bg-rose-100 border-l-2 border-l-rose-500" : "bg-blue-500 sm:bg-blue-100 border-l-2 border-l-blue-500"} rounded-md py-0.5 sm:py-1.5 px-1.5 mb-0.5`}
         >
           <div
             ref={badgeRef}
-            className={`text-xs ${event?.type === "holiday" ? "text-rose-500" : "text-blue-500"} text-center overflow-hidden whitespace-nowrap`}
+            className={`hidden sm:block text-xs ${event?.type === "holiday" ? "text-rose-500" : "text-blue-500"} text-center overflow-hidden whitespace-nowrap`}
             style={{ maxWidth: "100%" }}
           >
             {isOverflowing ? (
@@ -89,11 +89,10 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
         caption:
           "relative w-full sm:w-[30%] lg:w-[25%] xl:w-[20%] ml-auto text-center bg-background px-6 py-2.5 border border-muted rounded-md overflow-hidden",
         month: "space-y-4 w-full flex flex-col",
-        day: "h-28 p-0 hover:text-unset cursor-default",
+        day: "h-10 sm:h-28 p-0 hover:text-unset cursor-default",
         day_today: "bg-muted",
         table:
           "w-full h-full border-collapse bg-background overflow-hidden rounded-t-md",
-        head_row: "bg-dark",
         head_cell: "font-normal text-white",
         row: "w-full",
         cell: "w-[14.2857%] relative border border-gray-300",
@@ -105,7 +104,7 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
       components={{
         Head: () => (
           <thead>
-            <tr className="bg-dark">
+            <tr className="bg-dark h-9">
               {customWeekDays.map((dayName) => (
                 <th
                   key={dayName}
@@ -128,4 +127,4 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
   );
 };
 
-export default CustomEventCalendar;
+export default CalendarView;

@@ -56,7 +56,10 @@ const LeaveModal = ({
     <DropdownMenu key={item.employee_id}>
       <TableRow>
         <TableCell>
-          <UserInfo user={employeeInfoById(item.employee_id!)} />
+          <UserInfo
+            className="min-w-[200px]"
+            user={employeeInfoById(item.employee_id!)}
+          />
         </TableCell>
         <TableCell className="border-r">{item.year}</TableCell>
         <TableCell className="text-center">{item.casual.allotted}</TableCell>

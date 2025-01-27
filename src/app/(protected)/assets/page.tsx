@@ -59,14 +59,12 @@ const Asset = () => {
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0 bg-white">Name</TableHead>
-            <TableHead className="sticky top-0 bg-white">User</TableHead>
-            <TableHead className="sticky top-0 bg-white">Tag ID</TableHead>
-            <TableHead className="sticky top-0 bg-white">Price</TableHead>
-            <TableHead className="sticky top-0 bg-white">Purchase</TableHead>
-            <TableHead className="sticky top-0 bg-white text-right">
-              More
-            </TableHead>
+            <TableHead className="sticky top-0">Name</TableHead>
+            <TableHead className="sticky top-0">User</TableHead>
+            <TableHead className="sticky top-0">Tag ID</TableHead>
+            <TableHead className="sticky top-0">Price</TableHead>
+            <TableHead className="sticky top-0">Purchase</TableHead>
+            <TableHead className="sticky top-0 text-right">More</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

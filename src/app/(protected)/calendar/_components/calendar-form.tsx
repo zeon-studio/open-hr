@@ -7,6 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { dayCount } from "@/lib/dateFormat";
 import {
   TCalendar,
   TEvent,
@@ -14,18 +15,20 @@ import {
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const CalendarInsertForm = ({
+const CalendarForm = ({
   calendarData,
   setCalendarData,
   handleSubmit,
   buttonText,
   loader,
+  mode,
 }: {
   calendarData: Partial<TCalendar>;
   setCalendarData: Dispatch<SetStateAction<TCalendar>>;
   handleSubmit: (e: any) => Promise<void>;
   buttonText: string;
   loader: boolean;
+  mode: string;
 }) => {
   const [year, setYear] = useState(
     calendarData?.year || new Date().getFullYear()
@@ -38,17 +41,34 @@ const CalendarInsertForm = ({
   );
 
   useEffect(() => {
+    if (
+      mode === "update" &&
+      (calendarData?.year !== year ||
+        JSON.stringify(calendarData?.holidays) !==
+          JSON.stringify(holidayItems) ||
+        JSON.stringify(calendarData?.events) !== JSON.stringify(eventItems))
+    ) {
+      setYear(calendarData?.year || new Date().getFullYear());
+      setHolidayItems(calendarData?.holidays || []);
+      setEventItems(calendarData?.events || []);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calendarData, mode]);
+
+  useEffect(() => {
     setCalendarData((prev) => ({
       ...prev,
       year: year,
       holidays: holidayItems.map((item) => ({
         start_date: item.start_date,
         end_date: item.end_date,
+        day_count: dayCount(new Date(item.start_date), new Date(item.end_date)),
         reason: item.reason,
       })),
       events: eventItems.map((item) => ({
         start_date: item.start_date,
         end_date: item.end_date,
+        day_count: dayCount(new Date(item.start_date), new Date(item.end_date)),
         reason: item.reason,
       })),
     }));
@@ -62,6 +82,7 @@ const CalendarInsertForm = ({
       {
         start_date: new Date(),
         end_date: new Date(),
+        day_count: 0,
         reason: "",
       },
     ]);
@@ -77,6 +98,7 @@ const CalendarInsertForm = ({
       {
         start_date: new Date(),
         end_date: new Date(),
+        day_count: 0,
         reason: "",
       },
     ]);
@@ -87,15 +109,17 @@ const CalendarInsertForm = ({
 
   return (
     <form className="row" onSubmit={handleSubmit}>
-      <div className="col-12 mb-4">
-        <Label>Year</Label>
-        <Input
-          type="number"
-          value={year}
-          onChange={(e) => setYear(Number(e.target.value))}
-          placeholder="Enter calendar year"
-        />
-      </div>
+      {mode === "insert" && (
+        <div className="col-12 mb-4">
+          <Label>Year</Label>
+          <Input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(Number(e.target.value))}
+            placeholder="Enter calendar year"
+          />
+        </div>
+      )}
       <div className="col-12 mb-6">
         <h5 className="mb-4">Holiday</h5>
         {holidayItems.map((holiday, index) => (
@@ -387,4 +411,4 @@ const CalendarInsertForm = ({
   );
 };
 
-export default CalendarInsertForm;
+export default CalendarForm;

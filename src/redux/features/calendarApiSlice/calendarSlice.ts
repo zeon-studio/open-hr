@@ -1,4 +1,3 @@
-import { TPagination } from "@/types";
 import { apiSlice } from "../apiSlice/apiSlice";
 import { TAllCalendarEvents, TCalendar, TCalendarState } from "./calendarType";
 
@@ -8,9 +7,9 @@ const calendarApiWithTag = apiSlice.enhanceEndpoints({
 
 export const calendarApi = calendarApiWithTag.injectEndpoints({
   endpoints: (builder) => ({
-    getCalendars: builder.query<TCalendarState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/calendar?page=${page}&limit=${limit}&search=${search}`,
+    getCalendars: builder.query<TCalendarState, undefined>({
+      query: () => ({
+        url: `/calendar`,
         method: "GET",
       }),
       providesTags: ["calendars"],

@@ -58,14 +58,12 @@ export default function Employees() {
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0 bg-background">Name</TableHead>
-            <TableHead className="sticky top-0 bg-background">Email</TableHead>
-            <TableHead className="sticky top-0 bg-background">Phone </TableHead>
+            <TableHead className="sticky top-0">Name</TableHead>
+            <TableHead className="sticky top-0">Email</TableHead>
+            <TableHead className="sticky top-0">Phone </TableHead>
 
-            <TableHead className="sticky top-0 bg-background">
-              Department
-            </TableHead>
-            <TableHead className="sticky top-0 bg-background text-left">
+            <TableHead className="sticky top-0">Department</TableHead>
+            <TableHead className="sticky top-0 text-left">
               Designation
             </TableHead>
           </TableRow>

@@ -8,13 +8,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDialog } from "@/hooks/useDialog";
-import { readCalSheet } from "@/lib/calendarDataFormat";
+import { readCalSheet, transformCalSheetData } from "@/lib/calendarDataFormat";
 import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
-import {
-  TCalendar,
-  TCalSheet,
-} from "@/redux/features/calendarApiSlice/calendarType";
-import { FileDown, Loader2 } from "lucide-react";
+import { TCalSheet } from "@/redux/features/calendarApiSlice/calendarType";
+import { FileDown, FileUp, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -22,24 +19,7 @@ import { toast } from "sonner";
 const CalendarInsertSheet = () => {
   const { isDialogOpen, onDialogChange } = useDialog();
   const [loader, setLoader] = useState(false);
-  const [calendarData, setCalendarData] = useState<TCalendar>({
-    year: new Date().getFullYear(),
-    holidays: [
-      {
-        start_date: new Date(),
-        end_date: new Date(),
-        reason: "",
-      },
-    ],
-    events: [
-      {
-        start_date: new Date(),
-        end_date: new Date(),
-        reason: "",
-      },
-    ],
-    createdAt: new Date(),
-  });
+
   const [sheetData, setSheetData] = useState<TCalSheet>({
     year: new Date().getFullYear(),
     events: [],
@@ -51,7 +31,8 @@ const CalendarInsertSheet = () => {
     e.preventDefault();
     setLoader(true);
     try {
-      addCalendar(calendarData);
+      const data = transformCalSheetData(sheetData);
+      addCalendar(data);
     } catch (error) {
       console.log(error);
     }
@@ -60,12 +41,7 @@ const CalendarInsertSheet = () => {
   useEffect(() => {
     if (isSuccess) {
       setLoader(false);
-      setCalendarData({
-        year: new Date().getFullYear(),
-        holidays: [],
-        events: [],
-        createdAt: new Date(),
-      });
+      setSheetData({ year: new Date().getFullYear(), events: [] });
       // close modal/dialog
       onDialogChange(false);
       toast("Calendar added complete");
@@ -80,7 +56,12 @@ const CalendarInsertSheet = () => {
   return (
     <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
       <DialogTrigger asChild>
-        <Button className="max-sm:w-full">Add Calendar Sheet</Button>
+        <Button
+          className="rounded-l-none border-l border-border"
+          title="Updload Calendar Sheet"
+        >
+          <FileUp size={16} />
+        </Button>
       </DialogTrigger>
       <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogTitle className="mb-4">Add New Year Calendar Sheet</DialogTitle>

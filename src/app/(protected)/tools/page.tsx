@@ -59,14 +59,10 @@ const Tool = () => {
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0 bg-white">Platform</TableHead>
-            <TableHead className="sticky top-0 bg-white">Website</TableHead>
-            <TableHead className="sticky top-0 bg-white">
-              Organizations
-            </TableHead>
-            <TableHead className="sticky top-0 bg-white text-right">
-              More
-            </TableHead>
+            <TableHead className="sticky top-0">Platform</TableHead>
+            <TableHead className="sticky top-0">Website</TableHead>
+            <TableHead className="sticky top-0">Organizations</TableHead>
+            <TableHead className="sticky top-0 text-right">More</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

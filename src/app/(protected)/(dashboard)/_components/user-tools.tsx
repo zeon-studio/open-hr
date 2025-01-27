@@ -45,8 +45,10 @@ const UserTools = ({ userId }: { userId: string }) => {
                           rel="noopener nofollow noreferrer"
                           href={tool.website}
                         >
-                          {tool.platform}
-                          <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
+                          <span className="inline-block mr-1">
+                            {tool.platform}
+                          </span>
+                          <ExternalLink className="inline-block -mt-1 size-[1em]" />
                         </Link>
                       </strong>
                     </div>

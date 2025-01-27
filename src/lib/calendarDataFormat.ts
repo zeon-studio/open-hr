@@ -3,6 +3,7 @@ import {
   TCalSheet,
 } from "@/redux/features/calendarApiSlice/calendarType";
 import * as XLSX from "xlsx";
+import { dayCount } from "./dateFormat";
 
 // read calendar sheet data
 export const readCalSheet = (file: Blob): Promise<TCalendar[]> => {
@@ -67,6 +68,10 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
           ...item,
           start_date: new Date(item.start_date),
           end_date: new Date(item.end_date),
+          day_count: dayCount(
+            new Date(item.start_date),
+            new Date(item.end_date)
+          ),
           reason: item.reason,
         });
       } else if (item.type === "events") {
@@ -74,6 +79,10 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
           ...item,
           start_date: new Date(item.start_date),
           end_date: new Date(item.end_date),
+          day_count: dayCount(
+            new Date(item.start_date),
+            new Date(item.end_date)
+          ),
           reason: item.reason,
         });
       }
