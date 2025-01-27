@@ -9,12 +9,15 @@ import { useSearchParams } from "next/navigation";
 import CustomEventCalendar from "./_components/CustomEventCalendar";
 
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { format } from "date-fns";
+import { useSession } from "next-auth/react";
 import CalendarInsert from "./_components/CalendarInsert";
 import CalendarInsertSheet from "./_components/CalendarInsertSheet";
 import CalendarUpdate from "./_components/CalendarUpdate";
 import HolidayTable from "./_components/HolidayTable";
 
 const Calendarcomponent = () => {
+  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
@@ -53,15 +56,29 @@ const Calendarcomponent = () => {
 
   return (
     <section className="p-4">
-      <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-4 items-center relative sm:-mb-10 mb-1 z-10 sm:w-fit">
-        <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
-          <DialogTrigger asChild>
-            <Button className="max-sm:w-full">Add New</Button>
-          </DialogTrigger>
-          <CalendarInsert onDialogChange={onDialogChange} />
-        </Dialog>
-        <CalendarInsertSheet />
-        <CalendarUpdate calendarData={calendars as TCalendar[]} />
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-1 sm:gap-4 relative sm:-mb-10 mb-1 z-10 sm:w-fit">
+        {session?.user.role === "admin" ? (
+          <>
+            <div className="flex items-center max-sm:w-full">
+              <Dialog
+                modal={true}
+                open={isDialogOpen}
+                onOpenChange={onDialogChange}
+              >
+                <DialogTrigger asChild>
+                  <Button className="w-full rounded-r-none">Add New</Button>
+                </DialogTrigger>
+                <CalendarInsert onDialogChange={onDialogChange} />
+              </Dialog>
+              <CalendarInsertSheet />
+            </div>
+            <CalendarUpdate calendarData={calendars as TCalendar[]} />
+          </>
+        ) : (
+          <h4>
+            {format(new Date(), "MMMM")} {new Date().getFullYear()}
+          </h4>
+        )}
       </div>
 
       <CustomEventCalendar events={events ?? []} />

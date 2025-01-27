@@ -11,7 +11,7 @@ import { useDialog } from "@/hooks/useDialog";
 import { readCalSheet, transformCalSheetData } from "@/lib/calendarDataFormat";
 import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalSheet } from "@/redux/features/calendarApiSlice/calendarType";
-import { FileDown, Loader2 } from "lucide-react";
+import { FileDown, FileUp, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -56,7 +56,12 @@ const CalendarInsertSheet = () => {
   return (
     <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
       <DialogTrigger asChild>
-        <Button className="max-sm:w-full">Add Calendar Sheet</Button>
+        <Button
+          className="rounded-l-none border-l border-border"
+          title="Updload Calendar Sheet"
+        >
+          <FileUp size={16} />
+        </Button>
       </DialogTrigger>
       <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogTitle className="mb-4">Add New Year Calendar Sheet</DialogTitle>
