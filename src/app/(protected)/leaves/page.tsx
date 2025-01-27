@@ -19,12 +19,14 @@ import {
 } from "@/components/ui/table";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import {
+  useAddNewLeaveYearMutation,
   useGetLeaveQuery,
   useGetLeavesQuery,
 } from "@/redux/features/leaveApiSlice/leaveSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import EmployeeLeavePage from "./_components/employee-leave-page";
 import LeavePage from "./_components/leave-page";
 
@@ -34,15 +36,22 @@ const Leave = () => {
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
   const year = searchParams.get("year");
+  const currentYear = new Date().getFullYear();
 
   const years = ["2024", "2025", "2026", "2027", "2028", "2029", "2030"];
+
+  // add new year data
+  const [addNewYearLeave] = useAddNewLeaveYearMutation();
+  useEffect(() => {
+    addNewYearLeave(currentYear);
+  }, [addNewYearLeave, currentYear]);
 
   // get all Data
   const { data } = useGetLeavesQuery(
     {
       page: page ? Number(page) : 1,
       limit: limit,
-      year: year ? year : String(new Date().getFullYear()),
+      year: year ? year : String(currentYear),
     },
     { skip: session?.user.role === "user" }
   );

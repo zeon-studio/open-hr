@@ -25,12 +25,13 @@ export const leaveApi = leaveApiWithTag.injectEndpoints({
       providesTags: ["leaves"],
     }),
 
-    addLeave: builder.mutation<TLeaveState, TLeave>({
-      query: (data) => ({
-        url: `/leave`,
-        method: "POST",
-        body: data,
-      }),
+    addNewLeaveYear: builder.mutation({
+      query: (year) => {
+        return {
+          url: `/leave/update-year/${year}`,
+          method: "PATCH",
+        };
+      },
       invalidatesTags: ["leaves"],
     }),
 
@@ -58,7 +59,7 @@ export const leaveApi = leaveApiWithTag.injectEndpoints({
 export const {
   useGetLeavesQuery,
   useGetLeaveQuery,
-  useAddLeaveMutation,
+  useAddNewLeaveYearMutation,
   useUpdateLeaveMutation,
   useDeleteLeaveMutation,
 } = leaveApi;

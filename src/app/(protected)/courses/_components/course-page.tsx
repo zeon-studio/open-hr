@@ -72,14 +72,15 @@ const CourseModal = ({
             <Image
               src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
               alt={item.platform}
-              width={30}
-              height={30}
-              className="rounded-full object-cover shrink-0 hidden lg:block mr-4"
+              width={50}
+              height={50}
+              className="rounded border object-cover shrink-0 hidden lg:block mr-2"
             />
             <Link
               href={item.website}
               target="_blank"
               rel="noopener noreferrer nofollow"
+              className="font-medium"
             >
               {item.platform}
               <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
