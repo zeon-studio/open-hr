@@ -21,11 +21,9 @@ import {
 import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import {
-  default as EmployeeLeaveRequestPage,
-  default as LeaveRequestPage,
-} from "./_components/employee-leave-request-page";
+import EmployeeLeaveRequestPage from "./_components/employee-leave-request-page";
 import LeaveRequestInsert from "./_components/leave-request-insert";
+import LeaveRequestPage from "./_components/leave-request-page";
 
 const LeaveRequest = () => {
   const searchParams = useSearchParams();
