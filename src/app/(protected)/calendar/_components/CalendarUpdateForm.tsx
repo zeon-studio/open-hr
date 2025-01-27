@@ -14,7 +14,7 @@ import {
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const CalendarInsertForm = ({
+const CalendarUpdateForm = ({
   calendarData,
   setCalendarData,
   handleSubmit,
@@ -36,6 +36,19 @@ const CalendarInsertForm = ({
   const [eventItems, setEventItems] = useState<TEvent[]>(
     calendarData?.events || []
   );
+
+  useEffect(() => {
+    if (
+      calendarData?.year !== year ||
+      JSON.stringify(calendarData?.holidays) !== JSON.stringify(holidayItems) ||
+      JSON.stringify(calendarData?.events) !== JSON.stringify(eventItems)
+    ) {
+      setYear(calendarData?.year || new Date().getFullYear());
+      setHolidayItems(calendarData?.holidays || []);
+      setEventItems(calendarData?.events || []);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calendarData]);
 
   useEffect(() => {
     setCalendarData((prev) => ({
@@ -87,15 +100,6 @@ const CalendarInsertForm = ({
 
   return (
     <form className="row" onSubmit={handleSubmit}>
-      <div className="col-12 mb-4">
-        <Label>Year</Label>
-        <Input
-          type="number"
-          value={year}
-          onChange={(e) => setYear(Number(e.target.value))}
-          placeholder="Enter calendar year"
-        />
-      </div>
       <div className="col-12 mb-6">
         <h5 className="mb-4">Holiday</h5>
         {holidayItems.map((holiday, index) => (
@@ -387,4 +391,4 @@ const CalendarInsertForm = ({
   );
 };
 
-export default CalendarInsertForm;
+export default CalendarUpdateForm;

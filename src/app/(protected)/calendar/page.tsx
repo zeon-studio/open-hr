@@ -32,7 +32,7 @@ const Calendarcomponent = () => {
     (cal) => new Date().getFullYear() === cal?.year
   );
 
-  const events = currentYearCalendar?.flatMap((cal) => [
+  const events = calendars?.flatMap((cal) => [
     ...cal.holidays.map((holiday) => ({
       start_date: new Date(holiday.start_date),
       end_date: new Date(holiday.end_date),
@@ -61,7 +61,7 @@ const Calendarcomponent = () => {
           <CalendarInsert onDialogChange={onDialogChange} />
         </Dialog>
         <CalendarInsertSheet />
-        <CalendarUpdate calendarData={currentYearCalendar?.[0] as TCalendar} />
+        <CalendarUpdate calendarData={calendars as TCalendar[]} />
       </div>
 
       <CustomEventCalendar events={events ?? []} />

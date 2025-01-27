@@ -93,7 +93,6 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
         day_today: "bg-muted",
         table:
           "w-full h-full border-collapse bg-background overflow-hidden rounded-t-md",
-        head_row: "bg-dark",
         head_cell: "font-normal text-white",
         row: "w-full",
         cell: "w-[14.2857%] relative border border-gray-300",
@@ -105,7 +104,7 @@ const CustomEventCalendar = ({ events }: { events: TEvent[] }) => {
       components={{
         Head: () => (
           <thead>
-            <tr className="bg-dark">
+            <tr className="bg-dark h-9">
               {customWeekDays.map((dayName) => (
                 <th
                   key={dayName}
