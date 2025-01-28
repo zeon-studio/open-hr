@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDialog } from "@/hooks/useDialog";
-import { readCalSheet, transformCalSheetData } from "@/lib/calendarDataFormat";
+import { readSheetData, transformCalSheetData } from "@/lib/sheetDataFormat";
 import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalSheet } from "@/redux/features/calendarApiSlice/calendarType";
 import { FileDown, FileUp, Loader2 } from "lucide-react";
@@ -90,7 +90,7 @@ const CalendarInsertSheet = () => {
                 const target = e.target as HTMLInputElement;
                 if (target.files) {
                   try {
-                    const data = await readCalSheet(target.files[0]);
+                    const data = await readSheetData(target.files[0]);
 
                     setSheetData((prev: any) => ({
                       ...prev,

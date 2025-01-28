@@ -6,7 +6,7 @@ import * as XLSX from "xlsx";
 import { dayCount } from "./dateFormat";
 
 // read calendar sheet data
-export const readCalSheet = (file: Blob): Promise<TCalendar[]> => {
+export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
   return new Promise((resolve, reject) => {
     if (!file) {
       alert("No file selected");
@@ -66,22 +66,24 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
       if (item.type === "holidays") {
         acc.holidays.push({
           ...item,
-          start_date: new Date(item.start_date),
-          end_date: new Date(item.end_date),
+          type: "holiday",
+          start_date: new Date(item.start_date).toISOString().split("T")[0],
+          end_date: new Date(item.end_date).toISOString().split("T")[0],
           day_count: dayCount(
-            new Date(item.start_date),
-            new Date(item.end_date)
+            new Date(item.start_date).toISOString().split("T")[0],
+            new Date(item.end_date).toISOString().split("T")[0]
           ),
           reason: item.reason,
         });
       } else if (item.type === "events") {
         acc.events.push({
           ...item,
-          start_date: new Date(item.start_date),
-          end_date: new Date(item.end_date),
+          type: "event",
+          start_date: new Date(item.start_date).toISOString().split("T")[0],
+          end_date: new Date(item.end_date).toISOString().split("T")[0],
           day_count: dayCount(
-            new Date(item.start_date),
-            new Date(item.end_date)
+            new Date(item.start_date).toISOString().split("T")[0],
+            new Date(item.end_date).toISOString().split("T")[0]
           ),
           reason: item.reason,
         });
