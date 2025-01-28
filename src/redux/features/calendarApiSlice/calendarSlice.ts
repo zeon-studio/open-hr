@@ -26,7 +26,7 @@ export const calendarApi = calendarApiWithTag.injectEndpoints({
 
     getUpcomingHolidaysAndEvents: builder.query<TAllCalendarEvents, string>({
       query: (date) => ({
-        url: `/calendar/upcoming?current_date=${date}`,
+        url: `/calendar/upcoming/${date}`,
         method: "GET",
       }),
       providesTags: ["calendars"],

@@ -87,6 +87,8 @@ const AssetForm = ({
         <Select
           value={assetData.type}
           onValueChange={(value) => setAssetData({ ...assetData, type: value })}
+          required
+          disabled={formType === "update"}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select a type" />
