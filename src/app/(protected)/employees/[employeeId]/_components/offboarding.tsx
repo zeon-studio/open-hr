@@ -1,19 +1,53 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useGetEmployeeOffboardingQuery } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
-import { TOffboardingTask } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingType";
-import { Loader2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/shadcn";
+import {
+  useAddEmployeeOffboardingMutation,
+  useGetEmployeeOffboardingQuery,
+} from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
+import {
+  TEmployeeOffboardingCreate,
+  TOffboardingTask,
+} from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingType";
+import { ErrorResponse } from "@/types";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Offboarding() {
   const { data: session } = useSession();
+  const role = session?.user.role;
   let { employeeId } = useParams<{ employeeId: string }>();
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
   const { data, isLoading } = useGetEmployeeOffboardingQuery(employeeId);
+  const [employeeOffboarding, { isLoading: isOffboardingLoading }] =
+    useAddEmployeeOffboardingMutation();
   const task = data?.result ?? {};
+
+  const [offboardingData, setOffboardingData] =
+    useState<TEmployeeOffboardingCreate>({
+      employee_id: "",
+      resignation_date: new Date(),
+    });
 
   return (
     <div>
@@ -80,9 +114,97 @@ export default function Offboarding() {
             </div>
           ) : (
             <>
-              <p className="text-center text-muted-foreground py-20">
-                No tasks assigned.
-              </p>
+              {role === "user" ? (
+                <div>
+                  <p>No offboarding tasks have been assigned to you.</p>
+                </div>
+              ) : (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>Initiate Off-boarding</Button>
+                  </DialogTrigger>
+                  <DialogContent className="overflow-y-auto">
+                    <DialogHeader className="sr-only">
+                      <DialogTitle>
+                        Initiate Off-boarding for Employee
+                      </DialogTitle>
+                    </DialogHeader>
+
+                    <form
+                      onSubmit={async (e) => {
+                        try {
+                          e.preventDefault();
+                          await employeeOffboarding({
+                            employee_id: employeeId,
+                            resignation_date: new Date(),
+                          }).unwrap();
+                          toast.success("Off-boarding initiated successfully");
+                        } catch (error) {
+                          const errorMessage =
+                            (error as ErrorResponse).data.message ||
+                            "Something went wrong";
+                          toast.error(errorMessage);
+                        }
+                      }}
+                    >
+                      <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4">
+                          <Label htmlFor="resignation_date">
+                            Resignation Date
+                          </Label>
+
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={"input"}
+                                className={cn("w-full flex justify-between")}
+                              >
+                                {offboardingData.resignation_date ? (
+                                  new Date(
+                                    offboardingData.resignation_date
+                                  ).toDateString()
+                                ) : (
+                                  <span>Select Date</span>
+                                )}
+                                <span className="flex items-center">
+                                  <span
+                                    className={cn(
+                                      "bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"
+                                    )}
+                                  ></span>
+                                  <span className={cn("pl-2  block")}>
+                                    <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                                  </span>
+                                </span>
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={new Date()}
+                                onSelect={(date) => {
+                                  setOffboardingData({
+                                    ...offboardingData,
+                                    resignation_date: date!,
+                                  });
+                                }}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                          <Button type="submit" disabled={isOffboardingLoading}>
+                            Initiate Off-boarding
+                          </Button>
+                        </div>
+                      </div>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              )}
             </>
           )}
         </CardContent>

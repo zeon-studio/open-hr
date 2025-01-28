@@ -131,8 +131,8 @@ export default function EmployeeSingle() {
   return (
     <div className="bg-light">
       <Tabs value={params.get("tab") || activeTab.value}>
-        <div className="flex xl:grid grid-cols-10 gap-5 2xl:grid-cols-12 bg-primary p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6">
-          <div className="col-span-5 lg:col-span-2 2xl:col-span-2 translate-y-6 2xl:translate-y-8">
+        <div className="flex xl:grid grid-cols-10 gap-5 2xl:grid-cols-12 p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-2 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20">
+          <div className="col-span-5 lg:col-span-2 2xl:col-span-2">
             <div className="bg-light rounded overflow-hidden max-w-[210px]">
               <Avatar
                 className="flex-none w-full rounded-none max-w-[100px] lg:max-w-[210px]"
@@ -145,8 +145,8 @@ export default function EmployeeSingle() {
             </div>
           </div>
 
-          <div className="col-span-5 lg:col-span-8 2xl:col-span-10 flex flex-col">
-            <div className="xl:translate-y-6 2xl:translate-y-8">
+          <div className="col-span-5 lg:col-span-8 2xl:col-span-10 flex flex-col justify-between">
+            <div>
               <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5 lg:mb-2.5">
                 Hi, {data?.result.name}
               </h2>
@@ -155,73 +155,75 @@ export default function EmployeeSingle() {
               </p>
             </div>
 
-            <div className="mt-auto xl:hidden">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant={"secondary"}
-                    className="mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 rounded-b-none bg-light shadow-none"
+            <div className="-translate-y-2 lg:-translate-y-6 xl:pr-[2vw]">
+              <div className="mt-auto xl:hidden">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant={"secondary"}
+                      className="mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 rounded-b-none bg-light shadow-none"
+                    >
+                      <span>{activeTab.label}</span>
+                      <ChevronDown className="size-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="start"
+                    className="p-2 border-none bg-background"
                   >
-                    <span>{activeTab.label}</span>
-                    <ChevronDown className="size-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="start"
-                  className="p-2 border-none bg-background"
-                >
-                  {tabs.map((tab) => (
-                    <DropdownMenuItem
+                    {tabs.map((tab) => (
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setTab(tab);
+                        }}
+                        key={tab.value}
+                        asChild
+                      >
+                        <Button
+                          className={cn(
+                            "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 lg:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 cursor-pointer p-1.5",
+
+                            tab.value === activeTab.value &&
+                              "bg-[#F3F4F6] text-text-dark"
+                          )}
+                          variant={"ghost"}
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            handleMouseDown(tab);
+                          }}
+                        >
+                          {tab.label}
+                        </Button>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+
+              <TabsList className="hidden xl:flex h-auto flex-wrap 2xl:gap-x-8 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6">
+                {tabs.map((tab, index) => (
+                  <TabsTrigger
+                    value={tab.value}
+                    key={index}
+                    asChild
+                    className="data-[state=active]:bg-light flex-1"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      handleMouseDown(tab);
+                    }}
+                  >
+                    <Button
                       onClick={() => {
                         setTab(tab);
                       }}
-                      key={tab.value}
-                      asChild
+                      className="rounded-none data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none data-[state=active]:ring-offset-0 data-[state=active]:ring-0 !shadow-none"
                     >
-                      <Button
-                        className={cn(
-                          "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 lg:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 cursor-pointer p-1.5",
-
-                          tab.value === activeTab.value &&
-                            "bg-[#F3F4F6] text-text-dark"
-                        )}
-                        variant={"ghost"}
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          handleMouseDown(tab);
-                        }}
-                      >
-                        {tab.label}
-                      </Button>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                      {tab.label}
+                    </Button>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
             </div>
-
-            <TabsList className="hidden xl:flex h-auto flex-wrap 2xl:gap-x-8 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end mt-auto">
-              {tabs.map((tab, index) => (
-                <TabsTrigger
-                  value={tab.value}
-                  key={index}
-                  asChild
-                  className="data-[state=active]:bg-light flex-1"
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    handleMouseDown(tab);
-                  }}
-                >
-                  <Button
-                    onClick={() => {
-                      setTab(tab);
-                    }}
-                    className="rounded-none data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none data-[state=active]:ring-offset-0 data-[state=active]:ring-0 !shadow-none"
-                  >
-                    {tab.label}
-                  </Button>
-                </TabsTrigger>
-              ))}
-            </TabsList>
           </div>
         </div>
 
