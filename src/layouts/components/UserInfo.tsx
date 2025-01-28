@@ -1,6 +1,5 @@
-import { filterEmployee } from "@/redux/features/customSlice/customSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
-import { useAppDispatch } from "@/redux/hook";
+import Link from "next/link";
 import { JSX } from "react";
 import Gravatar from "react-gravatar";
 
@@ -9,19 +8,16 @@ const UserInfo = ({
   className,
   description,
   imgSize = 50,
+  link,
 }: {
   user: Partial<TEmployee & { designation?: string }>;
   className?: string;
   description?: string;
   imgSize?: number;
+  link?: string;
 }): JSX.Element => {
-  const dispatch = useAppDispatch();
-
   return (
-    <div
-      className={`flex items-center ${className}`}
-      onClick={() => dispatch(filterEmployee(user?.id!))}
-    >
+    <div className={`flex relative items-center ${className}`}>
       <div className={`shrink-0`}>
         {user?.image ? (
           <img
@@ -42,7 +38,13 @@ const UserInfo = ({
       </div>
       <div className="ml-3">
         <h6 className={`font-medium mb-1.5 text-sm cursor-pointer`}>
-          {user?.name}
+          {link ? (
+            <Link className="stretched-link" href={link}>
+              {user?.name}
+            </Link>
+          ) : (
+            user?.name
+          )}
         </h6>
         <p className="text-xs text-muted-foreground">
           {description ? description : user?.designation}

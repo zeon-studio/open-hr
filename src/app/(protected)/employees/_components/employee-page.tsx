@@ -1,9 +1,8 @@
 "use client";
-import Avatar from "@/components/Avatar";
-import { buttonVariants } from "@/components/ui/button";
+
 import { TableCell, TableRow } from "@/components/ui/table";
+import UserInfo from "@/components/UserInfo";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
-import Link from "next/link";
 
 const EmployeePage = ({
   employees,
@@ -15,23 +14,7 @@ const EmployeePage = ({
       {employees?.map((employee) => (
         <TableRow key={employee.id}>
           <TableCell className="min-w-[200px]">
-            <div className="flex items-center space-x-2">
-              <Avatar
-                width={50}
-                height={50}
-                src={employee?.image}
-                email={employee.work_email}
-                alt={employee.name}
-              />
-              <Link
-                className={buttonVariants({
-                  variant: "link",
-                })}
-                href={`/employees/${employee.id}`}
-              >
-                {employee.name}
-              </Link>
-            </div>
+            <UserInfo user={employee} link={`/employees/${employee.id}`} />
           </TableCell>
           <TableCell>{employee.work_email}</TableCell>
           <TableCell>{employee.phone}</TableCell>
