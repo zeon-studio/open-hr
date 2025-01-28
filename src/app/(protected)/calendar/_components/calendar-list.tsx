@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { dateFormat } from "@/lib/dateFormat";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 
 const CalendarList = ({
@@ -32,20 +33,8 @@ const CalendarList = ({
               <TableCell className="capitalize font-medium">
                 {el?.reason}
               </TableCell>
-              <TableCell>
-                {new Date(el?.start_date)
-                  .toDateString()
-                  .split(" ")
-                  .slice(0, 3)
-                  .join(" ")}
-              </TableCell>
-              <TableCell>
-                {new Date(el?.end_date)
-                  .toDateString()
-                  .split(" ")
-                  .slice(0, 3)
-                  .join(" ")}
-              </TableCell>
+              <TableCell>{dateFormat(el?.start_date)}</TableCell>
+              <TableCell>{dateFormat(el?.end_date)}</TableCell>
               <TableCell>
                 {el?.day_count} {el?.day_count! > 1 ? "days" : "day"}
               </TableCell>

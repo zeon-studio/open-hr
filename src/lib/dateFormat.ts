@@ -33,7 +33,7 @@ export const dateFormat = (
   // Adjust for timezone offset
   const adjustedDate = new Date(
     dateObj.getTime() + timeZoneOffset * 60 * 60 * 1000
-  ).toISOString();
+  )?.toISOString();
 
   // Extract day, month, and year
   const day = adjustedDate.slice(8, 10);

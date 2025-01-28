@@ -7,13 +7,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { dayCount } from "@/lib/dateFormat";
+import { dateFormat, dayCount } from "@/lib/dateFormat";
 import {
   TCalendar,
   TEvent,
 } from "@/redux/features/calendarApiSlice/calendarType";
+import { format } from "date-fns";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { DateRange } from "react-day-picker";
 
 const CalendarForm = ({
   calendarData,
@@ -39,6 +41,24 @@ const CalendarForm = ({
   const [eventItems, setEventItems] = useState<TEvent[]>(
     calendarData?.events || []
   );
+  const [holidayDateRange, setHolidayDateRange] = useState<
+    DateRange | undefined
+  >({
+    from: calendarData.holidays?.[0]?.start_date
+      ? new Date(calendarData.holidays[0].start_date)
+      : undefined,
+    to: calendarData.holidays?.[0]?.end_date
+      ? new Date(calendarData.holidays[0].end_date)
+      : undefined,
+  });
+  const [eventDateRange, setEventDateRange] = useState<DateRange | undefined>({
+    from: calendarData.events?.[0]?.start_date
+      ? new Date(calendarData.events[0].start_date)
+      : undefined,
+    to: calendarData.events?.[0]?.end_date
+      ? new Date(calendarData.events[0].end_date)
+      : undefined,
+  });
 
   useEffect(() => {
     if (
@@ -51,6 +71,22 @@ const CalendarForm = ({
       setYear(calendarData?.year || new Date().getFullYear());
       setHolidayItems(calendarData?.holidays || []);
       setEventItems(calendarData?.events || []);
+      setHolidayDateRange({
+        from: calendarData.holidays?.[0]?.start_date
+          ? new Date(calendarData.holidays[0].start_date)
+          : undefined,
+        to: calendarData.holidays?.[0]?.end_date
+          ? new Date(calendarData.holidays[0].end_date)
+          : undefined,
+      });
+      setEventDateRange({
+        from: calendarData.events?.[0]?.start_date
+          ? new Date(calendarData.events[0].start_date)
+          : undefined,
+        to: calendarData.events?.[0]?.end_date
+          ? new Date(calendarData.events[0].end_date)
+          : undefined,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarData, mode]);
@@ -60,20 +96,59 @@ const CalendarForm = ({
       ...prev,
       year: year,
       holidays: holidayItems.map((item) => ({
-        start_date: item.start_date,
-        end_date: item.end_date,
-        day_count: dayCount(new Date(item.start_date), new Date(item.end_date)),
+        start_date: holidayDateRange?.from
+          ? format(holidayDateRange.from, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+        end_date: holidayDateRange?.to
+          ? format(holidayDateRange.to, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+        day_count: dayCount(
+          new Date(holidayDateRange?.from!),
+          new Date(holidayDateRange?.to!)
+        ),
         reason: item.reason,
       })),
       events: eventItems.map((item) => ({
-        start_date: item.start_date,
-        end_date: item.end_date,
-        day_count: dayCount(new Date(item.start_date), new Date(item.end_date)),
+        start_date: eventDateRange?.from
+          ? format(eventDateRange.from, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+        end_date: eventDateRange?.to
+          ? format(eventDateRange.to, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+        day_count: dayCount(
+          new Date(eventDateRange?.from!),
+          new Date(eventDateRange?.to!)
+        ),
         reason: item.reason,
       })),
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [holidayItems, eventItems]);
+
+  useEffect(() => {
+    setCalendarData((prev) => ({
+      ...prev,
+      holidays: holidayItems.map((item) => ({
+        ...item,
+        start_date: holidayDateRange?.from
+          ? format(holidayDateRange.from, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+        end_date: holidayDateRange?.to
+          ? format(holidayDateRange.to, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+      })),
+      events: eventItems.map((item) => ({
+        ...item,
+        start_date: eventDateRange?.from
+          ? format(eventDateRange.from, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+        end_date: eventDateRange?.to
+          ? format(eventDateRange.to, "yyyy-MM-dd")
+          : new Date().toISOString().split("T")[0],
+      })),
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [holidayDateRange, eventDateRange]);
 
   // holiday
   const handleAddHoliday = () => {
@@ -156,93 +231,42 @@ const CalendarForm = ({
                 />
               </div>
               <div className="w-full">
-                <div className="flex gap-4">
-                  {/* start date */}
-                  <div className="w-1/2">
-                    <Label>Start Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"input"}
-                          className="w-full flex justify-between border-border/30 rounded"
-                        >
-                          {holiday.start_date ? (
-                            new Date(holiday.start_date).toDateString()
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <span className="flex items-center ">
-                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
-                            <span className="pl-2 block">
-                              <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
-                            </span>
-                          </span>
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={
-                            holiday.start_date
-                              ? new Date(holiday.start_date)
-                              : new Date()
-                          }
-                          onSelect={(e) => {
-                            const updatedHolidayItems = [...holidayItems];
-                            updatedHolidayItems[index] = {
-                              ...holiday,
-                              start_date: new Date(e?.toString()!),
-                            };
-                            setHolidayItems(updatedHolidayItems);
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-
-                  {/* end date */}
-                  <div className="w-1/2">
-                    <Label>End Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"input"}
-                          className="w-full flex justify-between border-border/30 rounded"
-                        >
-                          {holiday.end_date ? (
-                            new Date(holiday.end_date).toDateString()
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <span className="flex items-center ">
-                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
-                            <span className="pl-2 block">
-                              <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
-                            </span>
-                          </span>
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={
-                            holiday.end_date
-                              ? new Date(holiday.end_date)
-                              : new Date()
-                          }
-                          onSelect={(e) => {
-                            const updatedHolidayItems = [...holidayItems];
-                            updatedHolidayItems[index] = {
-                              ...holiday,
-                              end_date: new Date(e?.toString()!),
-                            };
-                            setHolidayItems(updatedHolidayItems);
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
+                <Label>Date Range</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"input"}
+                      className="w-full flex justify-between"
+                    >
+                      {holidayDateRange?.from ? (
+                        holidayDateRange.to ? (
+                          <>
+                            {dateFormat(holidayDateRange.from)} -{" "}
+                            {dateFormat(holidayDateRange.to)}
+                          </>
+                        ) : (
+                          dateFormat(holidayDateRange.from)
+                        )
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <span className="flex items-center">
+                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="pl-2  block">
+                          <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                        </span>
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="range"
+                      numberOfMonths={2}
+                      selected={holidayDateRange}
+                      onSelect={setHolidayDateRange}
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
           </div>
@@ -294,93 +318,42 @@ const CalendarForm = ({
                 />
               </div>
               <div className="w-full">
-                <div className="flex gap-4">
-                  {/* start date */}
-                  <div className="w-1/2">
-                    <Label>Start Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"input"}
-                          className="w-full flex justify-between"
-                        >
-                          {event.start_date ? (
-                            new Date(event.start_date).toDateString()
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <span className="flex items-center">
-                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
-                            <span className="pl-2 block">
-                              <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
-                            </span>
-                          </span>
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={
-                            event.start_date
-                              ? new Date(event.start_date)
-                              : new Date()
-                          }
-                          onSelect={(e) => {
-                            const updatedEventItems = [...eventItems];
-                            updatedEventItems[index] = {
-                              ...event,
-                              start_date: new Date(e?.toString()!),
-                            };
-                            setEventItems(updatedEventItems);
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-
-                  {/* end date */}
-                  <div className="w-1/2">
-                    <Label>Start Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"input"}
-                          className="w-full flex justify-between"
-                        >
-                          {event.end_date ? (
-                            new Date(event.end_date).toDateString()
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <span className="flex items-center ">
-                            <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
-                            <span className="pl-2 block">
-                              <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
-                            </span>
-                          </span>
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={
-                            event.end_date
-                              ? new Date(event.end_date)
-                              : new Date()
-                          }
-                          onSelect={(e) => {
-                            const updatedEventItems = [...eventItems];
-                            updatedEventItems[index] = {
-                              ...event,
-                              end_date: new Date(e?.toString()!),
-                            };
-                            setEventItems(updatedEventItems);
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
+                <Label>Date Range</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"input"}
+                      className="w-full flex justify-between"
+                    >
+                      {eventDateRange?.from ? (
+                        eventDateRange.to ? (
+                          <>
+                            {dateFormat(eventDateRange.from)} -{" "}
+                            {dateFormat(eventDateRange.to)}
+                          </>
+                        ) : (
+                          dateFormat(eventDateRange.from)
+                        )
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <span className="flex items-center">
+                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="pl-2  block">
+                          <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                        </span>
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="range"
+                      numberOfMonths={2}
+                      selected={eventDateRange}
+                      onSelect={setEventDateRange}
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
           </div>

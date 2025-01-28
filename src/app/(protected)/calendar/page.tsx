@@ -16,13 +16,6 @@ import CalendarList from "./_components/calendar-list";
 import CalendarUpdate from "./_components/calendar-update";
 import CalendarView from "./_components/calendar-view";
 
-const getCurrentYearCalendar = (
-  calendars: TCalendar[] | undefined,
-  currentYear: number
-): TCalendar[] | undefined => {
-  return calendars?.filter((cal) => currentYear === cal?.year);
-};
-
 const getEvents = (calendars: TCalendar[]): TEvent[] => {
   return calendars?.flatMap((cal) => [
     ...cal.holidays.map((holiday) => ({
@@ -43,11 +36,11 @@ const getEvents = (calendars: TCalendar[]): TEvent[] => {
 };
 
 const renderCalendarList = (
-  currentYearCalendar: TCalendar[] | undefined,
+  calendars: TCalendar[] | undefined,
   type: "holidays" | "events",
   title: string
 ) => {
-  const items = currentYearCalendar?.[0]?.[type] ?? [];
+  const items = calendars?.[0]?.[type] ?? [];
   if (items.length > 0) {
     return (
       <>
@@ -66,10 +59,9 @@ const CalendarPage = () => {
   const currentYear = new Date().getFullYear();
 
   // get all calendar Data
-  const { data } = useGetCalendarsQuery(undefined);
+  const { data } = useGetCalendarsQuery(currentYear);
   const { result: calendars } = data || {};
 
-  const currentYearCalendar = getCurrentYearCalendar(calendars, currentYear);
   const events = getEvents(calendars!);
 
   const { isDialogOpen, onDialogChange } = useDialog();
@@ -103,8 +95,8 @@ const CalendarPage = () => {
 
       <CalendarView events={events!} />
 
-      {renderCalendarList(currentYearCalendar, "holidays", "Holidays")}
-      {renderCalendarList(currentYearCalendar, "events", "Events")}
+      {renderCalendarList(calendars, "holidays", "Holidays")}
+      {renderCalendarList(calendars, "events", "Events")}
     </section>
   );
 };

@@ -50,11 +50,11 @@ const CalendarView = ({ events }: { events: TEvent[] }) => {
       }, [event.reason]);
       return (
         <div
-          className={`${event?.type === "holiday" ? "bg-rose-500 sm:bg-rose-100 border-l-2 border-l-rose-500" : "bg-blue-500 sm:bg-blue-100 border-l-2 border-l-blue-500"} rounded-md py-0.5 sm:py-1.5 px-1.5 mb-0.5`}
+          className={`${event?.type === "holiday" ? "bg-destructive sm:bg-destructive/10 border-l-2 border-l-destructive" : "bg-success sm:bg-success/10 border-l-2 border-l-success"} rounded-md py-0.5 sm:py-1.5 px-1.5 mb-0.5`}
         >
           <div
             ref={badgeRef}
-            className={`hidden sm:block text-xs ${event?.type === "holiday" ? "text-rose-500" : "text-blue-500"} text-center overflow-hidden whitespace-nowrap`}
+            className={`hidden sm:block text-xs ${event?.type === "holiday" ? "text-destructive" : "text-success"} text-center overflow-hidden whitespace-nowrap`}
             style={{ maxWidth: "100%" }}
           >
             {isOverflowing ? (
@@ -108,7 +108,7 @@ const CalendarView = ({ events }: { events: TEvent[] }) => {
               {customWeekDays.map((dayName) => (
                 <th
                   key={dayName}
-                  className="border-r last:border-0 font-normal text-white"
+                  className={`border-r last:border-0 font-normal text-white`}
                 >
                   {dayName}
                 </th>
