@@ -34,10 +34,10 @@ export const employeeBankApi = employeeBankApiWithTag.injectEndpoints({
       invalidatesTags: ["employee-banks"],
     }),
 
-    updateEmployeeBank: builder.mutation({
+    updateEmployeeBank: builder.mutation<TEmployeeBankState, TEmployeeBank>({
       query: (data) => {
         return {
-          url: `/employee-bank/${data.id}`,
+          url: `/employee-bank/${data.employee_id}`,
           method: "PATCH",
           body: data,
         };

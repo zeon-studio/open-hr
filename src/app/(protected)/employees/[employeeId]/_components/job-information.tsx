@@ -119,6 +119,7 @@ export default function JobInformation({
                   e.preventDefault();
                 }
               }}
+              className="max-w-2xl max-h-[95h]"
             >
               <DialogHeader className="sr-only">
                 <DialogTitle>Update your job information</DialogTitle>

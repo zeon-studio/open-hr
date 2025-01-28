@@ -192,23 +192,25 @@ const FileManager = ({
           )}
 
           <div className="space-x-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  type="button"
-                  size={"sm"}
-                  variant={"outline"}
-                  className="mt-3"
-                >
-                  Delete
-                </Button>
-              </DialogTrigger>
-              <ConfirmationPopup
-                skipWrite={true}
-                handleConfirmation={() => handleDelete(location)}
-                description="Deleting will permanently delete this file from the Bucket."
-              />
-            </Dialog>
+            {session.data?.user.role !== "user" && (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    type="button"
+                    size={"sm"}
+                    variant={"outline"}
+                    className="mt-3"
+                  >
+                    Delete
+                  </Button>
+                </DialogTrigger>
+                <ConfirmationPopup
+                  skipWrite={true}
+                  handleConfirmation={() => handleDelete(location)}
+                  description="Deleting will permanently delete this file from the Bucket."
+                />
+              </Dialog>
+            )}
             <Button
               onClick={() => handleDownload(location)}
               type="button"

@@ -4,7 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import EditFrom from "@/partials/EditFrom";
-import { useGetEmployeeContactQuery } from "@/redux/features/employeeContactApiSlice/employeeContactSlice";
+import {
+  useAddEmployeeContactMutation,
+  useGetEmployeeContactQuery,
+} from "@/redux/features/employeeContactApiSlice/employeeContactSlice";
 import { TEmployeeContact } from "@/redux/features/employeeContactApiSlice/employeeContactType";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -16,6 +19,8 @@ export default function Emergency() {
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
+  const [addContact, { isLoading: isAddLoading }] =
+    useAddEmployeeContactMutation();
   const { data, isLoading } = useGetEmployeeContactQuery(employeeId);
 
   return (
@@ -31,7 +36,7 @@ export default function Emergency() {
       ) : (
         <div className="flex flex-col gap-4">
           <EditFrom<TEmployeeContact>
-            isUpdating={false}
+            isUpdating={isAddLoading}
             data={data?.result!}
             title="Emergency Contact Details"
           >
@@ -40,6 +45,10 @@ export default function Emergency() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
+                    addContact({
+                      contacts: data.contacts,
+                      employee_id: employeeId,
+                    });
                   }}
                   className="grid gap-3"
                   ref={formRef}
@@ -63,6 +72,7 @@ export default function Emergency() {
                                   }),
                                 });
                               }}
+                              required
                               value={contact.name}
                               readOnly={isReadOnly}
                               name="name"
@@ -84,6 +94,7 @@ export default function Emergency() {
                                   }),
                                 });
                               }}
+                              required
                               readOnly={isReadOnly}
                               value={contact.relation}
                               name="relation"
@@ -91,7 +102,7 @@ export default function Emergency() {
                             />
                           </div>
                           <div>
-                            <Label>Bank Account Number</Label>
+                            <Label>Phone</Label>
                             <Input
                               onChange={(e) => {
                                 const { name, value } = e.target;
@@ -105,8 +116,9 @@ export default function Emergency() {
                                   }),
                                 });
                               }}
+                              required
                               readOnly={isReadOnly}
-                              name="bank_ac_no"
+                              name="phone"
                               value={contact.phone}
                               placeholder="Your answer"
                             />
@@ -123,25 +135,27 @@ export default function Emergency() {
                       No contacts available. Please add a contact to view
                     </p>
                   )}
-                  <Button
-                    onClick={() => {
-                      handleChange({
-                        ...data,
-                        contacts: [
-                          ...(data?.contacts ?? []),
-                          {
-                            name: "",
-                            phone: "",
-                            relation: "",
-                          },
-                        ],
-                      });
-                    }}
-                    type="button"
-                    disabled={isReadOnly}
-                  >
-                    {isReadOnly ? "Add Contact" : "Add Another Contact"}
-                  </Button>
+                  <div className="text-right">
+                    <Button
+                      onClick={() => {
+                        handleChange({
+                          ...data,
+                          contacts: [
+                            ...(data?.contacts ?? []),
+                            {
+                              name: "",
+                              phone: "",
+                              relation: "",
+                            },
+                          ],
+                        });
+                      }}
+                      type="button"
+                      disabled={isReadOnly}
+                    >
+                      {isReadOnly ? "Add Contact" : "Add Another Contact"}
+                    </Button>
+                  </div>
                 </form>
               );
             }}

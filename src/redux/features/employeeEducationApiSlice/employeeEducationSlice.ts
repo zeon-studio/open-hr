@@ -47,10 +47,13 @@ export const employeeEducationApi = employeeEducationApiWithTag.injectEndpoints(
         invalidatesTags: ["employee-educations"],
       }),
 
-      updateEmployeeEducation: builder.mutation({
+      updateEmployeeEducation: builder.mutation<
+        TEmployeeEducationState,
+        TEmployeeEducation
+      >({
         query: (data) => {
           return {
-            url: `/employee-education/${data.id}`,
+            url: `/employee-education/${data.employee_id}`,
             method: "PATCH",
             body: data,
           };

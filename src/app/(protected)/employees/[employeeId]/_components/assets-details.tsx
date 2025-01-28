@@ -3,6 +3,7 @@ import { useGetAssetsByUserQuery } from "@/redux/features/assetApiSlice/assetSli
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 
 export default function Assets() {
@@ -38,7 +39,15 @@ export default function Assets() {
                     className="row mx-0 space-y-3 lg:space-y-0 2xl:row-cols-4 items-center bg-light rounded py-3"
                     key={asset.asset_id}
                   >
-                    <div className="flex items-center">
+                    <div className="flex items-center 2xl:space-x-3">
+                      <Image
+                        src={`/images/assets/${asset.type}.png`}
+                        alt={asset.name}
+                        width={50}
+                        height={50}
+                        className="hidden 2xl:block rounded-md border border-border/30 mr-2 shrink-0"
+                      />
+
                       <div>
                         <small className="text-xs text-muted-foreground block">
                           Name:

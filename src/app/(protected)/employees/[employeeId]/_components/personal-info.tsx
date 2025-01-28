@@ -25,9 +25,15 @@ import {
   useUpdateEmployeeMutation,
 } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
-import { useGetEmployeeBankQuery } from "@/redux/features/employeeBankApiSlice/employeeBankSlice";
+import {
+  useGetEmployeeBankQuery,
+  useUpdateEmployeeBankMutation,
+} from "@/redux/features/employeeBankApiSlice/employeeBankSlice";
 import { TEmployeeBank } from "@/redux/features/employeeBankApiSlice/employeeBankType";
-import { useGetEmployeeEducationQuery } from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
+import {
+  useGetEmployeeEducationQuery,
+  useUpdateEmployeeEducationMutation,
+} from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
 import { TEmployeeEducation } from "@/redux/features/employeeEducationApiSlice/employeeEducationType";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -47,6 +53,12 @@ export default function PersonalInfo() {
 
   const { data: bankDetails, isLoading: isBankLoading } =
     useGetEmployeeBankQuery(employeeId ?? session?.user.id!);
+
+  const [updateBankInfo, { isLoading: isBankInfoUpdating }] =
+    useUpdateEmployeeBankMutation();
+
+  const [updateEducationInfo, { isLoading: isEducationUpdating }] =
+    useUpdateEmployeeEducationMutation();
 
   const { data: educationDetails, isLoading: isEducationLoading } =
     useGetEmployeeEducationQuery(employeeId ?? session?.user.id!);
@@ -379,7 +391,7 @@ export default function PersonalInfo() {
       </EditFrom>
 
       <EditFrom<TEmployeeBank>
-        isUpdating={isUpdating}
+        isUpdating={isBankInfoUpdating}
         data={bankDetails?.result!}
         title="Bank Details (If any)"
       >
@@ -388,6 +400,10 @@ export default function PersonalInfo() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                updateBankInfo({
+                  employee_id: employeeId,
+                  banks: data.banks,
+                });
               }}
               className="grid gap-3"
               ref={formRef}
@@ -432,6 +448,7 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
+                          required
                           readOnly={isReadOnly}
                           value={bank.bank_name}
                           name="bank_name"
@@ -453,6 +470,7 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
+                          required
                           readOnly={isReadOnly}
                           name="bank_ac_no"
                           value={bank.bank_ac_no}
@@ -474,6 +492,7 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
+                          required
                           readOnly={isReadOnly}
                           value={bank.bank_branch}
                           name="bank_branch"
@@ -489,27 +508,30 @@ export default function PersonalInfo() {
                 <p className="py-4">No bank account information available.</p>
               )}
               {!isReadOnly && (
-                <Button
-                  onClick={() => {
-                    handleChange({
-                      ...data,
-                      banks: [
-                        ...(data?.banks || []),
-                        {
-                          bank_ac_no: "",
-                          bank_branch: "",
-                          bank_ac_name: "",
-                          bank_district: "",
-                          bank_name: "",
-                          bank_routing_no: "",
-                        },
-                      ],
-                    });
-                  }}
-                  disabled={isReadOnly}
-                >
-                  {data?.banks.length > 0 ? "Add More" : "Add Bank Account"}
-                </Button>
+                <div className="text-right">
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      handleChange({
+                        ...data,
+                        banks: [
+                          ...(data?.banks || []),
+                          {
+                            bank_ac_no: "",
+                            bank_branch: "",
+                            bank_ac_name: "",
+                            bank_district: "",
+                            bank_name: "",
+                            bank_routing_no: "",
+                          },
+                        ],
+                      });
+                    }}
+                    disabled={isReadOnly}
+                  >
+                    {data?.banks.length > 0 ? "Add More" : "Add Bank Account"}
+                  </Button>
+                </div>
               )}
             </form>
           );
@@ -517,7 +539,7 @@ export default function PersonalInfo() {
       </EditFrom>
 
       <EditFrom<TEmployeeEducation>
-        isUpdating={isUpdating}
+        isUpdating={isEducationUpdating}
         data={educationDetails?.result!}
         title="Educational Details"
       >
@@ -526,6 +548,10 @@ export default function PersonalInfo() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                updateEducationInfo({
+                  employee_id: employeeId,
+                  educations: data.educations,
+                });
               }}
               className="grid grid-cols-1 gap-3"
               ref={formRef}
@@ -549,6 +575,7 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
+                          required
                           value={education.degree}
                           readOnly={isReadOnly}
                           name="degree"
@@ -570,6 +597,7 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
+                          required
                           readOnly={isReadOnly}
                           value={education.institute}
                           name="institute"
@@ -591,14 +619,16 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
+                          type="text"
+                          required
                           readOnly={isReadOnly}
-                          name="bank_ac_no"
+                          name="passing_year"
                           value={education.passing_year}
                           placeholder="Passing year"
                         />
                       </div>
                       <div>
-                        <Label>Branch</Label>
+                        <Label>Major</Label>
                         <Input
                           onChange={(e) => {
                             const { name, value } = e.target;
@@ -612,6 +642,7 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
+                          required
                           readOnly={isReadOnly}
                           value={education.major}
                           name="major"
@@ -619,7 +650,7 @@ export default function PersonalInfo() {
                       </div>
 
                       <div>
-                        <Label>Branch</Label>
+                        <Label>Result</Label>
                         <Input
                           onChange={(e) => {
                             const { name, value } = e.target;
@@ -649,27 +680,29 @@ export default function PersonalInfo() {
               )}
 
               {!isReadOnly && (
-                <Button
-                  onClick={() => {
-                    handleChange({
-                      ...data,
-                      educations: [
-                        ...(data?.educations ?? []),
-                        {
-                          degree: "",
-                          major: "",
-                          result: "",
-                          institute: "",
-                          passing_year: 0,
-                        },
-                      ],
-                    });
-                  }}
-                  type="button"
-                  disabled={isReadOnly}
-                >
-                  {data?.educations.length > 0 ? "Add More" : "Add Education"}
-                </Button>
+                <div className="text-right">
+                  <Button
+                    onClick={() => {
+                      handleChange({
+                        ...data,
+                        educations: [
+                          ...(data?.educations ?? []),
+                          {
+                            degree: "",
+                            major: "",
+                            result: "",
+                            institute: "",
+                            passing_year: 0,
+                          },
+                        ],
+                      });
+                    }}
+                    type="button"
+                    disabled={isReadOnly}
+                  >
+                    {data?.educations.length > 0 ? "Add More" : "Add Education"}
+                  </Button>
+                </div>
               )}
             </form>
           );
