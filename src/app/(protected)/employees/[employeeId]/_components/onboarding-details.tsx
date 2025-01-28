@@ -30,10 +30,10 @@ export default function Onboarding() {
   return (
     <div>
       <Card>
-        <CardHeader className="border-b-transparent">
+        <CardHeader className="border-b-transparent pb-0">
           <CardTitle>Onboarding</CardTitle>
         </CardHeader>
-        <CardContent className="pt-0">
+        <CardContent className="pt-6">
           {data?.result ? (
             <div className="flex flex-col gap-4">
               <ul className="space-y-3">
