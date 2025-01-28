@@ -63,28 +63,22 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
     (acc, item) => {
       acc.year = sheetData.year;
 
-      if (item.type === "holidays") {
+      if (item.type === "holiday") {
         acc.holidays.push({
           ...item,
           type: "holiday",
-          start_date: new Date(item.start_date).toISOString().split("T")[0],
-          end_date: new Date(item.end_date).toISOString().split("T")[0],
-          day_count: dayCount(
-            new Date(item.start_date).toISOString().split("T")[0],
-            new Date(item.end_date).toISOString().split("T")[0]
-          ),
+          start_date: item.start_date,
+          end_date: item.end_date,
+          day_count: dayCount(item.start_date, item.end_date),
           reason: item.reason,
         });
-      } else if (item.type === "events") {
+      } else if (item.type === "event") {
         acc.events.push({
           ...item,
           type: "event",
-          start_date: new Date(item.start_date).toISOString().split("T")[0],
-          end_date: new Date(item.end_date).toISOString().split("T")[0],
-          day_count: dayCount(
-            new Date(item.start_date).toISOString().split("T")[0],
-            new Date(item.end_date).toISOString().split("T")[0]
-          ),
+          start_date: item.start_date,
+          end_date: item.end_date,
+          day_count: dayCount(item.start_date, item.end_date),
           reason: item.reason,
         });
       }

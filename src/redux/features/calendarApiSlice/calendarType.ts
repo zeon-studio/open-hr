@@ -20,7 +20,7 @@ export type TCalSheet = {
     end_date: Date;
     day_count: number;
     reason: string;
-    type: "holidays" | "events";
+    type: "holiday" | "event";
   }[];
 };
 

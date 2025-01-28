@@ -241,11 +241,11 @@ const CalendarForm = ({
                       {holidayDateRange?.from ? (
                         holidayDateRange.to ? (
                           <>
-                            {dateFormat(holidayDateRange.from)} -{" "}
-                            {dateFormat(holidayDateRange.to)}
+                            {format(holidayDateRange.from, "dd/MM/yyyy")} -{" "}
+                            {format(holidayDateRange.to, "dd/MM/yyyy")}
                           </>
                         ) : (
-                          dateFormat(holidayDateRange.from)
+                          format(holidayDateRange.from, "dd/MM/yyyy")
                         )
                       ) : (
                         <span>Pick a date</span>
