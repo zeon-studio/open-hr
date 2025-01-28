@@ -7,9 +7,9 @@ const calendarApiWithTag = apiSlice.enhanceEndpoints({
 
 export const calendarApi = calendarApiWithTag.injectEndpoints({
   endpoints: (builder) => ({
-    getCalendars: builder.query<TCalendarState, undefined>({
-      query: () => ({
-        url: `/calendar`,
+    getCalendars: builder.query<TCalendarState, number>({
+      query: (year) => ({
+        url: `/calendar/${year}`,
         method: "GET",
       }),
       providesTags: ["calendars"],
