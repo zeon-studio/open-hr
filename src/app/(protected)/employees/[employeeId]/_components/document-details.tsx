@@ -45,7 +45,7 @@ export default function Document() {
         <CardHeader className="border-0 flex-row pb-0 w-full flex items-center justify-between">
           <CardTitle>Employee Document Uploads</CardTitle>
           <UploadDialog className="mt-0">
-            <Upload className="size-4 mr-3" />
+            <Upload className="size-4 mr-2" />
             Upload
           </UploadDialog>
         </CardHeader>
@@ -58,11 +58,11 @@ export default function Document() {
                     key={index}
                     className="col-span-1 rounded bg-light p-3 border-border/30 border"
                   >
-                    <div className="w-[196px] aspect-[16/12] bg-border/30 rounded mx-auto mb-4 items-center flex">
+                    <div className="w-[196px] aspect-[16/12] bg-border/30 rounded mx-auto mb-4 items-center flex p-2">
                       <img
                         src={`${BUCKET_URL}/${document.file}`}
                         alt={document.name}
-                        className="max-w-full w-auto h-auto mx-auto flex-none"
+                        className="max-w-full w-auto  rounded h-auto mx-auto flex-none"
                       />
                     </div>
                     <div className="flex justify-between">

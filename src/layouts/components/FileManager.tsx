@@ -7,7 +7,7 @@ import useAxios from "@/hooks/useAxios";
 import { BUCKET_URL } from "@/lib/constant";
 import { cn } from "@/lib/shadcn";
 import { Dialog } from "@radix-ui/react-dialog";
-import { CloudUpload, Paperclip, Trash2 } from "lucide-react";
+import { CloudUpload, Loader2, Paperclip, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -22,6 +22,7 @@ const FileManager = ({
   maxSize,
   permission,
   setFile,
+  isLoading,
 }: {
   enable: boolean;
   existingFile: string | null | undefined;
@@ -29,6 +30,7 @@ const FileManager = ({
   maxSize: number;
   permission: string;
   setFile: any;
+  isLoading?: boolean;
 }) => {
   const session = useSession();
   const axios = useAxios(session);
@@ -107,7 +109,7 @@ const FileManager = ({
 
   return (
     <div className="text-center">
-      {!location ? (
+      {!location || isLoading ? (
         <FileUploader
           value={files}
           onValueChange={setFiles}
@@ -148,10 +150,7 @@ const FileManager = ({
                       width={400}
                     />
                   )}
-                  <div className="flex justify-end space-x-3 mt-5">
-                    <Button type="button" onClick={handleUpload}>
-                      Upload
-                    </Button>
+                  <div className="flex justify-between space-x-3 mt-5">
                     <Button
                       onClick={() => {
                         setFiles(files.filter((f) => f !== file));
@@ -160,6 +159,20 @@ const FileManager = ({
                       type="button"
                     >
                       <Trash2 className="size-4 mr-2" /> Delete
+                    </Button>
+                    <Button
+                      disabled={isLoading}
+                      type="button"
+                      onClick={handleUpload}
+                    >
+                      {isLoading ? (
+                        <>
+                          <span>Uploading</span>
+                          <Loader2 className="size-4 animate-spin ml-2" />
+                        </>
+                      ) : (
+                        "Upload"
+                      )}
                     </Button>
                   </div>
                 </React.Fragment>

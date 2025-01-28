@@ -1,7 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -46,16 +52,23 @@ export default function Offboarding() {
   const [offboardingData, setOffboardingData] =
     useState<TEmployeeOffboardingCreate>({
       employee_id: "",
-      resignation_date: new Date(),
+      // @ts-ignore
+      resignation_date: "",
     });
 
   return (
     <div>
       <Card className="overflow-hidden">
-        <CardHeader className="border-b-transparent">
+        <CardHeader className="border-b-transparent pb-0">
           <CardTitle>Offboarding</CardTitle>
+          {!data?.result && (
+            <CardDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Laudantium, assumenda minus.
+            </CardDescription>
+          )}
         </CardHeader>
-        <CardContent className={isLoading ? "py-20" : "pt-0 overflow-hidden"}>
+        <CardContent className={isLoading ? "py-20" : "pt-6 overflow-hidden"}>
           {isLoading ? (
             <div className="flex justify-center items-center">
               <Loader2 className="animate-spin size-5" />
@@ -124,7 +137,7 @@ export default function Offboarding() {
                     <Button>Initiate Off-boarding</Button>
                   </DialogTrigger>
                   <DialogContent className="overflow-y-auto">
-                    <DialogHeader className="sr-only">
+                    <DialogHeader>
                       <DialogTitle>
                         Initiate Off-boarding for Employee
                       </DialogTitle>
@@ -146,18 +159,20 @@ export default function Offboarding() {
                           toast.error(errorMessage);
                         }
                       }}
+                      className="pt-4"
                     >
-                      <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-4">
+                      <div className="space-y-5">
+                        <div>
                           <Label htmlFor="resignation_date">
                             Resignation Date
                           </Label>
-
                           <Popover>
                             <PopoverTrigger asChild>
                               <Button
                                 variant={"input"}
-                                className={cn("w-full flex justify-between")}
+                                className={cn(
+                                  "w-full flex justify-between borer border-border/30"
+                                )}
                               >
                                 {offboardingData.resignation_date ? (
                                   new Date(
@@ -195,7 +210,7 @@ export default function Offboarding() {
                             </PopoverContent>
                           </Popover>
                         </div>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col justify-center gap-4">
                           <Button type="submit" disabled={isOffboardingLoading}>
                             Initiate Off-boarding
                           </Button>

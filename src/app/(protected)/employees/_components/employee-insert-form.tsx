@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -11,7 +17,7 @@ import {
 import options from "@/config/options.json";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployeeCreate } from "@/redux/features/employeeApiSlice/employeeType";
-import { Loader2 } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 const EmployeeInsertForm = ({
@@ -28,10 +34,43 @@ const EmployeeInsertForm = ({
   const { data } = useGetEmployeesBasicsQuery(undefined);
 
   return (
-    <form className="row" onSubmit={handleSubmit}>
-      <div className="col-12 mb-4">
+    <form onSubmit={handleSubmit} className="space-y-3">
+      <div>
+        <Label>Name</Label>
+        <Input
+          type="text"
+          value={employeeData.name || ""}
+          onChange={(e) =>
+            setEmployeeData((prev) => ({
+              ...prev,
+              name: e.target.value || "",
+            }))
+          }
+          required
+          placeholder="Full Name"
+        />
+      </div>
+
+      <div>
+        <Label>Work Email</Label>
+        <Input
+          type="email"
+          required
+          value={employeeData.work_email || ""}
+          onChange={(e) =>
+            setEmployeeData((prev) => ({
+              ...prev,
+              work_email: e.target.value || "",
+            }))
+          }
+          placeholder="Work Email"
+        />
+      </div>
+
+      <div>
         <Label>Personal Email</Label>
         <Input
+          required
           type="email"
           value={employeeData.personal_email || ""}
           onChange={(e) =>
@@ -40,12 +79,14 @@ const EmployeeInsertForm = ({
               personal_email: e.target.value || "",
             }))
           }
-          placeholder="personal email"
+          placeholder="Personal Email"
         />
       </div>
-      <div className="lg:col-6 mb-4">
+
+      <div>
         <Label>Department</Label>
         <Select
+          required
           value={employeeData.department}
           onValueChange={(e: string) =>
             setEmployeeData((prev) => ({
@@ -55,7 +96,7 @@ const EmployeeInsertForm = ({
           }
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select department" />
+            <SelectValue placeholder="Select Department" />
           </SelectTrigger>
           <SelectContent>
             {options.employee_department.map((item) => (
@@ -66,9 +107,11 @@ const EmployeeInsertForm = ({
           </SelectContent>
         </Select>
       </div>
-      <div className="lg:col-6 mb-4">
+
+      <div>
         <Label>Job Type</Label>
         <Select
+          required
           value={employeeData.job_type}
           onValueChange={(e: string) =>
             setEmployeeData((prev) => ({
@@ -83,7 +126,7 @@ const EmployeeInsertForm = ({
           }
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select job_type" />
+            <SelectValue placeholder="Select Job Type" />
           </SelectTrigger>
           <SelectContent>
             {options.employee_job_type.map((item) => (
@@ -95,47 +138,83 @@ const EmployeeInsertForm = ({
         </Select>
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
-          <Label>Designation</Label>
-          <Input
-            type="text"
-            value={employeeData.designation || ""}
-            onChange={(e) =>
-              setEmployeeData((prev) => ({
-                ...prev,
-                designation: e.target.value,
-              }))
-            }
-            placeholder="designation"
-          />
-        </div>
+      <div>
+        <Label>Designation</Label>
+        <Input
+          type="text"
+          required
+          value={employeeData.designation || ""}
+          onChange={(e) =>
+            setEmployeeData((prev) => ({
+              ...prev,
+              designation: e.target.value,
+            }))
+          }
+          placeholder="Designation"
+        />
       </div>
 
-      <div className="lg:col-6 mb-4">
-        <div className="flex border rounded p-4 justify-between items-center space-x-2">
-          <Label>Manager</Label>
-          <Select
-            value={employeeData.manager_id}
-            onValueChange={(e) =>
-              setEmployeeData((prev) => ({
-                ...prev,
-                manager_id: e,
-              }))
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select Type" />
-            </SelectTrigger>
-            <SelectContent>
-              {data?.result.map((item) => (
-                <SelectItem key={item.id} value={item.id}>
-                  {item.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      <div>
+        <Label>Manager</Label>
+        <Select
+          required
+          value={employeeData.manager_id}
+          onValueChange={(e) =>
+            setEmployeeData((prev) => ({
+              ...prev,
+              manager_id: e,
+            }))
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select Manager" />
+          </SelectTrigger>
+          <SelectContent>
+            {data?.result.map((item) => (
+              <SelectItem key={item.id} value={item.id}>
+                {item.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <Label>Joining Date</Label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant={"input"} className="w-full flex justify-between">
+              {employeeData.joining_date ? (
+                new Date(employeeData.joining_date).toDateString()
+              ) : (
+                <span>Pick a date</span>
+              )}
+              <span className="flex items-center">
+                <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                <span className="pl-2  block">
+                  <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                </span>
+              </span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              required
+              mode="single"
+              selected={
+                employeeData.joining_date
+                  ? new Date(employeeData.joining_date)
+                  : new Date()
+              }
+              onSelect={(date) => {
+                setEmployeeData((prev) => ({
+                  ...prev,
+                  joining_date: date!,
+                }));
+              }}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div className="col-12 text-right">

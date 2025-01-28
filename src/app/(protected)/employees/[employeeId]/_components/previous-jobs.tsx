@@ -36,6 +36,15 @@ import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 
+const initialPrevJobData: TPrevJob = {
+  company_name: "",
+  company_website: "",
+  designation: "",
+  end_date: "" as any,
+  job_type: "" as any,
+  start_date: "" as any,
+};
+
 export default function PreviousJobs({
   prev_jobs,
   employee,
@@ -48,7 +57,9 @@ export default function PreviousJobs({
   const { isDialogOpen, onDialogChange } = useDialog();
   const [updatePrev, { isLoading: isPrevJobLoading }] =
     useUpdateEmployeeJobMutation();
-  const [prevJobData, setPrevJobData] = useState<TPrevJob[]>(prev_jobs);
+  const [prevJobData, setPrevJobData] = useState<TPrevJob[]>(
+    prev_jobs?.length ? prev_jobs : [initialPrevJobData]
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,7 +130,7 @@ export default function PreviousJobs({
               className="max-w-2xl w-full overflow-y-auto max-h-[90vh]"
             >
               <DialogHeader className="mb-8">
-                <DialogTitle>Add Previous Job</DialogTitle>
+                <DialogTitle>Update Previous Job</DialogTitle>
               </DialogHeader>
 
               <form className="space-y-4" onSubmit={handleSubmit}>
@@ -367,7 +378,7 @@ export default function PreviousJobs({
                     alt={job.company_name ?? "brand logo"}
                   />
                   <div className="space-y-1 items-center">
-                    <p className="text-text-dark font-semibold text-sm">
+                    <p className="text-text-dark font-semibold text-sm capitalize">
                       {job.designation}
                     </p>
                     <p className="text-text-light font-semibold text-xs capitalize">

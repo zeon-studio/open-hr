@@ -44,14 +44,7 @@ export default function JobDetails() {
         employeeId={employeeId}
         formattedDuration={formattedDuration}
         joining_date={data?.result?.joining_date!}
-        promotions={
-          data?.result.promotions ?? [
-            {
-              designation: "",
-              promotion_date: "" as any,
-            },
-          ]
-        }
+        promotions={data?.result.promotions!}
         employee={data?.result!}
       />
 

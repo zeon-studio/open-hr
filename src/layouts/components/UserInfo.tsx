@@ -29,7 +29,7 @@ const UserInfo = ({
           />
         ) : (
           <Gravatar
-            email={user?.work_email}
+            email={user?.work_email ?? user.personal_email}
             size={imgSize}
             default="mp"
             className="rounded-full"

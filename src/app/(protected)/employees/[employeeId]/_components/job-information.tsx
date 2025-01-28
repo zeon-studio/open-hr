@@ -18,7 +18,7 @@ import {
 import { useDialog } from "@/hooks/useDialog";
 import { getDuration } from "@/lib/dateFormat";
 import { cn } from "@/lib/shadcn";
-import { usePromoteEmployeeMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
+import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
   TEmployeeJob,
   TPromotion,
@@ -29,6 +29,11 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
+
+const initialPromotionData: TPromotion = {
+  designation: "",
+  promotion_date: "" as any,
+};
 
 export default function JobInformation({
   company_website,
@@ -48,10 +53,12 @@ export default function JobInformation({
   const { data: session } = useSession();
   const userRole = session?.user.role;
   const { isDialogOpen, onDialogChange } = useDialog();
-  const [promotionData, setPromotionData] = useState<TPromotion[]>(promotions);
+  const [promotionData, setPromotionData] = useState<TPromotion[]>(
+    promotions.length ? promotions : [initialPromotionData]
+  );
 
   const [promoteEmployee, { isLoading: isPromoteEmployeeLoading }] =
-    usePromoteEmployeeMutation();
+    useUpdateEmployeeJobMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     try {
@@ -121,10 +128,13 @@ export default function JobInformation({
               }}
               className="max-w-2xl max-h-[95h]"
             >
-              <DialogHeader className="sr-only">
-                <DialogTitle>Update your job information</DialogTitle>
+              <DialogHeader>
+                <DialogTitle>Update job information</DialogTitle>
               </DialogHeader>
-              <form className="grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
+              <form
+                className="grid grid-cols-1 gap-4 mt-6"
+                onSubmit={handleSubmit}
+              >
                 {promotionData.map((promotion, index) => {
                   return (
                     <div

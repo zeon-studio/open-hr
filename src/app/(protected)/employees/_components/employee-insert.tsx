@@ -5,31 +5,34 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import EmployeeInsertForm from "./employee-insert-form";
 
+const initialEmployeeData = {
+  name: "",
+  work_email: "",
+  personal_email: "",
+  department: "" as any,
+  job_type: "" as any,
+  joining_date: new Date(),
+  designation: "",
+  manager_id: "",
+};
+
 const EmployeeInsert = ({
   onDialogChange,
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const [employeeData, setEmployeeData] = useState<TEmployeeCreate>({
-    personal_email: "",
-    // @ts-ignore
-    department: "",
-    // @ts-ignore
-    job_type: "",
-    joining_date: new Date(),
-    designation: "",
-    manager_id: "",
-  });
+  const [employeeData, setEmployeeData] =
+    useState<TEmployeeCreate>(initialEmployeeData);
 
-  const [addProduct, { isSuccess, isError, error }] = useAddEmployeeMutation();
+  const [addEmployee, { isSuccess, isError, error }] = useAddEmployeeMutation();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoader(true);
     try {
       // @ts-ignore
-      addProduct(employeeData);
+      addEmployee(employeeData);
     } catch (error) {
       console.log(error);
     }
@@ -38,16 +41,7 @@ const EmployeeInsert = ({
   useEffect(() => {
     if (isSuccess) {
       setLoader(false);
-      setEmployeeData({
-        personal_email: "",
-        // @ts-ignore
-        department: "",
-        // @ts-ignore
-        job_type: "",
-        joining_date: new Date(),
-        designation: "",
-        manager_id: "",
-      });
+      setEmployeeData(initialEmployeeData);
       // close modal/dialog
       onDialogChange(false);
       toast("Product added complete");
@@ -61,10 +55,10 @@ const EmployeeInsert = ({
 
   return (
     <DialogContent
-      className="max-w-4xl overflow-y-auto h-[90vh]"
+      className="max-w-2xl overflow-y-auto max-h-[90vh]"
       onPointerDownOutside={(e) => e.preventDefault()}
     >
-      <DialogTitle className="mb-4">Add New Product</DialogTitle>
+      <DialogTitle className="mb-4">Add New Employee</DialogTitle>
       <EmployeeInsertForm
         handleSubmit={handleSubmit}
         employeeData={employeeData}

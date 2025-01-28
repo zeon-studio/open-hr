@@ -360,28 +360,12 @@ export default function PersonalInfo() {
                     />
                   </div>
                   <div>
-                    <Label>Facebook</Label>
-                    <Input type="url" name="facebook" value={data.facebook} />
-                  </div>
-                  <div>
-                    <Label>Twitter</Label>
-                    <Input type="url" name="twitter" value={data.twitter} />
-                  </div>
-                  <div>
-                    <Label>Linkedin</Label>
-                    <Input type="url" name="linkedin" value={data.linkedin} />
-                  </div>
-                  <div>
-                    <Label>Discord</Label>
-                    <Input type="text" name="discord" value={data.discord} />
-                  </div>
-                  <div>
                     <Label>Personality</Label>
                     <Input type="text" name="phone" value={data.personality} />
                   </div>
-                  <div className="col-span-2">
+                  <div>
                     <Label>Note</Label>
-                    <Textarea />
+                    <Textarea className="min-h-[auto] h-auto" rows={1} />
                   </div>
                 </>
               )}

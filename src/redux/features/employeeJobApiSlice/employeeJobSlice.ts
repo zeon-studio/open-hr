@@ -67,16 +67,6 @@ export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
       }),
       invalidatesTags: ["employee-jobs"],
     }),
-    promoteEmployee: builder.mutation<TEmployeeJobState, TEmployeeJob>({
-      query: (data) => {
-        return {
-          url: `/employee-job/promote/${data.employee_id}`,
-          method: "POST",
-          body: data,
-        };
-      },
-      invalidatesTags: ["employee-jobs"],
-    }),
   }),
 });
 
@@ -86,5 +76,4 @@ export const {
   useAddEmployeeJobMutation,
   useUpdateEmployeeJobMutation,
   useDeleteEmployeeJobMutation,
-  usePromoteEmployeeMutation,
 } = employeeJobApi;

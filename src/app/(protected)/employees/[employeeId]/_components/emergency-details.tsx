@@ -3,13 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/shadcn";
 import EditFrom from "@/partials/EditFrom";
 import {
   useAddEmployeeContactMutation,
   useGetEmployeeContactQuery,
 } from "@/redux/features/employeeContactApiSlice/employeeContactSlice";
 import { TEmployeeContact } from "@/redux/features/employeeContactApiSlice/employeeContactType";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
@@ -50,82 +51,106 @@ export default function Emergency() {
                       employee_id: employeeId,
                     });
                   }}
-                  className="grid gap-3"
+                  className="grid"
                   ref={formRef}
                 >
                   {data?.contacts.length > 0 ? (
                     data?.contacts?.map((contact, index, contacts) => {
                       return (
-                        <div key={index} className="grid lg:grid-cols-2 gap-3">
-                          <div>
-                            <Label>Name of Emergency Contact</Label>
-                            <Input
-                              onChange={(e) => {
-                                const { name, value } = e.target;
-                                handleChange({
-                                  ...data,
-                                  contacts: contacts.map((contact, i) => {
-                                    if (index === i) {
-                                      return { ...contact, [name]: value };
-                                    }
-                                    return contact;
-                                  }),
-                                });
-                              }}
-                              required
-                              value={contact.name}
-                              readOnly={isReadOnly}
-                              name="name"
-                              placeholder="Your answer"
-                            />
-                          </div>
-                          <div>
-                            <Label>Relation</Label>
-                            <Input
-                              onChange={(e) => {
-                                const { name, value } = e.target;
-                                handleChange({
-                                  ...data,
-                                  contacts: contacts.map((contact, i) => {
-                                    if (index === i) {
-                                      return { ...contact, [name]: value };
-                                    }
-                                    return contact;
-                                  }),
-                                });
-                              }}
-                              required
-                              readOnly={isReadOnly}
-                              value={contact.relation}
-                              name="relation"
-                              placeholder="Your answer"
-                            />
-                          </div>
-                          <div>
-                            <Label>Phone</Label>
-                            <Input
-                              onChange={(e) => {
-                                const { name, value } = e.target;
-                                handleChange({
-                                  ...data,
-                                  contacts: contacts.map((contact, i) => {
-                                    if (index === i) {
-                                      return { ...contact, [name]: value };
-                                    }
-                                    return contact;
-                                  }),
-                                });
-                              }}
-                              required
-                              readOnly={isReadOnly}
-                              name="phone"
-                              value={contact.phone}
-                              placeholder="Your answer"
-                            />
+                        <div key={index}>
+                          <div className="bg-light p-5 rounded grid lg:grid-cols-2 gap-4 relative">
+                            {session?.user.role !== "user" && !isReadOnly && (
+                              <div className="lg:col-span-2 absolute right-3 top-3">
+                                <Button
+                                  type="button"
+                                  size={"xs"}
+                                  variant="outline"
+                                  onClick={() => {
+                                    handleChange({
+                                      ...data,
+                                      contacts: data.contacts.filter(
+                                        (contact, i) => i !== index
+                                      ),
+                                    });
+                                  }}
+                                >
+                                  <Trash2 className="size-4" />
+                                </Button>
+                              </div>
+                            )}
+                            <div>
+                              <Label>Name of Emergency Contact</Label>
+                              <Input
+                                onChange={(e) => {
+                                  const { name, value } = e.target;
+                                  handleChange({
+                                    ...data,
+                                    contacts: contacts.map((contact, i) => {
+                                      if (index === i) {
+                                        return { ...contact, [name]: value };
+                                      }
+                                      return contact;
+                                    }),
+                                  });
+                                }}
+                                className={cn(isReadOnly && "bg-transparent")}
+                                required
+                                value={contact.name}
+                                readOnly={isReadOnly}
+                                name="name"
+                                placeholder="Your answer"
+                              />
+                            </div>
+                            <div>
+                              <Label>Relation</Label>
+                              <Input
+                                className={cn(isReadOnly && "bg-transparent")}
+                                onChange={(e) => {
+                                  const { name, value } = e.target;
+                                  handleChange({
+                                    ...data,
+                                    contacts: contacts.map((contact, i) => {
+                                      if (index === i) {
+                                        return { ...contact, [name]: value };
+                                      }
+                                      return contact;
+                                    }),
+                                  });
+                                }}
+                                required
+                                readOnly={isReadOnly}
+                                value={contact.relation}
+                                name="relation"
+                                placeholder="Your answer"
+                              />
+                            </div>
+                            <div>
+                              <Label>Phone</Label>
+                              <Input
+                                className={cn(isReadOnly && "bg-transparent")}
+                                onChange={(e) => {
+                                  const { name, value } = e.target;
+                                  handleChange({
+                                    ...data,
+                                    contacts: contacts.map((contact, i) => {
+                                      if (index === i) {
+                                        return { ...contact, [name]: value };
+                                      }
+                                      return contact;
+                                    }),
+                                  });
+                                }}
+                                required
+                                readOnly={isReadOnly}
+                                name="phone"
+                                value={contact.phone}
+                                placeholder="Your answer"
+                              />
+                            </div>
                           </div>
 
                           {contacts.length - 1 !== index && (
-                            <Separator className="my-4 lg:col-span-2" />
+                            <Separator className="my-6 lg:col-span-2" />
                           )}
                         </div>
                       );
@@ -135,27 +160,29 @@ export default function Emergency() {
                       No contacts available. Please add a contact to view
                     </p>
                   )}
-                  <div className="text-right">
-                    <Button
-                      onClick={() => {
-                        handleChange({
-                          ...data,
-                          contacts: [
-                            ...(data?.contacts ?? []),
-                            {
-                              name: "",
-                              phone: "",
-                              relation: "",
-                            },
-                          ],
-                        });
-                      }}
-                      type="button"
-                      disabled={isReadOnly}
-                    >
-                      {isReadOnly ? "Add Contact" : "Add Another Contact"}
-                    </Button>
-                  </div>
+                  {!isReadOnly && (
+                    <div className="text-right mt-6">
+                      <Button
+                        onClick={() => {
+                          handleChange({
+                            ...data,
+                            contacts: [
+                              ...(data?.contacts ?? []),
+                              {
+                                name: "",
+                                phone: "",
+                                relation: "",
+                              },
+                            ],
+                          });
+                        }}
+                        type="button"
+                        disabled={isReadOnly}
+                      >
+                        {isReadOnly ? "Add Contact" : "Add Another Contact"}
+                      </Button>
+                    </div>
+                  )}
                 </form>
               );
             }}

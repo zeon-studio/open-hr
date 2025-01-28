@@ -7,22 +7,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useDialog } from "@/hooks/useDialog";
 import { MAX_SIZE } from "@/lib/constant";
 import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
+import { ErrorResponse } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function UploadDialog({
   file,
   children,
   ...buttonProps
 }: ButtonProps & { file?: string }) {
+  const { isDialogOpen, onDialogChange } = useDialog();
   const { employeeId } = useParams<{ employeeId: string }>();
   const [uploaded, { isLoading: isUploading }] =
     useAddEmployeeDocumentMutation();
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={onDialogChange}>
       <DialogTrigger asChild>
         <Button
           className={buttonProps.className}
@@ -40,29 +44,39 @@ export default function UploadDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-3xl gap-3">
+      <DialogContent className="max-w-xl gap-3">
         <DialogHeader>
           <DialogTitle>Choose Image</DialogTitle>
         </DialogHeader>
         <FileManager
+          isLoading={isUploading}
           enable={true}
           existingFile={file}
           folder={`erp/document`}
           maxSize={MAX_SIZE}
           permission="public-read"
-          setFile={(location: any) => {
+          setFile={async (location: any) => {
             const fileName = location.split("/").pop();
-            uploaded({
-              createdAt: new Date(),
-              employee_id: employeeId,
-              documents: [
-                {
-                  date: new Date(),
-                  file: location,
-                  name: fileName,
-                },
-              ],
-            });
+            if (!fileName) return;
+            try {
+              await uploaded({
+                createdAt: new Date(),
+                employee_id: employeeId,
+                documents: [
+                  {
+                    date: new Date(),
+                    file: location,
+                    name: fileName,
+                  },
+                ],
+              }).unwrap();
+              onDialogChange(false);
+              toast.success("Document updated successfully!");
+            } catch (error) {
+              toast.error(
+                (error as ErrorResponse).data.message || "Something went wrong!"
+              );
+            }
           }}
         />
       </DialogContent>

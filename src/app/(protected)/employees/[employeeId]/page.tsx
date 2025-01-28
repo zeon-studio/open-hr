@@ -110,7 +110,7 @@ export default function EmployeeSingle() {
   const user =
     session?.user.id !== data?.result.id
       ? {
-          email: data?.result.work_email,
+          email: data?.result.work_email ?? data?.result.personal_email,
           name: data?.result.name,
         }
       : session?.user;
@@ -131,8 +131,8 @@ export default function EmployeeSingle() {
   return (
     <div className="bg-light">
       <Tabs value={params.get("tab") || activeTab.value}>
-        <div className="flex xl:grid grid-cols-10 gap-5 2xl:grid-cols-12 p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-2 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20">
-          <div className="col-span-5 lg:col-span-2 2xl:col-span-2">
+        <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-2 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
+          <div className="xl:basis-[210px] flex-none">
             <div className="bg-light rounded overflow-hidden max-w-[210px]">
               <Avatar
                 className="flex-none w-full rounded-none max-w-[100px] lg:max-w-[210px]"
@@ -145,7 +145,7 @@ export default function EmployeeSingle() {
             </div>
           </div>
 
-          <div className="col-span-5 lg:col-span-8 2xl:col-span-10 flex flex-col justify-between">
+          <div className="flex flex-col justify-between">
             <div>
               <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5 lg:mb-2.5">
                 Hi, {data?.result.name}
@@ -181,7 +181,7 @@ export default function EmployeeSingle() {
                       >
                         <Button
                           className={cn(
-                            "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 lg:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 cursor-pointer p-1.5",
+                            "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 cursor-pointer p-1.5",
 
                             tab.value === activeTab.value &&
                               "bg-[#F3F4F6] text-text-dark"
@@ -227,9 +227,9 @@ export default function EmployeeSingle() {
           </div>
         </div>
 
-        <div className="grid gap-5 xl:grid-cols-12 mt-14 xl:mt-16">
-          <div className="space-y-5 col-span-3 2xl:col-span-2 hidden xl:block">
-            <div>
+        <div className="gap-5 mt-6 lg:mt-8 xl:mt-16 flex">
+          <div className="space-y-5 xl:basis-[210px] hidden xl:block xl:pl-8">
+            <div className="xl:max-w-[210px]">
               <h6 className="text-base font-semibold mb-4">Vitals</h6>
               <ul className="list-none space-y-4">
                 <li className="flex space-x-2 text-text-light">
@@ -334,7 +334,7 @@ export default function EmployeeSingle() {
               </ul>
             </div>
           </div>
-          <div className="2xl:col-span-10 col-span-9 xl:pl-6">
+          <div className="xl:pl-6 flex-1">
             {tabs.map((tab, index) => (
               <TabsContent
                 key={index}
