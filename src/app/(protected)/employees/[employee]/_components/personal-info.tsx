@@ -42,6 +42,7 @@ import { notFound, useParams } from "next/navigation";
 
 export default function PersonalInfo() {
   const { data: session } = useSession();
+  const isUser = session?.user.role === "user";
   let { employeeId } = useParams<{ employeeId: string }>();
   if (!employeeId) {
     employeeId = session?.user.id as string;
@@ -246,10 +247,10 @@ export default function PersonalInfo() {
                       <SelectValue placeholder="Select Gender" />
                     </SelectTrigger>
                     <SelectContent>
-                      {options.employee_gender.map((status) => {
+                      {options.employee_gender.map((item) => {
                         return (
-                          <SelectItem key={status.value} value={status.value}>
-                            {status.label}
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
                           </SelectItem>
                         );
                       })}
@@ -275,6 +276,7 @@ export default function PersonalInfo() {
                   readOnly={isReadOnly}
                 />
               </div>
+
               <div className="lg:col-6">
                 <Label>Permanent Address:</Label>
                 <Input
@@ -289,78 +291,6 @@ export default function PersonalInfo() {
                   value={data.permanent_address || ""}
                   name="permanent_address"
                   placeholder="Permanent Address"
-                  readOnly={isReadOnly}
-                />
-              </div>
-
-              <div className="lg:col-6">
-                <Label>Facebook Profile:</Label>
-                <Input
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    handleChange({
-                      ...data,
-                      [name]: value,
-                    });
-                  }}
-                  type="url"
-                  value={data.facebook || ""}
-                  name="facebook"
-                  placeholder="Facebook Profile"
-                  readOnly={isReadOnly}
-                />
-              </div>
-
-              <div className="lg:col-6">
-                <Label>Twitter(X) Profile:</Label>
-                <Input
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    handleChange({
-                      ...data,
-                      [name]: value,
-                    });
-                  }}
-                  type="url"
-                  value={data.twitter || ""}
-                  name="twitter"
-                  placeholder="X profile"
-                  readOnly={isReadOnly}
-                />
-              </div>
-
-              <div className="lg:col-6">
-                <Label>Linkedin Profile:</Label>
-                <Input
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    handleChange({
-                      ...data,
-                      [name]: value,
-                    });
-                  }}
-                  type="url"
-                  value={data.linkedin || ""}
-                  name="linkedin"
-                  placeholder="Linkedin Profile"
-                  readOnly={isReadOnly}
-                />
-              </div>
-
-              <div className="lg:col-6">
-                <Label>Discord Profile:</Label>
-                <Input
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    handleChange({
-                      ...data,
-                      [name]: value,
-                    });
-                  }}
-                  type="text"
-                  value={data.discord || ""}
-                  name="discord"
-                  placeholder="Discord Profile"
                   readOnly={isReadOnly}
                 />
               </div>
@@ -436,10 +366,10 @@ export default function PersonalInfo() {
                       <SelectValue placeholder="Marital Status" />
                     </SelectTrigger>
                     <SelectContent>
-                      {options.employee_marital_status.map((status) => {
+                      {options.employee_marital_status.map((item) => {
                         return (
-                          <SelectItem key={status.value} value={status.value}>
-                            {status.label}
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
                           </SelectItem>
                         );
                       })}
@@ -482,6 +412,83 @@ export default function PersonalInfo() {
                   readOnly={isReadOnly}
                 />
               </div>
+
+              {!isReadOnly && (
+                <>
+                  <div className="lg:col-6">
+                    <Label>Facebook Profile:</Label>
+                    <Input
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        handleChange({
+                          ...data,
+                          [name]: value,
+                        });
+                      }}
+                      type="url"
+                      value={data.facebook || ""}
+                      name="facebook"
+                      placeholder="Facebook Profile"
+                      readOnly={isReadOnly}
+                    />
+                  </div>
+
+                  <div className="lg:col-6">
+                    <Label>Twitter(X) Profile:</Label>
+                    <Input
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        handleChange({
+                          ...data,
+                          [name]: value,
+                        });
+                      }}
+                      type="url"
+                      value={data.twitter || ""}
+                      name="twitter"
+                      placeholder="X profile"
+                      readOnly={isReadOnly}
+                    />
+                  </div>
+
+                  <div className="lg:col-6">
+                    <Label>Linkedin Profile:</Label>
+                    <Input
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        handleChange({
+                          ...data,
+                          [name]: value,
+                        });
+                      }}
+                      type="url"
+                      value={data.linkedin || ""}
+                      name="linkedin"
+                      placeholder="Linkedin Profile"
+                      readOnly={isReadOnly}
+                    />
+                  </div>
+
+                  <div className="lg:col-6">
+                    <Label>Discord Profile:</Label>
+                    <Input
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        handleChange({
+                          ...data,
+                          [name]: value,
+                        });
+                      }}
+                      type="text"
+                      value={data.discord || ""}
+                      name="discord"
+                      placeholder="Discord Profile"
+                      readOnly={isReadOnly}
+                    />
+                  </div>
+                </>
+              )}
+
               <div className="lg:col-6">
                 <Label>Personality:</Label>
                 <Input
@@ -499,54 +506,59 @@ export default function PersonalInfo() {
                   readOnly={isReadOnly}
                 />
               </div>
-              <div className="lg:col-6">
-                <Label>Status:</Label>
-                {isReadOnly ? (
-                  <p className="text-sm text-text-light">
-                    {data.status || "Not Available"}
-                  </p>
-                ) : (
-                  <Select
-                    onValueChange={(value) => {
-                      handleChange({
-                        ...data,
-                        status: value as "pending" | "active" | "archived",
-                      });
-                    }}
-                    name="status"
-                    value={data.status}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.employee_status.map((status) => {
-                        return (
-                          <SelectItem key={status.value} value={status.value}>
-                            {status.label}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
-              <div className="lg:col-12">
-                <Label>Note:</Label>
-                <Textarea
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    handleChange({
-                      ...data,
-                      [name]: value,
-                    });
-                  }}
-                  value={data.note || ""}
-                  name="note"
-                  rows={5}
-                  readOnly={isReadOnly}
-                />
-              </div>
+              {!isUser && (
+                <>
+                  <div className="lg:col-6">
+                    <Label>Status:</Label>
+                    {isReadOnly ? (
+                      <p className="text-sm text-text-light">
+                        {data.status || "Not Available"}
+                      </p>
+                    ) : (
+                      <Select
+                        onValueChange={(value) => {
+                          handleChange({
+                            ...data,
+                            status: value as "pending" | "active" | "archived",
+                          });
+                        }}
+                        name="status"
+                        value={data.status}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {options.employee_status.map((item) => {
+                            return (
+                              <SelectItem key={item.value} value={item.value}>
+                                {item.label}
+                              </SelectItem>
+                            );
+                          })}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  </div>
+
+                  <div className="lg:col-12">
+                    <Label>Note:</Label>
+                    <Textarea
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        handleChange({
+                          ...data,
+                          [name]: value,
+                        });
+                      }}
+                      value={data.note || ""}
+                      name="note"
+                      rows={5}
+                      readOnly={isReadOnly}
+                    />
+                  </div>
+                </>
+              )}
             </form>
           );
         }}

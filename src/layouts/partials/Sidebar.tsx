@@ -66,7 +66,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                           <li className="mb-2" key={child.name}>
                             <Link
                               href={child.path!}
-                              className={`rounded text-[#09090B] text-sm font-medium block px-2 py-1.5 ${
+                              className={`rounded text-text-dark text-sm font-medium block px-2 py-1.5 ${
                                 pathname === child.path ? "bg-light" : ""
                               } `}
                             >
@@ -106,10 +106,8 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                 email={session?.user?.email!}
                 size={30}
               />
-              <span className="text-sm capitalize font-medium text-[#09090B]">
-                {session?.user?.name
-                  ? session?.user?.name
-                  : session?.user?.role}
+              <span className="text-sm capitalize font-medium text-text-dark line-clamp-1">
+                {session?.user?.name}
               </span>
               <LogOut className="inline ml-auto h-5 mb-0.5" />
             </DialogTrigger>
