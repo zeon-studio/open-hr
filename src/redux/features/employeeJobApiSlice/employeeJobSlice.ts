@@ -49,7 +49,10 @@ export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
       invalidatesTags: ["employee-jobs"],
     }),
 
-    updateEmployeeJob: builder.mutation<TEmployeeJobState, TEmployeeJob>({
+    updateEmployeeJob: builder.mutation<
+      TEmployeeJobState,
+      Partial<TEmployeeJob>
+    >({
       query: (data) => {
         return {
           url: `/employee-job/${data.employee_id}`,
