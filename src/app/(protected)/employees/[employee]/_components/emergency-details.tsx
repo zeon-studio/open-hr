@@ -58,9 +58,11 @@ export default function Emergency() {
                     data?.contacts?.map((contact, index, contacts) => {
                       return (
                         <div key={index}>
-                          <div className="bg-light p-5 rounded grid lg:grid-cols-2 gap-4 relative">
-                            {session?.user.role !== "user" && !isReadOnly && (
-                              <div className="lg:col-span-2 absolute right-3 top-3">
+                          <div
+                            className={`${isReadOnly ? "bg-white" : "bg-light p-5"} rounded grid lg:grid-cols-2 gap-4 relative`}
+                          >
+                            {!isReadOnly && (
+                              <div className="lg:col-span-2 absolute right-5 top-3">
                                 <Button
                                   type="button"
                                   size={"xs"}
@@ -79,7 +81,7 @@ export default function Emergency() {
                               </div>
                             )}
                             <div>
-                              <Label>Name of Emergency Contact</Label>
+                              <Label>Name of Contact:</Label>
                               <Input
                                 onChange={(e) => {
                                   const { name, value } = e.target;
@@ -102,7 +104,7 @@ export default function Emergency() {
                               />
                             </div>
                             <div>
-                              <Label>Relation</Label>
+                              <Label>Relation:</Label>
                               <Input
                                 className={cn(isReadOnly && "bg-transparent")}
                                 onChange={(e) => {
@@ -125,7 +127,7 @@ export default function Emergency() {
                               />
                             </div>
                             <div>
-                              <Label>Phone</Label>
+                              <Label>Phone:</Label>
                               <Input
                                 className={cn(isReadOnly && "bg-transparent")}
                                 onChange={(e) => {
@@ -179,7 +181,7 @@ export default function Emergency() {
                         type="button"
                         disabled={isReadOnly}
                       >
-                        {isReadOnly ? "Add Contact" : "Add Another Contact"}
+                        Add Contact
                       </Button>
                     </div>
                   )}
