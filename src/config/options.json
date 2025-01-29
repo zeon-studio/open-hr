@@ -260,5 +260,19 @@
       "label": "Without Pay",
       "value": "without_pay"
     }
+  ],
+  "education_result_type": [
+    {
+      "label": "GPA",
+      "value": "gpa"
+    },
+    {
+      "label": "CGPA",
+      "value": "cgpa"
+    },
+    {
+      "label": "Percentage",
+      "value": "percentage"
+    }
   ]
 }
