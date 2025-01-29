@@ -37,7 +37,9 @@ const UserInfo = ({
         )}
       </div>
       <div className="ml-3">
-        <h6 className={`font-medium mb-1.5 text-sm cursor-pointer`}>
+        <h6
+          className={`font-medium mb-1.5 text-sm cursor-pointer line-clamp-1`}
+        >
           {link ? (
             <Link className="stretched-link" href={link}>
               {user?.name}
@@ -46,7 +48,7 @@ const UserInfo = ({
             user?.name
           )}
         </h6>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground line-clamp-1">
           {description ? description : user?.designation}
         </p>
       </div>
