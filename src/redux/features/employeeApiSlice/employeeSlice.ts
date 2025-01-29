@@ -18,6 +18,18 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       keepUnusedDataFor: 30 * 60,
     }),
 
+    getEmployeeDetailsByToken: builder.query<
+      TEmployeeState<TEmployee>,
+      { token: string }
+    >({
+      query: ({ token }) => ({
+        url: `/employee/invite-token/${token}`,
+        method: "GET",
+      }),
+      providesTags: ["employees"],
+      keepUnusedDataFor: 30 * 60,
+    }),
+
     getEmployeesBasics: builder.query<TEmployeeState, undefined>({
       query: () => ({
         url: `/employee/basics`,
@@ -44,12 +56,21 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployee: builder.mutation({
+    updateEmployee: builder.mutation<
+      TEmployeeState<TEmployee>,
+      TEmployee & { token?: string }
+    >({
       query: (data) => {
         return {
           url: `/employee/update/${data.id}`,
           method: "PATCH",
           body: data,
+
+          ...(data?.token && {
+            headers: {
+              authorization: `Bearer ${data.token}`,
+            },
+          }),
         };
       },
 
@@ -65,34 +86,64 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployeeEmail: builder.mutation({
+    updateEmployeeEmail: builder.mutation<
+      TEmployeeState<TEmployee>,
+      Pick<TEmployee, "id" | "work_email"> & {
+        token?: string;
+      }
+    >({
       query: (data) => {
         return {
           url: `/employee/email/${data.id}`,
           method: "PATCH",
           body: data,
+          ...(data.token && {
+            headers: {
+              authorization: `Bearer ${data.token}`,
+            },
+          }),
         };
       },
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployeeDiscord: builder.mutation({
+    updateEmployeeDiscord: builder.mutation<
+      TEmployeeState<TEmployee>,
+      Pick<TEmployee, "id" | "discord"> & {
+        token?: string;
+      }
+    >({
       query: (data) => {
         return {
           url: `/employee/discord/${data.id}`,
           method: "PATCH",
           body: data,
+          ...(data.token && {
+            headers: {
+              authorization: `Bearer ${data.token}`,
+            },
+          }),
         };
       },
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployeePersonality: builder.mutation({
+    updateEmployeePersonality: builder.mutation<
+      TEmployeeState<TEmployee>,
+      Pick<TEmployee, "id" | "personality"> & {
+        token?: string;
+      }
+    >({
       query: (data) => {
         return {
           url: `/employee/personality/${data.id}`,
           method: "PATCH",
           body: data,
+          ...(data.token && {
+            headers: {
+              authorization: `Bearer ${data.token}`,
+            },
+          }),
         };
       },
       invalidatesTags: ["employees"],
@@ -118,4 +169,5 @@ export const {
   useUpdateEmployeeEmailMutation,
   useUpdateEmployeeDiscordMutation,
   useUpdateEmployeePersonalityMutation,
+  useGetEmployeeDetailsByTokenQuery,
 } = employeeApi;

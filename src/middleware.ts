@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./auth";
 
-const publicUrl = ["/login", "/register", "/verify", "/forgot-password"];
+const publicUrl = [
+  "/login",
+  "/register",
+  "/verify",
+  "/forgot-password",
+  "/onboard",
+];
 
 export async function middleware(request: NextRequest) {
   const { user } = (await auth()) || {};
@@ -35,6 +41,11 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images).*)",
+    "/",
+    "/employees",
+    "/my-info",
+    "/leaves",
+    "/calendar",
+    "/(dashboard)",
   ],
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -15,24 +16,38 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/shadcn";
-import { useUpdateEmployeePersonalityMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { ExternalLink } from "lucide-react";
+import {
+  useUpdateEmployeeDiscordMutation,
+  useUpdateEmployeeEmailMutation,
+  useUpdateEmployeePersonalityMutation,
+} from "@/redux/features/employeeApiSlice/employeeSlice";
+import { ErrorResponse } from "@/types";
+import { Check, ExternalLink, Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import { toast } from "sonner";
 import OnboardingForm from "./onboarding-form";
 
 interface Props {
+  isActive: boolean;
   isCompleted: boolean;
   currentStep: number;
   handleStepChange: (stepIndex?: number) => void;
+  handleFormData: (data: any) => void;
+  fromData: any;
+  employeeId: string;
+  token: string;
 }
 
 function StepperCard({
+  isActive,
   isCompleted,
   title,
   description,
   children,
 }: {
+  isActive?: boolean;
   isCompleted: boolean;
   title: string;
   description: React.ReactNode;
@@ -43,9 +58,17 @@ function StepperCard({
       <CardHeader
         className={cn(
           "pointer-bullet border-transparent relative",
-          isCompleted && "completed pb-0"
+          isActive && "completed pb-0",
+          isCompleted && "before:opacity-0 before:hidden"
         )}
       >
+        <Check
+          className={cn(
+            "size-4 border border-success rounded-full hidden",
+            isCompleted &&
+              "block p-0.5 absolute left-6 top-7 translate-y-1/2 text-success"
+          )}
+        />
         <CardTitle className="space-y-0 text-black text-base">
           {title}
         </CardTitle>
@@ -53,7 +76,7 @@ function StepperCard({
           {description}
         </CardDescription>
       </CardHeader>
-      {isCompleted && <CardContent className="pt-5">{children}</CardContent>}
+      {isActive && <CardContent className="pt-5">{children}</CardContent>}
     </Card>
   );
 }
@@ -64,10 +87,18 @@ export const steppers = [
     title: "Step 1",
     description: "Create your account",
     completed: false,
-    component: ({ isCompleted, handleStepChange }: Props) => {
+    component: ({
+      isCompleted,
+      isActive,
+      handleStepChange,
+      employeeId,
+      token,
+    }: Props) => {
+      const [updateEmail, { isLoading }] = useUpdateEmployeeEmailMutation();
       return (
         <StepperCard
           isCompleted={isCompleted}
+          isActive={isActive}
           title="Create your account"
           description={
             <p>
@@ -77,15 +108,34 @@ export const steppers = [
           }
         >
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleStepChange();
+              const formData = new FormData(e.currentTarget);
+              const formObject = Object.fromEntries(formData.entries());
+              try {
+                await updateEmail({
+                  id: employeeId,
+                  work_email: formObject.working_email as string,
+                  token: token,
+                }).unwrap();
+                handleStepChange();
+              } catch (error) {
+                toast.error(
+                  (error as ErrorResponse).data.message ||
+                    "Something with wrong!"
+                );
+              }
             }}
             className="space-y-4"
           >
-            <Input type="email" placeholder="name.themefisher@gmail.com" />
-            <Button type="submit" variant={"outline"}>
+            <Input
+              name="working_email"
+              type="email"
+              placeholder="name.themefisher@gmail.com"
+            />
+            <Button disabled={isLoading} type="submit" variant={"outline"}>
               Submit Email
+              {isLoading && <Loader2 className="animate-spin size-4" />}
             </Button>
           </form>
         </StepperCard>
@@ -97,9 +147,18 @@ export const steppers = [
     title: "Step 2",
     description: "Create A Discord Account",
     completed: false,
-    component: ({ isCompleted, handleStepChange }: Props) => {
+    component: ({
+      isCompleted,
+      isActive,
+      handleStepChange,
+      employeeId,
+      token,
+    }: Props) => {
+      const [updateDiscord, { isLoading }] = useUpdateEmployeeDiscordMutation();
+
       return (
         <StepperCard
+          isActive={isActive}
           isCompleted={isCompleted}
           title="Create A Discord Account"
           description={
@@ -111,17 +170,33 @@ export const steppers = [
         >
           <form
             className="space-y-4"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleStepChange();
+              const formData = new FormData(e.currentTarget);
+              const formObject = Object.fromEntries(formData.entries());
+              try {
+                await updateDiscord({
+                  id: employeeId,
+                  discord: formObject.discord as string,
+                  token: token,
+                }).unwrap();
+                handleStepChange();
+              } catch (error) {
+                toast.error(
+                  (error as ErrorResponse).data.message ||
+                    "Something with wrong!"
+                );
+              }
             }}
           >
             <Input
+              name="discord"
               type="text"
               placeholder="https://discord.com/invite/123456789"
             />
-            <Button type="submit" variant={"outline"}>
-              Submit Id
+            <Button disabled={isLoading} type="submit" variant={"outline"}>
+              Submit{" "}
+              {isLoading && <Loader2 className="animate-spin size-4 ml-3" />}
             </Button>
           </form>
         </StepperCard>
@@ -133,9 +208,10 @@ export const steppers = [
     title: "Step 3",
     description: "Complete Onboarding Form",
     completed: false,
-    component: ({ isCompleted }: { isCompleted: boolean }) => {
+    component: ({ isActive, isCompleted, employeeId }: Props) => {
       return (
         <StepperCard
+          isActive={isActive}
           isCompleted={isCompleted}
           title="Complete Onboarding Form"
           description={
@@ -144,20 +220,21 @@ export const steppers = [
                 Fill out and submit the new employee onboarding form with your
                 details
               </p>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="mt-3">Open Form</Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-3xl">
-                  <DialogHeader>
-                    <DialogTitle>Complete Onboarding Form</DialogTitle>
-                  </DialogHeader>
-                  <OnboardingForm />
-                </DialogContent>
-              </Dialog>
             </div>
           }
-        />
+        >
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="mt-3">Open Form</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl">
+              <DialogHeader>
+                <DialogTitle>Complete Onboarding Form</DialogTitle>
+              </DialogHeader>
+              <OnboardingForm employeeId={employeeId} />
+            </DialogContent>
+          </Dialog>
+        </StepperCard>
       );
     },
   },
@@ -166,9 +243,18 @@ export const steppers = [
     title: "Step 4",
     description: "Complete Onboarding Form",
     completed: false,
-    component: ({ isCompleted, handleStepChange }: Props) => {
+    component: ({
+      isActive,
+      isCompleted,
+      handleStepChange,
+      employeeId,
+      token,
+    }: Props) => {
+      const [updatePersonality, { isLoading }] =
+        useUpdateEmployeePersonalityMutation();
       return (
         <StepperCard
+          isActive={isActive}
           isCompleted={isCompleted}
           title="Take this test and submit the result"
           description={
@@ -191,15 +277,30 @@ export const steppers = [
           }
         >
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleStepChange();
+              try {
+                const formData = new FormData(e.currentTarget);
+                const formObject = Object.fromEntries(formData.entries());
+                await updatePersonality({
+                  id: employeeId,
+                  personality: formObject?.personality as string,
+                  token,
+                }).unwrap();
+                handleStepChange();
+              } catch (error) {
+                toast.error(
+                  (error as ErrorResponse).data.message ||
+                    "Something with wrong!"
+                );
+              }
             }}
             className="space-y-4 -mt-3"
           >
-            <Input type="text" placeholder="ENTG" />
+            <Input type="text" placeholder="ENTG" name={"personality"} />
             <Button type="submit" variant={"outline"}>
-              Submit Result
+              {isLoading && <Loader2 className="animate-spin size-4 ml-1.5" />}
+              Submit
             </Button>
           </form>
         </StepperCard>
@@ -211,11 +312,10 @@ export const steppers = [
     title: "Step 5",
     description: "Complete Onboarding Form",
     completed: false,
-    component: ({ isCompleted }: { isCompleted: boolean }) => {
-      const [updateEmployee, { isLoading }] =
-        useUpdateEmployeePersonalityMutation();
+    component: ({ isActive, isCompleted, token }: Props) => {
       return (
         <StepperCard
+          isActive={isActive}
           isCompleted={isCompleted}
           title="Read Company Policies"
           description={
@@ -239,9 +339,13 @@ export const steppers = [
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              console.log(token);
+              signIn("credentials", {
+                token: token,
+              });
             }}
           >
-            <Button disabled={isLoading} type="submit" variant={"outline"}>
+            <Button type="submit" variant={"outline"}>
               I Agree
             </Button>
           </form>

@@ -15,13 +15,14 @@ const axiosBaseQuery =
       method: AxiosRequestConfig["method"];
       body?: AxiosRequestConfig["data"];
       params?: AxiosRequestConfig["params"];
+      headers?: AxiosRequestConfig["headers"];
     },
     unknown,
     unknown
   > =>
   async (args) => {
     const session = await getSession();
-    const { url, method, body, params } = args;
+    const { url, method, body, params, headers } = args;
     try {
       const result = await axios({
         url: baseUrl + url,
@@ -32,6 +33,7 @@ const axiosBaseQuery =
         headers: {
           authorization: `Bearer ${session?.user.accessToken}`,
           authorization_token: `Bearer ${Token}`,
+          ...headers,
         },
       });
       return { data: result.data };
