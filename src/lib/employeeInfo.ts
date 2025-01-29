@@ -17,12 +17,26 @@ const getEmployeesData = () => {
     };
   };
 
+  if (employees?.data?.result) {
+    localStorage.setItem(
+      "erp-employees-basics",
+      JSON.stringify(employees.data.result)
+    );
+  } else {
+    const storedData = localStorage.getItem("erp-employees-basics");
+    if (storedData) {
+      return JSON.parse(storedData);
+    }
+  }
+
   return employees?.data?.result;
 };
 
 export const employeeInfoById = (id: string) => {
   const employees = getEmployeesData();
-  const employee = employees?.find((employee) => employee.id === id);
+  const employee: Employee | undefined = employees?.find(
+    (employee: Employee) => employee.id === id
+  );
 
   const fallback = {
     id,

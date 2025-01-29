@@ -37,7 +37,7 @@ export default function Courses() {
               <ul className="space-y-3">
                 {data?.result?.map((course, index) => (
                   <li
-                    className="row mx-0 space-y-4 2xl:space-y-0 2xl:row-cols-5 items-center bg-light rounded py-3"
+                    className="row mx-0 space-y-4 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
                     key={index}
                   >
                     <div className="flex items-center">
@@ -46,7 +46,7 @@ export default function Courses() {
                         alt={course.name}
                         width={50}
                         height={50}
-                        className="rounded-md shrink-0 hidden 2xl:block mr-4"
+                        className="rounded-md shrink-0 hidden xl:block mr-4"
                       />
                       <div>
                         <small className="text-xs text-muted-foreground block">
@@ -82,20 +82,11 @@ export default function Courses() {
                     </div>
                     <div>
                       <small className="text-xs text-muted-foreground block">
-                        Date:
+                        Purchase Date:
                       </small>
                       <strong className="text-h6 text-sm font-medium capitalize">
                         {course.purchase_date &&
                           format(new Date(course.purchase_date), "MMM d, yyyy")}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <small className="text-xs text-muted-foreground block">
-                        Price:
-                      </small>
-                      <strong className="text-h6 text-sm font-medium">
-                        {course.price}
                       </strong>
                     </div>
                   </li>

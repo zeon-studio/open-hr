@@ -68,7 +68,7 @@ const Leave = () => {
   // get single employee data
   const { data: employeeData } = useGetLeaveQuery(session?.user?.id!);
 
-  const employeeLeaveYears = employeeData?.result.years!;
+  const employeeLeaveYears = employeeData?.result?.years!;
 
   return (
     <section className="p-8">

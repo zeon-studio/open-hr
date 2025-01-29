@@ -66,7 +66,7 @@ const PendingTasks = () => {
           Pending Tasks
         </CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px] scroll-box">
+      <CardContent className="lg:h-[300px] scroll-box">
         {mergeTasks?.length === 0 ? (
           <p className="text-text-light">No pending tasks</p>
         ) : (
@@ -82,7 +82,7 @@ const PendingTasks = () => {
                 index: number
               ) => (
                 <li
-                  className="flex items-start justify-between"
+                  className="flex items-start justify-between flex-wrap lg:flex-nowrap"
                   key={`task-${index}`}
                 >
                   <div className="flex items-start">

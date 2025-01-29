@@ -36,33 +36,33 @@ export default function Assets() {
               <ul className="space-y-3">
                 {data?.result?.map((asset) => (
                   <li
-                    className="row mx-0 space-y-3 2xl:space-y-0 2xl:row-cols-4 items-center bg-light rounded py-3"
+                    className="row mx-0 space-y-3 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
                     key={asset.asset_id}
                   >
-                    <div className="flex items-center 2xl:space-x-3">
+                    <div className="flex items-center xl:space-x-3">
                       <Image
                         src={`/images/assets/${asset.type}.png`}
                         alt={asset.name}
                         width={50}
                         height={50}
-                        className="hidden 2xl:block rounded-md border border-border/30 mr-2 shrink-0"
+                        className="hidden xl:block rounded-md border border-border/30 mr-2 shrink-0"
                       />
 
                       <div>
                         <small className="text-xs text-muted-foreground block">
                           Name:
                         </small>
-                        <strong className="text-h6 text-sm font-medium capitalize">
+                        <strong className="text-h6 line-clamp-1 text-sm font-medium capitalize">
                           {asset.name}
                         </strong>
                       </div>
                     </div>
                     <div>
                       <small className="text-xs text-muted-foreground block">
-                        Serial No:
+                        Tag No:
                       </small>
                       <strong className="text-h6 text-sm font-medium capitalize">
-                        {asset.serial_number}
+                        {asset.asset_id}
                       </strong>
                     </div>
                     <div>

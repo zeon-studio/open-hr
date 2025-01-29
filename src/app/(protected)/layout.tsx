@@ -4,19 +4,11 @@ import Loader from "@/components/Loader";
 import Header from "@/partials/Header";
 import Sidebar from "@/partials/Sidebar";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { updatePage } from "@/redux/features/filterSlice/filterSlice";
-import { useAppDispatch } from "@/redux/hook";
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   useGetEmployeesBasicsQuery(undefined);
-  const pathname = usePathname();
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(updatePage(1));
-  }, [pathname, dispatch]);
 
   const { status } = useSession();
 
