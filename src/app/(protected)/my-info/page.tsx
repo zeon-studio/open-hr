@@ -1,4 +1,4 @@
-import EmployeeSingle from "../employees/[employee]/page";
+import EmployeeSingle from "../employees/[employeeId]/page";
 
 export default function MyInfo() {
   return <EmployeeSingle />;
