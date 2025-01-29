@@ -1,23 +1,19 @@
 "use client";
 
 import Avatar from "@/components/Avatar";
-import { useSession } from "next-auth/react";
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import {
-  notFound,
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import PersonalInfo from "./_components/personal-info";
-
 import { Discord, Facebook, Linkedin, Twitter } from "@/components/icons";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getDuration } from "@/lib/dateFormat";
+import { cn } from "@/lib/shadcn";
+import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { format } from "date-fns";
 import {
@@ -29,23 +25,24 @@ import {
   Phone,
   UserRoundCog,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import {
+  notFound,
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { useState } from "react";
 import Assets from "./_components/assets-details";
 import Courses from "./_components/course-details";
 import Document from "./_components/document-details";
 import Emergency from "./_components/emergency-details";
 import JobDetails from "./_components/job-details";
-import Offboarding from "./_components/offboarding";
+import Offboarding from "./_components/offboarding-details";
 import Onboarding from "./_components/onboarding-details";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/shadcn";
+import PersonalInfo from "./_components/personal-info";
 
 const tabs = [
   {
@@ -57,6 +54,11 @@ const tabs = [
     label: "Job",
     value: "job",
     content: <JobDetails />,
+  },
+  {
+    label: "Emergency",
+    value: "emergency",
+    content: <Emergency />,
   },
   {
     label: "Documents",
@@ -72,11 +74,6 @@ const tabs = [
     label: "Assets",
     value: "assets",
     content: <Assets />,
-  },
-  {
-    label: "Emergency",
-    value: "emergency",
-    content: <Emergency />,
   },
   {
     label: "Onboarding",

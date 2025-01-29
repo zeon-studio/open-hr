@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-
 import { getDuration } from "@/lib/dateFormat";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { Loader2 } from "lucide-react";

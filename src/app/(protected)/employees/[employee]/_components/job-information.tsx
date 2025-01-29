@@ -190,7 +190,7 @@ export default function JobInformation({
                               <span className="flex items-center">
                                 <span
                                   className={cn(
-                                    "bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]"
+                                    "bg-light mb-2 mt-2 h-5 block w-[1px]"
                                   )}
                                 ></span>
                                 <span className={cn("pl-2  block")}>

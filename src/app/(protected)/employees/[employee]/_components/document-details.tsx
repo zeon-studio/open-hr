@@ -1,15 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BUCKET_URL } from "@/lib/constant";
-import {
-  useDeleteEmployeeDocumentMutation,
-  useGetEmployeeDocumentQuery,
-} from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
-import { Ellipsis, Loader2, Upload } from "lucide-react";
-import { useParams } from "next/navigation";
-import UploadDialog from "./upload-dialog";
-
 import ConfirmationPopup from "@/components/ConfirmationPopup";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -17,7 +8,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { BUCKET_URL } from "@/lib/constant";
+import {
+  useDeleteEmployeeDocumentMutation,
+  useGetEmployeeDocumentQuery,
+} from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
+import { Ellipsis, Loader2, Upload } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
+import UploadDialog from "./upload-dialog";
 
 export default function Document() {
   const { data: session } = useSession();

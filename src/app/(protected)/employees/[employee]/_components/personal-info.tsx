@@ -18,6 +18,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
+import { dateFormat } from "@/lib/dateFormat";
 import { cn } from "@/lib/shadcn";
 import EditFrom from "@/partials/EditFrom";
 import {
@@ -96,10 +97,10 @@ export default function PersonalInfo() {
                 e.preventDefault();
                 handleSubmit(data);
               }}
-              className="lg:grid lg:grid-cols-2 gap-3"
+              className="row gap-y-4"
             >
-              <div>
-                <Label>Name</Label>
+              <div className="lg:col-6">
+                <Label>Full Name:</Label>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -108,24 +109,33 @@ export default function PersonalInfo() {
                       [name]: value,
                     });
                   }}
-                  value={data.name}
-                  readOnly={isReadOnly}
+                  type="text"
+                  value={data.name || ""}
                   name="name"
-                  placeholder="Your Name"
+                  placeholder="Full Name"
+                  readOnly={isReadOnly}
                 />
               </div>
 
-              <div>
+              <div className="lg:col-6">
                 <Label>Mobile Phone:</Label>
                 <Input
-                  readOnly={isReadOnly}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="text"
+                  value={data.phone || ""}
                   name="phone"
-                  value={data.phone}
-                  placeholder="Your phone number"
+                  placeholder="Phone Number"
+                  readOnly={isReadOnly}
                 />
               </div>
-              <div>
-                <Label>Work Email</Label>
+              <div className="lg:col-6">
+                <Label>Work Email:</Label>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -134,14 +144,15 @@ export default function PersonalInfo() {
                       [name]: value,
                     });
                   }}
-                  value={data.work_email}
-                  readOnly={isReadOnly}
+                  type="email"
+                  value={data.work_email || ""}
                   name="work_email"
-                  placeholder="Your Work Email"
+                  placeholder="Work Email"
+                  readOnly={isReadOnly}
                 />
               </div>
-              <div>
-                <Label>Personal Email</Label>
+              <div className="lg:col-6">
+                <Label>Personal Email:</Label>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -150,68 +161,87 @@ export default function PersonalInfo() {
                       [name]: value,
                     });
                   }}
-                  value={data.personal_email}
-                  readOnly={isReadOnly}
+                  type="email"
+                  value={data.personal_email || ""}
                   name="personal_email"
-                  placeholder="Your Personal Email"
+                  placeholder="Personal Email"
+                  readOnly={isReadOnly}
                 />
               </div>
 
-              <div>
-                <Label>Date of Birth</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"input"}
-                      className={cn(
-                        "w-full flex justify-between",
-                        isReadOnly && "disabled:pl-0 disabled:border-none"
-                      )}
-                      disabled={isReadOnly}
-                    >
-                      {data.dob ? (
-                        new Date(data.dob).toDateString()
-                      ) : (
-                        <span>Select Date</span>
-                      )}
-                      <span className="flex items-center">
-                        <span
-                          className={cn(
-                            "bg-[#cccccc] mb-2 mt-2 h-5 block w-[1px]",
-                            isReadOnly && "hidden"
-                          )}
-                        ></span>
-                        <span
-                          className={cn("pl-2  block", isReadOnly && "hidden")}
-                        >
-                          <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+              <div className="lg:col-6">
+                <Label>Date of Birth:</Label>
+                {isReadOnly ? (
+                  <p className="text-sm text-text-light">
+                    {data.dob ? dateFormat(data.dob) : "Not Available"}
+                  </p>
+                ) : (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"input"}
+                        className={cn(
+                          "w-full flex justify-between",
+                          isReadOnly && "disabled:pl-0 disabled:border-none"
+                        )}
+                        disabled={isReadOnly}
+                      >
+                        {data.dob ? (
+                          dateFormat(data.dob)
+                        ) : (
+                          <span>Select Date</span>
+                        )}
+                        <span className="flex items-center">
+                          <span
+                            className={cn(
+                              "bg-light mb-2 mt-2 h-5 block w-[1px]",
+                              isReadOnly && "hidden"
+                            )}
+                          ></span>
+                          <span
+                            className={cn(
+                              "pl-2  block",
+                              isReadOnly && "hidden"
+                            )}
+                          >
+                            <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                          </span>
                         </span>
-                      </span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={data.dob ? new Date(data.dob) : new Date()}
-                      onSelect={(date) =>
-                        handleChange({
-                          ...data,
-                          dob: date!,
-                        })
-                      }
-                    />
-                  </PopoverContent>
-                </Popover>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={data.dob ? new Date(data.dob) : new Date()}
+                        onSelect={(date) =>
+                          handleChange({
+                            ...data,
+                            dob: date!,
+                          })
+                        }
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
               </div>
 
-              <div>
+              <div className="lg:col-6">
                 <Label>Gender:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm font-semibold text-text-light">
+                  <p className="text-sm text-text-light">
                     {data.gender || "Not Available"}
                   </p>
                 ) : (
-                  <Select name="marital_status" value={data.gender}>
+                  <Select
+                    name="gender"
+                    value={data.gender}
+                    onValueChange={(value) =>
+                      handleChange({
+                        ...data,
+                        gender: value as "male" | "female",
+                      })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select Gender" />
                     </SelectTrigger>
@@ -228,77 +258,138 @@ export default function PersonalInfo() {
                 )}
               </div>
 
-              <div>
+              <div className="lg:col-6">
                 <Label>Present Address:</Label>
                 <Input
-                  readOnly={isReadOnly}
-                  name="present_address"
-                  value={data.present_address}
-                  placeholder="Your present address"
-                />
-              </div>
-              <div>
-                <Label>Permanent Address</Label>
-                <Input
-                  readOnly={isReadOnly}
-                  name="present_address"
-                  value={data.permanent_address}
-                  placeholder="Your permanent address"
-                />
-              </div>
-
-              <div>
-                <Label>Facebook Profile</Label>
-                <Input
-                  type="url"
-                  readOnly={isReadOnly}
-                  name="facebook"
-                  value={data.facebook}
-                  placeholder="Your facebook profile"
-                />
-              </div>
-
-              <div>
-                <Label>X Profile</Label>
-                <Input
-                  type="url"
-                  readOnly={isReadOnly}
-                  name="twitter"
-                  value={data.twitter}
-                  placeholder="Your X profile"
-                />
-              </div>
-
-              <div>
-                <Label>Linkedin Profile</Label>
-                <Input
-                  type="url"
-                  readOnly={isReadOnly}
-                  name="linkedin"
-                  value={data.linkedin}
-                  placeholder="Your Linkedin profile"
-                />
-              </div>
-
-              <div>
-                <Label>Discord Profile</Label>
-                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
                   type="text"
+                  value={data.present_address || ""}
+                  name="present_address"
+                  placeholder="Present Address"
                   readOnly={isReadOnly}
-                  name="discord"
-                  value={data.discord}
-                  placeholder="Your Discord profile"
+                />
+              </div>
+              <div className="lg:col-6">
+                <Label>Permanent Address:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="text"
+                  value={data.permanent_address || ""}
+                  name="permanent_address"
+                  placeholder="Permanent Address"
+                  readOnly={isReadOnly}
                 />
               </div>
 
-              <div>
+              <div className="lg:col-6">
+                <Label>Facebook Profile:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="url"
+                  value={data.facebook || ""}
+                  name="facebook"
+                  placeholder="Facebook Profile"
+                  readOnly={isReadOnly}
+                />
+              </div>
+
+              <div className="lg:col-6">
+                <Label>Twitter(X) Profile:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="url"
+                  value={data.twitter || ""}
+                  name="twitter"
+                  placeholder="X profile"
+                  readOnly={isReadOnly}
+                />
+              </div>
+
+              <div className="lg:col-6">
+                <Label>Linkedin Profile:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="url"
+                  value={data.linkedin || ""}
+                  name="linkedin"
+                  placeholder="Linkedin Profile"
+                  readOnly={isReadOnly}
+                />
+              </div>
+
+              <div className="lg:col-6">
+                <Label>Discord Profile:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="text"
+                  value={data.discord || ""}
+                  name="discord"
+                  placeholder="Discord Profile"
+                  readOnly={isReadOnly}
+                />
+              </div>
+
+              <div className="lg:col-6">
                 <Label>Blood Group:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm font-semibold text-text-light">
+                  <p className="text-sm text-text-light">
                     {data.blood_group || "Not Available"}
                   </p>
                 ) : (
-                  <Select name="blood_group" value={data.blood_group}>
+                  <Select
+                    onValueChange={(value) =>
+                      handleChange({
+                        ...data,
+                        blood_group: value as
+                          | "A+"
+                          | "A-"
+                          | "B+"
+                          | "B-"
+                          | "O+"
+                          | "O-"
+                          | "AB+"
+                          | "AB-",
+                      })
+                    }
+                    name="blood_group"
+                    value={data.blood_group}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Blood" />
                     </SelectTrigger>
@@ -320,14 +411,27 @@ export default function PersonalInfo() {
                 )}
               </div>
 
-              <div>
+              <div className="lg:col-6">
                 <Label>Marital Status:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm font-semibold text-text-light">
+                  <p className="text-sm text-text-light">
                     {data.marital_status || "Not Available"}
                   </p>
                 ) : (
-                  <Select name="marital_status" value={data.marital_status}>
+                  <Select
+                    onValueChange={(value) =>
+                      handleChange({
+                        ...data,
+                        marital_status: value as
+                          | "married"
+                          | "unmarried"
+                          | "divorced"
+                          | "widowed",
+                      })
+                    }
+                    name="marital_status"
+                    value={data.marital_status}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Marital Status" />
                     </SelectTrigger>
@@ -344,31 +448,105 @@ export default function PersonalInfo() {
                 )}
               </div>
 
-              {!isReadOnly && (
-                <>
-                  <div>
-                    <Label>Tin</Label>
-                    <Input name="tin" value={data.tin} />
-                  </div>
-                  <div>
-                    <Label>NID</Label>
-                    <Input
-                      readOnly={isReadOnly}
-                      name="nid"
-                      value={data.nid}
-                      placeholder="Your NID"
-                    />
-                  </div>
-                  <div>
-                    <Label>Personality</Label>
-                    <Input type="text" name="phone" value={data.personality} />
-                  </div>
-                  <div>
-                    <Label>Note</Label>
-                    <Textarea className="min-h-[auto] h-auto" rows={1} />
-                  </div>
-                </>
-              )}
+              <div className="lg:col-6">
+                <Label>Tin:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="text"
+                  value={data.tin || ""}
+                  name="tin"
+                  placeholder="Tin"
+                  readOnly={isReadOnly}
+                />
+              </div>
+              <div className="lg:col-6">
+                <Label>NID:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="text"
+                  value={data.nid || ""}
+                  name="nid"
+                  placeholder="NID"
+                  readOnly={isReadOnly}
+                />
+              </div>
+              <div className="lg:col-6">
+                <Label>Personality:</Label>
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="text"
+                  value={data.personality || ""}
+                  name="personality"
+                  placeholder="Personality Type"
+                  readOnly={isReadOnly}
+                />
+              </div>
+              <div className="lg:col-6">
+                <Label>Status:</Label>
+                {isReadOnly ? (
+                  <p className="text-sm text-text-light">
+                    {data.status || "Not Available"}
+                  </p>
+                ) : (
+                  <Select
+                    onValueChange={(value) => {
+                      handleChange({
+                        ...data,
+                        status: value as "pending" | "active" | "archived",
+                      });
+                    }}
+                    name="status"
+                    value={data.status}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {options.employee_status.map((status) => {
+                        return (
+                          <SelectItem key={status.value} value={status.value}>
+                            {status.label}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+              <div className="lg:col-12">
+                <Label>Note:</Label>
+                <Textarea
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  value={data.note || ""}
+                  name="note"
+                  rows={5}
+                  readOnly={isReadOnly}
+                />
+              </div>
             </form>
           );
         }}
@@ -395,8 +573,8 @@ export default function PersonalInfo() {
               {data?.banks.length > 0 ? (
                 data?.banks?.map((bank, index, banks) => {
                   return (
-                    <div key={index} className="grid lg:grid-cols-2 gap-3">
-                      <div>
+                    <div key={index} className="row gap-y-4">
+                      <div className="lg:col-6">
                         <Label>Account Name</Label>
                         <Input
                           onChange={(e) => {
@@ -411,13 +589,13 @@ export default function PersonalInfo() {
                               }),
                             });
                           }}
-                          value={bank.bank_ac_name}
+                          value={bank.bank_ac_name || ""}
                           readOnly={isReadOnly}
                           name="bank_ac_name"
                           placeholder="Bank Account Name"
                         />
                       </div>
-                      <div>
+                      <div className="lg:col-6">
                         <Label>Bank Name</Label>
                         <Input
                           onChange={(e) => {
@@ -434,12 +612,12 @@ export default function PersonalInfo() {
                           }}
                           required
                           readOnly={isReadOnly}
-                          value={bank.bank_name}
+                          value={bank.bank_name || ""}
                           name="bank_name"
-                          placeholder="Your Bank Account Number"
+                          placeholder="Bank Account Number"
                         />
                       </div>
-                      <div>
+                      <div className="lg:col-6">
                         <Label>Bank Account Number</Label>
                         <Input
                           onChange={(e) => {
@@ -457,11 +635,11 @@ export default function PersonalInfo() {
                           required
                           readOnly={isReadOnly}
                           name="bank_ac_no"
-                          value={bank.bank_ac_no}
-                          placeholder="Your Bank Account Number"
+                          value={bank.bank_ac_no || ""}
+                          placeholder="Bank Account Number"
                         />
                       </div>
-                      <div>
+                      <div className="lg:col-6">
                         <Label>Branch</Label>
                         <Input
                           onChange={(e) => {
@@ -478,7 +656,7 @@ export default function PersonalInfo() {
                           }}
                           required
                           readOnly={isReadOnly}
-                          value={bank.bank_branch}
+                          value={bank.bank_branch || ""}
                           name="bank_branch"
                         />
                       </div>
@@ -543,8 +721,8 @@ export default function PersonalInfo() {
               {data?.educations.length > 0 ? (
                 data?.educations?.map((education, index, educations) => {
                   return (
-                    <div key={index} className="lg:grid lg:grid-cols-2 gap-3">
-                      <div>
+                    <div key={index} className="row gap-y-4">
+                      <div className="lg:col-6">
                         <Label>Degree</Label>
                         <Input
                           onChange={(e) => {
@@ -560,13 +738,13 @@ export default function PersonalInfo() {
                             });
                           }}
                           required
-                          value={education.degree}
+                          value={education.degree || ""}
                           readOnly={isReadOnly}
                           name="degree"
                           placeholder="Degree"
                         />
                       </div>
-                      <div>
+                      <div className="lg:col-6">
                         <Label>Name of Institution</Label>
                         <Input
                           onChange={(e) => {
@@ -583,12 +761,12 @@ export default function PersonalInfo() {
                           }}
                           required
                           readOnly={isReadOnly}
-                          value={education.institute}
+                          value={education.institute || ""}
                           name="institute"
                           placeholder="Institute name"
                         />
                       </div>
-                      <div>
+                      <div className="lg:col-6">
                         <Label>Passing Year</Label>
                         <Input
                           onChange={(e) => {
@@ -607,11 +785,11 @@ export default function PersonalInfo() {
                           required
                           readOnly={isReadOnly}
                           name="passing_year"
-                          value={education.passing_year}
+                          value={education.passing_year || ""}
                           placeholder="Passing year"
                         />
                       </div>
-                      <div>
+                      <div className="lg:col-6">
                         <Label>Major</Label>
                         <Input
                           onChange={(e) => {
@@ -628,12 +806,12 @@ export default function PersonalInfo() {
                           }}
                           required
                           readOnly={isReadOnly}
-                          value={education.major}
+                          value={education.major || ""}
                           name="major"
                         />
                       </div>
 
-                      <div>
+                      <div className="lg:col-6">
                         <Label>Result</Label>
                         <Input
                           onChange={(e) => {
@@ -649,7 +827,7 @@ export default function PersonalInfo() {
                             });
                           }}
                           readOnly={isReadOnly}
-                          value={education.result}
+                          value={education.result || ""}
                           name="result"
                         />
                       </div>
