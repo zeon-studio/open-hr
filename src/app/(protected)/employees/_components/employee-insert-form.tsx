@@ -32,41 +32,8 @@ const EmployeeInsertForm = ({
   loader: boolean;
 }) => {
   const { data } = useGetEmployeesBasicsQuery(undefined);
-
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <div>
-        <Label>Name</Label>
-        <Input
-          type="text"
-          value={employeeData.name || ""}
-          onChange={(e) =>
-            setEmployeeData((prev) => ({
-              ...prev,
-              name: e.target.value || "",
-            }))
-          }
-          required
-          placeholder="Full Name"
-        />
-      </div>
-
-      <div>
-        <Label>Work Email</Label>
-        <Input
-          type="email"
-          required
-          value={employeeData.work_email || ""}
-          onChange={(e) =>
-            setEmployeeData((prev) => ({
-              ...prev,
-              work_email: e.target.value || "",
-            }))
-          }
-          placeholder="Work Email"
-        />
-      </div>
-
       <div>
         <Label>Personal Email</Label>
         <Input

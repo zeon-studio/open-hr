@@ -25,8 +25,6 @@ export type TEmployee = {
 };
 
 export type TEmployeeCreate = {
-  name: string;
-  work_email: string;
   personal_email: string;
   department: "development" | "design" | "marketing" | "admin";
   job_type: "full_time" | "part_time" | "remote" | "contractual" | "internship";
