@@ -17,13 +17,19 @@ import {
 import options from "@/config/options.json";
 import { dateFormat } from "@/lib/dateFormat";
 import { cn } from "@/lib/shadcn";
+import { useUpdateEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { ErrorResponse } from "@/types";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
+import { toast } from "sonner";
 import { useStepper } from "./use-stepper";
 
-export default function OnboardingForm() {
+export default function OnboardingForm({ employeeId }: { employeeId: string }) {
+  const params = useSearchParams();
+  const token = params.get("token") as string;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { handleStepChange } = useStepper();
   // @ts-ignore
@@ -37,12 +43,22 @@ export default function OnboardingForm() {
     });
   };
 
+  const [updateEmployee, { isLoading: isUpdating }] =
+    useUpdateEmployeeMutation();
+
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        handleStepChange();
-        buttonRef.current?.click();
+        try {
+          await updateEmployee({ ...data, id: employeeId, token }).unwrap();
+          handleStepChange();
+          buttonRef.current?.click();
+        } catch (error) {
+          toast.error(
+            (error as ErrorResponse).data.message ?? "Something went wrong!"
+          );
+        }
       }}
       className="row gap-y-4 mt-10"
     >
@@ -284,8 +300,9 @@ export default function OnboardingForm() {
         <DialogClose type="button" className="sr-only" ref={buttonRef}>
           Modal close
         </DialogClose>
-        <Button variant={"outline"} size={"lg"}>
+        <Button disabled={isUpdating} variant={"outline"} size={"lg"}>
           Submit
+          {isUpdating && <Loader2 className="ml-1.5 h-4 w-4 animate-spin" />}
         </Button>
       </div>
     </form>

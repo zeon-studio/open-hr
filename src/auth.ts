@@ -1,9 +1,41 @@
 import Axios from "@/lib/axios";
 import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    Credentials({
+      name: "credentials",
+      id: "credentials",
+      credentials: {
+        token: { label: "token", type: "text" },
+      },
+      type: "credentials",
+      // @ts-ignore
+      async authorize(credentials) {
+        console.log({ credentials });
+        try {
+          const res = await Axios.post("/login-with-token", {
+            email: credentials.token,
+          });
+          console.log(res);
+          if (res.status === 200) {
+            return {
+              id: res.data.result.userId,
+              name: res.data.result.name,
+              email: res.data.result.email,
+              image: res.data.result.image,
+              role: res.data.result.role,
+              accessToken: res.data.result.accessToken,
+            };
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
+
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -32,6 +64,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   pages: {
     signIn: "/login",
+    newUser: "/onboard",
   },
 
   callbacks: {
@@ -53,7 +86,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return false;
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        token.name = session.name;
+        token.email = session.email;
+        token.accessToken = session.accessToken;
+      }
+
       if (user) {
         token.id = user.id!;
         token.name = user.name!;
@@ -62,6 +101,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.role = user.role!;
         token.accessToken = user.accessToken;
       }
+
       return token;
     },
 
