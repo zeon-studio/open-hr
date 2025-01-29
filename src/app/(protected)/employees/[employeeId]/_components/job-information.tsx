@@ -126,10 +126,9 @@ export default function JobInformation({
                   e.preventDefault();
                 }
               }}
-              className="max-w-2xl max-h-[95h]"
             >
               <DialogHeader>
-                <DialogTitle>Update job information</DialogTitle>
+                <DialogTitle>Update Job Information</DialogTitle>
               </DialogHeader>
               <form
                 className="grid grid-cols-1 gap-4 mt-6"
@@ -138,7 +137,7 @@ export default function JobInformation({
                 {promotionData.map((promotion, index) => {
                   return (
                     <div
-                      className="grid grid-cols-1 gap-4 border mb-6 relative bg-light rounded-md p-3"
+                      className="grid grid-cols-1 gap-4 border relative bg-light rounded-md p-3"
                       key={index}
                     >
                       <div className="absolute right-3 top-3">
@@ -227,7 +226,7 @@ export default function JobInformation({
                   variant="outline"
                   onClick={handleAdd}
                 >
-                  Add
+                  Add Promotion
                 </Button>
 
                 <div className="text-right">
