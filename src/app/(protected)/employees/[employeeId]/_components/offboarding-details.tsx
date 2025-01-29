@@ -62,10 +62,7 @@ export default function Offboarding() {
         <CardHeader className="border-b-transparent pb-0">
           <CardTitle>Offboarding</CardTitle>
           {!data?.result && (
-            <CardDescription>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium, assumenda minus.
-            </CardDescription>
+            <CardDescription>Start the offboarding process</CardDescription>
           )}
         </CardHeader>
         <CardContent className={isLoading ? "py-20" : "pt-6 overflow-hidden"}>

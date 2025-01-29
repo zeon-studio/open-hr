@@ -59,7 +59,7 @@ const UpcomingLeaves = () => {
           Who&apos;s Out
         </CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px] scroll-box">
+      <CardContent className="lg:h-[300px] scroll-box">
         <div className="mb-6">
           <h4 className="h6 mb-3">Today</h4>
           {todaysLeave?.length === 0 ? (

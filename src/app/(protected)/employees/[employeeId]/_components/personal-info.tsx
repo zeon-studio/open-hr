@@ -841,7 +841,7 @@ export default function PersonalInfo() {
                                 }),
                               });
                             }}
-                            type="text"
+                            type="number"
                             required
                             readOnly={isReadOnly}
                             name="passing_year"
@@ -885,10 +885,56 @@ export default function PersonalInfo() {
                                 }),
                               });
                             }}
+                            type="number"
+                            value={education.result || 0}
                             readOnly={isReadOnly}
-                            value={education.result || ""}
                             name="result"
+                            required
                           />
+                        </div>
+                        <div>
+                          <Label>Result Type:</Label>
+                          {isReadOnly ? (
+                            <p className="text-sm text-text-light">
+                              {data.educations[index].result_type ||
+                                "Not Available"}
+                            </p>
+                          ) : (
+                            <Select
+                              onValueChange={(value) => {
+                                handleChange({
+                                  ...data,
+                                  educations: educations.map((education, i) => {
+                                    if (index === i) {
+                                      return {
+                                        ...education,
+                                        result_type: value as
+                                          | "gpa"
+                                          | "cgpa"
+                                          | "percentage",
+                                      };
+                                    }
+                                    return education;
+                                  }),
+                                });
+                              }}
+                              defaultValue={education.result_type}
+                              disabled={isReadOnly}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Result Type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {options.education_result_type.map(
+                                  ({ label, value }) => (
+                                    <SelectItem key={value} value={value}>
+                                      {label}
+                                    </SelectItem>
+                                  )
+                                )}
+                              </SelectContent>
+                            </Select>
+                          )}
                         </div>
                       </div>
                       {educations.length - 1 !== index && (
@@ -914,7 +960,8 @@ export default function PersonalInfo() {
                           {
                             degree: "",
                             major: "",
-                            result: "",
+                            result: 0,
+                            result_type: "gpa",
                             institute: "",
                             passing_year: 0,
                           },

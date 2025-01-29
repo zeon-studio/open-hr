@@ -16,7 +16,7 @@ const UpcomingEvents = () => {
           Upcoming Events
         </CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px] scroll-box">
+      <CardContent className="lg:h-[300px] scroll-box">
         {data?.result?.events?.length === 0 ? (
           <p className="text-center py-4">No upcoming events</p>
         ) : (

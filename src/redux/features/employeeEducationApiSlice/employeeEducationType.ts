@@ -2,7 +2,8 @@ export type TEducation = {
   degree: string;
   institute: string;
   passing_year: number;
-  result: string;
+  result: number;
+  result_type: "gpa" | "cgpa" | "percentage";
   major: string;
 };
 
