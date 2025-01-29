@@ -6,13 +6,7 @@ export type TOnboardingTask = {
 
 export type TEmployeeOnboarding = {
   employee_id: string;
-  add_fingerprint: TOnboardingTask;
-  provide_id_card: TOnboardingTask;
-  provide_appointment_letter: TOnboardingTask;
-  provide_employment_contract: TOnboardingTask;
-  provide_welcome_kit: TOnboardingTask;
-  provide_devices: TOnboardingTask;
-  provide_office_intro: TOnboardingTask;
+  tasks: TOnboardingTask[];
   createdAt?: Date;
 };
 

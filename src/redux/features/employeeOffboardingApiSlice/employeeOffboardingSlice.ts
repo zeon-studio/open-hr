@@ -76,7 +76,7 @@ export const employeeOffboardingApi =
       updateOffboardingTaskStatus: builder.mutation({
         query: (data) => {
           return {
-            url: `/employee-offboarding/task/${data.employee_id}/${data.task}`,
+            url: `/employee-offboarding/task/${data.employee_id}/${data.task_name}`,
             method: "PATCH",
           };
         },

@@ -6,14 +6,7 @@ export type TOffboardingTask = {
 
 export type TEmployeeOffboarding = {
   employee_id: string;
-  remove_fingerprint: TOffboardingTask;
-  task_handover: TOffboardingTask;
-  collect_id_card: TOffboardingTask;
-  collect_email: TOffboardingTask;
-  collect_devices: TOffboardingTask;
-  nda_agreement: TOffboardingTask;
-  provide_certificate: TOffboardingTask;
-  farewell: TOffboardingTask;
+  tasks: TOffboardingTask[];
   createdAt?: Date;
 };
 

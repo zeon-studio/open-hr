@@ -21,15 +21,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { employeeInfoById } from "@/lib/employeeInfo";
 import { cn } from "@/lib/shadcn";
 import {
   useAddEmployeeOffboardingMutation,
   useGetEmployeeOffboardingQuery,
 } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
-import {
-  TEmployeeOffboardingCreate,
-  TOffboardingTask,
-} from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingType";
+import { TEmployeeOffboardingCreate } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingType";
 import { ErrorResponse } from "@/types";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -47,13 +45,11 @@ export default function Offboarding() {
   const { data, isLoading } = useGetEmployeeOffboardingQuery(employeeId);
   const [employeeOffboarding, { isLoading: isOffboardingLoading }] =
     useAddEmployeeOffboardingMutation();
-  const task = data?.result ?? {};
 
   const [offboardingData, setOffboardingData] =
     useState<TEmployeeOffboardingCreate>({
       employee_id: "",
-      // @ts-ignore
-      resignation_date: "",
+      resignation_date: new Date(),
     });
 
   return (
@@ -70,22 +66,24 @@ export default function Offboarding() {
             <div className="flex justify-center items-center">
               <Loader2 className="animate-spin size-5" />
             </div>
-          ) : data?.result ? (
+          ) : data?.result?.tasks ? (
             <div className="flex flex-col gap-4">
               <ul className="space-y-3">
-                {Object.entries(task).map(([taskName, value]) => {
-                  const taskValue = value as TOffboardingTask;
-                  if (!taskValue.task_name) return null;
-                  const variants = {
-                    Completed: "success",
-                    Pending: "warning",
-                    Scheduled: "info",
-                    "Not Started": "error",
+                {data.result.tasks.map((task, index) => {
+                  const variants: {
+                    [key: string]:
+                      | "success"
+                      | "warning"
+                      | "default"
+                      | "destructive";
+                  } = {
+                    completed: "success",
+                    pending: "warning",
                   };
 
                   return (
                     <li
-                      key={taskName}
+                      key={`task-${index}`}
                       className="row mx-0 space-y-3 lg:space-y-0 lg:row-cols-3 items-center bg-light rounded py-3"
                     >
                       <div className="flex items-center">
@@ -94,7 +92,7 @@ export default function Offboarding() {
                             Course Name:
                           </small>
                           <strong className="text-h6 text-sm font-medium capitalize">
-                            {taskValue.task_name}
+                            {task.task_name}
                           </strong>
                         </div>
                       </div>
@@ -103,7 +101,7 @@ export default function Offboarding() {
                           Assign To:
                         </small>
                         <strong className="text-h6 text-sm font-medium capitalize">
-                          {taskValue.assigned_to}
+                          {employeeInfoById(task.assigned_to).name}
                         </strong>
                       </div>
                       <div>
@@ -111,9 +109,8 @@ export default function Offboarding() {
                           Status
                         </small>
                         <strong className="text-h6 text-sm font-medium">
-                          {/* @ts-ignore */}
-                          <Badge variant={variants[taskValue.status]}>
-                            {taskValue.status}
+                          <Badge variant={variants[task.status]}>
+                            {task.status}
                           </Badge>
                         </strong>
                       </div>

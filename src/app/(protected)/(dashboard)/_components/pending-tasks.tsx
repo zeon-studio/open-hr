@@ -37,19 +37,19 @@ const PendingTasks = () => {
 
   const handleCompleteTask = async (
     employeeId: string,
-    taskId: string,
+    taskName: string,
     type: string
   ) => {
     try {
       if (type === "offboarding") {
         await updateOffboardingTask({
           employee_id: employeeId,
-          task: taskId,
+          task_name: taskName,
         }).unwrap();
       } else {
         await updateOnboardingTask({
           employee_id: employeeId,
-          task: taskId,
+          task_name: taskName,
         }).unwrap();
       }
       toast.success("Task marked as completed");
@@ -75,7 +75,6 @@ const PendingTasks = () => {
               (
                 task: TOnboardingTask & {
                   employee_id: string;
-                  task_id: string;
                   createdAt: Date;
                   type: string;
                 },
@@ -106,7 +105,7 @@ const PendingTasks = () => {
                     onClick={() =>
                       handleCompleteTask(
                         task.employee_id,
-                        task.task_id!,
+                        task.task_name!,
                         task.type
                       )
                     }
