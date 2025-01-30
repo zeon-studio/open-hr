@@ -16,9 +16,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     dispatch(settingApi.endpoints.getSetting.initiate(undefined));
   }, [dispatch]);
   const { status } = useSession();
-  const { app_name, company_website } = useAppSelector(
-    (state) => state["setting-slice"]
-  );
+  const { app_name, company_website } =
+    useAppSelector((state) => state["setting-slice"]) || {};
 
   if (status === "loading") {
     return <Loader />;

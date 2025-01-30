@@ -43,11 +43,14 @@ export const config = {
   matcher: [
     "/login",
     "/",
+    "/tools",
     "/employees",
-    "/employees/:path*",
     "/my-info",
+    "/employees/:path*",
+    "/courses",
+    "/assets",
     "/leaves",
+    "/leave-requests",
     "/calendar",
-    "/(dashboard)",
   ],
 };
