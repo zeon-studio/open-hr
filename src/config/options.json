@@ -274,5 +274,67 @@
       "label": "Percentage",
       "value": "percentage"
     }
+  ],
+  "menu_access": [
+    {
+      "label": "Admin",
+      "value": "admin"
+    },
+    {
+      "label": "Moderator",
+      "value": "moderator"
+    },
+    {
+      "label": "User",
+      "value": "user"
+    }
+  ],
+  "weekend_days": [
+    {
+      "label": "Saturday",
+      "value": "Saturday"
+    },
+    {
+      "label": "Sunday",
+      "value": "Sunday"
+    },
+    {
+      "label": "Monday",
+      "value": "Monday"
+    },
+    {
+      "label": "Tuesday",
+      "value": "Tuesday"
+    },
+    {
+      "label": "Wednesday",
+      "value": "Wednesday"
+    },
+    {
+      "label": "Thursday",
+      "value": "Thursday"
+    },
+    {
+      "label": "Friday",
+      "value": "Friday"
+    }
+  ],
+  "conditional_weekend_weeks": [
+    {
+      "label": "1",
+      "value": "1"
+    },
+    {
+      "label": "2",
+      "value": "2"
+    },
+    {
+      "label": "3",
+      "value": "3"
+    },
+    {
+      "label": "4",
+      "value": "4"
+    }
   ]
 }

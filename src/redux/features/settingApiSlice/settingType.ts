@@ -5,14 +5,13 @@ export type TMenuItem = {
 };
 
 export type TLeaveItem = {
-  name: string;
+  name: "earned" | "sick" | "casual" | "without_pay";
   days: number;
 };
 
 export type TTaskItem = {
   name: string;
   assigned_to: string;
-  status: "pending" | "completed";
 };
 
 export type TConditionalWeekend = {
