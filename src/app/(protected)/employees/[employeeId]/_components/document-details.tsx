@@ -91,8 +91,8 @@ export default function Document() {
                                 <DialogTrigger asChild>
                                   <Button
                                     size={"sm"}
-                                    className="border-none w-full bg-transparent text-left justify-start text-sm h-auto py-1.5 px-1.5"
-                                    variant={"outline"}
+                                    className="border-none w-full bg-transparent text-left justify-start text-sm h-auto py-1.5 px-1.5 text-text-dark hover:text-white"
+                                    variant={"destructive"}
                                     type="button"
                                   >
                                     Delete

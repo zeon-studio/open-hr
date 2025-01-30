@@ -45,7 +45,7 @@ export default function UploadDialog({
       </DialogTrigger>
 
       <DialogContent className="max-w-xl gap-3">
-        <DialogHeader>
+        <DialogHeader className="mb-6">
           <DialogTitle>Choose Image</DialogTitle>
         </DialogHeader>
         <FileManager
@@ -57,7 +57,8 @@ export default function UploadDialog({
           permission="public-read"
           setFile={async (location: any) => {
             const fileName = location.split("/").pop();
-            if (!fileName) return;
+            if (!fileName || file === location) return;
+
             try {
               await uploaded({
                 createdAt: new Date(),
