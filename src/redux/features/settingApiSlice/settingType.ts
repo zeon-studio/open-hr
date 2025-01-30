@@ -1,5 +1,5 @@
 export type TMenuItem = {
-  name: number;
+  name: string; // Changed from number to string
   url: string;
   access: ("admin" | "user" | "moderator")[];
 };
