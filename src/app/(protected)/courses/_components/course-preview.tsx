@@ -1,4 +1,5 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { dateFormat } from "@/lib/dateFormat";
 import { employeeInfoById } from "@/lib/employeeInfo";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
 
@@ -45,16 +46,14 @@ const CoursePreview = ({ courseData }: { courseData: Partial<TCourse> }) => {
                   <div className="font-medium mb-1">Purchase Date</div>
                   <div className="p-2 bg-light rounded">
                     {item.purchase_date
-                      ? new Date(item.purchase_date).toDateString()
+                      ? dateFormat(item.purchase_date)
                       : "N/A"}
                   </div>
                 </div>
                 <div className="lg:col-6 mb-4">
                   <div className="font-medium mb-1">Expire Date</div>
                   <div className="p-2 bg-light rounded">
-                    {item.expire_date
-                      ? new Date(item.expire_date).toDateString()
-                      : "N/A"}
+                    {item.expire_date ? dateFormat(item.expire_date) : "N/A"}
                   </div>
                 </div>
                 <div className="col-12 mb-4">

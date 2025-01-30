@@ -22,7 +22,7 @@ const monthNames = [
 
 export const dateFormat = (
   date: Date | string,
-  timeZoneOffset: number = 0,
+  timeZoneOffset: number = 6,
   showTime: boolean = false
 ): string => {
   if (!date) return "";

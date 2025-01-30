@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { dateFormat } from "@/lib/dateFormat";
 import { employeeGroupByDepartment } from "@/lib/employeeInfo";
 import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
@@ -165,7 +166,7 @@ const EmployeeJobForm = ({
             <PopoverTrigger asChild>
               <Button variant={"input"} className="w-full flex justify-between">
                 {employeeJobData.joining_date ? (
-                  new Date(employeeJobData.joining_date).toDateString()
+                  dateFormat(employeeJobData.joining_date)
                 ) : (
                   <span>Pick a date</span>
                 )}
@@ -203,7 +204,7 @@ const EmployeeJobForm = ({
             <PopoverTrigger asChild>
               <Button variant={"input"} className="w-full flex justify-between">
                 {employeeJobData.permanent_date ? (
-                  new Date(employeeJobData.permanent_date).toDateString()
+                  dateFormat(employeeJobData.permanent_date)
                 ) : (
                   <span>Pick a date</span>
                 )}
@@ -293,7 +294,7 @@ const EmployeeJobForm = ({
                         className="w-full flex justify-between"
                       >
                         {item.promotion_date ? (
-                          new Date(item.promotion_date).toDateString()
+                          dateFormat(item.promotion_date)
                         ) : (
                           <span>Pick a date</span>
                         )}

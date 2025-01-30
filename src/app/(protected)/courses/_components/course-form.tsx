@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import options from "@/config/options.json";
 import MultipleSelector from "@/layouts/components/ui/multiple-selector";
+import { dateFormat } from "@/lib/dateFormat";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
@@ -212,7 +213,7 @@ const CourseForm = ({
                       className="w-full flex justify-between"
                     >
                       {item.purchase_date ? (
-                        new Date(item.purchase_date).toDateString()
+                        dateFormat(item.purchase_date)
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -274,7 +275,7 @@ const CourseForm = ({
                       className="w-full flex justify-between"
                     >
                       {item.expire_date ? (
-                        new Date(item.expire_date).toDateString()
+                        dateFormat(item.expire_date)
                       ) : (
                         <span>Pick a date</span>
                       )}

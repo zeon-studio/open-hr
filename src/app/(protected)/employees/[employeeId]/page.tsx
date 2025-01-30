@@ -224,7 +224,7 @@ export default function EmployeeSingle() {
           </div>
         </div>
 
-        <div className="gap-5 mt-6 lg:mt-8 xl:mt-16 flex">
+        <div className="gap-5 px-4 pb-4 mt-6 lg:mt-8 xl:mt-16 flex">
           <div className="space-y-5 xl:basis-[210px] hidden xl:block xl:pl-8">
             <div className="xl:max-w-[210px]">
               <h6 className="text-base font-semibold mb-4">Vitals</h6>

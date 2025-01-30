@@ -43,7 +43,7 @@ export default function Employees() {
   const { isDialogOpen, onDialogChange } = useDialog();
 
   return (
-    <section className="p-4">
+    <section className="p-8">
       <div className="flex justify-between items-center mb-6">
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
