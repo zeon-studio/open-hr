@@ -2,9 +2,11 @@ import {
   BookKey,
   Calendar,
   CalendarOff,
+  CircleDot,
   CircleUser,
   LayoutDashboard,
   Package,
+  Settings,
   SquareLibrary,
   Users,
 } from "lucide-react";
@@ -195,4 +197,6 @@ export const menuIcons: Record<string, React.ElementType> = {
   leaves: Calendar,
   "leave requests": CalendarOff,
   calendar: Calendar,
+  settings: Settings,
+  default: CircleDot,
 };
