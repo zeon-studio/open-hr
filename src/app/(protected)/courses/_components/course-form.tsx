@@ -61,7 +61,7 @@ const CourseForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseItems]);
 
-  // add new product field for upload files to bucket
+  // add new course item
   const handleAddCourseItem = () => {
     setCourseItems([
       ...courseItems,
@@ -74,7 +74,7 @@ const CourseForm = ({
     ]);
   };
 
-  // delete product file
+  // delete course item
   const handleDeleteCourseItem = async (index: number) => {
     setCourseItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };

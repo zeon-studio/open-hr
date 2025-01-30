@@ -44,7 +44,7 @@ const EmployeeInsert = ({
       setEmployeeData(initialEmployeeData);
       // close modal/dialog
       onDialogChange(false);
-      toast("Product added complete");
+      toast("Employee added successfully");
     } else if (isError) {
       setLoader(false);
       toast("something went wrong");

@@ -61,7 +61,7 @@ const ToolForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toolItems]);
 
-  // add new product field for upload files to bucket
+  // add new tool item
   const handleAddToolItem = () => {
     setToolItems([
       ...toolItems,
@@ -77,7 +77,7 @@ const ToolForm = ({
     ]);
   };
 
-  // delete product file
+  // delete tool item
   const handleDeleteToolItem = async (index: number) => {
     setToolItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };

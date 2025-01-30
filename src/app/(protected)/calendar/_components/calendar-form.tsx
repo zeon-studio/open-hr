@@ -102,10 +102,13 @@ const CalendarForm = ({
         end_date: holidayDateRange?.to
           ? format(holidayDateRange.to, "yyyy-MM-dd")
           : new Date().toISOString().split("T")[0],
-        day_count: dayCount(
-          new Date(holidayDateRange?.from!),
-          new Date(holidayDateRange?.to!)
-        ),
+        day_count:
+          holidayDateRange?.from && holidayDateRange?.to
+            ? dayCount(
+                new Date(holidayDateRange.from),
+                new Date(holidayDateRange.to)
+              )
+            : 0,
         reason: item.reason,
       })),
       events: eventItems.map((item) => ({
@@ -115,10 +118,13 @@ const CalendarForm = ({
         end_date: eventDateRange?.to
           ? format(eventDateRange.to, "yyyy-MM-dd")
           : new Date().toISOString().split("T")[0],
-        day_count: dayCount(
-          new Date(eventDateRange?.from!),
-          new Date(eventDateRange?.to!)
-        ),
+        day_count:
+          eventDateRange?.from && eventDateRange?.to
+            ? dayCount(
+                new Date(eventDateRange.from),
+                new Date(eventDateRange.to)
+              )
+            : 0,
         reason: item.reason,
       })),
     }));
@@ -136,6 +142,13 @@ const CalendarForm = ({
         end_date: holidayDateRange?.to
           ? format(holidayDateRange.to, "yyyy-MM-dd")
           : new Date().toISOString().split("T")[0],
+        day_count:
+          holidayDateRange?.from && holidayDateRange?.to
+            ? dayCount(
+                new Date(holidayDateRange.from),
+                new Date(holidayDateRange.to)
+              )
+            : 0,
       })),
       events: eventItems.map((item) => ({
         ...item,
@@ -145,6 +158,13 @@ const CalendarForm = ({
         end_date: eventDateRange?.to
           ? format(eventDateRange.to, "yyyy-MM-dd")
           : new Date().toISOString().split("T")[0],
+        day_count:
+          eventDateRange?.from && eventDateRange?.to
+            ? dayCount(
+                new Date(eventDateRange.from),
+                new Date(eventDateRange.to)
+              )
+            : 0,
       })),
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
