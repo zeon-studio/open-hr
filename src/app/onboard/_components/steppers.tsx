@@ -57,7 +57,7 @@ function StepperCard({
     <Card className="text-left border-none">
       <CardHeader
         className={cn(
-          "pointer-bullet border-transparent relative",
+          "pointer-bullet border-transparent relative mt-0",
           isActive && "completed pb-0",
           isCompleted && "before:opacity-0 before:hidden"
         )}
@@ -66,12 +66,10 @@ function StepperCard({
           className={cn(
             "size-4 border border-success rounded-full hidden",
             isCompleted &&
-              "block p-0.5 absolute left-6 top-7 translate-y-1/2 text-success"
+              "block p-0.5 absolute left-6 top-[22px] translate-y-1/2 text-success"
           )}
         />
-        <CardTitle className="space-y-0 text-black text-base">
-          {title}
-        </CardTitle>
+        <CardTitle className="!mt-0 text-black text-base">{title}</CardTitle>
         <CardDescription className="text-text-light text-sm">
           {description}
         </CardDescription>
@@ -225,7 +223,10 @@ export const steppers = [
         >
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="mt-3">Open Form</Button>
+              <Button className="mt-3">
+                Open Form
+                <ExternalLink className="ml-1.5 size-4" />
+              </Button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl">
               <DialogHeader>
@@ -321,18 +322,17 @@ export const steppers = [
           description={
             <div>
               <p>
-                Read and acknowledge our organization policies and Code of
-                Conduct
+                Read and acknowledge our organization{" "}
+                <Link
+                  className={buttonVariants({
+                    className: "inline-block !p-0",
+                    variant: "link",
+                  })}
+                  href={""}
+                >
+                  policy & Code of Conduct
+                </Link>
               </p>
-              <Link
-                className={buttonVariants({
-                  className: "pl-0",
-                  variant: "link",
-                })}
-                href={""}
-              >
-                policy & Code of Conduct
-              </Link>
             </div>
           }
         >
