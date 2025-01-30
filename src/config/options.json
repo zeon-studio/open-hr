@@ -319,7 +319,7 @@
       "value": "Friday"
     }
   ],
-  "conditional_weekend_weeks": [
+  "conditional_weekend_pattern": [
     {
       "label": "1",
       "value": "1"

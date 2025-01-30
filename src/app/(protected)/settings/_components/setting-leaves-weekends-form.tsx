@@ -67,11 +67,15 @@ export default function SettingLeavesWeekendsForm({
                 />
               )}
             </div>
+
             {/* Conditional Weekends */}
             <div className="lg:col-12">
-              <Label>Conditional Weekends:</Label>
+              <Label>Conditional Weekends</Label>
               {data.conditional_weekends.map((weekend, index) => (
-                <div key={index} className="p-5 relative">
+                <div
+                  key={index}
+                  className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t pt-5"} mb-5`}
+                >
                   {!isReadOnly && (
                     <div className="lg:col-span-2 absolute right-5 top-3">
                       <Button
@@ -94,51 +98,76 @@ export default function SettingLeavesWeekendsForm({
                   )}
                   <div className="row">
                     <div className="lg:col-6">
-                      <Label>Weekend Name:</Label>
-                      <Input
-                        onChange={(e) => {
-                          const { name, value } = e.target;
-                          handleChange({
-                            ...data,
-                            conditional_weekends: data.conditional_weekends.map(
-                              (weekend, i) =>
-                                i === index
-                                  ? { ...weekend, [name]: value }
-                                  : weekend
-                            ),
-                          });
-                        }}
-                        type="text"
-                        value={weekend.name || ""}
-                        name="name"
-                        placeholder="Weekend Name"
-                        readOnly={isReadOnly}
-                      />
+                      <Label>Weekend Day:</Label>
+                      {isReadOnly ? (
+                        <small className="block capitalize">
+                          {weekend.name}
+                        </small>
+                      ) : (
+                        <Select
+                          value={weekend.name}
+                          onValueChange={(value) => {
+                            handleChange({
+                              ...data,
+                              conditional_weekends:
+                                data.conditional_weekends.map((weekend, i) =>
+                                  i === index
+                                    ? {
+                                        ...weekend,
+                                        name: value,
+                                      }
+                                    : weekend
+                                ),
+                            });
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a day" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {options.weekend_days.map((day) => (
+                              <SelectItem key={day.value} value={day.value}>
+                                {day.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
                     </div>
                     <div className="lg:col-6">
-                      <Label>Pattern (pipe separated):</Label>
-                      <Input
-                        onChange={(e) => {
-                          const { name, value } = e.target;
-                          handleChange({
-                            ...data,
-                            conditional_weekends: data.conditional_weekends.map(
-                              (weekend, i) =>
-                                i === index
-                                  ? {
-                                      ...weekend,
-                                      [name]: value.split("|").map(Number),
-                                    }
-                                  : weekend
-                            ),
-                          });
-                        }}
-                        type="text"
-                        value={weekend.pattern.join("|") || ""}
-                        name="pattern"
-                        placeholder="Pattern (pipe separated)"
-                        readOnly={isReadOnly}
-                      />
+                      <Label>Weekend Pattern:</Label>
+                      {isReadOnly ? (
+                        <small className="block capitalize">
+                          {weekend.pattern.join(", ")}
+                        </small>
+                      ) : (
+                        <MultipleSelector
+                          value={weekend.pattern.map((weekend) => ({
+                            label: weekend.toString(),
+                            value: weekend.toString(),
+                          }))}
+                          options={options.conditional_weekend_pattern}
+                          placeholder="Select pattern"
+                          hidePlaceholderWhenSelected={true}
+                          onChange={(value) => {
+                            handleChange({
+                              ...data,
+                              conditional_weekends:
+                                data.conditional_weekends.map((weekend, i) =>
+                                  i === index
+                                    ? {
+                                        ...weekend,
+                                        pattern: value.map((v) =>
+                                          Number(v.value)
+                                        ),
+                                      }
+                                    : weekend
+                                ),
+                            });
+                          }}
+                          className="border-border/30"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -162,11 +191,15 @@ export default function SettingLeavesWeekendsForm({
                 </Button>
               )}
             </div>
+
             {/* Leaves */}
             <div className="lg:col-12">
-              <Label>Leaves:</Label>
+              <Label>Leaves</Label>
               {data.leaves.map((leave, index) => (
-                <div className="relative bg-light rounded p-5 mb-5" key={index}>
+                <div
+                  className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t pt-5"} mb-5`}
+                  key={index}
+                >
                   {!isReadOnly && (
                     <div className="absolute right-5 top-3">
                       <Button
@@ -187,28 +220,41 @@ export default function SettingLeavesWeekendsForm({
                   <div className="row relative">
                     <div className="lg:col-6 mb-4">
                       <Label>Leave Type:</Label>
-                      <Select
-                        value={leave.name}
-                        onValueChange={(value) =>
-                          handleChange({
-                            ...data,
-                            leaves: data.leaves.map((leave, i) =>
-                              i === index ? { ...leave, name: value } : leave
-                            ),
-                          })
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {options.leave_type.map((item) => (
-                            <SelectItem value={item.value} key={item.value}>
-                              {item.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      {isReadOnly ? (
+                        <small className="block capitalize">{leave.name}</small>
+                      ) : (
+                        <Select
+                          value={leave.name}
+                          onValueChange={(value) =>
+                            handleChange({
+                              ...data,
+                              leaves: data.leaves.map((leave, i) =>
+                                i === index
+                                  ? {
+                                      ...leave,
+                                      name: value as
+                                        | "casual"
+                                        | "earned"
+                                        | "sick"
+                                        | "without_pay",
+                                    }
+                                  : leave
+                              ),
+                            })
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {options.leave_type.map((item) => (
+                              <SelectItem value={item.value} key={item.value}>
+                                {item.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
                     </div>
                     <div className="lg:col-6 mb-4">
                       <Label>Day Count:</Label>
@@ -242,7 +288,7 @@ export default function SettingLeavesWeekendsForm({
                   onClick={() => {
                     handleChange({
                       ...data,
-                      leaves: [...data.leaves, { name: "", days: 0 }],
+                      leaves: [...data.leaves, { name: "casual", days: 0 }],
                     });
                   }}
                 >
