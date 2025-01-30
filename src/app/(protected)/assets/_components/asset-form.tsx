@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import options from "@/config/options.json";
+import { dateFormat } from "@/lib/dateFormat";
 import { employeeGroupByDepartment } from "@/lib/employeeInfo";
 import { TAsset, TAssetLog } from "@/redux/features/assetApiSlice/assetType";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
@@ -185,7 +186,7 @@ const AssetForm = ({
           <PopoverTrigger asChild>
             <Button variant={"input"} className="w-full flex justify-between">
               {assetData.purchase_date ? (
-                new Date(assetData.purchase_date).toDateString()
+                dateFormat(assetData.purchase_date)
               ) : (
                 <span>Pick a date</span>
               )}
@@ -323,7 +324,7 @@ const AssetForm = ({
                       className="w-full flex justify-between"
                     >
                       {item.date ? (
-                        new Date(item.date).toDateString()
+                        dateFormat(item.date)
                       ) : (
                         <span>Pick a date</span>
                       )}

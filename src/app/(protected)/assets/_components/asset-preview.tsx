@@ -1,4 +1,5 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { dateFormat } from "@/lib/dateFormat";
 import { employeeInfoById } from "@/lib/employeeInfo";
 import { TAsset } from "@/redux/features/assetApiSlice/assetType";
 
@@ -39,7 +40,7 @@ const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
           <div className="font-medium mb-1">Purchase Date</div>
           <div className="p-2 bg-light rounded">
             {assetData.purchase_date
-              ? new Date(assetData.purchase_date).toDateString()
+              ? dateFormat(assetData.purchase_date)
               : "N/A"}
           </div>
         </div>
@@ -64,7 +65,7 @@ const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
                 <div className="lg:col-6 mb-2">
                   <div className="font-medium mb-1">Date</div>
                   <div className="p-2 bg-light rounded">
-                    {new Date(log.date).toDateString()}
+                    {dateFormat(log.date)}
                   </div>
                 </div>
                 <div className="lg:col-12 mb-2">

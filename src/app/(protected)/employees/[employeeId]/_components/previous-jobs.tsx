@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDialog } from "@/hooks/useDialog";
-import { getDuration } from "@/lib/dateFormat";
+import { dateFormat, getDuration } from "@/lib/dateFormat";
 import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
   TEmployeeJob,
@@ -243,7 +243,7 @@ export default function PreviousJobs({
                               className="w-full flex justify-between"
                             >
                               {job.start_date ? (
-                                new Date(job.start_date).toDateString()
+                                dateFormat(job.start_date)
                               ) : (
                                 <span>Pick a date</span>
                               )}
@@ -286,7 +286,7 @@ export default function PreviousJobs({
                               className="w-full flex justify-between"
                             >
                               {job.end_date ? (
-                                new Date(job.end_date).toDateString()
+                                dateFormat(job.end_date)
                               ) : (
                                 <span>Pick a date</span>
                               )}

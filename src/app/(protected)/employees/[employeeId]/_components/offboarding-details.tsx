@@ -21,6 +21,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { dateFormat } from "@/lib/dateFormat";
 import { employeeInfoById } from "@/lib/employeeInfo";
 import { cn } from "@/lib/shadcn";
 import {
@@ -169,9 +170,7 @@ export default function Offboarding() {
                                 )}
                               >
                                 {offboardingData.resignation_date ? (
-                                  new Date(
-                                    offboardingData.resignation_date
-                                  ).toDateString()
+                                  dateFormat(offboardingData.resignation_date)
                                 ) : (
                                   <span>Select Date</span>
                                 )}

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
+import { dateFormat } from "@/lib/dateFormat";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -85,11 +86,10 @@ const LeaveRequestForm = ({
               {dateRange?.from ? (
                 dateRange.to ? (
                   <>
-                    {format(dateRange.from, "LLL dd, y")} -{" "}
-                    {format(dateRange.to, "LLL dd, y")}
+                    {dateFormat(dateRange.from)} - {dateFormat(dateRange.to)}
                   </>
                 ) : (
-                  format(dateRange.from, "LLL dd, y")
+                  dateFormat(dateRange.from)
                 )
               ) : (
                 <span>Pick a date</span>
