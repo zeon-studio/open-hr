@@ -57,30 +57,31 @@ export default function Emergency() {
                   {data?.contacts.length > 0 ? (
                     data?.contacts?.map((contact, index, contacts) => {
                       return (
-                        <div key={index}>
-                          <div
-                            className={`${isReadOnly ? "bg-white" : "bg-light p-5"} rounded grid lg:grid-cols-2 gap-4 relative`}
-                          >
-                            {!isReadOnly && (
-                              <div className="lg:col-span-2 absolute right-5 top-3">
-                                <Button
-                                  type="button"
-                                  size={"xs"}
-                                  variant="outline"
-                                  onClick={() => {
-                                    handleChange({
-                                      ...data,
-                                      contacts: data.contacts.filter(
-                                        (contact, i) => i !== index
-                                      ),
-                                    });
-                                  }}
-                                >
-                                  <Trash2 className="size-4" />
-                                </Button>
-                              </div>
-                            )}
-                            <div>
+                        <div
+                          className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
+                          key={index}
+                        >
+                          {!isReadOnly && (
+                            <div className="absolute top-3 right-5">
+                              <Button
+                                type="button"
+                                size={"xs"}
+                                variant="outline"
+                                onClick={() => {
+                                  handleChange({
+                                    ...data,
+                                    contacts: data.contacts.filter(
+                                      (contact, i) => i !== index
+                                    ),
+                                  });
+                                }}
+                              >
+                                <Trash2 className="size-4" />
+                              </Button>
+                            </div>
+                          )}
+                          <div className="row gx-3">
+                            <div className="lg:col-6 mb-4">
                               <Label>Name of Contact:</Label>
                               <Input
                                 onChange={(e) => {
@@ -103,7 +104,7 @@ export default function Emergency() {
                                 placeholder="Your answer"
                               />
                             </div>
-                            <div>
+                            <div className="lg:col-6 mb-4">
                               <Label>Relation:</Label>
                               <Input
                                 className={cn(isReadOnly && "bg-transparent")}
@@ -126,7 +127,7 @@ export default function Emergency() {
                                 placeholder="Your answer"
                               />
                             </div>
-                            <div>
+                            <div className="lg:col-6 mb-4">
                               <Label>Phone:</Label>
                               <Input
                                 className={cn(isReadOnly && "bg-transparent")}
@@ -163,27 +164,27 @@ export default function Emergency() {
                     </p>
                   )}
                   {!isReadOnly && (
-                    <div className="text-right mt-6">
-                      <Button
-                        onClick={() => {
-                          handleChange({
-                            ...data,
-                            contacts: [
-                              ...(data?.contacts ?? []),
-                              {
-                                name: "",
-                                phone: "",
-                                relation: "",
-                              },
-                            ],
-                          });
-                        }}
-                        type="button"
-                        disabled={isReadOnly}
-                      >
-                        Add Contact
-                      </Button>
-                    </div>
+                    <Button
+                      variant="outline"
+                      className="w-full mt-6"
+                      onClick={() => {
+                        handleChange({
+                          ...data,
+                          contacts: [
+                            ...(data?.contacts ?? []),
+                            {
+                              name: "",
+                              phone: "",
+                              relation: "",
+                            },
+                          ],
+                        });
+                      }}
+                      type="button"
+                      disabled={isReadOnly}
+                    >
+                      Add Contact
+                    </Button>
                   )}
                 </form>
               );

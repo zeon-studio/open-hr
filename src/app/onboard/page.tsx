@@ -17,7 +17,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { brands } from "./_components/data";
 import { withStepperProvider } from "./_components/stepper-provider";
 import { useStepper } from "./_components/use-stepper";
 
@@ -134,45 +133,23 @@ function OnBoarding() {
         )}
 
         {isCompleted && (
-          <>
-            <div className="mt-10 mb-8">
-              <h6>Checkout all our brands & sub brands.</h6>
-              <div className="flex gap-4 mt-4 justify-between bg-background p-5">
-                {brands.map((brand, index) => (
-                  <div
-                    className="bg-background rounded-md p-3 border border-border/30"
-                    key={index}
-                  >
-                    <Image
-                      key={index}
-                      src={brand.src}
-                      width={brand.width}
-                      height={brand.height}
-                      alt="brand"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Card className="border-none">
-              <CardHeader className="border-none">
-                <CardTitle className="mb-3 text-2xl">
-                  Thanks, {session?.user.name}!
-                </CardTitle>
-                <CardDescription>
-                  Thank you for sharing your insights. Your responses will help
-                  us enhance your experience and develop new products that align
-                  with your goals. Thank you for being part of our journey!
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <Link href={"/"} className={buttonVariants({})}>
-                  Go to Dashboard
-                </Link>
-              </CardContent>
-            </Card>
-          </>
+          <Card className="border-none mt-12">
+            <CardHeader className="border-none">
+              <CardTitle className="mb-3 text-2xl">
+                Thanks, {session?.user.name}!
+              </CardTitle>
+              <CardDescription>
+                Thank you for sharing your insights. Your responses will help us
+                enhance your experience and develop new products that align with
+                your goals. Thank you for being part of our journey!
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <Link href={"/"} className={buttonVariants({})}>
+                Go to Dashboard
+              </Link>
+            </CardContent>
+          </Card>
         )}
       </div>
     </div>
