@@ -35,6 +35,7 @@ export default function SettingPage() {
 
   return (
     <div className="space-y-10">
+      {/* configure */}
       <EditFrom<TSetting>
         isUpdating={isUpdating}
         data={data?.result!}
@@ -186,13 +187,31 @@ export default function SettingPage() {
                   readOnly={isReadOnly}
                 />
               </div>
+            </form>
+          );
+        }}
+      </EditFrom>
+
+      {/* menu */}
+      <EditFrom<TSetting>
+        isUpdating={isUpdating}
+        data={data?.result!}
+        title="Menu"
+      >
+        {({ handleChange, isReadOnly, data, formRef }) => {
+          return (
+            <form
+              ref={formRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit(data);
+              }}
+              className="row gap-y-4"
+            >
               <div className="lg:col-12">
                 <Label>Menus:</Label>
                 {data.menus.map((menu, index) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-3 gap-4 mb-4 relative"
-                  >
+                  <div key={index} className="row lg:row-cols-3 relative">
                     {!isReadOnly && (
                       <div className="lg:col-span-2 absolute right-5 top-3">
                         <Button
@@ -281,6 +300,27 @@ export default function SettingPage() {
                   </Button>
                 )}
               </div>
+            </form>
+          );
+        }}
+      </EditFrom>
+
+      {/* leaves and weekends */}
+      <EditFrom<TSetting>
+        isUpdating={isUpdating}
+        data={data?.result!}
+        title="Leaves and Weekends"
+      >
+        {({ handleChange, isReadOnly, data, formRef }) => {
+          return (
+            <form
+              ref={formRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit(data);
+              }}
+              className="row gap-y-4"
+            >
               <div className="lg:col-12">
                 <Label>Weekends:</Label>
                 {data.weekends.map((weekend, index) => (
@@ -503,6 +543,27 @@ export default function SettingPage() {
                   </Button>
                 )}
               </div>
+            </form>
+          );
+        }}
+      </EditFrom>
+
+      {/* onboarding tasks */}
+      <EditFrom<TSetting>
+        isUpdating={isUpdating}
+        data={data?.result!}
+        title="Onboarding Tasks"
+      >
+        {({ handleChange, isReadOnly, data, formRef }) => {
+          return (
+            <form
+              ref={formRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit(data);
+              }}
+              className="row gap-y-4"
+            >
               <div className="lg:col-12">
                 <Label>Onboarding Tasks:</Label>
                 {data.onboarding_tasks.map((task, index) => (
@@ -606,6 +667,27 @@ export default function SettingPage() {
                   </Button>
                 )}
               </div>
+            </form>
+          );
+        }}
+      </EditFrom>
+
+      {/* offboarding tasks */}
+      <EditFrom<TSetting>
+        isUpdating={isUpdating}
+        data={data?.result!}
+        title="Offboarding Tasks"
+      >
+        {({ handleChange, isReadOnly, data, formRef }) => {
+          return (
+            <form
+              ref={formRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit(data);
+              }}
+              className="row gap-y-4"
+            >
               <div className="lg:col-12">
                 <Label>Offboarding Tasks:</Label>
                 {data.offboarding_tasks.map((task, index) => (

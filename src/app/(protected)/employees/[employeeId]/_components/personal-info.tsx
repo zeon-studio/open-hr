@@ -579,36 +579,37 @@ export default function PersonalInfo() {
                   banks: data?.banks,
                 });
               }}
-              className="grid gap-3"
+              className="grid"
               ref={formRef}
             >
               {data?.banks.length > 0 ? (
                 data?.banks?.map((bank, index, banks) => {
                   return (
-                    <div key={index}>
-                      <div
-                        className={`${isReadOnly ? "bg-white" : "bg-light p-5"} rounded grid lg:grid-cols-2 gap-4 relative`}
-                      >
-                        {!isReadOnly && (
-                          <div className="lg:col-span-2 absolute right-5 top-3">
-                            <Button
-                              type="button"
-                              size={"xs"}
-                              variant="outline"
-                              onClick={() => {
-                                handleChange({
-                                  ...data,
-                                  banks: data.banks.filter(
-                                    (bank, i) => i !== index
-                                  ),
-                                });
-                              }}
-                            >
-                              <Trash2 className="size-4" />
-                            </Button>
-                          </div>
-                        )}
-                        <div>
+                    <div
+                      key={index}
+                      className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
+                    >
+                      {!isReadOnly && (
+                        <div className="lg:col-span-2 absolute right-5 top-3">
+                          <Button
+                            type="button"
+                            size={"xs"}
+                            variant="outline"
+                            onClick={() => {
+                              handleChange({
+                                ...data,
+                                banks: data.banks.filter(
+                                  (bank, i) => i !== index
+                                ),
+                              });
+                            }}
+                          >
+                            <Trash2 className="size-4" />
+                          </Button>
+                        </div>
+                      )}
+                      <div className="row gx-3">
+                        <div className="lg:col-6 mb-4">
                           <Label>Account Name:</Label>
                           <Input
                             onChange={(e) => {
@@ -629,7 +630,7 @@ export default function PersonalInfo() {
                             placeholder="Bank Account Name"
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Bank Name:</Label>
                           <Input
                             onChange={(e) => {
@@ -651,7 +652,7 @@ export default function PersonalInfo() {
                             placeholder="Bank Account Number"
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Bank Account Number:</Label>
                           <Input
                             onChange={(e) => {
@@ -673,7 +674,7 @@ export default function PersonalInfo() {
                             placeholder="Bank Account Number"
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Branch:</Label>
                           <Input
                             onChange={(e) => {
@@ -706,32 +707,30 @@ export default function PersonalInfo() {
                 <p className="py-4">No bank account information available.</p>
               )}
               {!isReadOnly && (
-                <div className="text-right">
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    type="button"
-                    onClick={() => {
-                      handleChange({
-                        ...data,
-                        banks: [
-                          ...(data?.banks || []),
-                          {
-                            bank_ac_no: "",
-                            bank_branch: "",
-                            bank_ac_name: "",
-                            bank_district: "",
-                            bank_name: "",
-                            bank_routing_no: "",
-                          },
-                        ],
-                      });
-                    }}
-                    disabled={isReadOnly}
-                  >
-                    Add Bank Account
-                  </Button>
-                </div>
+                <Button
+                  variant="outline"
+                  className="w-full mt-6"
+                  type="button"
+                  onClick={() => {
+                    handleChange({
+                      ...data,
+                      banks: [
+                        ...(data?.banks || []),
+                        {
+                          bank_ac_no: "",
+                          bank_branch: "",
+                          bank_ac_name: "",
+                          bank_district: "",
+                          bank_name: "",
+                          bank_routing_no: "",
+                        },
+                      ],
+                    });
+                  }}
+                  disabled={isReadOnly}
+                >
+                  Add Bank Account
+                </Button>
               )}
             </form>
           );
@@ -759,30 +758,31 @@ export default function PersonalInfo() {
               {data?.educations.length > 0 ? (
                 data?.educations?.map((education, index, educations) => {
                   return (
-                    <div key={index}>
-                      <div
-                        className={`${isReadOnly ? "bg-white" : "bg-light p-5"} rounded grid lg:grid-cols-2 gap-4 relative`}
-                      >
-                        {!isReadOnly && (
-                          <div className="lg:col-span-2 absolute right-5 top-3">
-                            <Button
-                              type="button"
-                              size={"xs"}
-                              variant="outline"
-                              onClick={() => {
-                                handleChange({
-                                  ...data,
-                                  educations: data.educations.filter(
-                                    (education, i) => i !== index
-                                  ),
-                                });
-                              }}
-                            >
-                              <Trash2 className="size-4" />
-                            </Button>
-                          </div>
-                        )}
-                        <div>
+                    <div
+                      className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
+                      key={index}
+                    >
+                      {!isReadOnly && (
+                        <div className="lg:col-span-2 absolute right-5 top-3">
+                          <Button
+                            type="button"
+                            size={"xs"}
+                            variant="outline"
+                            onClick={() => {
+                              handleChange({
+                                ...data,
+                                educations: data.educations.filter(
+                                  (education, i) => i !== index
+                                ),
+                              });
+                            }}
+                          >
+                            <Trash2 className="size-4" />
+                          </Button>
+                        </div>
+                      )}
+                      <div className="row gx-3">
+                        <div className="lg:col-6 mb-4">
                           <Label>Degree:</Label>
                           <Input
                             onChange={(e) => {
@@ -804,7 +804,7 @@ export default function PersonalInfo() {
                             placeholder="Degree"
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Name of Institution:</Label>
                           <Input
                             onChange={(e) => {
@@ -826,7 +826,7 @@ export default function PersonalInfo() {
                             placeholder="Institute name"
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Passing Year:</Label>
                           <Input
                             onChange={(e) => {
@@ -849,7 +849,7 @@ export default function PersonalInfo() {
                             placeholder="Passing year"
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Major:</Label>
                           <Input
                             onChange={(e) => {
@@ -870,7 +870,7 @@ export default function PersonalInfo() {
                             name="major"
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Result:</Label>
                           <Input
                             onChange={(e) => {
@@ -892,7 +892,7 @@ export default function PersonalInfo() {
                             required
                           />
                         </div>
-                        <div>
+                        <div className="lg:col-6 mb-4">
                           <Label>Result Type:</Label>
                           {isReadOnly ? (
                             <p className="text-sm text-text-light">
@@ -948,32 +948,30 @@ export default function PersonalInfo() {
               )}
 
               {!isReadOnly && (
-                <div className="text-right">
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => {
-                      handleChange({
-                        ...data,
-                        educations: [
-                          ...(data?.educations ?? []),
-                          {
-                            degree: "",
-                            major: "",
-                            result: 0,
-                            result_type: "gpa",
-                            institute: "",
-                            passing_year: 0,
-                          },
-                        ],
-                      });
-                    }}
-                    type="button"
-                    disabled={isReadOnly}
-                  >
-                    Add Education
-                  </Button>
-                </div>
+                <Button
+                  variant="outline"
+                  className="w-full mt-6"
+                  onClick={() => {
+                    handleChange({
+                      ...data,
+                      educations: [
+                        ...(data?.educations ?? []),
+                        {
+                          degree: "",
+                          major: "",
+                          result: 0,
+                          result_type: "gpa",
+                          institute: "",
+                          passing_year: 0,
+                        },
+                      ],
+                    });
+                  }}
+                  type="button"
+                  disabled={isReadOnly}
+                >
+                  Add Education
+                </Button>
               )}
             </form>
           );
