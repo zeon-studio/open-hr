@@ -12,6 +12,7 @@ import { MAX_SIZE } from "@/lib/constant";
 import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
 import { ErrorResponse } from "@/types";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -20,8 +21,12 @@ export default function UploadDialog({
   children,
   ...buttonProps
 }: ButtonProps & { file?: string }) {
+  const { data: session } = useSession();
   const { isDialogOpen, onDialogChange } = useDialog();
-  const { employeeId } = useParams<{ employeeId: string }>();
+  let { employeeId } = useParams<{ employeeId: string }>();
+  if (!employeeId) {
+    employeeId = session?.user.id as string;
+  }
   const [uploaded, { isLoading: isUploading }] =
     useAddEmployeeDocumentMutation();
 

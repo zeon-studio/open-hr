@@ -86,7 +86,7 @@ function OnBoarding() {
     <div className="bg-light">
       <div className="max-w-[640px] w-full mx-auto py-20 text-center">
         <Image
-          className="mx-auto"
+          className="mx-auto mb-4"
           src={"/images/favicon.png"}
           width={61}
           height={64}
@@ -152,7 +152,7 @@ function OnBoarding() {
 
             <Card className="border-none">
               <CardHeader className="border-none">
-                <CardTitle className="mb-3">
+                <CardTitle className="mb-3 text-2xl">
                   Thanks, {session?.user.name}!
                 </CardTitle>
                 <CardDescription>
@@ -161,7 +161,7 @@ function OnBoarding() {
                   with your goals. Thank you for being part of our journey!
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <Link href={"/"} className={buttonVariants({})}>
                   Go to Dashboard
                 </Link>
