@@ -1,15 +1,18 @@
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 
 export function checkCompletion(data: TEmployee) {
+  if (!data) {
+    return;
+  }
   const completedSteps = [];
 
   // Step 1: Check if work_email exists
-  if (data.work_email) {
+  if (data?.work_email) {
     completedSteps.push(1);
   }
 
   // Step 2: Check if discord exists
-  if (data.discord) {
+  if (data?.discord) {
     completedSteps.push(2);
   }
 

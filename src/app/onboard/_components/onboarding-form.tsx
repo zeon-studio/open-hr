@@ -51,7 +51,12 @@ export default function OnboardingForm({ employeeId }: { employeeId: string }) {
       onSubmit={async (e) => {
         e.preventDefault();
         try {
-          await updateEmployee({ ...data, id: employeeId, token }).unwrap();
+          await updateEmployee({
+            ...data,
+            id: employeeId,
+            token,
+            status: "active",
+          }).unwrap();
           handleStepChange();
           buttonRef.current?.click();
         } catch (error) {

@@ -25,10 +25,10 @@
 }
 
 .pointer-bullet {
-  @apply before:bg-transparent before:content-[''] before:size-[14px] before:rounded-full before:border before:border-border before:absolute before:left-6 before:top-6 before:translate-y-1/2 !pl-12;
+  @apply before:bg-transparent before:content-[''] before:size-[14px] before:rounded-full before:border before:border-border before:absolute before:left-6 before:top-7 before:translate-y-1/2 !pl-12;
 
   &.completed {
-    @apply before:border-border before:p-1 before:border after:bg-primary after:content-[''] after:size-[7px] after:rounded-full after:absolute after:-translate-y-1/2 after:-translate-x-1/2 after:left-[31px] after:top-[38px];
+    @apply before:border-border before:p-1 before:border after:bg-primary after:content-[''] after:size-[7px] after:rounded-full after:absolute after:-translate-y-1/2 after:-translate-x-1/2 after:left-[31px] after:top-[42px];
   }
 
   & + div {

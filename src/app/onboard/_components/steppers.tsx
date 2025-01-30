@@ -115,7 +115,7 @@ export const steppers = [
               try {
                 await updateEmail({
                   id: employeeId,
-                  work_email: formObject.working_email as string,
+                  email: formObject.working_email as string,
                   token: token,
                 }).unwrap();
                 handleStepChange();
@@ -339,7 +339,6 @@ export const steppers = [
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              console.log(token);
               signIn("credentials", {
                 token: token,
               });
