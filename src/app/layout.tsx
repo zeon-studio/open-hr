@@ -1,13 +1,11 @@
 "use client";
 
-import config from "@/config/config.json";
 import TwSizeIndicator from "@/helpers/TwSizeIndicator";
 import { AuthProvider } from "@/partials/AuthProvider";
 import Providers from "@/partials/Providers";
 import "@/styles/main.scss";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
-
 const fontPrimary = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -15,14 +13,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { title, favicon } = config.site;
   return (
     <html lang="en">
       <head>
-        <meta name="description" content={title} />
         <meta name="robots" content="noindex" />
-        <link rel="icon" href={favicon} />
-        <title>{title}</title>
       </head>
       <body className={fontPrimary.className} suppressHydrationWarning={true}>
         <TwSizeIndicator />

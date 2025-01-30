@@ -1,41 +1,31 @@
 "use client";
 
-import config from "@/config/config.json";
 import { cn } from "@/lib/shadcn";
-import Image from "next/image";
+import { useAppSelector } from "@/redux/hook";
 import Link from "next/link";
 
 const Logo = ({ src, className }: { src?: string; className?: string }) => {
   const {
-    logo,
+    logo_url: logo,
     logo_width,
     logo_height,
-    logo_text,
-    title,
-  }: {
-    logo: string;
-    logo_width: any;
-    logo_height: any;
-    logo_text: string;
-    title: string;
-  } = config.site;
-
+    app_name: logo_text,
+  } = useAppSelector((state) => state["setting-slice"]);
   const logoPath = logo ? logo : src;
 
   return (
     <Link href="/" className={cn("navbar-brand inline-block", className)}>
       {logoPath ? (
-        <Image
+        <img
           width={logo_width}
           height={logo_height}
           src={logoPath}
-          alt={title}
-          priority
+          alt={logo_text}
         />
       ) : logo_text ? (
         logo_text
       ) : (
-        title
+        logo_text
       )}
     </Link>
   );
