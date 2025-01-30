@@ -87,7 +87,7 @@ const EmployeeJobForm = ({
     }));
   }, [employeeJobPromotions]);
 
-  // add new product field for upload files to bucket
+  // add new menu item
   const handleAddEmployeeJobPromotion = () => {
     setEmployeeJobLogs([
       ...employeeJobPromotions,
@@ -98,7 +98,7 @@ const EmployeeJobForm = ({
     ]);
   };
 
-  // delete product file
+  // delete menu item
   const handleDeleteEmployeeJobPromotion = async (index: number) => {
     setEmployeeJobLogs((prevItems) => prevItems.filter((_, i) => i !== index));
   };

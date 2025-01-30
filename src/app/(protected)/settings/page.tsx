@@ -1,21 +1,16 @@
 "use client";
 
-import { useGetSettingQuery } from "@/redux/features/settingApiSlice/settingSlice";
+import SettingPage from "./_components/setting-page";
 
 const Setting = () => {
-  const { data } = useGetSettingQuery(undefined);
-  const { result: settings } = data || {};
+  // const { data } = useGetSettingQuery(undefined);
+  // const { result: settings } = data || {};
 
-  console.log(settings);
-
-  // const { localData } = useLocalCacheHook(
-  //   {
-  //     data: settings!,
-  //   },
-  //   "erp-settings"
-  // );
-
-  return <section className="p-8"></section>;
+  return (
+    <section className="p-8">
+      <SettingPage />
+    </section>
+  );
 };
 
 export default Setting;

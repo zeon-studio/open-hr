@@ -1,19 +1,15 @@
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 
-const SettingPreview = ({
-  settingData,
-}: {
-  settingData: Partial<TSetting>;
-}) => {
+const SettingPreview = ({ settingData }: { settingData: TSetting }) => {
   return (
     <div className="row justify-between items-center">
       <div className="lg:col-6 mb-4">
         <div className="font-medium mb-1">Platform</div>
-        <div className="p-2 bg-light rounded">{settingData.app_name}</div>
+        <div className="p-2 bg-white rounded">{settingData.app_name}</div>
       </div>
       <div className="lg:col-6 mb-4">
         <div className="font-medium mb-1">Website</div>
-        <div className="p-2 bg-light rounded">{settingData.company_name}</div>
+        <div className="p-2 bg-white rounded">{settingData.company_name}</div>
       </div>
       {/* <div className="col-12 mb-6">
           {settingData.organizations?.map((item, index) => (

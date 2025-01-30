@@ -51,7 +51,7 @@ const AssetForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assetLogs]);
 
-  // add new product field for upload files to bucket
+  // add new asset log
   const handleAddAssetItem = () => {
     setAssetLogs([
       ...assetLogs,
@@ -63,7 +63,7 @@ const AssetForm = ({
     ]);
   };
 
-  // delete product file
+  // delete asset log
   const handleDeleteAssetLog = async (index: number) => {
     setAssetLogs((prevItems) => prevItems.filter((_, i) => i !== index));
   };
