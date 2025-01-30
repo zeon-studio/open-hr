@@ -30,7 +30,8 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
       <nav className="px-5 flex-1 flex flex-col">
         <ul className="flex-1">
           {filterMenu.map((item) => {
-            const Icon = menuIcons[item.name.toLocaleLowerCase()];
+            const Icon =
+              menuIcons[item.name.toLocaleLowerCase()] || menuIcons.default;
             return (
               <li className="mb-2" key={item.name}>
                 <Link
@@ -41,7 +42,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                     item.url === pathname && "bg-light"
                   )}
                 >
-                  {Icon && <Icon className="inline h-5 mb-0.5 mr-2" />}
+                  <Icon className="inline h-5 mb-0.5 mr-2" />
                   {item.name}
                 </Link>
               </li>
