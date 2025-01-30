@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
 import { MAX_SIZE } from "@/lib/constant";
+import { cn } from "@/lib/shadcn";
 import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
 import { ErrorResponse } from "@/types";
 import { Loader2 } from "lucide-react";
@@ -19,8 +20,9 @@ import { toast } from "sonner";
 export default function UploadDialog({
   file,
   children,
+  modalBodyClassName = "max-w-xl",
   ...buttonProps
-}: ButtonProps & { file?: string }) {
+}: ButtonProps & { file?: string; modalBodyClassName?: string }) {
   const { data: session } = useSession();
   const { isDialogOpen, onDialogChange } = useDialog();
   let { employeeId } = useParams<{ employeeId: string }>();
@@ -49,8 +51,8 @@ export default function UploadDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-xl gap-3">
-        <DialogHeader className="mb-6">
+      <DialogContent className={cn(`${modalBodyClassName} gap-3`)}>
+        <DialogHeader className="mb-3">
           <DialogTitle>Choose Image</DialogTitle>
         </DialogHeader>
         <FileManager
@@ -63,7 +65,6 @@ export default function UploadDialog({
           setFile={async (location: any) => {
             const fileName = location.split("/").pop();
             if (!fileName || file === location) return;
-
             try {
               await uploaded({
                 createdAt: new Date(),

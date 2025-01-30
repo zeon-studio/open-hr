@@ -4,12 +4,17 @@ import Loader from "@/components/Loader";
 import Header from "@/partials/Header";
 import Sidebar from "@/partials/Sidebar";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { settingApi } from "@/redux/features/settingApiSlice/settingSlice";
+import { useAppDispatch } from "@/redux/hook";
 import { useSession } from "next-auth/react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   useGetEmployeesBasicsQuery(undefined);
-
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(settingApi.endpoints.getSetting.initiate(undefined));
+  }, [dispatch]);
   const { status } = useSession();
 
   if (status === "loading") {

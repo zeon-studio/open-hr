@@ -1,32 +1,21 @@
+import { menuIcons } from "@/components/icons";
 import Logo from "@/components/logo";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { menu } from "@/config/menu";
+import { cn } from "@/lib/shadcn";
+import { useAppSelector } from "@/redux/hook";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import { LogOut, LucideIcon } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Gravatar from "react-gravatar";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 
-interface Menu {
-  name: string;
-  path?: string;
-  access: string[];
-  icon: LucideIcon;
-  children?: Menu[];
-}
-
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const filterMenu: Menu[] = menu.filter((item) =>
-    item.access?.includes(session?.user?.role ?? "")
+  const { menus: menu } = useAppSelector((state) => state["setting-slice"]);
+  const filterMenu = menu.filter((item) =>
+    item.access?.includes(session?.user?.role!)
   );
 
   const handleLogout = async () => {
@@ -41,61 +30,22 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
       <nav className="px-5 flex-1 flex flex-col">
         <ul className="flex-1">
           {filterMenu.map((item) => {
-            const isActive = item?.children?.some(
-              (child) => pathname === child.path
-            );
-
-            if (item.children) {
-              return (
-                <Accordion
-                  key={item.name}
-                  type="single"
-                  collapsible
-                  value={isActive ? item.name : undefined}
+            const Icon = menuIcons[item.name.toLocaleLowerCase()];
+            return (
+              <li className="mb-2" key={item.name}>
+                <Link
+                  {...(onClose && { onMouseDown: onClose })}
+                  href={item.url!}
+                  className={cn(
+                    "rounded text-black text-sm font-medium block px-2 py-2.5",
+                    item.url === pathname && "bg-light"
+                  )}
                 >
-                  <AccordionItem className="border-none" value={item.name}>
-                    <AccordionTrigger className="pl-2 hover:no-underline pb-3 pt-2 text-sm">
-                      <div className="flex items-center justify-start">
-                        <item.icon className="inline h-5 mr-2 mb-0.5" />
-                        {item.name}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="pl-2">
-                        {item.children.map((child) => (
-                          <li className="mb-2" key={child.name}>
-                            <Link
-                              href={child.path!}
-                              className={`rounded text-text-dark text-sm font-medium block px-2 py-1.5 ${
-                                pathname === child.path ? "bg-light" : ""
-                              } `}
-                            >
-                              <child.icon className="inline h-5 mr-2 mb-0.5" />
-                              {child.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              );
-            } else {
-              return (
-                <li className="mb-2" key={item.name}>
-                  <Link
-                    {...(onClose && { onMouseDown: onClose })}
-                    href={item.path!}
-                    className={`rounded text-black text-sm font-medium block px-2 py-2.5 ${
-                      pathname === item.path ? "bg-light" : ""
-                    } `}
-                  >
-                    <item.icon className="inline h-5 mr-2 mb-0.5" />
-                    {item.name}
-                  </Link>
-                </li>
-              );
-            }
+                  {Icon && <Icon className="inline h-5 mb-0.5 mr-2" />}
+                  {item.name}
+                </Link>
+              </li>
+            );
           })}
         </ul>
         <div className="pb-4">

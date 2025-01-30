@@ -28,9 +28,14 @@ function OnBoarding() {
   const token = params.get("token") as string;
   const { steppers, currentStep, handleStepChange, completedSteps } =
     useStepper();
-  const { data, isLoading, isSuccess } = useGetEmployeeDetailsByTokenQuery({
-    token: token,
-  });
+  const { data, isLoading, isSuccess } = useGetEmployeeDetailsByTokenQuery(
+    {
+      token: token,
+    },
+    {
+      skip: !token,
+    }
+  );
 
   useEffect(() => {
     if (status === "authenticated") {

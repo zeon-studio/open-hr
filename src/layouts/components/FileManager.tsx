@@ -115,7 +115,7 @@ const FileManager = ({
           onValueChange={setFiles}
           dropzoneOptions={dropZoneConfig}
           className={cn(
-            "relative bg-slate-100 border border-border/30 mt-4 rounded p-8",
+            "relative bg-slate-100 border border-border/30 rounded p-8",
             !enable && "opacity-50 cursor-not-allowed outline",
             files?.length && "bg-transparent p-0 border-transparent"
           )}
@@ -180,7 +180,7 @@ const FileManager = ({
           </FileUploaderContent>
         </FileUploader>
       ) : (
-        <div className="flex items-center justify-center flex-col pb-4 w-full">
+        <div className="flex items-center justify-center flex-col w-full">
           {/* preview only if it's an image and permission is public-read */}
           {permission === "public-read" &&
           (location.split(".").pop() === "jpg" ||
@@ -188,13 +188,12 @@ const FileManager = ({
             location.split(".").pop() === "jpeg" ||
             location.split(".").pop() === "gif" ||
             location.split(".").pop() === "avif" ||
-            location.split(".").pop() === "svg" ||
             location.split(".").pop() === "webp") ? (
             <div className="max-h-[300px] overflow-auto">
               <img
                 src={`${BUCKET_URL}/${location}`}
                 alt={location}
-                className="object-cover rounded-md"
+                className="object-cover h-full rounded-md"
                 width={400}
               />
             </div>
@@ -205,35 +204,37 @@ const FileManager = ({
             </div>
           )}
 
-          <div className="space-x-4 mt-4">
-            {session.data?.user.role !== "user" && (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    type="button"
-                    size={"sm"}
-                    variant={"outline"}
-                    className="mt-3"
-                  >
-                    Delete
-                  </Button>
-                </DialogTrigger>
-                <ConfirmationPopup
-                  skipWrite={true}
-                  handleConfirmation={() => handleDelete(location)}
-                  description="Deleting will permanently delete this file from the Bucket."
-                />
-              </Dialog>
-            )}
-            <Button
-              onClick={() => handleDownload(location)}
-              type="button"
-              size={"sm"}
-              className="mt-3"
-            >
-              Download
-            </Button>
-          </div>
+          {enable && (
+            <div className="space-x-4">
+              {session.data?.user.role !== "user" && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      type="button"
+                      size={"sm"}
+                      variant={"outline"}
+                      className="mt-3"
+                    >
+                      Delete
+                    </Button>
+                  </DialogTrigger>
+                  <ConfirmationPopup
+                    skipWrite={true}
+                    handleConfirmation={() => handleDelete(location)}
+                    description="Deleting will permanently delete this file from the Bucket."
+                  />
+                </Dialog>
+              )}
+              <Button
+                onClick={() => handleDownload(location)}
+                type="button"
+                size={"sm"}
+                className="mt-3"
+              >
+                Download
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>

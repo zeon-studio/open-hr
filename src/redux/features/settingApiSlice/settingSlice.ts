@@ -1,4 +1,5 @@
 import { apiSlice } from "../apiSlice/apiSlice";
+import { updateSetting } from "./setting-slice";
 import { TSettingState } from "./settingType";
 
 const settingApiWithTag = apiSlice.enhanceEndpoints({
@@ -12,6 +13,14 @@ export const settingApi = settingApiWithTag.injectEndpoints({
         url: `/setting`,
         method: "GET",
       }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(updateSetting(data.result));
+        } catch (error) {
+          console.log(error);
+        }
+      },
       providesTags: ["settings"],
     }),
 

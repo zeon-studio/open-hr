@@ -19,7 +19,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/login-with-token`,
             {
               method: "POST",
-
               headers: {
                 "Content-Type": "application/json",
                 authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
@@ -32,7 +31,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const data = await res.json();
 
           if (res.status === 200) {
-            console.log(data.result);
             return {
               ...data.result,
               id: data.result.userId,
@@ -127,7 +125,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = role;
         session.user.accessToken = accessToken;
       }
-
       return session;
     },
   },

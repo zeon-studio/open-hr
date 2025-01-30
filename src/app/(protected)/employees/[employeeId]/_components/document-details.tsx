@@ -1,4 +1,5 @@
 import ConfirmationPopup from "@/components/ConfirmationPopup";
+import FileManager from "@/components/FileManager";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -8,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BUCKET_URL } from "@/lib/constant";
+import { MAX_SIZE } from "@/lib/constant";
 import {
   useDeleteEmployeeDocumentMutation,
   useGetEmployeeDocumentQuery,
@@ -55,16 +56,19 @@ export default function Document() {
                 return (
                   <li
                     key={index}
-                    className="col-span-1 rounded bg-light p-3 border-border/30 border"
+                    className="col-span-1 rounded bg-light p-3 border-border/30 border flex flex-col"
                   >
-                    <div className="w-[196px] aspect-[16/12] bg-border/30 rounded mx-auto mb-4 items-center flex p-2">
-                      <img
-                        src={`${BUCKET_URL}/${document.file}`}
-                        alt={document.name}
-                        className="max-w-full w-auto  rounded h-auto mx-auto flex-none"
+                    <div className="w-full bg-border/30 rounded mx-auto mb-4 items-center h-[160px] p-1.5 flex justify-center">
+                      <FileManager
+                        setFile={() => {}}
+                        enable={false}
+                        existingFile={document.file}
+                        folder={`erp/document`}
+                        maxSize={MAX_SIZE}
+                        permission="public-read"
                       />
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between mt-auto">
                       <p className="text-sm text-text-light line-clamp-1">
                         {document.name}
                       </p>
@@ -80,7 +84,8 @@ export default function Document() {
                               type="button"
                               file={document.file}
                               variant={"outline"}
-                              className="h-auto p-1.5 border-none w-full justify-start bg-transparent"
+                              className="h-auto p-1.5 border-none w-full justify-start bg-transparent max-w-sm"
+                              modalBodyClassName="max-w-lg"
                             >
                               Preview
                             </UploadDialog>
