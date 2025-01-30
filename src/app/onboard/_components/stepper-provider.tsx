@@ -21,13 +21,16 @@ const StepperProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleStepChange = (stepId?: number | number[]) => {
     if (Array.isArray(stepId)) {
-      setCurrentStep(Math.max(...stepId) + 1);
+      setCurrentStep(
+        stepId.length === 0 ? steppers[0].id : Math.max(...stepId) + 1
+      );
       setCompletedSteps([...new Set([...completedSteps, ...stepId])]);
       return;
     }
+
     const nextStep = stepId ?? currentStep + 1;
     setCurrentStep(nextStep);
-    setCompletedSteps([...new Set([...completedSteps, nextStep])]);
+    setCompletedSteps([...new Set([...completedSteps, currentStep])]);
   };
 
   const contextValue: StepperContextType = {

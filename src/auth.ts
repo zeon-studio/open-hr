@@ -14,20 +14,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       type: "credentials",
       // @ts-ignore
       async authorize(credentials) {
-        console.log({ credentials });
         try {
-          const res = await Axios.post("/login-with-token", {
-            email: credentials.token,
-          });
-          console.log(res);
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/login-with-token`,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+              },
+              body: JSON.stringify({
+                token: credentials.token,
+              }),
+            }
+          );
+          const data = await res.json();
+
           if (res.status === 200) {
+            console.log(data.result);
             return {
-              id: res.data.result.userId,
-              name: res.data.result.name,
-              email: res.data.result.email,
-              image: res.data.result.image,
-              role: res.data.result.role,
-              accessToken: res.data.result.accessToken,
+              ...data.result,
+              id: data.result.userId,
             };
           }
         } catch (error) {
@@ -68,7 +76,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account }) {
+      if (account?.type === "credentials") {
+        return !!user;
+      }
+
       const res = await Axios.post("/authentication/login", {
         email: user.email,
       });

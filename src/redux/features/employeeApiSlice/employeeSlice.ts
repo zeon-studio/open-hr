@@ -88,7 +88,8 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
 
     updateEmployeeEmail: builder.mutation<
       TEmployeeState<TEmployee>,
-      Pick<TEmployee, "id" | "work_email"> & {
+      Pick<TEmployee, "id"> & {
+        email: string;
         token?: string;
       }
     >({

@@ -188,6 +188,7 @@ const FileManager = ({
             location.split(".").pop() === "jpeg" ||
             location.split(".").pop() === "gif" ||
             location.split(".").pop() === "avif" ||
+            location.split(".").pop() === "svg" ||
             location.split(".").pop() === "webp") ? (
             <div className="max-h-[300px] overflow-auto">
               <img
@@ -204,7 +205,7 @@ const FileManager = ({
             </div>
           )}
 
-          <div className="space-x-4">
+          <div className="space-x-4 mt-4">
             {session.data?.user.role !== "user" && (
               <Dialog>
                 <DialogTrigger asChild>
