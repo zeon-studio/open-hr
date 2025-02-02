@@ -176,7 +176,11 @@ export default function PersonalInfo() {
                   type="date"
                   required
                   // @ts-ignore
-                  value={new Date(data.dob).toISOString().split("T")[0]}
+                  value={
+                    data.dob
+                      ? new Date(data.dob).toISOString().split("T")[0]
+                      : ""
+                  }
                   name="dob"
                   placeholder="Date of Birth"
                   readOnly={isReadOnly}
