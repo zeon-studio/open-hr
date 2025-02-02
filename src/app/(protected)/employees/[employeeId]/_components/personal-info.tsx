@@ -72,6 +72,7 @@ export default function PersonalInfo() {
   }
 
   const handleSubmit = (data: TEmployee) => {
+    data.dob = new Date(data.dob);
     updateEmployee(data);
   };
 
@@ -173,8 +174,9 @@ export default function PersonalInfo() {
                     });
                   }}
                   type="date"
+                  required
                   // @ts-ignore
-                  value={data.dob}
+                  value={new Date(data.dob).toISOString().split("T")[0]}
                   name="dob"
                   placeholder="Date of Birth"
                   readOnly={isReadOnly}
@@ -604,7 +606,7 @@ export default function PersonalInfo() {
                             readOnly={isReadOnly}
                             value={bank.bank_name || ""}
                             name="bank_name"
-                            placeholder="Bank Account Number"
+                            placeholder="Bank Name"
                           />
                         </div>
                         <div className="lg:col-6 mb-4">
