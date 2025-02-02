@@ -190,6 +190,7 @@ export function Confetti(props: SVGProps) {
 export const menuIcons: Record<string, React.ElementType> = {
   dashboard: LayoutDashboard,
   employees: Users,
+  "My Info": CircleUser,
   "my-info": CircleUser,
   tools: Package,
   courses: BookKey,
