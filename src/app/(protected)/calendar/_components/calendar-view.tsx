@@ -3,13 +3,13 @@ import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 
-const CalendarView = ({ events }: { events: TEvent[] }) => {
+const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
   const customWeekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const getEventsForDate = (date: Date) => {
-    return events?.filter((event) => {
-      const startDate = new Date(event.start_date);
-      const endDate = new Date(event.end_date);
+    return yearlyData?.filter((item) => {
+      const startDate = new Date(item.start_date);
+      const endDate = new Date(item.end_date);
 
       // Adjust dates to ignore time
       const targetDate = new Date(

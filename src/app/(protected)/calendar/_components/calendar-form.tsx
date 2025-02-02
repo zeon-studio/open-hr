@@ -232,8 +232,8 @@ const CalendarForm = ({
                 <Trash2 size={16} />
               </Button>
             </div>
-            <div className="row">
-              <div className="col-12 mb-4">
+            <div className="row gx-3">
+              <div className="lg:col-6 mb-4">
                 <Label>Reason</Label>
                 <Input
                   type="text"
@@ -250,7 +250,7 @@ const CalendarForm = ({
                   placeholder="Holiday Reason"
                 />
               </div>
-              <div className="w-full">
+              <div className="lg:col-6">
                 <Label>Date Range</Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -319,8 +319,8 @@ const CalendarForm = ({
                 <Trash2 size={16} />
               </Button>
             </div>
-            <div className="row">
-              <div className="col-12 mb-4">
+            <div className="row gx-3">
+              <div className="lg:col-6 mb-4">
                 <Label>Reason</Label>
                 <Input
                   type="text"
@@ -337,7 +337,7 @@ const CalendarForm = ({
                   placeholder="Event Reason"
                 />
               </div>
-              <div className="w-full">
+              <div className="lg:col-6">
                 <Label>Date Range</Label>
                 <Popover>
                   <PopoverTrigger asChild>

@@ -65,12 +65,16 @@ const LeaveRequestModal = ({
 
   return (
     <TableRow key={item._id}>
-      <TableCell>
+      <TableCell className="min-w-[200px]">
         <UserInfo user={employeeInfoById(item.employee_id)} />
       </TableCell>
       <TableCell>{item.leave_type}</TableCell>
-      <TableCell>{dateFormat(item.start_date)}</TableCell>
-      <TableCell>{dateFormat(item.end_date)}</TableCell>
+      <TableCell className="whitespace-nowrap">
+        {dateFormat(item.start_date)}
+      </TableCell>
+      <TableCell className="whitespace-nowrap">
+        {dateFormat(item.end_date)}
+      </TableCell>
       <TableCell>{item.day_count}</TableCell>
       <TableCell>{item.reason}</TableCell>
       <TableCell className="text-right">
