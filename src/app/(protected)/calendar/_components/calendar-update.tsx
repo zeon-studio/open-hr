@@ -124,9 +124,8 @@ const CalendarUpdate = () => {
           calendarData={updatedCalendarData}
           setCalendarData={setUpdatedCalendarData}
           handleSubmit={handleSubmit}
-          buttonText="Update Calendar"
           loader={loader}
-          mode="update"
+          formType="update"
         />
       </DialogContent>
     </Dialog>

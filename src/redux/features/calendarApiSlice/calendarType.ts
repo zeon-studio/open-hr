@@ -1,6 +1,6 @@
 export type TEvent = {
-  start_date: Date | string;
-  end_date: Date | string;
+  start_date?: Date | string;
+  end_date?: Date | string;
   day_count: number;
   reason: string;
   type?: "holiday" | "event";
