@@ -536,7 +536,7 @@ export default function PersonalInfo() {
                   banks: data?.banks,
                 });
               }}
-              className="grid"
+              className="space-y-4"
               ref={formRef}
             >
               {data?.banks.length > 0 ? (
@@ -654,8 +654,8 @@ export default function PersonalInfo() {
                           />
                         </div>
                       </div>
-                      {banks.length - 1 !== index && (
-                        <Separator className="my-4 lg:col-span-2" />
+                      {isReadOnly && banks?.length - 1 !== index && (
+                        <Separator className="my-6 lg:col-span-2" />
                       )}
                     </div>
                   );
@@ -709,7 +709,7 @@ export default function PersonalInfo() {
                   educations: data?.educations,
                 });
               }}
-              className="grid grid-cols-1 gap-3"
+              className="space-y-4"
               ref={formRef}
             >
               {data?.educations.length > 0 ? (
@@ -894,8 +894,8 @@ export default function PersonalInfo() {
                           )}
                         </div>
                       </div>
-                      {educations.length - 1 !== index && (
-                        <Separator className="my-4 lg:col-span-2" />
+                      {isReadOnly && educations.length - 1 !== index && (
+                        <Separator className="my-6 lg:col-span-2" />
                       )}
                     </div>
                   );

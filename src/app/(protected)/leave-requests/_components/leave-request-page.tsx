@@ -23,9 +23,9 @@ const LeaveRequestPage = ({
   const { data } = useSession();
   return (
     <>
-      {leaveRequest?.map((item) => (
+      {leaveRequest?.map((item, index) => (
         <MemoizedLeaveRequestModal
-          key={item._id}
+          key={`leave-request-${index}`}
           item={item}
           role={data?.user?.role!}
         />
