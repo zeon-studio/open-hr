@@ -1,4 +1,4 @@
-import Loader from "@/components/lloader";
+import Loader from "@/components/loader";
 
 const loading = () => {
   return <Loader />;

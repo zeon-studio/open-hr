@@ -1,7 +1,7 @@
 "use client";
 
 import { Confetti } from "@/components/icons";
-import Loader from "@/components/lloader";
+import Loader from "@/components/loader";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Card,

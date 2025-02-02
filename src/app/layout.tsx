@@ -2,7 +2,7 @@
 
 import TwSizeIndicator from "@/helpers/tw-size-indicator";
 import { AuthProvider } from "@/partials/auth-provider";
-import Providers from "@/partials/pproviders";
+import Providers from "@/partials/providers";
 import "@/styles/main.scss";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";

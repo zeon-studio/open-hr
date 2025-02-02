@@ -1,8 +1,8 @@
 "use client";
 
-import Loader from "@/components/lloader";
-import Header from "@/partials/hheader";
-import Sidebar from "@/partials/ssidebar";
+import Loader from "@/components/loader";
+import Header from "@/partials/header";
+import Sidebar from "@/partials/sidebar";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { settingApi } from "@/redux/features/settingApiSlice/settingSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";

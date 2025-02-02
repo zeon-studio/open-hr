@@ -1,6 +1,6 @@
 "use client";
 
-import Avatar from "@/components/aavatar";
+import Avatar from "@/components/avatar";
 import { Discord, Facebook, Linkedin, Twitter } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {

@@ -1,4 +1,4 @@
-import CopyText from "@/components/CopyText";
+import CopyText from "@/components/copy-text";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetToolsByUserQuery } from "@/redux/features/toolApiSlice/toolSlice";
 import { BookKey, ExternalLink } from "lucide-react";
