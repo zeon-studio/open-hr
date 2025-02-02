@@ -1,7 +1,7 @@
 "use client";
 
 import { TableCell, TableRow } from "@/components/ui/table";
-import UserInfo from "@/components/UserInfo";
+import UserInfo from "@/components/user-info";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 
 const EmployeePage = ({

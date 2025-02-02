@@ -1,13 +1,13 @@
 "use client";
 
-import ConfirmationPopup from "@/components/ConfirmationPopup";
+import ConfirmationPopup from "@/components/confirmation-popup";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
-import UserInfo from "@/components/UserInfo";
-import { dateFormat } from "@/lib/dateFormat";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import UserInfo from "@/components/user-info";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { useUpdateLeaveRequestMutation } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { Check, X } from "lucide-react";

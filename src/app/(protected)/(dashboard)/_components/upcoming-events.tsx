@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { dateFormat } from "@/lib/dateFormat";
+import { dateFormat } from "@/lib/date-converter";
 import { useGetUpcomingHolidaysAndEventsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { CalendarCheck } from "lucide-react";

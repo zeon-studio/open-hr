@@ -12,7 +12,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
-import EditFrom from "@/partials/EditFrom";
+import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeQuery,
   useUpdateEmployeeMutation,

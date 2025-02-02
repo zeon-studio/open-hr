@@ -1,8 +1,8 @@
 "use client";
 
-import TwSizeIndicator from "@/helpers/TwSizeIndicator";
-import { AuthProvider } from "@/partials/AuthProvider";
-import Providers from "@/partials/Providers";
+import TwSizeIndicator from "@/helpers/tw-size-indicator";
+import { AuthProvider } from "@/partials/auth-provider";
+import Providers from "@/partials/pproviders";
 import "@/styles/main.scss";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";

@@ -18,8 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { dateFormat } from "@/lib/dateFormat";
-import { employeeGroupByDepartment } from "@/lib/employeeInfo";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeGroupByDepartment } from "@/lib/employee-info";
 import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
   TEmployeeJob,

@@ -1,6 +1,6 @@
 "use client";
 
-import ConfirmationPopup from "@/components/ConfirmationPopup";
+import ConfirmationPopup from "@/components/confirmation-popup";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -10,10 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
-import UserInfo from "@/components/UserInfo";
+import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/useDialog";
-import { dateFormat } from "@/lib/dateFormat";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { useDeleteAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
 import { TAsset } from "@/redux/features/assetApiSlice/assetType";
 import { Ellipsis } from "lucide-react";

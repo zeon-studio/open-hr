@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { dateFormat, dayCount } from "@/lib/dateFormat";
+import { dateFormat, dayCount } from "@/lib/date-converter";
 import {
   TCalendar,
   TEvent,

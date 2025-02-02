@@ -8,7 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Gravatar from "react-gravatar";
-import ConfirmationPopup from "../components/ConfirmationPopup";
+import ConfirmationPopup from "../components/confirmation-popup";
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const pathname = usePathname();

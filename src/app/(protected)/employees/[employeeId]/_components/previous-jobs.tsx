@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDialog } from "@/hooks/useDialog";
-import { dateFormat, getDuration } from "@/lib/dateFormat";
+import { dateFormat, getDuration } from "@/lib/date-converter";
 import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
   TEmployeeJob,

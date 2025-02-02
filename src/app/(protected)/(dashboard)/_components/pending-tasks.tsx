@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { dateFormat } from "@/lib/dateFormat";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import {
   useGetPendingOffboardingTaskQuery,
   useUpdateOffboardingTaskStatusMutation,

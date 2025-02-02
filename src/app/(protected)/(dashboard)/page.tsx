@@ -1,7 +1,7 @@
 "use client";
 
-import Loader from "@/components/Loader";
-import ClearCache from "@/helpers/ClearCache";
+import Loader from "@/components/lloader";
+import ClearCache from "@/helpers/clear-cache";
 import { useSession } from "next-auth/react";
 import Gravatar from "react-gravatar";
 import PendingTasks from "./_components/pending-tasks";

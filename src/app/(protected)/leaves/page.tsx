@@ -1,6 +1,6 @@
 "use client";
 
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/ppagination";
 import { Label } from "@/components/ui/label";
 import {
   Select,

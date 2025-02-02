@@ -1,5 +1,5 @@
-import ConfirmationPopup from "@/components/ConfirmationPopup";
-import FileManager from "@/components/FileManager";
+import ConfirmationPopup from "@/components/confirmation-popup";
+import FileManager from "@/components/file-manager";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import options from "@/config/options.json";
 import MultipleSelector from "@/layouts/components/ui/multiple-selector";
-import EditFrom from "@/partials/EditFrom";
+import EditFrom from "@/partials/edit-from";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Trash2 } from "lucide-react";
 

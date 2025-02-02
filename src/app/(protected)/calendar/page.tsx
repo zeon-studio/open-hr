@@ -64,8 +64,6 @@ const CalendarPage = () => {
   const { data } = useGetCalendarQuery(currentYear);
   const { result: calendar } = data || {};
 
-  console.log(calendar);
-
   const yearlyData = getHolydaysAndEvents(calendar!);
 
   const { isDialogOpen, onDialogChange } = useDialog();

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { useDialog } from "@/hooks/useDialog";
 import { Menu } from "lucide-react";
-import Sidebar from "./Sidebar";
+import Sidebar from "./sidebar";
 
 const Header = () => {
   const { isDialogOpen, onDialogChange } = useDialog();

@@ -1,6 +1,6 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { dateFormat } from "@/lib/dateFormat";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { TTool } from "@/redux/features/toolApiSlice/toolType";
 
 const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {

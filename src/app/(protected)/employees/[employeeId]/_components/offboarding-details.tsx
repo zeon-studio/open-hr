@@ -21,8 +21,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { dateFormat } from "@/lib/dateFormat";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { cn } from "@/lib/shadcn";
 import {
   useAddEmployeeOffboardingMutation,

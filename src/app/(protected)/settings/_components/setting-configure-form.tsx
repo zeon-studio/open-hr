@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import EditFrom from "@/partials/EditFrom";
+import EditFrom from "@/partials/edit-from";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 
 interface SettingConfigureFormProps {
