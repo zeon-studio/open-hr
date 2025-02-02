@@ -28,18 +28,6 @@ export const employeeContactApi = employeeContactApiWithTag.injectEndpoints({
       providesTags: ["employee-contacts"],
     }),
 
-    addEmployeeContact: builder.mutation<
-      TEmployeeContactState,
-      TEmployeeContact
-    >({
-      query: (data) => ({
-        url: `/employee-contact`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["employee-contacts"],
-    }),
-
     updateEmployeeContact: builder.mutation({
       query: (data) => {
         return {
@@ -64,7 +52,6 @@ export const employeeContactApi = employeeContactApiWithTag.injectEndpoints({
 export const {
   useGetEmployeeContactsQuery,
   useGetEmployeeContactQuery,
-  useAddEmployeeContactMutation,
   useUpdateEmployeeContactMutation,
   useDeleteEmployeeContactMutation,
 } = employeeContactApi;

@@ -6,8 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/shadcn";
 import EditFrom from "@/partials/EditFrom";
 import {
-  useAddEmployeeContactMutation,
   useGetEmployeeContactQuery,
+  useUpdateEmployeeContactMutation,
 } from "@/redux/features/employeeContactApiSlice/employeeContactSlice";
 import { TEmployeeContact } from "@/redux/features/employeeContactApiSlice/employeeContactType";
 import { Loader2, Trash2 } from "lucide-react";
@@ -21,7 +21,7 @@ export default function Emergency() {
     employeeId = session?.user.id as string;
   }
   const [addContact, { isLoading: isAddLoading }] =
-    useAddEmployeeContactMutation();
+    useUpdateEmployeeContactMutation();
   const { data, isLoading } = useGetEmployeeContactQuery(employeeId);
 
   return (
