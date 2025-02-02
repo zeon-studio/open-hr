@@ -43,7 +43,7 @@ export default function Document() {
     <div>
       <Card>
         <CardHeader className="border-0 flex-row pb-0 w-full flex items-center justify-between">
-          <CardTitle>Employee Document Uploads</CardTitle>
+          <CardTitle>Documents</CardTitle>
           <UploadDialog className="mt-0">
             <Upload className="size-4 mr-2" />
             Upload
