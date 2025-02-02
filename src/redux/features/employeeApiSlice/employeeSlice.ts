@@ -1,7 +1,7 @@
 import { TPagination } from "@/types";
 import { toast } from "sonner";
 import { apiSlice } from "../apiSlice/apiSlice";
-import { TEmployee, TEmployeeState } from "./employeeType";
+import { TEmployee, TEmployeeCreate, TEmployeeState } from "./employeeType";
 
 const employeeApiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ["employees"],
@@ -47,7 +47,7 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       providesTags: ["employees"],
     }),
 
-    addEmployee: builder.mutation<TEmployeeState, TEmployee>({
+    addEmployee: builder.mutation<TEmployeeState, TEmployeeCreate>({
       query: (data) => ({
         url: `/employee`,
         method: "POST",

@@ -6,8 +6,6 @@ import { toast } from "sonner";
 import EmployeeInsertForm from "./employee-insert-form";
 
 const initialEmployeeData = {
-  name: "",
-  work_email: "",
   personal_email: "",
   department: "" as any,
   job_type: "" as any,

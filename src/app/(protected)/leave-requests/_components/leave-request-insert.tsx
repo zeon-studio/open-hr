@@ -45,7 +45,7 @@ const LeaveRequestInsert = ({
         reason: "",
         status: "pending",
       });
-      toast("LeaveRequest added complete");
+      toast("Leave request added successfully");
       // close modal/dialog
       onDialogChange(false);
     } else if (isError) {
