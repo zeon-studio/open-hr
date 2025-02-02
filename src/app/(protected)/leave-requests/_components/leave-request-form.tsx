@@ -160,7 +160,7 @@ const LeaveRequestForm = ({
               <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
             </>
           ) : (
-            "Add Platform"
+            "Add Request"
           )}
         </Button>
       </div>
