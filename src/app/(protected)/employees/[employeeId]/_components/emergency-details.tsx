@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/shadcn";
-import EditFrom from "@/partials/EditFrom";
+import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeContactQuery,
   useUpdateEmployeeContactMutation,
@@ -51,14 +51,14 @@ export default function Emergency() {
                       employee_id: employeeId,
                     });
                   }}
-                  className="grid"
+                  className={"space-y-4"}
                   ref={formRef}
                 >
                   {data?.contacts.length > 0 ? (
                     data?.contacts?.map((contact, index, contacts) => {
                       return (
                         <div
-                          className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
+                          className={`${isReadOnly ? "bg-white" : "bg-light px-5"} rounded relative`}
                           key={index}
                         >
                           {!isReadOnly && (
@@ -152,7 +152,7 @@ export default function Emergency() {
                             </div>
                           </div>
 
-                          {contacts.length - 1 !== index && (
+                          {isReadOnly && contacts.length - 1 !== index && (
                             <Separator className="my-6 lg:col-span-2" />
                           )}
                         </div>

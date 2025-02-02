@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import { employeeInfoById } from "@/lib/employee-info";
 import { useGetEmployeeOnboardingQuery } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";

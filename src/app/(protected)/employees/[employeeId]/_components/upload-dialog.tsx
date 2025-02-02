@@ -1,4 +1,4 @@
-import FileManager from "@/components/FileManager";
+import FileManager from "@/components/file-manager";
 import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Dialog,

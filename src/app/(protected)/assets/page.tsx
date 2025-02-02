@@ -1,7 +1,7 @@
 "use client";
 
-import Pagination from "@/components/Pagination";
-import SearchBox from "@/components/SearchBox";
+import Pagination from "@/components/pagination";
+import SearchBox from "@/components/search-box";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {

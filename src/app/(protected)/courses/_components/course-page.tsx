@@ -1,7 +1,7 @@
 "use client";
 
-import ConfirmationPopup from "@/components/ConfirmationPopup";
-import CopyText from "@/components/CopyText";
+import ConfirmationPopup from "@/components/confirmation-popup";
+import CopyText from "@/components/copy-text";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {

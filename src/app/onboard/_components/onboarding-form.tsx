@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/dateFormat";
+import { dateFormat } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
 import { useUpdateEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";

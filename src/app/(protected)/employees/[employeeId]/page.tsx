@@ -1,6 +1,6 @@
 "use client";
 
-import Avatar from "@/components/Avatar";
+import Avatar from "@/components/avatar";
 import { Discord, Facebook, Linkedin, Twitter } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getDuration } from "@/lib/dateFormat";
+import { getDuration } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";

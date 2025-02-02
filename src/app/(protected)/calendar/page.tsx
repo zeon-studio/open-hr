@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
-import { useGetCalendarsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
+import { useGetCalendarQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
 import {
   TCalendar,
   TEvent,
@@ -16,31 +16,33 @@ import CalendarList from "./_components/calendar-list";
 import CalendarUpdate from "./_components/calendar-update";
 import CalendarView from "./_components/calendar-view";
 
-const getEvents = (calendars: TCalendar[]): TEvent[] => {
-  return calendars?.flatMap((cal) => [
-    ...cal.holidays.map((holiday) => ({
-      start_date: new Date(holiday.start_date),
-      end_date: new Date(holiday.end_date),
+const getHolydaysAndEvents = (calendar: TCalendar | undefined): TEvent[] => {
+  if (!calendar) return [];
+
+  return [
+    ...(calendar?.holidays?.map((holiday) => ({
+      start_date: new Date(holiday.start_date!),
+      end_date: new Date(holiday.end_date!),
       day_count: holiday.day_count,
       reason: holiday.reason,
       type: "holiday" as const,
-    })),
-    ...cal.events.map((event) => ({
-      start_date: new Date(event.start_date),
-      end_date: new Date(event.end_date),
+    })) ?? []),
+    ...(calendar?.events?.map((event) => ({
+      start_date: new Date(event.start_date!),
+      end_date: new Date(event.end_date!),
       day_count: event.day_count,
       reason: event.reason,
       type: "event" as const,
-    })),
-  ]);
+    })) ?? []),
+  ];
 };
 
 const renderCalendarList = (
-  calendars: TCalendar[] | undefined,
+  calendar: TCalendar | undefined,
   type: "holidays" | "events",
   title: string
 ) => {
-  const items = calendars?.[0]?.[type] ?? [];
+  const items = calendar?.[type] ?? [];
   if (items.length > 0) {
     return (
       <>
@@ -58,11 +60,11 @@ const CalendarPage = () => {
   const { data: session } = useSession();
   const currentYear = new Date().getFullYear();
 
-  // get all calendar Data
-  const { data } = useGetCalendarsQuery(currentYear);
-  const { result: calendars } = data || {};
+  // get calendar Data by year
+  const { data } = useGetCalendarQuery(currentYear);
+  const { result: calendar } = data || {};
 
-  const events = getEvents(calendars!);
+  const yearlyData = getHolydaysAndEvents(calendar!);
 
   const { isDialogOpen, onDialogChange } = useDialog();
 
@@ -84,7 +86,7 @@ const CalendarPage = () => {
               </Dialog>
               <CalendarInsertSheet />
             </div>
-            <CalendarUpdate calendarData={calendars as TCalendar[]} />
+            <CalendarUpdate />
           </>
         ) : (
           <h4>
@@ -93,10 +95,10 @@ const CalendarPage = () => {
         )}
       </div>
 
-      <CalendarView events={events!} />
+      <CalendarView yearlyData={yearlyData!} />
 
-      {renderCalendarList(calendars, "holidays", "Holidays")}
-      {renderCalendarList(calendars, "events", "Events")}
+      {renderCalendarList(calendar, "holidays", "Holidays")}
+      {renderCalendarList(calendar, "events", "Events")}
     </section>
   );
 };

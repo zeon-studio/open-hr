@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { dateFormat } from "@/lib/dateFormat";
+import { dateFormat } from "@/lib/date-converter";
 import { useGetUpcomingHolidaysAndEventsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { CalendarCheck } from "lucide-react";
@@ -28,7 +28,8 @@ const UpcomingEvents = () => {
               >
                 <p className="capitalize text-success block">{event.reason}</p>
                 <small className="text-text-light">
-                  {dateFormat(event.start_date)} - {dateFormat(event.end_date)}
+                  {dateFormat(event.start_date!)} -{" "}
+                  {dateFormat(event.end_date!)}
                 </small>
               </li>
             ))}

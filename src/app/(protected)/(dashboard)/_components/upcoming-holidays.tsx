@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { dateFormat } from "@/lib/dateFormat";
+import { dateFormat } from "@/lib/date-converter";
 import { useGetUpcomingHolidaysAndEventsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { Calendar1 } from "lucide-react";
@@ -30,8 +30,8 @@ const UpcomingHolidays = () => {
                   {holiday.reason}
                 </p>
                 <small className="text-text-light">
-                  {dateFormat(holiday.start_date)} -{" "}
-                  {dateFormat(holiday.end_date)}
+                  {dateFormat(holiday.start_date!)} -{" "}
+                  {dateFormat(holiday.end_date!)}
                 </small>
               </li>
             ))}

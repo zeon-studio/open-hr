@@ -12,7 +12,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
-import EditFrom from "@/partials/EditFrom";
+import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeQuery,
   useUpdateEmployeeMutation,
@@ -176,7 +176,11 @@ export default function PersonalInfo() {
                   type="date"
                   required
                   // @ts-ignore
-                  value={new Date(data.dob).toISOString().split("T")[0]}
+                  value={
+                    data.dob
+                      ? new Date(data.dob).toISOString().split("T")[0]
+                      : ""
+                  }
                   name="dob"
                   placeholder="Date of Birth"
                   readOnly={isReadOnly}
@@ -536,7 +540,7 @@ export default function PersonalInfo() {
                   banks: data?.banks,
                 });
               }}
-              className="grid"
+              className="space-y-4"
               ref={formRef}
             >
               {data?.banks.length > 0 ? (
@@ -654,8 +658,8 @@ export default function PersonalInfo() {
                           />
                         </div>
                       </div>
-                      {banks.length - 1 !== index && (
-                        <Separator className="my-4 lg:col-span-2" />
+                      {isReadOnly && banks?.length - 1 !== index && (
+                        <Separator className="my-6 lg:col-span-2" />
                       )}
                     </div>
                   );
@@ -709,7 +713,7 @@ export default function PersonalInfo() {
                   educations: data?.educations,
                 });
               }}
-              className="grid grid-cols-1 gap-3"
+              className="space-y-4"
               ref={formRef}
             >
               {data?.educations.length > 0 ? (
@@ -894,8 +898,8 @@ export default function PersonalInfo() {
                           )}
                         </div>
                       </div>
-                      {educations.length - 1 !== index && (
-                        <Separator className="my-4 lg:col-span-2" />
+                      {isReadOnly && educations.length - 1 !== index && (
+                        <Separator className="my-6 lg:col-span-2" />
                       )}
                     </div>
                   );

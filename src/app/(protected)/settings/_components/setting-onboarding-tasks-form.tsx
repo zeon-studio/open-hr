@@ -13,8 +13,8 @@ import {
 import {
   employeeGroupByDepartment,
   employeeInfoById,
-} from "@/lib/employeeInfo";
-import EditFrom from "@/partials/EditFrom";
+} from "@/lib/employee-info";
+import EditFrom from "@/partials/edit-from";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Trash2 } from "lucide-react";
 

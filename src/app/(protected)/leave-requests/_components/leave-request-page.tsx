@@ -1,13 +1,13 @@
 "use client";
 
-import ConfirmationPopup from "@/components/ConfirmationPopup";
+import ConfirmationPopup from "@/components/confirmation-popup";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
-import UserInfo from "@/components/UserInfo";
-import { dateFormat } from "@/lib/dateFormat";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import UserInfo from "@/components/user-info";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { useUpdateLeaveRequestMutation } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { Check, X } from "lucide-react";
@@ -23,9 +23,9 @@ const LeaveRequestPage = ({
   const { data } = useSession();
   return (
     <>
-      {leaveRequest?.map((item) => (
+      {leaveRequest?.map((item, index) => (
         <MemoizedLeaveRequestModal
-          key={item._id}
+          key={`leave-request-${index}`}
           item={item}
           role={data?.user?.role!}
         />
@@ -65,12 +65,16 @@ const LeaveRequestModal = ({
 
   return (
     <TableRow key={item._id}>
-      <TableCell>
+      <TableCell className="min-w-[200px]">
         <UserInfo user={employeeInfoById(item.employee_id)} />
       </TableCell>
       <TableCell>{item.leave_type}</TableCell>
-      <TableCell>{dateFormat(item.start_date)}</TableCell>
-      <TableCell>{dateFormat(item.end_date)}</TableCell>
+      <TableCell className="whitespace-nowrap">
+        {dateFormat(item.start_date)}
+      </TableCell>
+      <TableCell className="whitespace-nowrap">
+        {dateFormat(item.end_date)}
+      </TableCell>
       <TableCell>{item.day_count}</TableCell>
       <TableCell>{item.reason}</TableCell>
       <TableCell className="text-right">

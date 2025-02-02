@@ -29,7 +29,6 @@ const CalendarInsert = ({
         reason: "",
       },
     ],
-    createdAt: new Date(),
   });
 
   const [addCalendar, { isSuccess, isError, error }] = useAddCalendarMutation();
@@ -76,8 +75,7 @@ const CalendarInsert = ({
         setCalendarData={setCalendarData}
         handleSubmit={handleSubmit}
         loader={loader}
-        buttonText="Add Calendar"
-        mode="insert"
+        formType="insert"
       />
     </DialogContent>
   );

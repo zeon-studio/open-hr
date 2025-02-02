@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/dateFormat";
+import { dateFormat } from "@/lib/date-converter";
 import { useGetUpcomingLeaveDatesRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { format } from "date-fns";

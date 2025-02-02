@@ -11,7 +11,7 @@ import { CloudUpload, Loader2, Paperclip, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import ConfirmationPopup from "./ConfirmationPopup";
+import ConfirmationPopup from "./confirmation-popup";
 import { Button } from "./ui/button";
 import { DialogTrigger } from "./ui/dialog";
 

@@ -7,12 +7,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { dateFormat, dayCount } from "@/lib/dateFormat";
+import { dateFormat } from "@/lib/date-converter";
 import {
   TCalendar,
   TEvent,
 } from "@/redux/features/calendarApiSlice/calendarType";
-import { format } from "date-fns";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -21,169 +20,64 @@ const CalendarForm = ({
   calendarData,
   setCalendarData,
   handleSubmit,
-  buttonText,
   loader,
-  mode,
+  formType,
 }: {
   calendarData: Partial<TCalendar>;
   setCalendarData: Dispatch<SetStateAction<TCalendar>>;
   handleSubmit: (e: any) => Promise<void>;
-  buttonText: string;
   loader: boolean;
-  mode: string;
+  formType: string;
 }) => {
-  const [year, setYear] = useState(
-    calendarData?.year || new Date().getFullYear()
-  );
   const [holidayItems, setHolidayItems] = useState<TEvent[]>(
-    calendarData?.holidays || []
+    calendarData.holidays || []
   );
+
   const [eventItems, setEventItems] = useState<TEvent[]>(
-    calendarData?.events || []
+    calendarData.events || []
   );
-  const [holidayDateRange, setHolidayDateRange] = useState<
-    DateRange | undefined
-  >({
-    from: calendarData.holidays?.[0]?.start_date
-      ? new Date(calendarData.holidays[0].start_date)
-      : undefined,
-    to: calendarData.holidays?.[0]?.end_date
-      ? new Date(calendarData.holidays[0].end_date)
-      : undefined,
-  });
-  const [eventDateRange, setEventDateRange] = useState<DateRange | undefined>({
-    from: calendarData.events?.[0]?.start_date
-      ? new Date(calendarData.events[0].start_date)
-      : undefined,
-    to: calendarData.events?.[0]?.end_date
-      ? new Date(calendarData.events[0].end_date)
-      : undefined,
-  });
 
-  useEffect(() => {
-    if (
-      mode === "update" &&
-      (calendarData?.year !== year ||
-        JSON.stringify(calendarData?.holidays) !==
-          JSON.stringify(holidayItems) ||
-        JSON.stringify(calendarData?.events) !== JSON.stringify(eventItems))
-    ) {
-      setYear(calendarData?.year || new Date().getFullYear());
-      setHolidayItems(calendarData?.holidays || []);
-      setEventItems(calendarData?.events || []);
-      setHolidayDateRange({
-        from: calendarData.holidays?.[0]?.start_date
-          ? new Date(calendarData.holidays[0].start_date)
-          : undefined,
-        to: calendarData.holidays?.[0]?.end_date
-          ? new Date(calendarData.holidays[0].end_date)
-          : undefined,
-      });
-      setEventDateRange({
-        from: calendarData.events?.[0]?.start_date
-          ? new Date(calendarData.events[0].start_date)
-          : undefined,
-        to: calendarData.events?.[0]?.end_date
-          ? new Date(calendarData.events[0].end_date)
-          : undefined,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calendarData, mode]);
-
+  // set holiday items
   useEffect(() => {
     setCalendarData((prev) => ({
       ...prev,
-      year: year,
-      holidays: holidayItems.map((item) => ({
-        start_date: holidayDateRange?.from
-          ? format(holidayDateRange.from, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        end_date: holidayDateRange?.to
-          ? format(holidayDateRange.to, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        day_count:
-          holidayDateRange?.from && holidayDateRange?.to
-            ? dayCount(
-                new Date(holidayDateRange.from),
-                new Date(holidayDateRange.to)
-              )
-            : 0,
-        reason: item.reason,
-      })),
-      events: eventItems.map((item) => ({
-        start_date: eventDateRange?.from
-          ? format(eventDateRange.from, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        end_date: eventDateRange?.to
-          ? format(eventDateRange.to, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        day_count:
-          eventDateRange?.from && eventDateRange?.to
-            ? dayCount(
-                new Date(eventDateRange.from),
-                new Date(eventDateRange.to)
-              )
-            : 0,
-        reason: item.reason,
-      })),
+      holidays: holidayItems,
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [holidayItems, eventItems]);
+  }, [holidayItems, setCalendarData]);
 
+  // set event items
   useEffect(() => {
     setCalendarData((prev) => ({
       ...prev,
-      holidays: holidayItems.map((item) => ({
-        ...item,
-        start_date: holidayDateRange?.from
-          ? format(holidayDateRange.from, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        end_date: holidayDateRange?.to
-          ? format(holidayDateRange.to, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        day_count:
-          holidayDateRange?.from && holidayDateRange?.to
-            ? dayCount(
-                new Date(holidayDateRange.from),
-                new Date(holidayDateRange.to)
-              )
-            : 0,
-      })),
-      events: eventItems.map((item) => ({
-        ...item,
-        start_date: eventDateRange?.from
-          ? format(eventDateRange.from, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        end_date: eventDateRange?.to
-          ? format(eventDateRange.to, "yyyy-MM-dd")
-          : new Date().toISOString().split("T")[0],
-        day_count:
-          eventDateRange?.from && eventDateRange?.to
-            ? dayCount(
-                new Date(eventDateRange.from),
-                new Date(eventDateRange.to)
-              )
-            : 0,
-      })),
+      events: eventItems,
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [holidayDateRange, eventDateRange]);
+  }, [eventItems, setCalendarData]);
 
   // holiday
   const handleAddHoliday = () => {
     setHolidayItems([
       ...holidayItems,
       {
-        start_date: new Date(),
-        end_date: new Date(),
+        start_date: undefined,
+        end_date: undefined,
         day_count: 0,
         reason: "",
       },
     ]);
   };
+
   const handleDeleteHoliday = async (index: number) => {
     setHolidayItems((prevItems) => prevItems.filter((_, i) => i !== index));
+  };
+
+  const handleHolidayDateRangeChange = (index: number, range: DateRange) => {
+    const updatedHolidayItems = [...holidayItems];
+    updatedHolidayItems[index] = {
+      ...updatedHolidayItems[index],
+      start_date: range.from,
+      end_date: range.to,
+    };
+    setHolidayItems(updatedHolidayItems);
   };
 
   // event
@@ -191,30 +85,31 @@ const CalendarForm = ({
     setEventItems([
       ...eventItems,
       {
-        start_date: new Date(),
-        end_date: new Date(),
+        start_date: undefined,
+        end_date: undefined,
         day_count: 0,
         reason: "",
       },
     ]);
   };
+
   const handleDeleteEvent = async (index: number) => {
     setEventItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };
 
+  const handleEventDateRangeChange = (index: number, range: DateRange) => {
+    const updatedEventItems = [...eventItems];
+    updatedEventItems[index] = {
+      ...updatedEventItems[index],
+      start_date: range.from,
+      end_date: range.to,
+    };
+    setEventItems(updatedEventItems);
+  };
+
   return (
     <form className="row" onSubmit={handleSubmit}>
-      {mode === "insert" && (
-        <div className="col-12 mb-4">
-          <Label>Year</Label>
-          <Input
-            type="number"
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-            placeholder="Enter calendar year"
-          />
-        </div>
-      )}
+      {/* holiday */}
       <div className="col-12 mb-6">
         <h5 className="mb-4">Holiday</h5>
         {holidayItems.map((holiday, index) => (
@@ -232,15 +127,14 @@ const CalendarForm = ({
                 <Trash2 size={16} />
               </Button>
             </div>
-            <div className="row">
-              <div className="col-12 mb-4">
+            <div className="row gx-3">
+              <div className="lg:col-6 mb-4">
                 <Label>Reason</Label>
                 <Input
                   type="text"
                   value={holiday.reason}
                   onChange={(e) => {
                     const updatedHolidayItems = [...holidayItems];
-
                     updatedHolidayItems[index] = {
                       ...holiday,
                       reason: e.target.value,
@@ -250,7 +144,7 @@ const CalendarForm = ({
                   placeholder="Holiday Reason"
                 />
               </div>
-              <div className="w-full">
+              <div className="lg:col-6">
                 <Label>Date Range</Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -258,14 +152,14 @@ const CalendarForm = ({
                       variant={"input"}
                       className="w-full flex justify-between"
                     >
-                      {holidayDateRange?.from ? (
-                        holidayDateRange.to ? (
+                      {holiday.start_date ? (
+                        holiday.end_date ? (
                           <>
-                            {dateFormat(holidayDateRange.from)} -{" "}
-                            {dateFormat(holidayDateRange.to)}
+                            {dateFormat(holiday.start_date)} -{" "}
+                            {dateFormat(holiday.end_date)}
                           </>
                         ) : (
-                          dateFormat(holidayDateRange.from)
+                          dateFormat(holiday.start_date)
                         )
                       ) : (
                         <span>Pick a date</span>
@@ -282,8 +176,15 @@ const CalendarForm = ({
                     <Calendar
                       mode="range"
                       numberOfMonths={2}
-                      selected={holidayDateRange}
-                      onSelect={setHolidayDateRange}
+                      selected={{
+                        from: holiday.start_date as Date,
+                        to: holiday.end_date as Date,
+                      }}
+                      onSelect={(range) => {
+                        if (range) {
+                          handleHolidayDateRangeChange(index, range);
+                        }
+                      }}
                     />
                   </PopoverContent>
                 </Popover>
@@ -301,6 +202,7 @@ const CalendarForm = ({
           Add Holiday
         </Button>
       </div>
+
       {/* event */}
       <div className="col-12 mb-6">
         <h5 className="mb-4">Events</h5>
@@ -319,15 +221,14 @@ const CalendarForm = ({
                 <Trash2 size={16} />
               </Button>
             </div>
-            <div className="row">
-              <div className="col-12 mb-4">
+            <div className="row gx-3">
+              <div className="lg:col-6 mb-4">
                 <Label>Reason</Label>
                 <Input
                   type="text"
                   value={event.reason}
                   onChange={(e) => {
                     const updatedEventItems = [...eventItems];
-
                     updatedEventItems[index] = {
                       ...event,
                       reason: e.target.value,
@@ -337,7 +238,7 @@ const CalendarForm = ({
                   placeholder="Event Reason"
                 />
               </div>
-              <div className="w-full">
+              <div className="lg:col-6">
                 <Label>Date Range</Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -345,14 +246,14 @@ const CalendarForm = ({
                       variant={"input"}
                       className="w-full flex justify-between"
                     >
-                      {eventDateRange?.from ? (
-                        eventDateRange.to ? (
+                      {event.start_date ? (
+                        event.end_date ? (
                           <>
-                            {dateFormat(eventDateRange.from)} -{" "}
-                            {dateFormat(eventDateRange.to)}
+                            {dateFormat(event.start_date)} -{" "}
+                            {dateFormat(event.end_date)}
                           </>
                         ) : (
-                          dateFormat(eventDateRange.from)
+                          dateFormat(event.start_date)
                         )
                       ) : (
                         <span>Pick a date</span>
@@ -369,8 +270,15 @@ const CalendarForm = ({
                     <Calendar
                       mode="range"
                       numberOfMonths={2}
-                      selected={eventDateRange}
-                      onSelect={setEventDateRange}
+                      selected={{
+                        from: event.start_date as Date,
+                        to: event.end_date as Date,
+                      }}
+                      onSelect={(range) => {
+                        if (range) {
+                          handleEventDateRangeChange(index, range);
+                        }
+                      }}
                     />
                   </PopoverContent>
                 </Popover>
@@ -388,18 +296,38 @@ const CalendarForm = ({
           Add Event
         </Button>
       </div>
-      <div className="col-12 text-right">
-        <Button disabled={loader}>
-          {loader ? (
-            <>
-              Please wait
-              <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
-            </>
-          ) : (
-            buttonText
-          )}
-        </Button>
-      </div>
+
+      {/* for insert */}
+      {formType === "insert" && (
+        <div className="col-12 text-right">
+          <Button disabled={loader}>
+            {loader ? (
+              <>
+                Please wait
+                <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
+              </>
+            ) : (
+              "Insert Calendar"
+            )}
+          </Button>
+        </div>
+      )}
+
+      {/* for update */}
+      {formType === "update" && (
+        <div className="col-12 text-right">
+          <Button type="submit" disabled={loader}>
+            {loader ? (
+              <>
+                Please wait
+                <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
+              </>
+            ) : (
+              "Update Calendar"
+            )}
+          </Button>
+        </div>
+      )}
     </form>
   );
 };

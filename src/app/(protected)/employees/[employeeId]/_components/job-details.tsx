@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
-import { getDuration } from "@/lib/dateFormat";
+import { getDuration } from "@/lib/date-converter";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";

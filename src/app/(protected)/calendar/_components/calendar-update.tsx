@@ -14,13 +14,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDialog } from "@/hooks/useDialog";
-import { useUpdateCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
+import {
+  useGetCalendarsQuery,
+  useUpdateCalendarMutation,
+} from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CalendarForm from "./calendar-form";
 
-const CalendarUpdate = ({ calendarData }: { calendarData: TCalendar[] }) => {
+const CalendarUpdate = () => {
+  // get calendar Data by year
+  const { data } = useGetCalendarsQuery(undefined);
+  const { result: calendars } = data || {};
+
   const [year, setYear] = useState(new Date().getFullYear());
 
   const { isDialogOpen, onDialogChange } = useDialog();
@@ -29,7 +36,7 @@ const CalendarUpdate = ({ calendarData }: { calendarData: TCalendar[] }) => {
   const [updatedCalendarData, setUpdatedCalendarData] = useState<TCalendar>(
     () => {
       return (
-        calendarData?.find((cal) => cal.year === year) ?? {
+        calendars?.find((cal) => cal.year === year) ?? {
           year: year,
           holidays: [],
           events: [],
@@ -40,11 +47,11 @@ const CalendarUpdate = ({ calendarData }: { calendarData: TCalendar[] }) => {
   );
 
   useEffect(() => {
-    const yearData = calendarData?.find((cal) => cal.year === year);
+    const yearData = calendars?.find((cal) => cal.year === year);
     if (yearData) {
       setUpdatedCalendarData(yearData);
     }
-  }, [year, calendarData]);
+  }, [year, calendars]);
 
   const [updateCalendar, { isSuccess, isError, error }] =
     useUpdateCalendarMutation();
@@ -87,11 +94,13 @@ const CalendarUpdate = ({ calendarData }: { calendarData: TCalendar[] }) => {
         </Button>
       </DialogTrigger>
       <DialogContent
-        className="max-w-4xl overflow-y-auto h-[90vh]"
+        className="max-w-4xl overflow-y-auto max-h-[90vh]"
         onPointerDownOutside={(e) => e.preventDefault()}
       >
-        <DialogTitle className="mb-4">
-          <Label>Update Calendar for </Label>
+        <DialogTitle className="mb-4">Update Calendar</DialogTitle>
+
+        <div className="mb-6">
+          <Label>Select Year</Label>
           <Select
             value={year.toString()}
             onValueChange={(value) => {
@@ -102,22 +111,21 @@ const CalendarUpdate = ({ calendarData }: { calendarData: TCalendar[] }) => {
               <SelectValue placeholder="Select Year" />
             </SelectTrigger>
             <SelectContent>
-              {calendarData?.map((cal) => (
+              {calendars?.map((cal) => (
                 <SelectItem key={cal.year} value={cal.year.toString()}>
                   {cal.year}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-        </DialogTitle>
+        </div>
 
         <CalendarForm
           calendarData={updatedCalendarData}
           setCalendarData={setUpdatedCalendarData}
           handleSubmit={handleSubmit}
-          buttonText="Update Calendar"
           loader={loader}
-          mode="update"
+          formType="update"
         />
       </DialogContent>
     </Dialog>

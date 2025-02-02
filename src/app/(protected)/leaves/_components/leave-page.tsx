@@ -9,9 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
-import UserInfo from "@/components/UserInfo";
+import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/useDialog";
-import { employeeInfoById } from "@/lib/employeeInfo";
+import { employeeInfoById } from "@/lib/employee-info";
 import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
 import { Ellipsis } from "lucide-react";
 import { memo, useMemo, useState } from "react";

@@ -3,7 +3,7 @@ import {
   TCalSheet,
 } from "@/redux/features/calendarApiSlice/calendarType";
 import * as XLSX from "xlsx";
-import { dayCount } from "./dateFormat";
+import { dayCount } from "./date-converter";
 
 // read calendar sheet data
 export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
