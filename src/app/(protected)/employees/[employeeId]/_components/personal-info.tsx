@@ -1,13 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -19,7 +13,6 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
 import { dateFormat } from "@/lib/dateFormat";
-import { cn } from "@/lib/shadcn";
 import EditFrom from "@/partials/EditFrom";
 import {
   useGetEmployeeQuery,
@@ -36,7 +29,7 @@ import {
   useUpdateEmployeeEducationMutation,
 } from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
 import { TEmployeeEducation } from "@/redux/features/employeeEducationApiSlice/employeeEducationType";
-import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
 
@@ -172,58 +165,20 @@ export default function PersonalInfo() {
 
               <div className="lg:col-6">
                 <Label>Date of Birth:</Label>
-                {isReadOnly ? (
-                  <p className="text-sm text-text-light">
-                    {data.dob ? dateFormat(data.dob) : "Not Available"}
-                  </p>
-                ) : (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"input"}
-                        className={cn(
-                          "w-full flex justify-between",
-                          isReadOnly && "disabled:pl-0 disabled:border-none"
-                        )}
-                        disabled={isReadOnly}
-                      >
-                        {data.dob ? (
-                          dateFormat(data.dob)
-                        ) : (
-                          <span>Select Date</span>
-                        )}
-                        <span className="flex items-center">
-                          <span
-                            className={cn(
-                              "bg-light mb-2 mt-2 h-5 block w-[1px]",
-                              isReadOnly && "hidden"
-                            )}
-                          ></span>
-                          <span
-                            className={cn(
-                              "pl-2  block",
-                              isReadOnly && "hidden"
-                            )}
-                          >
-                            <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
-                          </span>
-                        </span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={data.dob ? new Date(data.dob) : new Date()}
-                        onSelect={(date) =>
-                          handleChange({
-                            ...data,
-                            dob: date!,
-                          })
-                        }
-                      />
-                    </PopoverContent>
-                  </Popover>
-                )}
+                <Input
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  type="date"
+                  value={dateFormat(data.dob)}
+                  name="dob"
+                  placeholder="Date of Birth"
+                  readOnly={isReadOnly}
+                />
               </div>
 
               <div className="lg:col-6">
