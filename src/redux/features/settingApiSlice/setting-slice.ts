@@ -30,8 +30,8 @@ export const settingSlice = createSlice({
       : initialState,
   reducers: {
     updateSetting: (state, action: PayloadAction<TSettingState["result"]>) => {
-      state = action.payload;
       localStorage.setItem("erp-settings", JSON.stringify(state));
+      return action.payload;
     },
   },
 });
