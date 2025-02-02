@@ -18,7 +18,7 @@ const UpcomingHolidays = () => {
       </CardHeader>
       <CardContent className="lg:h-[300px] scroll-box">
         {data?.result?.holidays?.length === 0 ? (
-          <p className="text-center py-4">No upcoming holidays</p>
+          <p className="text-text-light">No upcoming holidays</p>
         ) : (
           <ul className="space-y-3">
             {data?.result?.holidays?.map((holiday: TEvent, index: number) => (

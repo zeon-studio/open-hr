@@ -52,5 +52,6 @@ export const config = {
     "/leaves",
     "/leave-requests",
     "/calendar",
+    "/settings",
   ],
 };

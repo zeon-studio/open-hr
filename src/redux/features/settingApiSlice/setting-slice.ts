@@ -22,16 +22,16 @@ export const settingSlice = createSlice({
   name: "setting-slice",
   initialState:
     typeof window !== "undefined"
-      ? localStorage.getItem("settings")
+      ? localStorage.getItem("erp-settings")
         ? (JSON.parse(
-            localStorage.getItem("settings") as string
+            localStorage.getItem("erp-settings") as string
           ) as TSettingState["result"])
         : initialState
       : initialState,
   reducers: {
     updateSetting: (state, action: PayloadAction<TSettingState["result"]>) => {
       state = action.payload;
-      localStorage.setItem("settings", JSON.stringify(state));
+      localStorage.setItem("erp-settings", JSON.stringify(state));
     },
   },
 });
