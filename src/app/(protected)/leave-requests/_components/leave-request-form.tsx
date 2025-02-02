@@ -16,6 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
 import { dateFormat } from "@/lib/dateFormat";
+import { useGetUpcomingLeaveDatesRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -34,12 +35,8 @@ const LeaveRequestForm = ({
   loader: boolean;
 }) => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: leaveRequestData.start_date
-      ? new Date(leaveRequestData.start_date)
-      : undefined,
-    to: leaveRequestData.end_date
-      ? new Date(leaveRequestData.end_date)
-      : undefined,
+    from: undefined,
+    to: undefined,
   });
 
   useEffect(() => {
@@ -52,6 +49,26 @@ const LeaveRequestForm = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange]);
+
+  const today = new Date();
+  const addDays = (days: number) => {
+    const date = new Date(today);
+    date.setDate(date.getDate() + days);
+    return date;
+  };
+  const { data } = useGetUpcomingLeaveDatesRequestsQuery(
+    today.toISOString().slice(0, 10)
+  );
+
+  // get duplicate dates
+  const getDuplicateDates = (arr: any): Date[] =>
+    Array.from(
+      new Set(
+        arr
+          .filter((item: any, i: number) => arr.indexOf(item) !== i)
+          .map((dateString: string) => new Date(dateString))
+      )
+    );
 
   return (
     <form className="row justify-between items-center" onSubmit={handleSubmit}>
@@ -69,7 +86,11 @@ const LeaveRequestForm = ({
           </SelectTrigger>
           <SelectContent>
             {options.leave_type.map((item) => (
-              <SelectItem value={item.value} key={item.value}>
+              <SelectItem
+                value={item.value}
+                key={item.value}
+                disabled={item.disabled}
+              >
                 {item.label}
               </SelectItem>
             ))}
@@ -105,6 +126,12 @@ const LeaveRequestForm = ({
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar
               mode="range"
+              disabled={[
+                today,
+                addDays(1),
+                addDays(2),
+                ...getDuplicateDates(data?.result),
+              ]}
               numberOfMonths={2}
               selected={dateRange}
               onSelect={setDateRange}

@@ -254,7 +254,8 @@
     },
     {
       "label": "Sick",
-      "value": "sick"
+      "value": "sick",
+      "disabled": true
     },
     {
       "label": "Without Pay",
