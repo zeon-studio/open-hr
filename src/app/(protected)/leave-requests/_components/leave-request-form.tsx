@@ -65,7 +65,7 @@ const LeaveRequestForm = ({
     Array.from(
       new Set(
         arr
-          .filter((item: any, i: number) => arr.indexOf(item) !== i)
+          ?.filter((item: any, i: number) => arr.indexOf(item) !== i)
           .map((dateString: string) => new Date(dateString))
       )
     );
