@@ -13,8 +13,6 @@ const useLocalCacheHook = <T>(data: Data<T>, name: string) => {
         name,
         JSON.stringify(Array.isArray(data?.data) && data?.data.slice(0, 100))
       );
-    } else {
-      localStorage.removeItem(name);
     }
   }, [data]);
 
