@@ -15,6 +15,7 @@ import {
 import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetEmployeesQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { useAppSelector } from "@/redux/hook";
 import { useSearchParams } from "next/navigation";
 import EmployeeInsert from "./_components/employee-insert";
@@ -80,11 +81,23 @@ export default function Employees() {
           )}
 
           {employees?.length ? (
-            //  @ts-ignore
-            <EmployeePage employees={employees} />
+            <EmployeePage
+              employees={
+                employees as (TEmployee & {
+                  department: string;
+                  designation: string;
+                })[]
+              }
+            />
           ) : (
-            //  @ts-ignore
-            <EmployeePage employees={localData} />
+            <EmployeePage
+              employees={
+                localData as (TEmployee & {
+                  department: string;
+                  designation: string;
+                })[]
+              }
+            />
           )}
         </TableBody>
       </Table>

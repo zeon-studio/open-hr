@@ -17,19 +17,16 @@ const getEmployeesData = () => {
     };
   };
 
+  const storedData = localStorage.getItem("erp-employees-basics");
   if (employees?.data?.result) {
     localStorage.setItem(
       "erp-employees-basics",
       JSON.stringify(employees.data.result)
     );
-  } else {
-    const storedData = localStorage.getItem("erp-employees-basics");
-    if (storedData) {
-      return JSON.parse(storedData);
-    }
+    return employees.data.result;
   }
 
-  return employees?.data?.result;
+  return storedData ? JSON.parse(storedData) : [];
 };
 
 export const employeeInfoById = (id: string) => {
