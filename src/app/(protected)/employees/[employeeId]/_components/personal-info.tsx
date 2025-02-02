@@ -12,7 +12,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/dateFormat";
 import EditFrom from "@/partials/EditFrom";
 import {
   useGetEmployeeQuery,
@@ -174,7 +173,8 @@ export default function PersonalInfo() {
                     });
                   }}
                   type="date"
-                  value={dateFormat(data.dob)}
+                  // @ts-ignore
+                  value={data.dob}
                   name="dob"
                   placeholder="Date of Birth"
                   readOnly={isReadOnly}
