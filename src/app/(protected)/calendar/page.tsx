@@ -21,15 +21,15 @@ const getHolydaysAndEvents = (calendar: TCalendar | undefined): TEvent[] => {
 
   return [
     ...(calendar?.holidays?.map((holiday) => ({
-      start_date: new Date(holiday.start_date),
-      end_date: new Date(holiday.end_date),
+      start_date: new Date(holiday.start_date!),
+      end_date: new Date(holiday.end_date!),
       day_count: holiday.day_count,
       reason: holiday.reason,
       type: "holiday" as const,
     })) ?? []),
     ...(calendar?.events?.map((event) => ({
-      start_date: new Date(event.start_date),
-      end_date: new Date(event.end_date),
+      start_date: new Date(event.start_date!),
+      end_date: new Date(event.end_date!),
       day_count: event.day_count,
       reason: event.reason,
       type: "event" as const,

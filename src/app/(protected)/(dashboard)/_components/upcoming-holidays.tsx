@@ -30,8 +30,8 @@ const UpcomingHolidays = () => {
                   {holiday.reason}
                 </p>
                 <small className="text-text-light">
-                  {dateFormat(holiday.start_date)} -{" "}
-                  {dateFormat(holiday.end_date)}
+                  {dateFormat(holiday.start_date!)} -{" "}
+                  {dateFormat(holiday.end_date!)}
                 </small>
               </li>
             ))}

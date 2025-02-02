@@ -28,7 +28,8 @@ const UpcomingEvents = () => {
               >
                 <p className="capitalize text-success block">{event.reason}</p>
                 <small className="text-text-light">
-                  {dateFormat(event.start_date)} - {dateFormat(event.end_date)}
+                  {dateFormat(event.start_date!)} -{" "}
+                  {dateFormat(event.end_date!)}
                 </small>
               </li>
             ))}

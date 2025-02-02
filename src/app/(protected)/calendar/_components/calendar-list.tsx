@@ -33,8 +33,8 @@ const CalendarList = ({
               <TableCell className="capitalize font-medium">
                 {el?.reason}
               </TableCell>
-              <TableCell>{dateFormat(el?.start_date)}</TableCell>
-              <TableCell>{dateFormat(el?.end_date)}</TableCell>
+              <TableCell>{dateFormat(el?.start_date!)}</TableCell>
+              <TableCell>{dateFormat(el?.end_date!)}</TableCell>
               <TableCell>
                 {el?.day_count} {el?.day_count! > 1 ? "days" : "day"}
               </TableCell>

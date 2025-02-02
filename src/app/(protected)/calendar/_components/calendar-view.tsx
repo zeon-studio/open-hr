@@ -8,8 +8,8 @@ const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
 
   const getEventsForDate = (date: Date) => {
     return yearlyData?.filter((item) => {
-      const startDate = new Date(item.start_date);
-      const endDate = new Date(item.end_date);
+      const startDate = new Date(item.start_date!);
+      const endDate = new Date(item.end_date!);
 
       // Adjust dates to ignore time
       const targetDate = new Date(
