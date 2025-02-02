@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     dispatch(settingApi.endpoints.getSetting.initiate(undefined));
   }, [dispatch]);
   const { status } = useSession();
-  const { app_name, company_website } =
+  const { app_name, company_website, favicon_url } =
     useAppSelector((state) => state["setting-slice"]) || {};
 
   if (status === "loading") {
@@ -28,7 +28,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <title>{app_name}</title>
       <link
         rel="icon"
-        href={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${company_website}&size=64`}
+        href={
+          favicon_url ||
+          `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${company_website}&size=64`
+        }
       />
       <div className="flex justify-between">
         <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none lg:w-[220px] bg-background min-h-screen h-screen sticky left-0 top-0">
