@@ -47,6 +47,14 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       providesTags: ["employees"],
     }),
 
+    getAdminAndMods: builder.query<TEmployeeState, undefined>({
+      query: () => ({
+        url: `/employee/admin-and-mods`,
+        method: "GET",
+      }),
+      providesTags: ["employees"],
+    }),
+
     addEmployee: builder.mutation<TEmployeeState, TEmployeeCreate>({
       query: (data) => ({
         url: `/employee`,
@@ -150,6 +158,20 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
+    updateEmployeeRole: builder.mutation<
+      TEmployeeState<TEmployee>,
+      Partial<TEmployee>
+    >({
+      query: (data) => {
+        return {
+          url: `/employee/role/${data.id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["employees"],
+    }),
+
     deleteEmployee: builder.mutation({
       query: (id) => ({
         url: `/employee/${id}`,
@@ -164,11 +186,13 @@ export const {
   useGetEmployeesQuery,
   useGetEmployeesBasicsQuery,
   useGetEmployeeQuery,
+  useGetAdminAndModsQuery,
   useAddEmployeeMutation,
   useUpdateEmployeeMutation,
   useDeleteEmployeeMutation,
   useUpdateEmployeeEmailMutation,
   useUpdateEmployeeDiscordMutation,
   useUpdateEmployeePersonalityMutation,
+  useUpdateEmployeeRoleMutation,
   useGetEmployeeDetailsByTokenQuery,
 } = employeeApi;

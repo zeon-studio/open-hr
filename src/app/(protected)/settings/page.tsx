@@ -13,6 +13,7 @@ import SettingLeavesForm from "./_components/setting-leaves-form";
 import SettingMenuForm from "./_components/setting-menu-form";
 import SettingOffboardingTasksForm from "./_components/setting-offboarding-tasks-form";
 import SettingOnboardingTasksForm from "./_components/setting-onboarding-tasks-form";
+import SettingUserRole from "./_components/setting-user-role";
 import SettingWeekendsForm from "./_components/setting-weekends-form";
 
 const Setting = () => {
@@ -72,6 +73,7 @@ const Setting = () => {
           data={data?.result!}
           handleSubmit={handleSubmit}
         />
+        <SettingUserRole />
       </div>
     </section>
   );

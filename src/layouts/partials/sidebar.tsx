@@ -39,7 +39,8 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                   href={item.url!}
                   className={cn(
                     "rounded text-black text-sm font-medium block px-2 py-2.5",
-                    item.url === pathname && "bg-light"
+                    item.url === pathname &&
+                      "bg-primary text-primary-foreground"
                   )}
                 >
                   <Icon className="inline h-5 mb-0.5 mr-2" />

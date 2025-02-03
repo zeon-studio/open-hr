@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Sidebar />
         </aside>
 
-        <div className="flex-1 p-5 max-w-full overflow-x-hidden">
+        <div className="flex-1 py-5 pr-5 max-w-full overflow-x-hidden">
           <Header />
           <main className="flex-1 max-w-full h-full rounded-lg bg-light overflow-x-hidden">
             {children}
