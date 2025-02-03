@@ -9,10 +9,11 @@ import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import SettingConfigureForm from "./_components/setting-configure-form";
-import SettingLeavesWeekendsForm from "./_components/setting-leaves-weekends-form";
+import SettingLeavesForm from "./_components/setting-leaves-form";
 import SettingMenuForm from "./_components/setting-menu-form";
 import SettingOffboardingTasksForm from "./_components/setting-offboarding-tasks-form";
 import SettingOnboardingTasksForm from "./_components/setting-onboarding-tasks-form";
+import SettingWeekendsForm from "./_components/setting-weekends-form";
 
 const Setting = () => {
   const { data, isLoading } = useGetSettingQuery(undefined);
@@ -51,7 +52,12 @@ const Setting = () => {
           data={data?.result!}
           handleSubmit={handleSubmit}
         />
-        <SettingLeavesWeekendsForm
+        <SettingWeekendsForm
+          isUpdating={isUpdating}
+          data={data?.result!}
+          handleSubmit={handleSubmit}
+        />
+        <SettingLeavesForm
           isUpdating={isUpdating}
           data={data?.result!}
           handleSubmit={handleSubmit}

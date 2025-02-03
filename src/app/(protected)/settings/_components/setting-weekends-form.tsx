@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -14,23 +13,19 @@ import EditFrom from "@/partials/edit-from";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Trash2 } from "lucide-react";
 
-interface SettingLeavesWeekendsFormProps {
+interface SettingWeekendsFormProps {
   isUpdating: boolean;
   data: TSetting;
   handleSubmit: (data: TSetting) => void;
 }
 
-export default function SettingLeavesWeekendsForm({
+export default function SettingWeekendsForm({
   isUpdating,
   data,
   handleSubmit,
-}: SettingLeavesWeekendsFormProps) {
+}: SettingWeekendsFormProps) {
   return (
-    <EditFrom<TSetting>
-      isUpdating={isUpdating}
-      data={data}
-      title="Leaves and Weekends"
-    >
+    <EditFrom<TSetting> isUpdating={isUpdating} data={data} title="Weekends">
       {({ handleChange, isReadOnly, data, formRef }) => {
         return (
           <form
@@ -39,7 +34,7 @@ export default function SettingLeavesWeekendsForm({
               e.preventDefault();
               handleSubmit(data);
             }}
-            className="row gap-y-8"
+            className="row gap-y-12"
           >
             {/* Weekends */}
             <div className="lg:col-12">
@@ -70,7 +65,6 @@ export default function SettingLeavesWeekendsForm({
 
             {/* Conditional Weekends */}
             <div className="lg:col-12">
-              <Label>Conditional Weekends</Label>
               {data.conditional_weekends.map((weekend, index) => (
                 <div
                   key={index}
@@ -98,7 +92,7 @@ export default function SettingLeavesWeekendsForm({
                   )}
                   <div className="row">
                     <div className="lg:col-6">
-                      <Label>Weekend Day:</Label>
+                      <Label>Condition Weekend Day:</Label>
                       {isReadOnly ? (
                         <small className="block capitalize">
                           {weekend.name}
@@ -135,7 +129,7 @@ export default function SettingLeavesWeekendsForm({
                       )}
                     </div>
                     <div className="lg:col-6">
-                      <Label>Weekend Pattern:</Label>
+                      <Label>Conditional Weekend Pattern:</Label>
                       {isReadOnly ? (
                         <small className="block capitalize">
                           {weekend.pattern.join(", ")}
@@ -188,111 +182,6 @@ export default function SettingLeavesWeekendsForm({
                   }}
                 >
                   Add Conditional Weekend
-                </Button>
-              )}
-            </div>
-
-            {/* Leaves */}
-            <div className="lg:col-12">
-              <Label>Leaves</Label>
-              {data.leaves.map((leave, index) => (
-                <div
-                  className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t pt-5"} mb-5`}
-                  key={index}
-                >
-                  {!isReadOnly && (
-                    <div className="absolute right-5 top-3">
-                      <Button
-                        type="button"
-                        size={"xs"}
-                        variant="outline"
-                        onClick={() => {
-                          handleChange({
-                            ...data,
-                            leaves: data.leaves.filter((_, i) => i !== index),
-                          });
-                        }}
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
-                    </div>
-                  )}
-                  <div className="row relative">
-                    <div className="lg:col-6 mb-4">
-                      <Label>Leave Type:</Label>
-                      {isReadOnly ? (
-                        <small className="block capitalize">{leave.name}</small>
-                      ) : (
-                        <Select
-                          value={leave.name}
-                          onValueChange={(value) =>
-                            handleChange({
-                              ...data,
-                              leaves: data.leaves.map((leave, i) =>
-                                i === index
-                                  ? {
-                                      ...leave,
-                                      name: value as
-                                        | "casual"
-                                        | "earned"
-                                        | "sick"
-                                        | "without_pay",
-                                    }
-                                  : leave
-                              ),
-                            })
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {options.leave_type.map((item) => (
-                              <SelectItem value={item.value} key={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
-                    </div>
-                    <div className="lg:col-6 mb-4">
-                      <Label>Day Count:</Label>
-                      <Input
-                        onChange={(e) => {
-                          const { name, value } = e.target;
-                          handleChange({
-                            ...data,
-                            leaves: data.leaves.map((leave, i) =>
-                              i === index
-                                ? { ...leave, [name]: Number(value) }
-                                : leave
-                            ),
-                          });
-                        }}
-                        type="number"
-                        value={leave.days || ""}
-                        name="days"
-                        placeholder="Days"
-                        readOnly={isReadOnly}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {!isReadOnly && (
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  type="button"
-                  onClick={() => {
-                    handleChange({
-                      ...data,
-                      leaves: [...data.leaves, { name: "casual", days: 0 }],
-                    });
-                  }}
-                >
-                  Add Leave
                 </Button>
               )}
             </div>
