@@ -145,14 +145,23 @@ const SettingUserRole = () => {
                             <SelectValue placeholder="Select Name" />
                           </SelectTrigger>
                           <SelectContent>
-                            {employees?.map((employee) => (
-                              <SelectItem
-                                key={employee.id}
-                                value={employee.name}
-                              >
-                                {employee.name}
-                              </SelectItem>
-                            ))}
+                            {employees
+                              ?.filter(
+                                (employee) =>
+                                  !data.some(
+                                    (userRole, i) =>
+                                      userRole.name === employee.name &&
+                                      i !== index
+                                  )
+                              )
+                              .map((employee) => (
+                                <SelectItem
+                                  key={employee.id}
+                                  value={employee.name}
+                                >
+                                  {employee.name}
+                                </SelectItem>
+                              ))}
                           </SelectContent>
                         </Select>
                       )}
