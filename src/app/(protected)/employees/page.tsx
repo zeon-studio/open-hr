@@ -38,7 +38,7 @@ export default function Employees() {
     {
       data: employees!,
     },
-    "erp-leave-requests"
+    "erp-employees"
   );
   const { isDialogOpen, onDialogChange } = useDialog();
 
