@@ -78,37 +78,62 @@ const Leave = () => {
             <h2 className="text-h4">Leaves Summary</h2>
           </div>
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-center border-r"></TableHead>
-                <TableHead className="text-center border-r" colSpan={3}>
+            <TableHeader className="sticky top-0">
+              <TableRow className="sticky top-0 *:pt-2 *:h-0 !border-b-0">
+                <TableHead className="text-center border-r sticky top-0"></TableHead>
+                <TableHead
+                  className="text-center border-r sticky top-0"
+                  colSpan={3}
+                >
                   Casual Leave
                 </TableHead>
-                <TableHead className="text-center border-r" colSpan={3}>
+                <TableHead
+                  className="text-center border-r sticky top-0"
+                  colSpan={3}
+                >
                   Earn Leave
                 </TableHead>
-                <TableHead className="text-center border-r" colSpan={3}>
+                <TableHead
+                  className="text-center border-r sticky top-0"
+                  colSpan={3}
+                >
                   Sick Leave
                 </TableHead>
-                <TableHead className="text-center" colSpan={3}>
+                <TableHead className="text-center sticky top-0" colSpan={3}>
                   Leave Without Pay
                 </TableHead>
               </TableRow>
 
-              <TableRow className="border-t-0">
-                <TableHead className="border-t-0">Year</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
+              <TableRow className="border-t-0 sticky top-0">
+                <TableHead className="border-t-0 sticky top-0">Year</TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -154,42 +179,70 @@ const Leave = () => {
             />
           </div>
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-center border-r" colSpan={2}>
+            <TableHeader className="sticky top-0">
+              <TableRow className="sticky top-0 *:pt-2 *:h-0 !border-b-0">
+                <TableHead
+                  className="text-center border-r sticky top-0"
+                  colSpan={2}
+                >
                   Employee
                 </TableHead>
                 <TableHead className="text-center border-r" colSpan={3}>
                   Casual Leave
                 </TableHead>
-                <TableHead className="text-center border-r" colSpan={3}>
+                <TableHead
+                  className="text-center border-r sticky top-0"
+                  colSpan={3}
+                >
                   Earn Leave
                 </TableHead>
-                <TableHead className="text-center border-r" colSpan={3}>
+                <TableHead
+                  className="text-center border-r sticky top-0"
+                  colSpan={3}
+                >
                   Sick Leave
                 </TableHead>
-                <TableHead className="text-center border-r" colSpan={3}>
+                <TableHead
+                  className="text-center border-r sticky top-0"
+                  colSpan={3}
+                >
                   Leave Without Pay
                 </TableHead>
-                <TableHead></TableHead>
+                <TableHead className="sticky top-0"></TableHead>
               </TableRow>
 
-              <TableRow className="border-t-0">
-                <TableHead>Name</TableHead>
-                <TableHead className="border-t-0">Year</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
-                <TableHead className="border-l">Allotted</TableHead>
-                <TableHead>Consumed</TableHead>
-                <TableHead className="border-t-0">Available</TableHead>
-                <TableHead className="border-l"></TableHead>
+              <TableRow className="border-t-0 sticky top-0">
+                <TableHead className="sticky top-0">Name</TableHead>
+                <TableHead className="border-t-0 sticky top-0">Year</TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
+                <TableHead className="border-l sticky top-0">
+                  Allotted
+                </TableHead>
+                <TableHead className="sticky top-0">Consumed</TableHead>
+                <TableHead className="border-t-0 sticky top-0">
+                  Available
+                </TableHead>
+                <TableHead className="border-l sticky top-0"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
