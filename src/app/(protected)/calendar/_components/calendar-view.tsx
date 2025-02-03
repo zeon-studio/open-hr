@@ -1,4 +1,4 @@
-import { Calendar } from "@/components/ui/calendar";
+import { CalendarFullView } from "@/components/ui/calendar-fullview";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
@@ -79,9 +79,9 @@ const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
   };
 
   return (
-    <Calendar
+    <CalendarFullView
       mode="single"
-      className="rounded-md w-full p-0 "
+      className="rounded-md w-full p-0"
       classNames={{
         button: "flex justify-center items-center w-[100%]",
         months:
