@@ -36,15 +36,15 @@ const ToolUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("something went wrong");
+      toast("Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
 
   return (
     <DialogContent
-      className="max-w-4xl overflow-y-auto h-[90vh]"
+      className="max-w-4xl overflow-y-auto max-h-[90vh]"
       onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Update Tool Platform</DialogTitle>

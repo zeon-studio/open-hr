@@ -38,11 +38,11 @@ const LeaveUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("something went wrong");
+      toast("Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
 
   return (
     <DialogContent

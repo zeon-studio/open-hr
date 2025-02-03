@@ -109,6 +109,25 @@ const CalendarForm = ({
 
   return (
     <form className="row" onSubmit={handleSubmit}>
+      {/* set calendar year for insert */}
+      {formType === "insert" && (
+        <div className="col-12 mb-6">
+          <Label>Year</Label>
+          <Input
+            type="number"
+            value={calendarData.year}
+            onChange={(e) => {
+              setCalendarData((prev) => ({
+                ...prev,
+                year: Number(e.target.value),
+              }));
+            }}
+            placeholder="Year"
+            required
+          />
+        </div>
+      )}
+
       {/* holiday */}
       <div className="col-12 mb-6">
         <h5 className="mb-4">Holiday</h5>
@@ -142,6 +161,7 @@ const CalendarForm = ({
                     setHolidayItems(updatedHolidayItems);
                   }}
                   placeholder="Holiday Reason"
+                  required
                 />
               </div>
               <div className="lg:col-6">
@@ -236,6 +256,7 @@ const CalendarForm = ({
                     setEventItems(updatedEventItems);
                   }}
                   placeholder="Event Reason"
+                  required
                 />
               </div>
               <div className="lg:col-6">

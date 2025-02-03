@@ -50,11 +50,11 @@ const CalendarInsertSheet = () => {
       toast("Calendar added complete");
     } else if (isError) {
       setLoader(false);
-      toast("something went wrong");
+      toast("Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
 
   return (
     <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
