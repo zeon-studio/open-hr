@@ -15,16 +15,16 @@ const CalendarInsert = ({
     year: new Date().getFullYear(),
     holidays: [
       {
-        start_date: new Date(),
-        end_date: new Date(),
+        start_date: undefined,
+        end_date: undefined,
         day_count: 0,
         reason: "",
       },
     ],
     events: [
       {
-        start_date: new Date(),
-        end_date: new Date(),
+        start_date: undefined,
+        end_date: undefined,
         day_count: 0,
         reason: "",
       },

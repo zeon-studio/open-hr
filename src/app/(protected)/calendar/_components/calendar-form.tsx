@@ -12,6 +12,7 @@ import {
   TCalendar,
   TEvent,
 } from "@/redux/features/calendarApiSlice/calendarType";
+import { format } from "date-fns";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -74,8 +75,8 @@ const CalendarForm = ({
     const updatedHolidayItems = [...holidayItems];
     updatedHolidayItems[index] = {
       ...updatedHolidayItems[index],
-      start_date: range.from,
-      end_date: range.to,
+      start_date: range.from ? format(range.from, "yyyy-MM-dd") : undefined,
+      end_date: range.to ? format(range.to, "yyyy-MM-dd") : undefined,
     };
     setHolidayItems(updatedHolidayItems);
   };
@@ -101,8 +102,8 @@ const CalendarForm = ({
     const updatedEventItems = [...eventItems];
     updatedEventItems[index] = {
       ...updatedEventItems[index],
-      start_date: range.from,
-      end_date: range.to,
+      start_date: range.from ? format(range.from, "yyyy-MM-dd") : undefined,
+      end_date: range.to ? format(range.to, "yyyy-MM-dd") : undefined,
     };
     setEventItems(updatedEventItems);
   };
@@ -175,7 +176,7 @@ const CalendarForm = ({
                       {holiday.start_date ? (
                         holiday.end_date ? (
                           <>
-                            {dateFormat(holiday.start_date)} -{" "}
+                            {dateFormat(holiday.start_date)} -
                             {dateFormat(holiday.end_date)}
                           </>
                         ) : (
@@ -197,8 +198,12 @@ const CalendarForm = ({
                       mode="range"
                       numberOfMonths={2}
                       selected={{
-                        from: holiday.start_date as Date,
-                        to: holiday.end_date as Date,
+                        from: holiday.start_date
+                          ? new Date(holiday.start_date)
+                          : undefined,
+                        to: holiday.end_date
+                          ? new Date(holiday.end_date)
+                          : undefined,
                       }}
                       onSelect={(range) => {
                         if (range) {
@@ -270,17 +275,17 @@ const CalendarForm = ({
                       {event.start_date ? (
                         event.end_date ? (
                           <>
-                            {dateFormat(event.start_date)} -{" "}
-                            {dateFormat(event.end_date)}
+                            {dateFormat(new Date(event.start_date))} -
+                            {dateFormat(new Date(event.end_date))}
                           </>
                         ) : (
-                          dateFormat(event.start_date)
+                          dateFormat(new Date(event.start_date))
                         )
                       ) : (
                         <span>Pick a date</span>
                       )}
                       <span className="flex items-center">
-                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="bg-border/30 mb-2 mt-2 h-5 block w/[1px]"></span>
                         <span className="pl-2  block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
@@ -292,8 +297,12 @@ const CalendarForm = ({
                       mode="range"
                       numberOfMonths={2}
                       selected={{
-                        from: event.start_date as Date,
-                        to: event.end_date as Date,
+                        from: event.start_date
+                          ? new Date(event.start_date)
+                          : undefined,
+                        to: event.end_date
+                          ? new Date(event.end_date)
+                          : undefined,
                       }}
                       onSelect={(range) => {
                         if (range) {
