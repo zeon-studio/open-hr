@@ -28,6 +28,7 @@ const SettingUserRole = () => {
 
   const [loader, setLoader] = useState(false);
   const [initialData, setInitialData] = useState<Partial<TEmployee>[]>([]);
+  const [removedUsers, setRemovedUsers] = useState<Partial<TEmployee>[]>([]);
   const [updateUserRole, { isSuccess, isError, error }] =
     useUpdateEmployeeRoleMutation();
 
@@ -52,7 +53,16 @@ const SettingUserRole = () => {
   const handleSubmit = async (data: Partial<TEmployee>[]) => {
     setLoader(true);
     try {
-      const payload = data.map(({ id, role }) => ({ id, role }));
+      const payload = [
+        ...data.map(({ id, role }) => ({
+          id,
+          role: role as "user" | "moderator" | "admin",
+        })),
+        ...removedUsers.map(({ id }) => ({
+          id,
+          role: "user" as "user" | "moderator" | "admin",
+        })),
+      ];
       await Promise.all(payload.map(updateUserRole));
     } catch (error) {
       console.error(error);
@@ -69,25 +79,16 @@ const SettingUserRole = () => {
         title="User Role"
       >
         {({ handleChange, isReadOnly, data, formRef }) => {
-          const handleDelete = async (index: number) => {
-            const updatedData = data.map((userRole, i) =>
-              i === index
-                ? {
-                    ...userRole,
-                    role: "user" as "user" | "moderator" | "admin",
-                  }
-                : userRole
-            );
-            const userToUpdate = updatedData.find((_, i) => i === index);
-            if (userToUpdate) {
-              try {
-                await updateUserRole(userToUpdate);
-                handleChange(
-                  updatedData.filter((userRole) => userRole.role !== "user")
-                );
-              } catch (error) {
-                console.error(error);
-              }
+          const handleDelete = (index: number) => {
+            const userToRemove = data[index];
+            if (userToRemove) {
+              setRemovedUsers((prev) => [
+                ...prev,
+                { ...userToRemove, role: "user" },
+              ]);
+              const updatedData = [...data];
+              updatedData.splice(index, 1);
+              handleChange(updatedData);
             }
           };
 
@@ -101,7 +102,7 @@ const SettingUserRole = () => {
             >
               {data?.map((item, index) => (
                 <div
-                  key={`user-${index}`}
+                  key={`user-${item.id}`}
                   className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5 mb-5"} ${index !== 0 && isReadOnly && "border-t pt-5"} rounded relative`}
                 >
                   {!isReadOnly && (
