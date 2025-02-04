@@ -61,7 +61,7 @@ const CalendarInsertSheet = () => {
       <DialogTrigger asChild>
         <Button
           className="rounded-l-none border-l border-border"
-          title="Updload Calendar Sheet"
+          title="Upload Calendar Sheet"
         >
           <FileUp size={16} />
         </Button>
@@ -84,11 +84,11 @@ const CalendarInsertSheet = () => {
             />
           </div>
           <div className="col-12 mb-4">
-            <Label>Update Sheet Data (csv or xlsx)</Label>
+            <Label>Select Sheet Data (csv or xlsx)</Label>
             <Input
               type="file"
               accept=".csv, .xlsx"
-              className="!border-solid cursor-pointer"
+              className="!border-solid cursor-pointer !py-1.5"
               onChange={async (e) => {
                 const target = e.target as HTMLInputElement;
                 if (target.files) {
