@@ -43,7 +43,6 @@ const Setting = () => {
   return (
     <section className="p-8">
       <div className="space-y-10">
-        <SettingUserRole />
         <SettingConfigureForm
           isUpdating={isUpdating}
           data={data?.result!}
@@ -74,6 +73,7 @@ const Setting = () => {
           data={data?.result!}
           handleSubmit={handleSubmit}
         />
+        <SettingUserRole />
       </div>
     </section>
   );
