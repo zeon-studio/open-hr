@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
-import { getDuration } from "@/lib/date-converter";
+import { dateFormat, getDuration } from "@/lib/date-converter";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -41,6 +41,41 @@ export default function JobDetails() {
   );
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
+
+  interface Promotion {
+    promotion_date: Date;
+    designation: string;
+  }
+
+  const renderPromotion = (
+    promotion: Promotion,
+    index: number,
+    promotions: Promotion[]
+  ) => {
+    const endDate =
+      index === 0
+        ? new Date().toISOString()
+        : promotions[index - 1]?.promotion_date;
+    const employmentDuration = getDuration(promotion.promotion_date, endDate);
+    const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
+
+    return (
+      <li className="flex space-x-4 group" key={index}>
+        <div className="size-[48px] relative after:absolute after:size-2 after:rounded-full after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-muted before:absolute before:w-0.5 before:h-[calc(100%_-_2px)] before:bg-muted before:top-[calc(100%_-_var(--space))] before:left-1/2 before:-translate-x-1/2 group-last:before:hidden before:rounded-full" />
+        <div className="space-y-1 items-center">
+          <p className="text-text-dark font-semibold text-sm capitalize">
+            {promotion.designation}
+          </p>
+          <p className="text-text-light font-medium text-xs">
+            {formattedDuration}
+            <span className="ml-2">
+              ({dateFormat(promotion.promotion_date)})
+            </span>
+          </p>
+        </div>
+      </li>
+    );
+  };
 
   return (
     <div className="space-y-8">
@@ -92,31 +127,7 @@ export default function JobDetails() {
                 </p>
               </div>
             </li>
-            {data?.result.promotions?.map((promotion, index, promotions) => {
-              const endDate =
-                index === 0
-                  ? Date.now().toString()
-                  : promotions[index - 1]?.promotion_date;
-              const employmentDuration = getDuration(
-                promotion.promotion_date,
-                endDate
-              );
-              const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
-
-              return (
-                <li className="flex space-x-4 group" key={index}>
-                  <div className="size-[48px] relative after:absolute after:size-2 after:rounded-full after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-muted before:absolute before:w-0.5 before:h-[calc(100%_-_2px)] before:bg-muted before:top-[calc(100%_-_var(--space))] before:left-1/2 before:-translate-x-1/2 group-last:before:hidden before:rounded-full" />
-                  <div className="space-y-1 items-center">
-                    <p className="text-text-dark font-semibold text-sm capitalize">
-                      {promotion.designation}
-                    </p>
-                    <p className="text-text-light font-semibold text-xs">
-                      {formattedDuration}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
+            {data?.result.promotions?.map(renderPromotion)}
           </ul>
         </CardContent>
       </Card>
