@@ -354,14 +354,18 @@ const MultipleSelector = React.forwardRef<
         return commandProps.filter;
       }
 
-      if (creatable) {
-        return (value: string, search: string) => {
-          return value.toLowerCase().includes(search.toLowerCase()) ? 1 : -1;
-        };
-      }
-      // Using default filter in `cmdk`. We don't have to provide it.
-      return undefined;
-    }, [creatable, commandProps?.filter]);
+      return (value: string, search: string) => {
+        // Find the option with matching value to get its label
+        const option = Object.values(options)
+          .flat()
+          .find((opt) => opt.value === value);
+        if (!option) return -1;
+
+        return option.label.toLowerCase().includes(search.toLowerCase())
+          ? 1
+          : -1;
+      };
+    }, [commandProps?.filter, options]);
 
     return (
       <Command
