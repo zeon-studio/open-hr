@@ -62,7 +62,7 @@ const CalendarUpdate = () => {
     try {
       await updateCalendar(updatedCalendarData);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -81,7 +81,7 @@ const CalendarUpdate = () => {
     } else if (isError) {
       setLoader(false);
       toast("Something went wrong");
-      console.error(error);
+      console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

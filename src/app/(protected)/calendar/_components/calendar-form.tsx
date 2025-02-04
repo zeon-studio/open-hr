@@ -13,7 +13,7 @@ import {
   TEvent,
 } from "@/redux/features/calendarApiSlice/calendarType";
 import { format } from "date-fns";
-import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
+import { CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -81,6 +81,16 @@ const CalendarForm = ({
     setHolidayItems(updatedHolidayItems);
   };
 
+  const handleRemoveHolidayDate = (index: number) => {
+    const updatedHolidayItems = [...holidayItems];
+    updatedHolidayItems[index] = {
+      ...updatedHolidayItems[index],
+      start_date: undefined,
+      end_date: undefined,
+    };
+    setHolidayItems(updatedHolidayItems);
+  };
+
   // event
   const handleAddEvent = () => {
     setEventItems([
@@ -104,6 +114,16 @@ const CalendarForm = ({
       ...updatedEventItems[index],
       start_date: range.from ? format(range.from, "yyyy-MM-dd") : undefined,
       end_date: range.to ? format(range.to, "yyyy-MM-dd") : undefined,
+    };
+    setEventItems(updatedEventItems);
+  };
+
+  const handleRemoveEventDate = (index: number) => {
+    const updatedEventItems = [...eventItems];
+    updatedEventItems[index] = {
+      ...updatedEventItems[index],
+      start_date: undefined,
+      end_date: undefined,
     };
     setEventItems(updatedEventItems);
   };
@@ -186,8 +206,16 @@ const CalendarForm = ({
                         <span>Pick a date</span>
                       )}
                       <span className="flex items-center">
+                        {holiday.start_date && (
+                          <span className="p-2">
+                            <X
+                              className="cursor-pointer border-box ml-auto h-4 w-4 opacity-50"
+                              onClick={() => handleRemoveHolidayDate(index)}
+                            />
+                          </span>
+                        )}
                         <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
-                        <span className="pl-2  block">
+                        <span className="pl-2 block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
                       </span>
@@ -285,8 +313,16 @@ const CalendarForm = ({
                         <span>Pick a date</span>
                       )}
                       <span className="flex items-center">
-                        <span className="bg-border/30 mb-2 mt-2 h-5 block w/[1px]"></span>
-                        <span className="pl-2  block">
+                        {event.start_date && (
+                          <span className="p-2">
+                            <X
+                              className="cursor-pointer border-box ml-auto h-4 w-4 opacity-50"
+                              onClick={() => handleRemoveEventDate(index)}
+                            />
+                          </span>
+                        )}
+                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="pl-2 block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
                       </span>

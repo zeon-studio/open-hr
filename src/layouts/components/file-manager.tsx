@@ -56,7 +56,7 @@ const FileManager = ({
 
       router.push(body.url);
     } catch (error) {
-      console.error("Failed to get presigned URL", error);
+      console.log(error);
     }
   };
 

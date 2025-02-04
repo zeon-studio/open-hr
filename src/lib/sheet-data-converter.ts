@@ -42,7 +42,7 @@ export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
 
         resolve(data);
       } catch (error) {
-        console.error("File processing error:", error);
+        console.log(error);
         alert(
           "File reading failed. Please check the file format and try again."
         );
@@ -51,7 +51,7 @@ export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
     };
 
     fileReader.onerror = (error) => {
-      console.error("FileReader error:", error);
+      console.log(error);
       alert("Error reading file. Please try again.");
       reject(error);
     };

@@ -45,7 +45,7 @@ const SettingUserRole = () => {
       toast("Role update complete");
     } else if (isError) {
       toast("Something went wrong");
-      console.error(error);
+      console.log(error);
     }
     setLoader(false);
   }, [isSuccess, isError, error]);
@@ -65,7 +65,7 @@ const SettingUserRole = () => {
       ];
       await Promise.all(payload.map(updateUserRole));
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setLoader(false);
     }
   };

@@ -70,7 +70,7 @@ export default function PreviousJobs({
       toast.success("Update job successfully!");
       onDialogChange(false);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
