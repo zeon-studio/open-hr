@@ -69,7 +69,7 @@ const CalendarPage = () => {
   const { isDialogOpen, onDialogChange } = useDialog();
 
   return (
-    <section className="p-4">
+    <section className="p-8">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-1 sm:gap-4 relative sm:-mb-10 mb-1 z-10 sm:w-fit">
         {session?.user.role === "user" ? (
           <h4>

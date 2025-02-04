@@ -90,7 +90,7 @@ const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
           "relative w-full sm:w-[30%] lg:w-[25%] xl:w-[20%] ml-auto text-center bg-background px-6 py-2.5 border border-muted rounded-md overflow-hidden",
         month: "space-y-4 w-full flex flex-col",
         day: "h-10 sm:h-28 p-0 hover:text-unset cursor-default",
-        day_today: "bg-muted",
+        day_today: "bg-light",
         table:
           "w-full h-full border-collapse bg-background overflow-hidden rounded-t-md",
         head_cell: "font-normal text-white",

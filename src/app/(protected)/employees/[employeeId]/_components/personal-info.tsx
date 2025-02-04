@@ -173,7 +173,7 @@ export default function PersonalInfo() {
               <div className="lg:col-6">
                 <Label>Date of Birth:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm text-text-light">
+                  <p className="text-sm">
                     {data.dob ? dateFormat(data.dob) : "Not Available"}
                   </p>
                 ) : (
@@ -229,7 +229,7 @@ export default function PersonalInfo() {
               <div className="lg:col-6">
                 <Label>Gender:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm text-text-light">
+                  <p className="text-sm capitalize">
                     {data.gender || "Not Available"}
                   </p>
                 ) : (
@@ -298,7 +298,7 @@ export default function PersonalInfo() {
               <div className="lg:col-6">
                 <Label>Blood Group:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm text-text-light">
+                  <p className="text-sm uppercase">
                     {data.blood_group || "Not Available"}
                   </p>
                 ) : (
@@ -344,7 +344,7 @@ export default function PersonalInfo() {
               <div className="lg:col-6">
                 <Label>Marital Status:</Label>
                 {isReadOnly ? (
-                  <p className="text-sm text-text-light">
+                  <p className="text-sm capitalize">
                     {data.marital_status || "Not Available"}
                   </p>
                 ) : (
@@ -511,7 +511,7 @@ export default function PersonalInfo() {
                   <div className="lg:col-6">
                     <Label>Status:</Label>
                     {isReadOnly ? (
-                      <p className="text-sm text-text-light">
+                      <p className="text-sm capitalize">
                         {data.status || "Not Available"}
                       </p>
                     ) : (
@@ -895,7 +895,7 @@ export default function PersonalInfo() {
                         <div className="lg:col-6 mb-4">
                           <Label>Result Type:</Label>
                           {isReadOnly ? (
-                            <p className="text-sm text-text-light">
+                            <p className="text-sm uppercase">
                               {data.educations[index].result_type ||
                                 "Not Available"}
                             </p>

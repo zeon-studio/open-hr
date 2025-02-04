@@ -92,7 +92,7 @@ export default function SettingOnboardingTasksForm({
                   <div className="lg:col-6 mb-4">
                     <Label>Assigned To:</Label>
                     {isReadOnly ? (
-                      <p className="text-sm text-text-light">
+                      <p className="text-sm">
                         {employeeInfoById(task.assigned_to).name || "N/A"}
                       </p>
                     ) : (
