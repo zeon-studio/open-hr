@@ -71,7 +71,11 @@ const CalendarPage = () => {
   return (
     <section className="p-4">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-1 sm:gap-4 relative sm:-mb-10 mb-1 z-10 sm:w-fit">
-        {session?.user.role === "admin" ? (
+        {session?.user.role === "user" ? (
+          <h4>
+            {format(new Date(), "MMMM")} {new Date().getFullYear()}
+          </h4>
+        ) : (
           <>
             <div className="flex items-center max-sm:w-full">
               <Dialog
@@ -88,10 +92,6 @@ const CalendarPage = () => {
             </div>
             <CalendarUpdate />
           </>
-        ) : (
-          <h4>
-            {format(new Date(), "MMMM")} {new Date().getFullYear()}
-          </h4>
         )}
       </div>
 
