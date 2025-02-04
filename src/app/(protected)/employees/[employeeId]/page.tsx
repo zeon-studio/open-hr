@@ -129,17 +129,14 @@ export default function EmployeeSingle() {
     <div className="bg-light">
       <Tabs value={params.get("tab") || activeTab.value}>
         <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-2 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
-          <div className="xl:basis-[210px] flex-none">
-            <div className="bg-light rounded overflow-hidden max-w-[210px]">
-              <Avatar
-                className="flex-none w-full rounded-none max-w-[100px] lg:max-w-[210px]"
-                width={200}
-                height={200}
-                email={user?.email!}
-                src=""
-                alt={user?.name || "employee"}
-              />
-            </div>
+          <div className="xl:basis-[210px] size-[100px] lg:size-[210px]">
+            <Avatar
+              className="rounded-md w-[100px] lg:w-[210px]"
+              width={210}
+              height={210}
+              email={user?.email!}
+              alt={user?.name || "employee"}
+            />
           </div>
 
           <div className="flex flex-col justify-between">

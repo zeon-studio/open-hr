@@ -5,15 +5,15 @@ import Gravatar from "react-gravatar";
 
 type ImageProps = Omit<ComponentProps<typeof Image>, "src">;
 
-type Props = ImageProps & { src: string; email: string; preview?: boolean };
+type Props = ImageProps & { src?: string; email?: string };
 
 const BUCKET_URL = process.env.NEXT_PUBLIC_BUCKET_URL;
 
 export default function Avatar(props: Props) {
   if (props.src) {
-    const { src, preview, alt, ...rest } = props;
+    const { src, alt, ...rest } = props;
     const source = src?.startsWith("http") ? src : `${BUCKET_URL}/${src}`;
-    return <Image src={preview ? src : source} alt={alt} {...rest} />;
+    return <Image src={source} alt={alt} {...rest} />;
   } else if (props.email) {
     const { email, ...rest } = props;
     return (
