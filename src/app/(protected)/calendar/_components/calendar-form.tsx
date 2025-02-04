@@ -196,7 +196,7 @@ const CalendarForm = ({
                       {holiday.start_date ? (
                         holiday.end_date ? (
                           <>
-                            {dateFormat(holiday.start_date)} -
+                            {dateFormat(holiday.start_date)} -{" "}
                             {dateFormat(holiday.end_date)}
                           </>
                         ) : (
@@ -303,7 +303,7 @@ const CalendarForm = ({
                       {event.start_date ? (
                         event.end_date ? (
                           <>
-                            {dateFormat(new Date(event.start_date))} -
+                            {dateFormat(new Date(event.start_date))} -{" "}
                             {dateFormat(new Date(event.end_date))}
                           </>
                         ) : (
