@@ -49,7 +49,7 @@ const CourseInsert = ({
           {
             name: "",
             price: 0,
-            currency: "",
+            currency: "bdt",
             users: [""],
             purchase_date: new Date(),
             expire_date: new Date(),
