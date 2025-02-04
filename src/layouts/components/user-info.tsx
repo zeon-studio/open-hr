@@ -8,13 +8,11 @@ const UserInfo = ({
   className,
   description,
   imgSize = 50,
-  link,
 }: {
   user: Partial<TEmployee & { designation?: string }>;
   className?: string;
   description?: string;
   imgSize?: number;
-  link?: string;
 }): JSX.Element => {
   return (
     <>
@@ -40,13 +38,9 @@ const UserInfo = ({
           </div>
           <div className="ml-3">
             <h6 className={`font-medium mb-1.5 text-sm line-clamp-1`}>
-              {link ? (
-                <Link className="stretched-link" href={link}>
-                  {user?.name}
-                </Link>
-              ) : (
-                user?.name
-              )}
+              <Link className="stretched-link" href={`/employees/${user.id}`}>
+                {user?.name}
+              </Link>
             </h6>
             <p className="text-xs text-muted-foreground line-clamp-1">
               {description ? description : user?.designation}

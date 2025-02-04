@@ -9,10 +9,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
   return employees?.map((employee, index) => (
     <TableRow key={`employee-${index}`}>
       <TableCell className="min-w-[200px]">
-        <UserInfo
-          user={employeeInfoById(employee.id)}
-          link={`/employees/${employee.id}`}
-        />
+        <UserInfo user={employeeInfoById(employee.id)} />
       </TableCell>
       <TableCell>{employee.work_email}</TableCell>
       <TableCell>{employee.phone}</TableCell>
