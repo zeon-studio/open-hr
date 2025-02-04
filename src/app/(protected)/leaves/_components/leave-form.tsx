@@ -33,7 +33,7 @@ const LeaveForm = ({
         />
       </div>
       <div className="lg:col-6 mb-4">
-        <Label>Casual Alloted</Label>
+        <Label>Casual Consumed</Label>
         <Input
           type="text"
           value={leaveData.casual?.consumed!}
@@ -62,7 +62,7 @@ const LeaveForm = ({
         />
       </div>
       <div className="lg:col-6 mb-4">
-        <Label>Earned Alloted</Label>
+        <Label>Earned Consumed</Label>
         <Input
           type="text"
           value={leaveData.earned?.consumed!}
@@ -91,7 +91,7 @@ const LeaveForm = ({
         />
       </div>
       <div className="lg:col-6 mb-4">
-        <Label>Sick Alloted</Label>
+        <Label>Sick Consumed</Label>
         <Input
           type="text"
           value={leaveData.sick?.consumed!}

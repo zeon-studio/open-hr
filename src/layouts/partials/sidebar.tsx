@@ -59,7 +59,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                 size={30}
               />
               <span className="text-sm capitalize font-medium text-text-dark">
-                {session?.user?.name?.slice(0, 12)}
+                {session?.user?.name?.slice(0, 15)}
               </span>
               <LogOut className="inline ml-auto h-5 mb-0.5" />
             </DialogTrigger>
