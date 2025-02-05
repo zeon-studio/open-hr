@@ -219,6 +219,10 @@
     {
       "label": "Damaged",
       "value": "damaged"
+    },
+    {
+      "label": "Sold",
+      "value": "sold"
     }
   ],
   "asset_log_type": [
@@ -227,20 +231,12 @@
       "value": "handover"
     },
     {
-      "label": "Return",
-      "value": "return"
-    },
-    {
       "label": "Repair",
       "value": "repair"
     },
     {
-      "label": "Lost",
-      "value": "lost"
-    },
-    {
-      "label": "Damaged",
-      "value": "damaged"
+      "label": "Takeover",
+      "value": "takeover"
     }
   ],
   "leave_type": [
