@@ -61,7 +61,7 @@ export default function JobDetails() {
 
     return (
       <li className="flex space-x-4 group" key={index}>
-        <div className="size-[48px] relative after:absolute after:size-2 after:rounded-full after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-muted before:absolute before:w-0.5 before:h-[calc(100%_-_2px)] before:bg-muted before:top-[calc(100%_-_var(--space))] before:left-1/2 before:-translate-x-1/2 group-last:before:hidden before:rounded-full" />
+        <div className="size-[48px] -mt-3.5 relative after:absolute after:size-2 after:rounded-full after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-muted before:absolute before:w-0.5 before:h-[calc(100%_-_8px)] before:bg-muted before:top-[calc(100%_-_16px)] before:left-1/2 before:-translate-x-1/2 group-last:before:hidden before:rounded-full" />
         <div className="space-y-1 items-center">
           <p className="text-text-dark font-semibold text-sm capitalize">
             {promotion.designation}

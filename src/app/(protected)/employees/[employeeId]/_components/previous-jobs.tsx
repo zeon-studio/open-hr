@@ -117,7 +117,7 @@ export default function PreviousJobs({
         {userRole !== "user" && (
           <Dialog open={isDialogOpen} onOpenChange={onDialogChange}>
             <DialogTrigger asChild>
-              <Button className="ml-auto">Update Jobs</Button>
+              <Button className="ml-auto">Update Prev Jobs</Button>
             </DialogTrigger>
             <DialogContent
               onEscapeKeyDown={(e) => {

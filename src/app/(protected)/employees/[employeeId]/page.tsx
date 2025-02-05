@@ -142,14 +142,14 @@ export default function EmployeeSingle() {
           <div className="flex flex-col justify-between">
             <div>
               <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5 lg:mb-2.5">
-                Hi, {data?.result.name}
+                {data?.result.name}
               </h2>
               <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90 capitalize">
                 {jobData?.result?.designation}
               </p>
             </div>
 
-            <div className="-translate-y-2 lg:-translate-y-6 xl:pr-[2vw]">
+            <div className="-translate-y-2 lg:-translate-y-6">
               <div className="mt-auto xl:hidden">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -194,7 +194,7 @@ export default function EmployeeSingle() {
                 </DropdownMenu>
               </div>
 
-              <TabsList className="hidden xl:flex h-auto flex-wrap 2xl:gap-x-8 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6">
+              <TabsList className="hidden xl:flex h-auto flex-wrap 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6">
                 {tabs.map((tab, index) => (
                   <TabsTrigger
                     value={tab.value}
@@ -210,7 +210,7 @@ export default function EmployeeSingle() {
                       onClick={() => {
                         setTab(tab);
                       }}
-                      className="rounded-none data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none data-[state=active]:ring-offset-0 data-[state=active]:ring-0 !shadow-none"
+                      className="rounded-none px-4 h-9 data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none data-[state=active]:ring-offset-0 data-[state=active]:ring-0 !shadow-none"
                     >
                       {tab.label}
                     </Button>
@@ -305,23 +305,39 @@ export default function EmployeeSingle() {
               </h6>
               <ul className="flex space-x-2">
                 <li>
-                  <Link href={data?.result.linkedin ?? ""}>
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    href={data?.result.linkedin ?? ""}
+                  >
                     <Linkedin className="size-7" />
                   </Link>
                 </li>
                 <li className="flex items-center justify-center">
-                  <Link href={data?.result.twitter ?? ""}>
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    href={data?.result.twitter ?? ""}
+                  >
                     <Twitter className="size-7" />
                   </Link>
                 </li>
                 <li>
-                  <Link href={data?.result.facebook ?? ""}>
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    href={data?.result.facebook ?? ""}
+                  >
                     <Facebook className="size-7" />
                   </Link>
                 </li>
 
                 <li>
-                  <Link href={data?.result.discord ?? ""}>
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    href={data?.result.discord ?? ""}
+                  >
                     <Discord className="size-7" />
                   </Link>
                 </li>

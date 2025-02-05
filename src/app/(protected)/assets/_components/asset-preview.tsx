@@ -34,7 +34,9 @@ const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
         </div>
         <div className="lg:col-6 mb-4">
           <div className="font-medium mb-1">Serial Number</div>
-          <div className="p-2 bg-light rounded">{assetData.serial_number}</div>
+          <div className="p-2 bg-light rounded">
+            {assetData.serial_number || "N/A"}
+          </div>
         </div>
         <div className="lg:col-6 mb-4">
           <div className="font-medium mb-1">Purchase Date</div>

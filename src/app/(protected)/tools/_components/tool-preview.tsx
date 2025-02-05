@@ -29,14 +29,19 @@ const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {
                 </div>
                 <div className="lg:col-6 mb-4">
                   <div className="font-medium mb-1">Tool Price</div>
-                  <div className="p-2 bg-light rounded">
-                    {item.price}{" "}
-                    <span className="uppercase">{item.currency}</span>
+                  <div className="p-2 bg-light rounded">{item.price}</div>
+                </div>
+                <div className="lg:col-6 mb-4">
+                  <div className="font-medium mb-1">Tool Currency</div>
+                  <div className="p-2 uppercase bg-light rounded">
+                    {item.currency}
                   </div>
                 </div>
                 <div className="lg:col-6 mb-4">
                   <div className="font-medium mb-1">Billing</div>
-                  <div className="p-2 bg-light rounded">{item.billing}</div>
+                  <div className="p-2 bg-light capitalize rounded">
+                    {item.billing}
+                  </div>
                 </div>
                 <div className="lg:col-6 mb-4">
                   <div className="font-medium mb-1">Login ID</div>
