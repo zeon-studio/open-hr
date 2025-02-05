@@ -48,7 +48,7 @@ const Asset = () => {
       <div className="flex justify-between items-center mb-6">
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
-            <Button>Add New Platform</Button>
+            <Button>Add New Asset</Button>
           </DialogTrigger>
           <AssetInsert onDialogChange={onDialogChange} />
         </Dialog>

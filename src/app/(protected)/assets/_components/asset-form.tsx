@@ -10,15 +10,17 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import options from "@/config/options.json";
+import MultipleSelector from "@/layouts/components/ui/multiple-selector";
 import { dateFormat } from "@/lib/date-converter";
-import { employeeGroupByDepartment } from "@/lib/employee-info";
+import {
+  employeeGroupByDepartment,
+  employeeInfoById,
+} from "@/lib/employee-info";
 import { TAsset, TAssetLog } from "@/redux/features/assetApiSlice/assetType";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { SetStateAction, useEffect, useState } from "react";
@@ -139,33 +141,31 @@ const AssetForm = ({
       {/* user */}
       <div className="lg:col-6 mb-4">
         <Label>User</Label>
-        <Select
-          value={assetData.user || "none"}
-          onValueChange={(value) =>
+        <MultipleSelector
+          value={
+            assetData.user
+              ? [
+                  {
+                    label: employeeInfoById(assetData.user).name,
+                    value: assetData.user,
+                  },
+                ]
+              : []
+          }
+          options={employeeGroupByDepartment().flatMap(
+            (group) => group.options
+          )}
+          placeholder="Select user"
+          hidePlaceholderWhenSelected={true}
+          onChange={(value) => {
             setAssetData({
               ...assetData,
-              user: value === "none" ? null : value,
-            })
-          }
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select User" />
-          </SelectTrigger>
-          <SelectContent>
-            {employeeGroupByDepartment().map((group) => (
-              <SelectGroup key={group.label}>
-                <SelectLabel>{group.label}</SelectLabel>
-                {group.options.map(
-                  (option: { value: string; label: string }) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  )
-                )}
-              </SelectGroup>
-            ))}
-          </SelectContent>
-        </Select>
+              user: value.length > 0 ? value[0].value : null,
+            });
+          }}
+          className="border-border/30"
+          groupBy="department"
+        />
       </div>
       {/* serial number */}
       <div className="lg:col-6 mb-4">
@@ -368,7 +368,7 @@ const AssetForm = ({
                 <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
               </>
             ) : (
-              "Add Platform"
+              "Add Asset"
             )}
           </Button>
         </div>
@@ -384,7 +384,7 @@ const AssetForm = ({
                 <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
               </>
             ) : (
-              "Update Asset Platform"
+              "Update Asset"
             )}
           </Button>
         </div>

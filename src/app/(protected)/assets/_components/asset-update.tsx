@@ -54,7 +54,7 @@ const AssetUpdate = ({
       className="max-w-4xl overflow-y-auto max-h-[90vh]"
       onPointerDownOutside={(e) => e.preventDefault()}
     >
-      <DialogTitle className="mb-4">Update Asset Platform</DialogTitle>
+      <DialogTitle className="mb-4">Update Asset</DialogTitle>
       <AssetForm
         assetData={assetData}
         setAssetData={setAssetData}
