@@ -59,7 +59,6 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
       title="Modules"
     >
       {({ handleChange, isReadOnly, data, formRef }) => {
-        console.log(data);
         return (
           <form
             ref={formRef}
@@ -67,7 +66,7 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
               e.preventDefault();
               handleSubmit(data);
             }}
-            className="row 2xl:row-cols-5 xl:row-cols-3 lg:row-cols-3 md:row-cols-3 sm:row-cols-2 row-cols-1"
+            className="row gx-3 2xl:row-cols-5 xl:row-cols-3 lg:row-cols-3 md:row-cols-3 sm:row-cols-2 row-cols-1"
           >
             {data?.map((item, i) => {
               const Icon = moduleIcons[item.name];
