@@ -201,7 +201,7 @@ export const moduleIcons: Record<string, React.ElementType> = {
   "employee-payroll": HandCoins,
   "employee-contact": Contact,
   "employee-document": Files,
-  "employee-boarding": UserCheck,
+  "employee-lifecycle": UserCheck,
   "employee-education": GraduationCap,
   "employee-achievement": Award,
 };

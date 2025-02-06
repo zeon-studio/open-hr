@@ -16,7 +16,7 @@ import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetToolsQuery } from "@/redux/features/toolApiSlice/toolSlice";
 import { useAppSelector } from "@/redux/hook";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import ToolInsert from "./_components/tool-insert";
 import ToolPage from "./_components/tool-page";
 
@@ -42,6 +42,12 @@ const Tool = () => {
     },
     "erp-tools"
   );
+
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  if (!modules.find((mod) => mod.name === "tool")?.enable) {
+    return notFound();
+  }
 
   return (
     <section className="p-8">

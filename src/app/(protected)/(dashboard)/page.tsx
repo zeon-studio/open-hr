@@ -2,6 +2,7 @@
 
 import Loader from "@/components/loader";
 import ClearCache from "@/helpers/clear-cache";
+import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
 import Gravatar from "react-gravatar";
 import PendingTasks from "./_components/pending-tasks";
@@ -14,6 +15,9 @@ import UserTools from "./_components/user-tools";
 
 const Home = () => {
   const { data } = useSession();
+
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
 
   return (
     <section className="p-8">
@@ -42,30 +46,50 @@ const Home = () => {
           </div>
           {data?.user.role === "user" ? (
             <>
-              <div className="col-12">
-                <UserTools userId={data?.user?.id!} />
-              </div>
-              <div className="col-12">
-                <UserCourses userId={data?.user?.id!} />
-              </div>
-              <div className="col-12">
-                <UserAssets userId={data?.user?.id!} />
-              </div>
+              {modules.find((mod) => mod.name === "tool")?.enable && (
+                <div className="col-12">
+                  <UserTools userId={data?.user?.id!} />
+                </div>
+              )}
+
+              {modules.find((mod) => mod.name === "course")?.enable && (
+                <div className="col-12">
+                  <UserCourses userId={data?.user?.id!} />
+                </div>
+              )}
+
+              {modules.find((mod) => mod.name === "asset")?.enable && (
+                <div className="col-12">
+                  <UserAssets userId={data?.user?.id!} />
+                </div>
+              )}
             </>
           ) : (
             <>
-              <div className="lg:col-6">
-                <UpcomingLeaves />
-              </div>
-              <div className="lg:col-6">
-                <PendingTasks />
-              </div>
-              <div className="lg:col-6">
-                <UpcomingHolidays />
-              </div>
-              <div className="lg:col-6">
-                <UpcomingEvents />
-              </div>
+              {modules.find((mod) => mod.name === "leave")?.enable && (
+                <div className="lg:col-6">
+                  <UpcomingLeaves />
+                </div>
+              )}
+
+              {modules.find((mod) => mod.name === "employee-lifecycle")
+                ?.enable && (
+                <div className="lg:col-6">
+                  <PendingTasks />
+                </div>
+              )}
+
+              {modules.find((mod) => mod.name === "calendar")?.enable && (
+                <div className="lg:col-6">
+                  <UpcomingHolidays />
+                </div>
+              )}
+
+              {modules.find((mod) => mod.name === "calendar")?.enable && (
+                <div className="lg:col-6">
+                  <UpcomingEvents />
+                </div>
+              )}
             </>
           )}
         </div>
