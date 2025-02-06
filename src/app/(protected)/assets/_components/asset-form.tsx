@@ -275,7 +275,11 @@ const AssetForm = ({
                     const updatedAssetItems = [...assetLogs];
                     updatedAssetItems[index] = {
                       ...item,
-                      type: value as "handover" | "repair" | "takeover",
+                      type: value as
+                        | "handover"
+                        | "repair"
+                        | "takeover"
+                        | "other",
                     };
                     setAssetLogs(updatedAssetItems);
                   }}

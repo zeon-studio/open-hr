@@ -9,8 +9,8 @@ const leaveRequestApiWithTag = apiSlice.enhanceEndpoints({
 export const leaveRequestApi = leaveRequestApiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getLeaveRequests: builder.query<TLeaveRequestState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/leave-request?page=${page}&limit=${limit}&search=${search}`,
+      query: ({ page, limit, search, employee_id }) => ({
+        url: `/leave-request?page=${page}&limit=${limit}&search=${search}&employee_id=${employee_id}`,
         method: "GET",
       }),
       providesTags: ["leave-requests"],

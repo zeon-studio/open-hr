@@ -1,16 +1,3 @@
-import {
-  BookKey,
-  Calendar,
-  CalendarOff,
-  CircleDot,
-  CircleHelp,
-  CircleUser,
-  LayoutDashboard,
-  Package,
-  Settings,
-  SquareLibrary,
-  Users,
-} from "lucide-react";
 import React from "react";
 
 type SVGProps = React.SVGProps<SVGSVGElement>;
@@ -187,17 +174,3 @@ export function Confetti(props: SVGProps) {
     </svg>
   );
 }
-
-export const menuIcons: Record<string, React.ElementType> = {
-  dashboard: LayoutDashboard,
-  employees: Users,
-  "my info": CircleUser,
-  tools: Package,
-  courses: BookKey,
-  assets: SquareLibrary,
-  leaves: CalendarOff,
-  "leave requests": CircleHelp,
-  calendar: Calendar,
-  settings: Settings,
-  default: CircleDot,
-};

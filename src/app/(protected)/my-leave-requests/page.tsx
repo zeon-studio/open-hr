@@ -1,7 +1,6 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import SearchBox from "@/components/search-box";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -16,23 +15,24 @@ import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { useAppSelector } from "@/redux/hook";
+import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import LeaveRequestInsert from "./_components/leave-request-insert";
-import LeaveRequestPage from "./_components/leave-request-page";
+import LeaveRequestInsert from "../leave-requests/_components/leave-request-insert";
+import MyLeaveRequestPage from "./_components/my-leave-request-page";
 
 const LeaveRequest = () => {
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
   const { isDialogOpen, onDialogChange } = useDialog();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
-  const search = searchParams.get("search");
 
   // get all Data
   const { data } = useGetLeaveRequestsQuery({
     page: page ? Number(page) : 1,
     limit: limit,
-    search: search ? search : "",
-    employee_id: "",
+    search: "",
+    employee_id: session?.user?.id,
   });
 
   const { result: leaveRequests, meta } = data || {};
@@ -41,7 +41,7 @@ const LeaveRequest = () => {
     {
       data: leaveRequests!,
     },
-    "erp-leave-requests"
+    "erp-my-leave-requests"
   );
 
   return (
@@ -53,14 +53,12 @@ const LeaveRequest = () => {
           </DialogTrigger>
           <LeaveRequestInsert onDialogChange={onDialogChange} />
         </Dialog>
-        <SearchBox />
         <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
       </div>
 
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="sticky top-0">Name</TableHead>
             <TableHead className="sticky top-0">Type</TableHead>
             <TableHead className="sticky top-0">Start Date</TableHead>
             <TableHead className="sticky top-0">End Date</TableHead>
@@ -72,7 +70,7 @@ const LeaveRequest = () => {
         <TableBody>
           {!leaveRequests?.length && (
             <TableRow>
-              <TableCell colSpan={7}>
+              <TableCell colSpan={6}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>
@@ -80,9 +78,9 @@ const LeaveRequest = () => {
             </TableRow>
           )}
           {leaveRequests?.length ? (
-            <LeaveRequestPage leaveRequest={leaveRequests} />
+            <MyLeaveRequestPage leaveRequest={leaveRequests} />
           ) : (
-            <LeaveRequestPage leaveRequest={localData} />
+            <MyLeaveRequestPage leaveRequest={localData} />
           )}
         </TableBody>
       </Table>

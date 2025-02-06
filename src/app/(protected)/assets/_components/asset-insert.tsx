@@ -20,7 +20,7 @@ const AssetInsert = ({
     price: 0,
     currency: "bdt",
     purchase_date: new Date(),
-    status: "active",
+    status: "archived",
     note: "",
     logs: [],
   });
@@ -46,7 +46,7 @@ const AssetInsert = ({
         price: 0,
         currency: "bdt",
         purchase_date: new Date(),
-        status: "active",
+        status: "archived",
         note: "",
         logs: [],
       });

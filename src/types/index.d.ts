@@ -3,6 +3,7 @@ export type TPagination = {
   limit: number;
   search?: string;
   year?: string;
+  employee_id?: string;
 };
 
 export type TError = {

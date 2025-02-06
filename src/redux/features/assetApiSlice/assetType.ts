@@ -1,5 +1,5 @@
 export type TAssetLog = {
-  type: "handover" | "repair" | "takeover";
+  type: "handover" | "repair" | "takeover" | "other";
   description: string;
   date: Date;
 };
@@ -26,7 +26,7 @@ export type TAsset = {
   price: number;
   currency: "bdt" | "usd";
   purchase_date: Date;
-  status: "active" | "inactive" | "lost" | "damaged" | "sold";
+  status: "engaged" | "archived" | "lost" | "damaged" | "sold";
   note: string;
   logs: TAssetLog[];
   createdAt?: Date;

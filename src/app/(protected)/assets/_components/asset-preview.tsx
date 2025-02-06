@@ -16,7 +16,7 @@ const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
           <div className="p-2 bg-light rounded">{assetData.name}</div>
         </div>
         <div className="lg:col-6 mb-4">
-          <div className="font-medium mb-1">Type</div>
+          <div className="font-medium mb-1 capitalize">Type</div>
           <div className="p-2 bg-light rounded">{assetData.type}</div>
         </div>
         <div className="lg:col-6 mb-4">
@@ -48,7 +48,9 @@ const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
         </div>
         <div className="lg:col-6 mb-4">
           <div className="font-medium mb-1">Status</div>
-          <div className="p-2 bg-light rounded">{assetData.status}</div>
+          <div className="p-2 bg-light rounded capitalize">
+            {assetData.status}
+          </div>
         </div>
         <div className="lg:col-6 mb-4">
           <div className="font-medium mb-1">Note</div>

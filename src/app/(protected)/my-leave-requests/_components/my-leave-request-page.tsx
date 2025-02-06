@@ -10,7 +10,7 @@ import { useDeleteLeaveRequestMutation } from "@/redux/features/leaveRequestApiS
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { toast } from "sonner";
 
-const EmployeeLeaveRequestPage = ({
+const MyLeaveRequestPage = ({
   leaveRequest,
 }: {
   leaveRequest: TLeaveRequest[];
@@ -59,4 +59,4 @@ const EmployeeLeaveRequestPage = ({
   );
 };
 
-export default EmployeeLeaveRequestPage;
+export default MyLeaveRequestPage;

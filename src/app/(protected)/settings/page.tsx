@@ -7,6 +7,7 @@ import {
 } from "@/redux/features/settingApiSlice/settingSlice";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { notFound } from "next/navigation";
 import SettingConfigureForm from "./_components/setting-configure-form";
 import SettingLeavesForm from "./_components/setting-leaves-form";
@@ -18,6 +19,7 @@ import SettingWeekendsForm from "./_components/setting-weekends-form";
 
 const Setting = () => {
   const { data, isLoading } = useGetSettingQuery(undefined);
+  const { data: session } = useSession();
   const [updateSetting, { isLoading: isUpdating }] = useUpdateSettingMutation();
 
   if (isLoading) {
@@ -32,7 +34,7 @@ const Setting = () => {
     );
   }
 
-  if (!isLoading && !data?.result) {
+  if ((!isLoading && !data?.result) || session?.user.role !== "admin") {
     notFound();
   }
 
