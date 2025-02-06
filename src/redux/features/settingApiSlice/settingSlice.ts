@@ -1,5 +1,5 @@
 import { apiSlice } from "../apiSlice/apiSlice";
-import { updateSetting } from "./setting-slice";
+import { updateSetting } from "./settingSliceLocal";
 import { TSettingState } from "./settingType";
 
 const settingApiWithTag = apiSlice.enhanceEndpoints({
@@ -34,7 +34,22 @@ export const settingApi = settingApiWithTag.injectEndpoints({
       },
       invalidatesTags: ["settings"],
     }),
+
+    updateSettingModuleStatus: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/setting/update-module`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["settings"],
+    }),
   }),
 });
 
-export const { useGetSettingQuery, useUpdateSettingMutation } = settingApi;
+export const {
+  useGetSettingQuery,
+  useUpdateSettingMutation,
+  useUpdateSettingModuleStatusMutation,
+} = settingApi;

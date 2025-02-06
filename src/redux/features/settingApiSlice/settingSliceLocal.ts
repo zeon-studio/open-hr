@@ -10,7 +10,7 @@ const initialState: TSettingState["result"] = {
   logo_height: 0,
   company_name: "",
   company_website: "",
-  menus: [],
+  modules: [],
   weekends: [],
   conditional_weekends: [],
   leaves: [],

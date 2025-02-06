@@ -3,7 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { apiSlice } from "./features/apiSlice/apiSlice";
 import customReducer from "./features/customSlice/customSlice";
 import filterReducer from "./features/filterSlice/filterSlice";
-import { settingSlice } from "./features/settingApiSlice/setting-slice";
+import { settingSlice } from "./features/settingApiSlice/settingSliceLocal";
 
 export const store = configureStore({
   reducer: {

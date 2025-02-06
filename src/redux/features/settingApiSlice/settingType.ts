@@ -1,7 +1,19 @@
-export type TMenuItem = {
-  name: string; // Changed from number to string
-  url: string;
-  access: ("admin" | "user" | "moderator")[];
+export type TModuleItem = {
+  name:
+    | "tool"
+    | "course"
+    | "asset"
+    | "leave"
+    | "calendar"
+    | "employee-bank"
+    | "employee-payroll"
+    | "employee-contact"
+    | "employee-document"
+    | "employee-boarding"
+    | "employee-education"
+    | "employee-achievement";
+  description: string;
+  enable: boolean;
 };
 
 export type TLeaveItem = {
@@ -28,7 +40,7 @@ export type TSetting = {
   logo_height: number;
   company_name: string;
   company_website: string;
-  menus: TMenuItem[];
+  modules: TModuleItem[];
   weekends: string[];
   conditional_weekends: TConditionalWeekend[];
   leaves: TLeaveItem[];

@@ -11,10 +11,10 @@ import { useSession } from "next-auth/react";
 import { notFound } from "next/navigation";
 import SettingConfigureForm from "./_components/setting-configure-form";
 import SettingLeavesForm from "./_components/setting-leaves-form";
-import SettingMenuForm from "./_components/setting-menu-form";
+import SettingModuleForm from "./_components/setting-module-form";
 import SettingOffboardingTasksForm from "./_components/setting-offboarding-tasks-form";
 import SettingOnboardingTasksForm from "./_components/setting-onboarding-tasks-form";
-import SettingUserRole from "./_components/setting-user-role";
+import SettingUserRoleForm from "./_components/setting-user-role-form";
 import SettingWeekendsForm from "./_components/setting-weekends-form";
 
 const Setting = () => {
@@ -45,12 +45,8 @@ const Setting = () => {
   return (
     <section className="p-8">
       <div className="space-y-10">
+        <SettingModuleForm data={data?.result!} />
         <SettingConfigureForm
-          isUpdating={isUpdating}
-          data={data?.result!}
-          handleSubmit={handleSubmit}
-        />
-        <SettingMenuForm
           isUpdating={isUpdating}
           data={data?.result!}
           handleSubmit={handleSubmit}
@@ -75,7 +71,7 @@ const Setting = () => {
           data={data?.result!}
           handleSubmit={handleSubmit}
         />
-        <SettingUserRole />
+        <SettingUserRoleForm />
       </div>
     </section>
   );

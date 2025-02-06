@@ -18,7 +18,7 @@ import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const SettingUserRole = () => {
+const SettingUserRoleForm = () => {
   const { data: adminAndModsData } = useGetAdminAndModsQuery(undefined);
   const { result: adminAndMods } = adminAndModsData || {};
   const { data: employeesData } = useGetEmployeesBasicsQuery(undefined);
@@ -226,4 +226,4 @@ const SettingUserRole = () => {
   );
 };
 
-export default SettingUserRole;
+export default SettingUserRoleForm;
