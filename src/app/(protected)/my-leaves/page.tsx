@@ -9,7 +9,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetLeaveQuery } from "@/redux/features/leaveApiSlice/leaveSlice";
+import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
+import { notFound } from "next/navigation";
 import EmployeeLeavePage from "./_components/my-leave-page";
 
 const Leave = () => {
@@ -20,6 +22,12 @@ const Leave = () => {
   const employeeLeaveYears = [...(employeeData?.result?.years || [])].sort(
     (a, b) => b.year - a.year
   );
+
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  if (!modules.find((mod) => mod.name === "leave")?.enable) {
+    return notFound();
+  }
 
   return (
     <section className="p-8">

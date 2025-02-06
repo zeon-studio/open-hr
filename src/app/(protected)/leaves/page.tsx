@@ -23,7 +23,7 @@ import {
   useGetLeavesQuery,
 } from "@/redux/features/leaveApiSlice/leaveSlice";
 import { useAppSelector } from "@/redux/hook";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import LeavePage from "./_components/leave-page";
 
@@ -57,6 +57,12 @@ const Leave = () => {
     },
     "erp-leaves"
   );
+
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  if (!modules.find((mod) => mod.name === "leave")?.enable) {
+    return notFound();
+  }
 
   return (
     <section className="p-8">

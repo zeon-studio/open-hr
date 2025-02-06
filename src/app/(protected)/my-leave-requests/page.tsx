@@ -16,7 +16,7 @@ import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import LeaveRequestInsert from "../leave-requests/_components/leave-request-insert";
 import MyLeaveRequestPage from "./_components/my-leave-request-page";
 
@@ -43,6 +43,12 @@ const LeaveRequest = () => {
     },
     "erp-my-leave-requests"
   );
+
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  if (!modules.find((mod) => mod.name === "leave")?.enable) {
+    return notFound();
+  }
 
   return (
     <section className="p-8">

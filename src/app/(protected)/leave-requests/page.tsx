@@ -16,7 +16,7 @@ import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { useAppSelector } from "@/redux/hook";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import LeaveRequestInsert from "./_components/leave-request-insert";
 import LeaveRequestPage from "./_components/leave-request-page";
 
@@ -43,6 +43,12 @@ const LeaveRequest = () => {
     },
     "erp-leave-requests"
   );
+
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  if (!modules.find((mod) => mod.name === "leave")?.enable) {
+    return notFound();
+  }
 
   return (
     <section className="p-8">

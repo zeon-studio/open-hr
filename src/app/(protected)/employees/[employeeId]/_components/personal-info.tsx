@@ -36,14 +36,19 @@ import {
   useUpdateEmployeeEducationMutation,
 } from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
 import { TEmployeeEducation } from "@/redux/features/employeeEducationApiSlice/employeeEducationType";
+import { useAppSelector } from "@/redux/hook";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
 
 export default function PersonalInfo() {
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  // session
   const { data: session } = useSession();
   const isUser = session?.user.role === "user";
   let { employeeId } = useParams<{ employeeId: string }>();
+
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
@@ -564,419 +569,425 @@ export default function PersonalInfo() {
         }}
       </EditFrom>
 
-      <EditFrom<TEmployeeBank>
-        isUpdating={isBankInfoUpdating}
-        data={bankDetails?.result!}
-        title="Bank Details"
-      >
-        {({ handleChange, isReadOnly, data, formRef }) => {
-          return (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                updateBankInfo({
-                  employee_id: employeeId,
-                  banks: data?.banks,
-                });
-              }}
-              className="space-y-4"
-              ref={formRef}
-            >
-              {data?.banks.length > 0 ? (
-                data?.banks?.map((bank, index, banks) => {
-                  return (
-                    <div
-                      key={index}
-                      className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
-                    >
-                      {!isReadOnly && (
-                        <div className="lg:col-span-2 absolute right-5 top-3">
-                          <Button
-                            type="button"
-                            size={"xs"}
-                            variant="outline"
-                            onClick={() => {
-                              handleChange({
-                                ...data,
-                                banks: data.banks.filter(
-                                  (bank, i) => i !== index
-                                ),
-                              });
-                            }}
-                          >
-                            <Trash2 className="size-4" />
-                          </Button>
+      {modules.find((mod) => mod.name === "employee-bank")?.enable && (
+        <EditFrom<TEmployeeBank>
+          isUpdating={isBankInfoUpdating}
+          data={bankDetails?.result!}
+          title="Bank Details"
+        >
+          {({ handleChange, isReadOnly, data, formRef }) => {
+            return (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updateBankInfo({
+                    employee_id: employeeId,
+                    banks: data?.banks,
+                  });
+                }}
+                className="space-y-4"
+                ref={formRef}
+              >
+                {data?.banks.length > 0 ? (
+                  data?.banks?.map((bank, index, banks) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
+                      >
+                        {!isReadOnly && (
+                          <div className="lg:col-span-2 absolute right-5 top-3">
+                            <Button
+                              type="button"
+                              size={"xs"}
+                              variant="outline"
+                              onClick={() => {
+                                handleChange({
+                                  ...data,
+                                  banks: data.banks.filter(
+                                    (bank, i) => i !== index
+                                  ),
+                                });
+                              }}
+                            >
+                              <Trash2 className="size-4" />
+                            </Button>
+                          </div>
+                        )}
+                        <div className="row gx-3">
+                          <div className="lg:col-6 mb-4">
+                            <Label>Account Name:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  banks: banks.map((bank, i) => {
+                                    if (index === i) {
+                                      return { ...bank, [name]: value };
+                                    }
+                                    return bank;
+                                  }),
+                                });
+                              }}
+                              value={bank.bank_ac_name || ""}
+                              readOnly={isReadOnly}
+                              name="bank_ac_name"
+                              placeholder="Bank Account Name"
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Bank Name:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  banks: banks.map((bank, i) => {
+                                    if (index === i) {
+                                      return { ...bank, [name]: value };
+                                    }
+                                    return bank;
+                                  }),
+                                });
+                              }}
+                              required
+                              readOnly={isReadOnly}
+                              value={bank.bank_name || ""}
+                              name="bank_name"
+                              placeholder="Bank Name"
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Bank Account Number:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  banks: banks.map((bank, i) => {
+                                    if (index === i) {
+                                      return { ...bank, [name]: value };
+                                    }
+                                    return bank;
+                                  }),
+                                });
+                              }}
+                              required
+                              readOnly={isReadOnly}
+                              name="bank_ac_no"
+                              value={bank.bank_ac_no || ""}
+                              placeholder="Bank Account Number"
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Branch:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  banks: banks.map((bank, i) => {
+                                    if (index === i) {
+                                      return { ...bank, [name]: value };
+                                    }
+                                    return bank;
+                                  }),
+                                });
+                              }}
+                              required
+                              placeholder="Branch"
+                              readOnly={isReadOnly}
+                              value={bank.bank_branch || ""}
+                              name="bank_branch"
+                            />
+                          </div>
                         </div>
-                      )}
-                      <div className="row gx-3">
-                        <div className="lg:col-6 mb-4">
-                          <Label>Account Name:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                banks: banks.map((bank, i) => {
-                                  if (index === i) {
-                                    return { ...bank, [name]: value };
-                                  }
-                                  return bank;
-                                }),
-                              });
-                            }}
-                            value={bank.bank_ac_name || ""}
-                            readOnly={isReadOnly}
-                            name="bank_ac_name"
-                            placeholder="Bank Account Name"
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Bank Name:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                banks: banks.map((bank, i) => {
-                                  if (index === i) {
-                                    return { ...bank, [name]: value };
-                                  }
-                                  return bank;
-                                }),
-                              });
-                            }}
-                            required
-                            readOnly={isReadOnly}
-                            value={bank.bank_name || ""}
-                            name="bank_name"
-                            placeholder="Bank Name"
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Bank Account Number:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                banks: banks.map((bank, i) => {
-                                  if (index === i) {
-                                    return { ...bank, [name]: value };
-                                  }
-                                  return bank;
-                                }),
-                              });
-                            }}
-                            required
-                            readOnly={isReadOnly}
-                            name="bank_ac_no"
-                            value={bank.bank_ac_no || ""}
-                            placeholder="Bank Account Number"
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Branch:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                banks: banks.map((bank, i) => {
-                                  if (index === i) {
-                                    return { ...bank, [name]: value };
-                                  }
-                                  return bank;
-                                }),
-                              });
-                            }}
-                            required
-                            placeholder="Branch"
-                            readOnly={isReadOnly}
-                            value={bank.bank_branch || ""}
-                            name="bank_branch"
-                          />
-                        </div>
+                        {isReadOnly && banks?.length - 1 !== index && (
+                          <Separator className="my-6 lg:col-span-2" />
+                        )}
                       </div>
-                      {isReadOnly && banks?.length - 1 !== index && (
-                        <Separator className="my-6 lg:col-span-2" />
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
-                <p className="py-4">No bank account information available.</p>
-              )}
-              {!isReadOnly && (
-                <Button
-                  variant="outline"
-                  className="w-full mt-6"
-                  type="button"
-                  onClick={() => {
-                    handleChange({
-                      ...data,
-                      banks: [
-                        ...(data?.banks || []),
-                        {
-                          bank_ac_no: "",
-                          bank_branch: "",
-                          bank_ac_name: "",
-                          bank_district: "",
-                          bank_name: "",
-                          bank_routing_no: "",
-                        },
-                      ],
-                    });
-                  }}
-                  disabled={isReadOnly}
-                >
-                  Add Bank Account
-                </Button>
-              )}
-            </form>
-          );
-        }}
-      </EditFrom>
+                    );
+                  })
+                ) : (
+                  <p className="py-4">No bank account information available.</p>
+                )}
+                {!isReadOnly && (
+                  <Button
+                    variant="outline"
+                    className="w-full mt-6"
+                    type="button"
+                    onClick={() => {
+                      handleChange({
+                        ...data,
+                        banks: [
+                          ...(data?.banks || []),
+                          {
+                            bank_ac_no: "",
+                            bank_branch: "",
+                            bank_ac_name: "",
+                            bank_district: "",
+                            bank_name: "",
+                            bank_routing_no: "",
+                          },
+                        ],
+                      });
+                    }}
+                    disabled={isReadOnly}
+                  >
+                    Add Bank Account
+                  </Button>
+                )}
+              </form>
+            );
+          }}
+        </EditFrom>
+      )}
 
-      <EditFrom<TEmployeeEducation>
-        isUpdating={isEducationUpdating}
-        data={educationDetails?.result!}
-        title="Educational Details"
-      >
-        {({ handleChange, isReadOnly, data, formRef }) => {
-          return (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                updateEducationInfo({
-                  employee_id: employeeId,
-                  educations: data?.educations,
-                });
-              }}
-              className="space-y-4"
-              ref={formRef}
-            >
-              {data?.educations.length > 0 ? (
-                data?.educations?.map((education, index, educations) => {
-                  return (
-                    <div
-                      className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
-                      key={index}
-                    >
-                      {!isReadOnly && (
-                        <div className="lg:col-span-2 absolute right-5 top-3">
-                          <Button
-                            type="button"
-                            size={"xs"}
-                            variant="outline"
-                            onClick={() => {
-                              handleChange({
-                                ...data,
-                                educations: data.educations.filter(
-                                  (education, i) => i !== index
-                                ),
-                              });
-                            }}
-                          >
-                            <Trash2 className="size-4" />
-                          </Button>
-                        </div>
-                      )}
-                      <div className="row gx-3">
-                        <div className="lg:col-6 mb-4">
-                          <Label>Degree:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                educations: educations.map((education, i) => {
-                                  if (index === i) {
-                                    return { ...education, [name]: value };
-                                  }
-                                  return education;
-                                }),
-                              });
-                            }}
-                            required
-                            value={education.degree || ""}
-                            readOnly={isReadOnly}
-                            name="degree"
-                            placeholder="Degree"
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Name of Institution:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                educations: educations.map((education, i) => {
-                                  if (index === i) {
-                                    return { ...education, [name]: value };
-                                  }
-                                  return education;
-                                }),
-                              });
-                            }}
-                            required
-                            readOnly={isReadOnly}
-                            value={education.institute || ""}
-                            name="institute"
-                            placeholder="Institute name"
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Passing Year:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                educations: educations.map((education, i) => {
-                                  if (index === i) {
-                                    return { ...education, [name]: value };
-                                  }
-                                  return education;
-                                }),
-                              });
-                            }}
-                            type="number"
-                            required
-                            readOnly={isReadOnly}
-                            name="passing_year"
-                            value={education.passing_year || ""}
-                            placeholder="Passing year"
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Major:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                educations: educations.map((education, i) => {
-                                  if (index === i) {
-                                    return { ...education, [name]: value };
-                                  }
-                                  return education;
-                                }),
-                              });
-                            }}
-                            required
-                            readOnly={isReadOnly}
-                            value={education.major || ""}
-                            name="major"
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Result:</Label>
-                          <Input
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              handleChange({
-                                ...data,
-                                educations: educations.map((education, i) => {
-                                  if (index === i) {
-                                    return { ...education, [name]: value };
-                                  }
-                                  return education;
-                                }),
-                              });
-                            }}
-                            type="number"
-                            value={education.result || 0}
-                            readOnly={isReadOnly}
-                            name="result"
-                            required
-                          />
-                        </div>
-                        <div className="lg:col-6 mb-4">
-                          <Label>Result Type:</Label>
-                          {isReadOnly ? (
-                            <p className="text-sm uppercase">
-                              {data.educations[index].result_type ||
-                                "Not Available"}
-                            </p>
-                          ) : (
-                            <Select
-                              onValueChange={(value) => {
+      {modules.find((mod) => mod.name === "employee-education")?.enable && (
+        <EditFrom<TEmployeeEducation>
+          isUpdating={isEducationUpdating}
+          data={educationDetails?.result!}
+          title="Educational Details"
+        >
+          {({ handleChange, isReadOnly, data, formRef }) => {
+            return (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updateEducationInfo({
+                    employee_id: employeeId,
+                    educations: data?.educations,
+                  });
+                }}
+                className="space-y-4"
+                ref={formRef}
+              >
+                {data?.educations.length > 0 ? (
+                  data?.educations?.map((education, index, educations) => {
+                    return (
+                      <div
+                        className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
+                        key={index}
+                      >
+                        {!isReadOnly && (
+                          <div className="lg:col-span-2 absolute right-5 top-3">
+                            <Button
+                              type="button"
+                              size={"xs"}
+                              variant="outline"
+                              onClick={() => {
+                                handleChange({
+                                  ...data,
+                                  educations: data.educations.filter(
+                                    (education, i) => i !== index
+                                  ),
+                                });
+                              }}
+                            >
+                              <Trash2 className="size-4" />
+                            </Button>
+                          </div>
+                        )}
+                        <div className="row gx-3">
+                          <div className="lg:col-6 mb-4">
+                            <Label>Degree:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
                                 handleChange({
                                   ...data,
                                   educations: educations.map((education, i) => {
                                     if (index === i) {
-                                      return {
-                                        ...education,
-                                        result_type: value as
-                                          | "gpa"
-                                          | "cgpa"
-                                          | "percentage",
-                                      };
+                                      return { ...education, [name]: value };
                                     }
                                     return education;
                                   }),
                                 });
                               }}
-                              defaultValue={education.result_type}
-                              disabled={isReadOnly}
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Result Type" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {options.education_result_type.map(
-                                  ({ label, value }) => (
-                                    <SelectItem key={value} value={value}>
-                                      {label}
-                                    </SelectItem>
-                                  )
-                                )}
-                              </SelectContent>
-                            </Select>
-                          )}
+                              required
+                              value={education.degree || ""}
+                              readOnly={isReadOnly}
+                              name="degree"
+                              placeholder="Degree"
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Name of Institution:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  educations: educations.map((education, i) => {
+                                    if (index === i) {
+                                      return { ...education, [name]: value };
+                                    }
+                                    return education;
+                                  }),
+                                });
+                              }}
+                              required
+                              readOnly={isReadOnly}
+                              value={education.institute || ""}
+                              name="institute"
+                              placeholder="Institute name"
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Passing Year:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  educations: educations.map((education, i) => {
+                                    if (index === i) {
+                                      return { ...education, [name]: value };
+                                    }
+                                    return education;
+                                  }),
+                                });
+                              }}
+                              type="number"
+                              required
+                              readOnly={isReadOnly}
+                              name="passing_year"
+                              value={education.passing_year || ""}
+                              placeholder="Passing year"
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Major:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  educations: educations.map((education, i) => {
+                                    if (index === i) {
+                                      return { ...education, [name]: value };
+                                    }
+                                    return education;
+                                  }),
+                                });
+                              }}
+                              required
+                              readOnly={isReadOnly}
+                              value={education.major || ""}
+                              name="major"
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Result:</Label>
+                            <Input
+                              onChange={(e) => {
+                                const { name, value } = e.target;
+                                handleChange({
+                                  ...data,
+                                  educations: educations.map((education, i) => {
+                                    if (index === i) {
+                                      return { ...education, [name]: value };
+                                    }
+                                    return education;
+                                  }),
+                                });
+                              }}
+                              type="number"
+                              value={education.result || 0}
+                              readOnly={isReadOnly}
+                              name="result"
+                              required
+                            />
+                          </div>
+                          <div className="lg:col-6 mb-4">
+                            <Label>Result Type:</Label>
+                            {isReadOnly ? (
+                              <p className="text-sm uppercase">
+                                {data.educations[index].result_type ||
+                                  "Not Available"}
+                              </p>
+                            ) : (
+                              <Select
+                                onValueChange={(value) => {
+                                  handleChange({
+                                    ...data,
+                                    educations: educations.map(
+                                      (education, i) => {
+                                        if (index === i) {
+                                          return {
+                                            ...education,
+                                            result_type: value as
+                                              | "gpa"
+                                              | "cgpa"
+                                              | "percentage",
+                                          };
+                                        }
+                                        return education;
+                                      }
+                                    ),
+                                  });
+                                }}
+                                defaultValue={education.result_type}
+                                disabled={isReadOnly}
+                              >
+                                <SelectTrigger className="w-full">
+                                  <SelectValue placeholder="Result Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {options.education_result_type.map(
+                                    ({ label, value }) => (
+                                      <SelectItem key={value} value={value}>
+                                        {label}
+                                      </SelectItem>
+                                    )
+                                  )}
+                                </SelectContent>
+                              </Select>
+                            )}
+                          </div>
                         </div>
+                        {isReadOnly && educations.length - 1 !== index && (
+                          <Separator className="my-6 lg:col-span-2" />
+                        )}
                       </div>
-                      {isReadOnly && educations.length - 1 !== index && (
-                        <Separator className="my-6 lg:col-span-2" />
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
-                <p className="py-4">No Education information available. </p>
-              )}
+                    );
+                  })
+                ) : (
+                  <p className="py-4">No Education information available. </p>
+                )}
 
-              {!isReadOnly && (
-                <Button
-                  variant="outline"
-                  className="w-full mt-6"
-                  onClick={() => {
-                    handleChange({
-                      ...data,
-                      educations: [
-                        ...(data?.educations ?? []),
-                        {
-                          degree: "",
-                          major: "",
-                          result: 0,
-                          result_type: "gpa",
-                          institute: "",
-                          passing_year: 0,
-                        },
-                      ],
-                    });
-                  }}
-                  type="button"
-                  disabled={isReadOnly}
-                >
-                  Add Education
-                </Button>
-              )}
-            </form>
-          );
-        }}
-      </EditFrom>
+                {!isReadOnly && (
+                  <Button
+                    variant="outline"
+                    className="w-full mt-6"
+                    onClick={() => {
+                      handleChange({
+                        ...data,
+                        educations: [
+                          ...(data?.educations ?? []),
+                          {
+                            degree: "",
+                            major: "",
+                            result: 0,
+                            result_type: "gpa",
+                            institute: "",
+                            passing_year: 0,
+                          },
+                        ],
+                      });
+                    }}
+                    type="button"
+                    disabled={isReadOnly}
+                  >
+                    Add Education
+                  </Button>
+                )}
+              </form>
+            );
+          }}
+        </EditFrom>
+      )}
     </div>
   );
 }

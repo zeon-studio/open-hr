@@ -15,6 +15,7 @@ import { getDuration } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
+import { useAppSelector } from "@/redux/hook";
 import { format } from "date-fns";
 import {
   Building,
@@ -35,7 +36,7 @@ import {
   useSearchParams,
 } from "next/navigation";
 import { useState } from "react";
-import Assets from "./_components/assets-details";
+import Assets from "./_components/asset-details";
 import Courses from "./_components/course-details";
 import Document from "./_components/document-details";
 import Emergency from "./_components/emergency-details";
@@ -43,51 +44,74 @@ import JobDetails from "./_components/job-details";
 import Offboarding from "./_components/offboarding-details";
 import Onboarding from "./_components/onboarding-details";
 import PersonalInfo from "./_components/personal-info";
+import Tools from "./_components/tool-details";
 
 const tabs = [
   {
     label: "Personal",
     value: "personal",
+    module: "employee",
     content: <PersonalInfo />,
   },
   {
     label: "Job",
     value: "job",
+    module: "employee-job",
     content: <JobDetails />,
   },
   {
     label: "Emergency",
     value: "emergency",
+    module: "employee-contact",
     content: <Emergency />,
   },
   {
     label: "Documents",
     value: "documents",
+    module: "employee-document",
     content: <Document />,
   },
   {
     label: "Courses",
     value: "courses",
+    module: "course",
     content: <Courses />,
+  },
+  {
+    label: "Tools",
+    value: "tools",
+    module: "tool",
+    content: <Tools />,
   },
   {
     label: "Assets",
     value: "assets",
+    module: "asset",
     content: <Assets />,
   },
   {
     label: "Onboarding",
     value: "onboarding",
+    module: "employee-lifecycle",
     content: <Onboarding />,
   },
   {
     label: "Offboarding",
     value: "offboarding",
+    module: "employee-lifecycle",
     content: <Offboarding />,
   },
 ];
 
 export default function EmployeeSingle() {
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+
+  // only show tab if module is enabled
+  const filterTabByModule = tabs.filter((tab) => {
+    const mod = modules?.find((mod) => mod.name === tab.module);
+    return mod ? mod.enable : true;
+  });
+
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -129,7 +153,7 @@ export default function EmployeeSingle() {
     <div className="bg-light">
       <Tabs value={params.get("tab") || activeTab.value}>
         <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-2 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
-          <div className="xl:basis-[210px] size-[100px] lg:size-[210px]">
+          <div className="flex-shrink-0 xl:basis-[210px] size-[100px] lg:size-[210px]">
             <Avatar
               className="rounded-md w-[100px] lg:w-[210px]"
               width={210}
@@ -165,7 +189,7 @@ export default function EmployeeSingle() {
                     align="start"
                     className="p-2 border-none bg-background"
                   >
-                    {tabs.map((tab) => (
+                    {filterTabByModule.map((tab) => (
                       <DropdownMenuItem
                         onClick={() => {
                           setTab(tab);
@@ -194,8 +218,8 @@ export default function EmployeeSingle() {
                 </DropdownMenu>
               </div>
 
-              <TabsList className="hidden xl:flex h-auto flex-wrap 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6">
-                {tabs.map((tab, index) => (
+              <TabsList className="hidden xl:flex h-auto 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6 max-w-[750px] 2xl:max-w-full overflow-x-auto rounded-none">
+                {filterTabByModule.map((tab, index) => (
                   <TabsTrigger
                     value={tab.value}
                     key={index}

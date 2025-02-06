@@ -8,8 +8,10 @@ import {
   TCalendar,
   TEvent,
 } from "@/redux/features/calendarApiSlice/calendarType";
+import { useAppSelector } from "@/redux/hook";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
+import { notFound } from "next/navigation";
 import CalendarInsert from "./_components/calendar-insert";
 import CalendarInsertSheet from "./_components/calendar-insert-sheet";
 import CalendarList from "./_components/calendar-list";
@@ -67,6 +69,12 @@ const CalendarPage = () => {
   const yearlyData = getHolydaysAndEvents(calendar!);
 
   const { isDialogOpen, onDialogChange } = useDialog();
+
+  // check module enabled or not
+  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  if (!modules.find((mod) => mod.name === "calendar")?.enable) {
+    return notFound();
+  }
 
   return (
     <section className="p-8">
