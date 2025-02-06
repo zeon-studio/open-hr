@@ -63,7 +63,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                               href={child.path}
                               className={cn(
                                 "rounded text-black text-sm font-medium block px-2 py-2.5",
-                                item.path === pathname &&
+                                child.path === pathname &&
                                   "bg-primary text-primary-foreground"
                               )}
                             >

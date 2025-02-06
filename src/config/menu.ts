@@ -1,5 +1,4 @@
 import {
-  BadgeDollarSign,
   BookKey,
   BookUser,
   Calendar,
@@ -10,6 +9,7 @@ import {
   Package,
   Settings,
   SquareLibrary,
+  UsersIcon,
 } from "lucide-react";
 
 export const menu = [
@@ -22,7 +22,7 @@ export const menu = [
   {
     name: "Employees",
     path: "/employees",
-    icon: BadgeDollarSign,
+    icon: UsersIcon,
     access: ["admin", "moderator"],
   },
   {
