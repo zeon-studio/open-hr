@@ -1,12 +1,12 @@
 export type TModuleItem = {
   name:
     | "tool"
-    | "course"
-    | "asset"
     | "leave"
+    | "asset"
+    | "course"
+    | "payroll"
     | "calendar"
     | "employee-bank"
-    | "employee-payroll"
     | "employee-contact"
     | "employee-document"
     | "employee-lifecycle"

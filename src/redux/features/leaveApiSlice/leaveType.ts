@@ -22,6 +22,7 @@ export type TLeaveYear = {
 export type TLeave = {
   employee_id: string;
   years: TLeaveYear[];
+  status: "active" | "archived";
 };
 
 export type TLeaveState<T = TLeaveYear[]> = {
