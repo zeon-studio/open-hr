@@ -28,6 +28,7 @@ export type TEmployeeCreate = {
   personal_email: string;
   department: "development" | "design" | "marketing" | "admin";
   job_type: "full_time" | "part_time" | "remote" | "contractual" | "internship";
+  gross_salary: number;
   joining_date: Date;
   designation: string;
   manager_id: string;

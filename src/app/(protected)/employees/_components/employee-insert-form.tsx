@@ -123,6 +123,22 @@ const EmployeeInsertForm = ({
       </div>
 
       <div>
+        <Label>Gross Salary</Label>
+        <Input
+          type="number"
+          required
+          value={employeeData.gross_salary || 0}
+          onChange={(e) =>
+            setEmployeeData((prev) => ({
+              ...prev,
+              gross_salary: Number(e.target.value),
+            }))
+          }
+          placeholder="Gross Salary"
+        />
+      </div>
+
+      <div>
         <Label>Manager</Label>
         <Select
           required

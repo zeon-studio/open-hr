@@ -14,6 +14,7 @@ import SettingLeavesForm from "./_components/setting-leaves-form";
 import SettingModuleForm from "./_components/setting-module-form";
 import SettingOffboardingTasksForm from "./_components/setting-offboarding-tasks-form";
 import SettingOnboardingTasksForm from "./_components/setting-onboarding-tasks-form";
+import SettingPayrollForm from "./_components/setting-payroll-form";
 import SettingUserRoleForm from "./_components/setting-user-role-form";
 import SettingWeekendsForm from "./_components/setting-weekends-form";
 
@@ -56,21 +57,41 @@ const Setting = () => {
           data={data?.result!}
           handleSubmit={handleSubmit}
         />
-        <SettingLeavesForm
-          isUpdating={isUpdating}
-          data={data?.result!}
-          handleSubmit={handleSubmit}
-        />
-        <SettingOnboardingTasksForm
-          isUpdating={isUpdating}
-          data={data?.result!}
-          handleSubmit={handleSubmit}
-        />
-        <SettingOffboardingTasksForm
-          isUpdating={isUpdating}
-          data={data?.result!}
-          handleSubmit={handleSubmit}
-        />
+
+        {data?.result.modules.find((mod) => mod.name === "payroll")?.enable && (
+          <SettingPayrollForm
+            isUpdating={isUpdating}
+            data={data?.result!}
+            handleSubmit={handleSubmit}
+          />
+        )}
+
+        {data?.result.modules.find((mod) => mod.name === "leave")?.enable && (
+          <SettingLeavesForm
+            isUpdating={isUpdating}
+            data={data?.result!}
+            handleSubmit={handleSubmit}
+          />
+        )}
+
+        {data?.result.modules.find((mod) => mod.name === "employee-lifecycle")
+          ?.enable && (
+          <SettingOnboardingTasksForm
+            isUpdating={isUpdating}
+            data={data?.result!}
+            handleSubmit={handleSubmit}
+          />
+        )}
+
+        {data?.result.modules.find((mod) => mod.name === "employee-lifecycle")
+          ?.enable && (
+          <SettingOffboardingTasksForm
+            isUpdating={isUpdating}
+            data={data?.result!}
+            handleSubmit={handleSubmit}
+          />
+        )}
+
         <SettingUserRoleForm />
       </div>
     </section>

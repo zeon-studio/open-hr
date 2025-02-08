@@ -31,6 +31,13 @@ export type TConditionalWeekend = {
   pattern: number[];
 };
 
+export type TPayrollSetting = {
+  basic: string;
+  house_rent: string;
+  conveyance: string;
+  medical: string;
+};
+
 export type TSetting = {
   app_name: string;
   app_url: string;
@@ -44,6 +51,7 @@ export type TSetting = {
   weekends: string[];
   conditional_weekends: TConditionalWeekend[];
   leaves: TLeaveItem[];
+  payroll: TPayrollSetting;
   onboarding_tasks: TTaskItem[];
   offboarding_tasks: TTaskItem[];
 };

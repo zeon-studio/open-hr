@@ -20,8 +20,6 @@ export type TEmployeeJob = {
   manager_id: string;
   department: "development" | "design" | "marketing" | "admin";
   permanent_date: Date;
-  company_name: string;
-  company_website: string;
   resignation_date: Date;
   prev_jobs: TPrevJob[];
   promotions: TPromotion[];

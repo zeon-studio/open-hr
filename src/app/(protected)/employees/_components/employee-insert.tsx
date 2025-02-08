@@ -9,6 +9,7 @@ const initialEmployeeData = {
   personal_email: "",
   department: "" as any,
   job_type: "" as any,
+  gross_salary: 0,
   joining_date: new Date(),
   designation: "",
   manager_id: "",

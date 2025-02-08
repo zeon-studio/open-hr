@@ -4,6 +4,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
 import { dateFormat, getDuration } from "@/lib/date-converter";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
+import { useAppSelector } from "@/redux/hook";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -13,6 +14,9 @@ import PreviousJobs from "./previous-jobs";
 
 export default function JobDetails() {
   const { data: session } = useSession();
+  const { company_name, company_website } = useAppSelector(
+    (state) => state["setting-slice"]
+  );
   const isUser = session?.user.role === "user";
 
   let { employeeId } = useParams<{ employeeId: string }>();
@@ -108,19 +112,19 @@ export default function JobDetails() {
             className="space-y-[--space]"
           >
             <li className="flex space-x-4">
-              {data?.result.company_website && (
+              {company_website && (
                 <Image
                   className="rounded"
-                  src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${data?.result.company_website}&size=64`}
+                  src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${company_website}&size=64`}
                   width={48}
                   height={48}
-                  alt={data?.result.company_name ?? "brand logo"}
+                  alt={company_name ?? "brand logo"}
                 />
               )}
 
               <div className="space-y-1 items-center">
                 <p className="text-text-dark font-semibold text-sm capitalize">
-                  {data?.result.company_name}
+                  {company_name}
                 </p>
                 <p className="text-text-light font-semibold text-xs">
                   {formattedDuration}

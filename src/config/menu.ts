@@ -5,6 +5,7 @@ import {
   CalendarOff,
   CircleHelp,
   CircleUser,
+  HandCoins,
   LayoutDashboard,
   Package,
   Settings,
@@ -26,6 +27,13 @@ export const menu = [
     icon: UsersIcon,
     module: "employee",
     access: ["admin", "moderator"],
+  },
+  {
+    name: "Payroll",
+    path: "/payroll",
+    icon: HandCoins,
+    module: "payroll",
+    access: ["admin"],
   },
   {
     name: "Tools",
