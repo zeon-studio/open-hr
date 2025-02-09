@@ -10,6 +10,12 @@ const initialState: TSettingState["result"] = {
   logo_height: 0,
   company_name: "",
   company_website: "",
+  payroll: {
+    basic: "",
+    house_rent: "",
+    conveyance: "",
+    medical: "",
+  },
   modules: [],
   weekends: [],
   conditional_weekends: [],
@@ -30,8 +36,17 @@ export const settingSlice = createSlice({
       : initialState,
   reducers: {
     updateSetting: (state, action: PayloadAction<TSettingState["result"]>) => {
-      localStorage.setItem("erp-settings", JSON.stringify(state));
-      return action.payload;
+      localStorage.setItem(
+        "erp-settings",
+        JSON.stringify({
+          ...state,
+          ...action.payload,
+        })
+      );
+      return {
+        ...state,
+        ...action.payload,
+      };
     },
   },
 });
