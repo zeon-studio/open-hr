@@ -73,7 +73,8 @@ const PayrollModal = ({
         <TableCell>{item.gross_salary} BDT</TableCell>
         <TableCell>
           {/* last salary date */}
-          {dateFormat(item.salary[item.salary.length - 1].date)}
+          {item?.salary[item.salary?.length - 1] &&
+            dateFormat(item.salary[item.salary.length - 1]?.date)}
         </TableCell>
         <TableCell className="text-right">
           <DropdownMenuTrigger>
