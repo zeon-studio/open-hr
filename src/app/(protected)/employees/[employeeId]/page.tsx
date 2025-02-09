@@ -43,6 +43,7 @@ import Emergency from "./_components/emergency-details";
 import JobDetails from "./_components/job-details";
 import Offboarding from "./_components/offboarding-details";
 import Onboarding from "./_components/onboarding-details";
+import Payroll from "./_components/payroll-details";
 import PersonalInfo from "./_components/personal-info";
 import Tools from "./_components/tool-details";
 
@@ -58,6 +59,12 @@ const tabs = [
     value: "job",
     module: "employee-job",
     content: <JobDetails />,
+  },
+  {
+    label: "Payroll",
+    value: "payroll",
+    module: "payroll",
+    content: <Payroll />,
   },
   {
     label: "Emergency",
@@ -152,7 +159,7 @@ export default function EmployeeSingle() {
   return (
     <div className="bg-light">
       <Tabs value={params.get("tab") || activeTab.value}>
-        <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-2 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
+        <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-[20px] lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
           <div className="flex-shrink-0 xl:basis-[210px] size-[100px] lg:size-[210px]">
             <Avatar
               className="rounded-md w-[100px] lg:w-[210px]"
