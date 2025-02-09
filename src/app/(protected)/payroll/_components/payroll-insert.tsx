@@ -54,6 +54,8 @@ const PayrollInsert = ({
   const [addPayroll, { isSuccess, isError, error }] =
     useAddMonthlyPayrollMutation();
 
+  const [showBonusFields, setShowBonusFields] = useState<boolean[]>([]);
+
   useEffect(() => {
     if (employeesPayroll) {
       setPayrollData({
@@ -61,11 +63,12 @@ const PayrollInsert = ({
         employees: employeesPayroll.map((emp: any) => ({
           employee_id: emp.employee_id,
           gross_salary: emp.gross_salary,
-          bonus_type: "",
-          bonus_reason: "",
+          bonus_type: "festive",
           bonus_amount: 0,
+          bonus_reason: "",
         })),
       });
+      setShowBonusFields(employeesPayroll.map(() => false));
     }
   }, [employeesPayroll]);
 
@@ -83,6 +86,7 @@ const PayrollInsert = ({
         },
       ],
     }));
+    setShowBonusFields((prev) => [...prev, false]);
   };
 
   const handleRemoveEmployee = (index: number) => {
@@ -90,6 +94,13 @@ const PayrollInsert = ({
       ...prev,
       employees: prev.employees.filter((_, i) => i !== index),
     }));
+    setShowBonusFields((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleShowBonusFields = (index: number) => {
+    setShowBonusFields((prev) =>
+      prev.map((show, i) => (i === index ? true : show))
+    );
   };
 
   const handleSubmit = async (e: any) => {
@@ -246,75 +257,94 @@ const PayrollInsert = ({
                     required
                   />
                 </div>
-                {/* Bonus Type */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Bonus Type</Label>
-                  <Select
-                    required
-                    value={item.bonus_type}
-                    onValueChange={(value) => {
-                      const updatedEmployees = [...payrollData.employees];
-                      updatedEmployees[index] = {
-                        ...item,
-                        bonus_type: value,
-                      };
-                      setPayrollData((prev) => ({
-                        ...prev,
-                        employees: updatedEmployees,
-                      }));
-                    }}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select Bonus Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.payroll_bonus_type.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                {/* Bonus amount */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Bonus Amount</Label>
-                  <Input
-                    required
-                    type="number"
-                    value={item.bonus_amount}
-                    onChange={(e) => {
-                      const updatedEmployees = [...payrollData.employees];
-                      updatedEmployees[index] = {
-                        ...item,
-                        bonus_amount: Number(e.target.value),
-                      };
-                      setPayrollData((prev) => ({
-                        ...prev,
-                        employees: updatedEmployees,
-                      }));
-                    }}
-                  />
-                </div>
-                {/* Bonus Reason */}
-                <div className="col-12 mb-4">
-                  <Label>Bonus Reason</Label>
-                  <Input
-                    type="text"
-                    value={item.bonus_reason}
-                    onChange={(e) => {
-                      const updatedEmployees = [...payrollData.employees];
-                      updatedEmployees[index] = {
-                        ...item,
-                        bonus_reason: e.target.value,
-                      };
-                      setPayrollData((prev) => ({
-                        ...prev,
-                        employees: updatedEmployees,
-                      }));
-                    }}
-                  />
-                </div>
+                {/* Add Bonus Button */}
+                {!showBonusFields[index] && (
+                  <div className="col-12 mb-4">
+                    <Button
+                      type="button"
+                      onClick={() => handleShowBonusFields(index)}
+                      size={"sm"}
+                      className="w-full"
+                      variant="outline"
+                    >
+                      Add Bonus
+                    </Button>
+                  </div>
+                )}
+                {/* Bonus Fields */}
+                {showBonusFields[index] && (
+                  <>
+                    {/* Bonus Type */}
+                    <div className="lg:col-6 mb-4">
+                      <Label>Bonus Type</Label>
+                      <Select
+                        required
+                        value={item.bonus_type}
+                        onValueChange={(value) => {
+                          const updatedEmployees = [...payrollData.employees];
+                          updatedEmployees[index] = {
+                            ...item,
+                            bonus_type: value,
+                          };
+                          setPayrollData((prev) => ({
+                            ...prev,
+                            employees: updatedEmployees,
+                          }));
+                        }}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select Bonus Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {options.payroll_bonus_type.map((item) => (
+                            <SelectItem key={item.value} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    {/* Bonus Amount */}
+                    <div className="lg:col-6 mb-4">
+                      <Label>Bonus Amount</Label>
+                      <Input
+                        required
+                        type="number"
+                        value={item.bonus_amount}
+                        onChange={(e) => {
+                          const updatedEmployees = [...payrollData.employees];
+                          updatedEmployees[index] = {
+                            ...item,
+                            bonus_amount: Number(e.target.value),
+                          };
+                          setPayrollData((prev) => ({
+                            ...prev,
+                            employees: updatedEmployees,
+                          }));
+                        }}
+                      />
+                    </div>
+                    {/* Bonus Reason */}
+                    <div className="col-12 mb-4">
+                      <Label>Bonus Reason</Label>
+                      <Input
+                        type="text"
+                        value={item.bonus_reason}
+                        onChange={(e) => {
+                          const updatedEmployees = [...payrollData.employees];
+                          updatedEmployees[index] = {
+                            ...item,
+                            bonus_reason: e.target.value,
+                          };
+                          setPayrollData((prev) => ({
+                            ...prev,
+                            employees: updatedEmployees,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           ))}
