@@ -19,6 +19,7 @@ import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
 import { Ellipsis } from "lucide-react";
 import { memo, useMemo, useState } from "react";
 import { toast } from "sonner";
+import PayrollPreview from "./payroll-preview";
 import PayrollUpdate from "./payroll-update";
 
 const PayrollPage = ({ payroll }: { payroll: TPayroll[] }) => {
@@ -95,9 +96,9 @@ const PayrollModal = ({
                     Preview
                   </Button>
                 </DialogTrigger>
-                {/* {singlePayroll?.employee_id && (
+                {singlePayroll?.employee_id && (
                   <PayrollPreview payrollData={singlePayroll!} />
-                )} */}
+                )}
               </Dialog>
             </DropdownMenuItem>
             {/* edit */}
