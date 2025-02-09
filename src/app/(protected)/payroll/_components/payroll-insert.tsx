@@ -1,0 +1,350 @@
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import options from "@/config/options.json";
+import { dateFormat } from "@/lib/date-converter";
+import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import {
+  useAddMonthlyPayrollMutation,
+  useGetPayrollBasicsQuery,
+} from "@/redux/features/payrollApiSlice/payrollSlice";
+import {
+  TCreateMonthlySalary,
+  TPayroll,
+} from "@/redux/features/payrollApiSlice/payrollType";
+import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+const PayrollInsert = ({
+  onDialogChange,
+}: {
+  onDialogChange: (open: boolean) => void;
+}) => {
+  // get all employees payroll from cache or api
+  const { data } = useGetPayrollBasicsQuery(undefined);
+  const { result: employeesPayroll } = data || {};
+
+  const { data: employeesData } = useGetEmployeesBasicsQuery(undefined);
+  const { result: employees } = employeesData || {};
+
+  const initialPayrollData: TCreateMonthlySalary = {
+    salary_date: new Date(),
+    employees: [],
+  };
+
+  const [loader, setLoader] = useState(false);
+  const [payrollData, setPayrollData] =
+    useState<TCreateMonthlySalary>(initialPayrollData);
+
+  const [addPayroll, { isSuccess, isError, error }] =
+    useAddMonthlyPayrollMutation();
+
+  useEffect(() => {
+    if (employeesPayroll) {
+      setPayrollData({
+        salary_date: new Date(),
+        employees: employeesPayroll.map((emp: any) => ({
+          employee_id: emp.employee_id,
+          gross_salary: emp.gross_salary,
+          bonus_type: "",
+          bonus_reason: "",
+          bonus_amount: 0,
+        })),
+      });
+    }
+  }, [employeesPayroll]);
+
+  const handleAddEmployee = () => {
+    setPayrollData((prev) => ({
+      ...prev,
+      employees: [
+        ...prev.employees,
+        {
+          employee_id: "",
+          gross_salary: 0,
+          bonus_type: "",
+          bonus_reason: "",
+          bonus_amount: 0,
+        },
+      ],
+    }));
+  };
+
+  console.log(payrollData);
+
+  const handleRemoveEmployee = (index: number) => {
+    setPayrollData((prev) => ({
+      ...prev,
+      employees: prev.employees.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoader(true);
+    try {
+      // @ts-ignore
+      addPayroll(payrollData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setLoader(false);
+      setPayrollData(initialPayrollData);
+      // close modal/dialog
+      onDialogChange(false);
+      toast("Payroll added successfully");
+    } else if (isError) {
+      setLoader(false);
+      toast("Something went wrong");
+      console.log(error);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess, isError]);
+
+  return (
+    <DialogContent
+      className="max-w-2xl overflow-y-auto max-h-[90vh]"
+      onPointerDownOutside={(e) => e.preventDefault()}
+    >
+      <DialogTitle className="mb-4">Add New Payroll</DialogTitle>
+      <form onSubmit={handleSubmit} className="row">
+        <div className="col-12 mb-4">
+          <Label>Salary Date</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant={"input"} className="w-full flex justify-between">
+                {payrollData.salary_date ? (
+                  dateFormat(payrollData.salary_date)
+                ) : (
+                  <span>Pick a date</span>
+                )}
+                <span className="flex items-center">
+                  <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                  <span className="pl-2  block">
+                    <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                  </span>
+                </span>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                required
+                mode="single"
+                selected={
+                  payrollData.salary_date
+                    ? new Date(payrollData.salary_date)
+                    : new Date()
+                }
+                onSelect={(date) => {
+                  setPayrollData((prev) => ({
+                    ...prev,
+                    salary_date: date!,
+                  }));
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className="col-12 mb-6">
+          {payrollData.employees.map((item, index) => (
+            <div
+              className="border relative mb-6 bg-light rounded-md p-3"
+              key={`employee-${index}`}
+            >
+              <div className="absolute right-3 top-3">
+                <Button
+                  type="button"
+                  onClick={() => handleRemoveEmployee(index)}
+                  size={"xs"}
+                  variant="outline"
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </div>
+              <div className="row">
+                {/* Employee */}
+                <div className="lg:col-6 mb-4">
+                  <Label>Name:</Label>
+                  <Select
+                    value={item.employee_id}
+                    onValueChange={(value) => {
+                      const selectedEmployee = employees?.find(
+                        (employee) => employee.id === value
+                      );
+                      if (selectedEmployee) {
+                        setPayrollData((prev) => ({
+                          ...prev,
+                          employees: prev.employees.map((employee, i) => {
+                            if (i === index) {
+                              return {
+                                ...employee,
+                                employee_id: selectedEmployee.id,
+                              };
+                            }
+                            return employee;
+                          }),
+                        }));
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select Employee" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {employees
+                        ?.filter(
+                          (employee) =>
+                            !employeesPayroll?.some(
+                              (payroll: TPayroll, i: number) =>
+                                payroll.employee_id === employee.id &&
+                                i !== index
+                            )
+                        )
+                        .map((employee) => (
+                          <SelectItem key={employee.id} value={employee.id}>
+                            {employee.name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {/* Gross Salary */}
+                <div className="lg:col-6 mb-4">
+                  <Label>Gross Salary</Label>
+                  <Input
+                    type="number"
+                    value={item.gross_salary}
+                    onChange={(e) => {
+                      const updatedEmployees = [...payrollData.employees];
+                      updatedEmployees[index] = {
+                        ...item,
+                        gross_salary: Number(e.target.value),
+                      };
+                      setPayrollData((prev) => ({
+                        ...prev,
+                        employees: updatedEmployees,
+                      }));
+                    }}
+                    required
+                  />
+                </div>
+                {/* Bonus Type */}
+                <div className="lg:col-6 mb-4">
+                  <Label>Bonus Type</Label>
+                  <Select
+                    value={item.bonus_type}
+                    onValueChange={(value) => {
+                      const updatedEmployees = [...payrollData.employees];
+                      updatedEmployees[index] = {
+                        ...item,
+                        bonus_type: value,
+                      };
+                      setPayrollData((prev) => ({
+                        ...prev,
+                        employees: updatedEmployees,
+                      }));
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select Bonus Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {options.payroll_bonus_type.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {/* Bonus amount */}
+                <div className="lg:col-6 mb-4">
+                  <Label>Bonus Amount</Label>
+                  <Input
+                    type="number"
+                    value={item.bonus_amount}
+                    onChange={(e) => {
+                      const updatedEmployees = [...payrollData.employees];
+                      updatedEmployees[index] = {
+                        ...item,
+                        bonus_amount: Number(e.target.value),
+                      };
+                      setPayrollData((prev) => ({
+                        ...prev,
+                        employees: updatedEmployees,
+                      }));
+                    }}
+                  />
+                </div>
+                {/* Bonus Reason */}
+                <div className="col-12 mb-4">
+                  <Label>Bonus Reason</Label>
+                  <Input
+                    type="text"
+                    value={item.bonus_reason}
+                    onChange={(e) => {
+                      const updatedEmployees = [...payrollData.employees];
+                      updatedEmployees[index] = {
+                        ...item,
+                        bonus_reason: e.target.value,
+                      };
+                      setPayrollData((prev) => ({
+                        ...prev,
+                        employees: updatedEmployees,
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <Button
+            type="button"
+            onClick={handleAddEmployee}
+            size={"sm"}
+            className="w-full"
+            variant="outline"
+          >
+            Add Employee
+          </Button>
+        </div>
+
+        <div className="col-12 text-right">
+          <Button className="self-end" disabled={loader}>
+            {loader ? (
+              <>
+                Please wait
+                <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
+              </>
+            ) : (
+              "Add Now"
+            )}
+          </Button>
+        </div>
+      </form>
+    </DialogContent>
+  );
+};
+
+export default PayrollInsert;

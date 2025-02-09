@@ -17,6 +17,7 @@ import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetPayrollsQuery } from "@/redux/features/payrollApiSlice/payrollSlice";
 import { useAppSelector } from "@/redux/hook";
 import { notFound, useSearchParams } from "next/navigation";
+import PayrollInsert from "./_components/payroll-insert";
 import PayrollPage from "./_components/payroll-page";
 
 const Payroll = () => {
@@ -56,7 +57,7 @@ const Payroll = () => {
           <DialogTrigger asChild>
             <Button>Add Salary</Button>
           </DialogTrigger>
-          {/* <PayrollInsert onDialogChange={onDialogChange} /> */}
+          <PayrollInsert onDialogChange={onDialogChange} />
         </Dialog>
         <SearchBox />
         <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />

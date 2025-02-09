@@ -17,6 +17,15 @@ export const payrollApi = payrollApiWithTag.injectEndpoints({
       keepUnusedDataFor: 30 * 60,
     }),
 
+    getPayrollBasics: builder.query<TPayrollState, undefined>({
+      query: () => ({
+        url: `/payroll/basics`,
+        method: "GET",
+      }),
+      providesTags: ["payroll"],
+      keepUnusedDataFor: 30 * 60,
+    }),
+
     getPayroll: builder.query<TPayrollState<TPayroll>, string>({
       query: (id) => ({
         url: `/payroll/${id}`,
@@ -66,7 +75,9 @@ export const payrollApi = payrollApiWithTag.injectEndpoints({
 
 export const {
   useGetPayrollsQuery,
+  useGetPayrollBasicsQuery,
   useGetPayrollQuery,
+  useAddMonthlyPayrollMutation,
   useUpdatePayrollMutation,
   useDeletePayrollMutation,
 } = payrollApi;
