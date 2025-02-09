@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const { app_name, company_website, favicon_url } =
     useAppSelector((state) => state["setting-slice"]) || {};
 
-  if (status === "loading") {
+  if (status === "loading" || !app_name) {
     return <Loader />;
   }
 

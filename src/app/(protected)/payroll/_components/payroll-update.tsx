@@ -47,8 +47,7 @@ const PayrollUpdate = ({
     payrollData.increments
   );
 
-  const [updatePayroll, { isSuccess, isError, error }] =
-    useUpdatePayrollMutation();
+  const [updatePayroll, { isSuccess, isError }] = useUpdatePayrollMutation();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -64,7 +63,6 @@ const PayrollUpdate = ({
     } else if (isError) {
       setLoader(false);
       toast("Something went wrong");
-      console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

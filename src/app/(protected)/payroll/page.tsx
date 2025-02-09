@@ -44,6 +44,7 @@ const Payroll = () => {
 
   // check module enabled or not
   const { modules } = useAppSelector((state) => state["setting-slice"]);
+
   if (!modules.find((mod) => mod.name === "payroll")?.enable) {
     return notFound();
   }
