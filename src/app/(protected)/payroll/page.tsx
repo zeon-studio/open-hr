@@ -68,7 +68,7 @@ const Payroll = () => {
           <TableRow className="sticky top-0">
             <TableHead className="sticky top-0">Employee</TableHead>
             <TableHead className="sticky top-0">Gross Salary</TableHead>
-            <TableHead className="sticky top-0">Status</TableHead>
+            <TableHead className="sticky top-0">Last Salary Date</TableHead>
             <TableHead className="sticky top-0 text-right">More</TableHead>
           </TableRow>
         </TableHeader>

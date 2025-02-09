@@ -85,8 +85,6 @@ const PayrollInsert = ({
     }));
   };
 
-  console.log(payrollData);
-
   const handleRemoveEmployee = (index: number) => {
     setPayrollData((prev) => ({
       ...prev,
@@ -108,7 +106,7 @@ const PayrollInsert = ({
   useEffect(() => {
     if (isSuccess) {
       setLoader(false);
-      setPayrollData(initialPayrollData);
+      setPayrollData(payrollData);
       // close modal/dialog
       onDialogChange(false);
       toast("Payroll added successfully");
@@ -252,6 +250,7 @@ const PayrollInsert = ({
                 <div className="lg:col-6 mb-4">
                   <Label>Bonus Type</Label>
                   <Select
+                    required
                     value={item.bonus_type}
                     onValueChange={(value) => {
                       const updatedEmployees = [...payrollData.employees];
@@ -281,6 +280,7 @@ const PayrollInsert = ({
                 <div className="lg:col-6 mb-4">
                   <Label>Bonus Amount</Label>
                   <Input
+                    required
                     type="number"
                     value={item.bonus_amount}
                     onChange={(e) => {

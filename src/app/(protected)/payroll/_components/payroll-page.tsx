@@ -1,7 +1,6 @@
 "use client";
 
 import ConfirmationPopup from "@/components/confirmation-popup";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -13,6 +12,7 @@ import {
 import { TableCell, TableRow } from "@/components/ui/table";
 import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/useDialog";
+import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import { useDeletePayrollMutation } from "@/redux/features/payrollApiSlice/payrollSlice";
 import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
@@ -72,9 +72,8 @@ const PayrollModal = ({
         </TableCell>
         <TableCell>{item.gross_salary} BDT</TableCell>
         <TableCell>
-          <Badge variant={item.status === "active" ? "default" : "destructive"}>
-            {item.status}
-          </Badge>
+          {/* last salary date */}
+          {dateFormat(item.salary[item.salary.length - 1].date)}
         </TableCell>
         <TableCell className="text-right">
           <DropdownMenuTrigger>
