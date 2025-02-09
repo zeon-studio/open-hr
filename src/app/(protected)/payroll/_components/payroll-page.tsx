@@ -1,6 +1,7 @@
 "use client";
 
 import ConfirmationPopup from "@/components/confirmation-popup";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -12,27 +13,24 @@ import {
 import { TableCell, TableRow } from "@/components/ui/table";
 import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/useDialog";
-import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
-import { useDeleteAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { useDeletePayrollMutation } from "@/redux/features/payrollApiSlice/payrollSlice";
+import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
 import { Ellipsis } from "lucide-react";
-import Image from "next/image";
 import { memo, useMemo, useState } from "react";
 import { toast } from "sonner";
-import AssetPreview from "./asset-preview";
-import AssetUpdate from "./asset-update";
+import PayrollUpdate from "./payroll-update";
 
-const AssetPage = ({ asset }: { asset: TAsset[] }) => {
-  const [assetId, setAssetId] = useState<string>("");
+const PayrollPage = ({ payroll }: { payroll: TPayroll[] }) => {
+  const [payrollId, setPayrollId] = useState<string>("");
 
   return (
     <>
-      {asset?.map((item) => (
-        <MemoizedAssetModal
-          assetId={assetId}
-          setAssetId={setAssetId}
-          key={item.asset_id}
+      {payroll?.map((item) => (
+        <MemoizedPayrollModal
+          payrollId={payrollId}
+          setPayrollId={setPayrollId}
+          key={item.employee_id}
           item={item}
         />
       ))}
@@ -40,54 +38,43 @@ const AssetPage = ({ asset }: { asset: TAsset[] }) => {
   );
 };
 
-export default AssetPage;
+export default PayrollPage;
 
-const AssetModal = ({
+const PayrollModal = ({
   item,
-  assetId,
-  setAssetId,
+  payrollId,
+  setPayrollId,
 }: {
-  item: TAsset;
-  assetId: string;
-  setAssetId: React.Dispatch<React.SetStateAction<string>>;
+  item: TPayroll;
+  payrollId: string;
+  setPayrollId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
 
-  // Simulate fetching asset data
-  const singleAsset = useMemo(() => {
-    return assetId === item.asset_id ? item : null;
-  }, [assetId, item]);
+  // Simulate fetching payroll data
+  const singlePayroll = useMemo(() => {
+    return payrollId === item.employee_id ? item : null;
+  }, [payrollId, item]);
 
-  const [deleteAsset] = useDeleteAssetMutation();
+  const [deletePayroll] = useDeletePayrollMutation();
 
-  const handleAssetDelete = () => {
-    deleteAsset(item.asset_id);
-    toast("Asset deleted complete");
+  const handlePayrollDelete = () => {
+    deletePayroll(item.employee_id);
+    toast("Payroll deleted complete");
   };
 
   return (
-    <DropdownMenu key={item.asset_id}>
+    <DropdownMenu key={item.employee_id}>
       <TableRow>
         <TableCell>
-          <div className="flex items-center">
-            <Image
-              src={`/images/assets/${item.type}.png`}
-              alt={item.name}
-              width={50}
-              height={50}
-              className="rounded-md border border-border/30 mr-2 shrink-0"
-            />
-            <p className="mb-0 capitalize font-medium">{item.name}</p>
-          </div>
+          <UserInfo user={employeeInfoById(item.employee_id)} />
         </TableCell>
+        <TableCell>{item.gross_salary} BDT</TableCell>
         <TableCell>
-          <UserInfo user={employeeInfoById(item.user)} />
+          <Badge variant={item.status === "active" ? "default" : "destructive"}>
+            {item.status}
+          </Badge>
         </TableCell>
-        <TableCell>{item.asset_id}</TableCell>
-        <TableCell>
-          {item.price} <span className="uppercase">{item.currency}</span>
-        </TableCell>
-        <TableCell>{dateFormat(item.purchase_date)}</TableCell>
         <TableCell className="text-right">
           <DropdownMenuTrigger>
             <Ellipsis className="size-4" />
@@ -98,7 +85,7 @@ const AssetModal = ({
               <Dialog modal={true}>
                 <DialogTrigger
                   asChild
-                  onClick={() => setAssetId(item?.asset_id!)}
+                  onClick={() => setPayrollId(item?.employee_id!)}
                 >
                   <Button
                     className="w-full justify-start"
@@ -108,9 +95,9 @@ const AssetModal = ({
                     Preview
                   </Button>
                 </DialogTrigger>
-                {singleAsset?.asset_id && (
-                  <AssetPreview assetData={singleAsset!} />
-                )}
+                {/* {singlePayroll?.employee_id && (
+                  <PayrollPreview payrollData={singlePayroll!} />
+                )} */}
               </Dialog>
             </DropdownMenuItem>
             {/* edit */}
@@ -122,7 +109,7 @@ const AssetModal = ({
               >
                 <DialogTrigger
                   asChild
-                  onClick={() => setAssetId(item?.asset_id!)}
+                  onClick={() => setPayrollId(item?.employee_id!)}
                 >
                   <Button
                     className="w-full justify-start"
@@ -132,9 +119,9 @@ const AssetModal = ({
                     Edit
                   </Button>
                 </DialogTrigger>
-                {singleAsset?.asset_id && (
-                  <AssetUpdate
-                    asset={singleAsset!}
+                {singlePayroll?.employee_id && (
+                  <PayrollUpdate
+                    payroll={singlePayroll!}
                     onDialogChange={onDialogChange}
                   />
                 )}
@@ -145,7 +132,7 @@ const AssetModal = ({
               <Dialog>
                 <DialogTrigger
                   asChild
-                  onClick={() => setAssetId(item?.asset_id!)}
+                  onClick={() => setPayrollId(item?.employee_id!)}
                 >
                   <Button
                     className="w-full text-destructive hover:bg-destructive justify-start"
@@ -155,10 +142,10 @@ const AssetModal = ({
                     Delete
                   </Button>
                 </DialogTrigger>
-                {singleAsset?.asset_id && (
+                {singlePayroll?.employee_id && (
                   <ConfirmationPopup
-                    handleConfirmation={handleAssetDelete}
-                    id={singleAsset?.asset_id!}
+                    handleConfirmation={handlePayrollDelete}
+                    id={singlePayroll?.employee_id!}
                   />
                 )}
               </Dialog>
@@ -170,4 +157,4 @@ const AssetModal = ({
   );
 };
 
-const MemoizedAssetModal = memo(AssetModal);
+const MemoizedPayrollModal = memo(PayrollModal);

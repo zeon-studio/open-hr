@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
+import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetCalendarQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
 import {
   TCalendar,
@@ -66,7 +67,14 @@ const CalendarPage = () => {
   const { data } = useGetCalendarQuery(currentYear);
   const { result: calendar } = data || {};
 
-  const yearlyData = getHolydaysAndEvents(calendar!);
+  const { localData } = useLocalCacheHook(
+    {
+      data: calendar ? [calendar] : [],
+    },
+    "erp-calendar"
+  );
+
+  const yearlyData = getHolydaysAndEvents(calendar! || localData);
 
   const { isDialogOpen, onDialogChange } = useDialog();
 

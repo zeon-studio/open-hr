@@ -47,7 +47,7 @@ const LeaveModal = ({
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
 
-  // Simulate fetching leave data (similar to designData)
+  // Simulate fetching leave data
   const singleLeave = useMemo(() => {
     return leaveId === item.employee_id ? item : null;
   }, [leaveId, item]);

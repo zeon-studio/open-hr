@@ -8,20 +8,17 @@ const useLocalCacheHook = <T>(data: Data<T>, name: string) => {
   const [localData, setLocalData] = useState<T[]>([]);
 
   useEffect(() => {
-    if (data.data?.length) {
-      localStorage.setItem(
-        name,
-        JSON.stringify(Array.isArray(data?.data) && data?.data.slice(0, 100))
-      );
-    }
-  }, [data]);
-
-  useEffect(() => {
     const storedData = localStorage.getItem(name);
     if (storedData) {
       setLocalData(JSON.parse(storedData));
     }
   }, []);
+
+  useEffect(() => {
+    if (data.data?.length > 0) {
+      localStorage.setItem(name, JSON.stringify(data.data));
+    }
+  }, [data]);
 
   return {
     localData: localData,

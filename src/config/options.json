@@ -337,5 +337,33 @@
       "label": "4",
       "value": "4"
     }
+  ],
+  "payroll_status": [
+    {
+      "label": "Active",
+      "value": "active"
+    },
+    {
+      "label": "Archived",
+      "value": "archived"
+    }
+  ],
+  "payroll_bonus_type": [
+    {
+      "label": "Festival",
+      "value": "festive"
+    },
+    {
+      "label": "Performance",
+      "value": "performance"
+    },
+    {
+      "label": "Project",
+      "value": "project"
+    },
+    {
+      "label": "Other",
+      "value": "other"
+    }
   ]
 }

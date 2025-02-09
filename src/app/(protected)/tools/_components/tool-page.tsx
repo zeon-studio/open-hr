@@ -51,7 +51,7 @@ const ToolModal = ({
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
 
-  // Simulate fetching tool data (similar to designData)
+  // Simulate fetching tool data
   const singleTool = useMemo(() => {
     return toolId === item._id ? item : null;
   }, [toolId, item]);

@@ -52,7 +52,7 @@ const CourseModal = ({
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
 
-  // Simulate fetching course data (similar to designData)
+  // Simulate fetching course data
   const singleCourse = useMemo(() => {
     return courseId === item._id ? item : null;
   }, [courseId, item]);
