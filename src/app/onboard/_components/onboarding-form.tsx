@@ -27,13 +27,19 @@ import { ChangeEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useStepper } from "./use-stepper";
 
-export default function OnboardingForm({ employeeId }: { employeeId: string }) {
+export default function OnboardingForm({
+  employeeId,
+  defaultValue,
+}: {
+  employeeId: string;
+  defaultValue: TEmployee;
+}) {
   const params = useSearchParams();
   const token = params.get("token") as string;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { handleStepChange } = useStepper();
   // @ts-ignore
-  const [data, setData] = useState<TEmployee>({});
+  const [data, setData] = useState<TEmployee>(defaultValue);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
