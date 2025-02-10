@@ -16,7 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         try {
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/login-with-token`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/token-login`,
             {
               method: "POST",
               headers: {
@@ -79,7 +79,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return !!user;
       }
 
-      const res = await Axios.post("/authentication/login", {
+      const res = await Axios.post("/authentication/oauth-login", {
         email: user.email,
       });
 
