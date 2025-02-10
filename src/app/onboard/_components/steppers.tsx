@@ -17,9 +17,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/shadcn";
 import {
-  useUpdateEmployeeDiscordMutation,
-  useUpdateEmployeeEmailMutation,
-  useUpdateEmployeePersonalityMutation,
+  useSetEmployeeDiscordMutation,
+  useSetEmployeeEmailMutation,
+  useSetEmployeePersonalityMutation,
 } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { ErrorResponse } from "@/types";
 import { Check, ExternalLink, Loader2 } from "lucide-react";
@@ -92,7 +92,7 @@ export const steppers = [
       employeeId,
       token,
     }: Props) => {
-      const [updateEmail, { isLoading }] = useUpdateEmployeeEmailMutation();
+      const [updateEmail, { isLoading }] = useSetEmployeeEmailMutation();
       return (
         <StepperCard
           isCompleted={isCompleted}
@@ -152,7 +152,7 @@ export const steppers = [
       employeeId,
       token,
     }: Props) => {
-      const [updateDiscord, { isLoading }] = useUpdateEmployeeDiscordMutation();
+      const [updateDiscord, { isLoading }] = useSetEmployeeDiscordMutation();
 
       return (
         <StepperCard
@@ -252,7 +252,7 @@ export const steppers = [
       token,
     }: Props) => {
       const [updatePersonality, { isLoading }] =
-        useUpdateEmployeePersonalityMutation();
+        useSetEmployeePersonalityMutation();
       return (
         <StepperCard
           isActive={isActive}

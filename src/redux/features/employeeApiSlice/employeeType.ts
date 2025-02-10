@@ -3,6 +3,7 @@ export type TEmployee = {
   name: string;
   image: string;
   work_email: string;
+  password: string;
   personal_email: string;
   dob: Date;
   nid: string;
@@ -22,6 +23,12 @@ export type TEmployee = {
   status: "pending" | "active" | "archived";
   role: "user" | "moderator" | "admin";
   createdAt?: Date;
+};
+
+export type TEmployeePasswordUpdate = {
+  id: string;
+  current_password: string;
+  new_password: string;
 };
 
 export type TEmployeeCreate = {

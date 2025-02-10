@@ -24,8 +24,12 @@ import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeQuery,
   useUpdateEmployeeMutation,
+  useUpdateEmployeePasswordMutation,
 } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import {
+  TEmployee,
+  TEmployeePasswordUpdate,
+} from "@/redux/features/employeeApiSlice/employeeType";
 import {
   useGetEmployeeBankQuery,
   useUpdateEmployeeBankMutation,
@@ -52,25 +56,37 @@ export default function PersonalInfo() {
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
-  const { data, isLoading } = useGetEmployeeQuery(
-    employeeId ?? session?.user.id!
-  );
-  const [updateEmployee, { isLoading: isUpdating }] =
+
+  // get employee data
+  const { data: personalDetails, isLoading: isPersonalLoading } =
+    useGetEmployeeQuery(employeeId ?? session?.user.id!);
+
+  // update employee details
+  const [updateEmployee, { isLoading: isPersonalUpdating }] =
     useUpdateEmployeeMutation();
 
+  // update employee password
+  const [updatePassword, { isLoading: isPasswordUpdating }] =
+    useUpdateEmployeePasswordMutation();
+
+  // get employee bank
   const { data: bankDetails, isLoading: isBankLoading } =
     useGetEmployeeBankQuery(employeeId ?? session?.user.id!);
 
+  // update employee bank
   const [updateBankInfo, { isLoading: isBankInfoUpdating }] =
     useUpdateEmployeeBankMutation();
 
-  const [updateEducationInfo, { isLoading: isEducationUpdating }] =
-    useUpdateEmployeeEducationMutation();
-
+  // get employee education
   const { data: educationDetails, isLoading: isEducationLoading } =
     useGetEmployeeEducationQuery(employeeId ?? session?.user.id!);
 
-  if (isLoading || isBankLoading || isEducationLoading) {
+  // update employee education
+  const [updateEducationInfo, { isLoading: isEducationUpdating }] =
+    useUpdateEmployeeEducationMutation();
+
+  // loading
+  if (isPersonalLoading || isBankLoading || isEducationLoading) {
     return (
       <Card>
         <CardContent className="py-20 text-center">
@@ -80,19 +96,17 @@ export default function PersonalInfo() {
     );
   }
 
-  if (!isLoading && !data?.result) {
+  // if data not found
+  if (!isPersonalLoading && !personalDetails?.result) {
     notFound();
   }
 
-  const handleSubmit = (data: TEmployee) => {
-    updateEmployee(data);
-  };
-
   return (
     <div className="space-y-10">
+      {/* Personal details */}
       <EditFrom<TEmployee>
-        isUpdating={isUpdating}
-        data={data?.result!}
+        isUpdating={isPersonalUpdating}
+        data={personalDetails?.result!}
         title="Personal Details"
       >
         {({ handleChange, isReadOnly, data, formRef }) => {
@@ -101,7 +115,7 @@ export default function PersonalInfo() {
               ref={formRef}
               onSubmit={(e) => {
                 e.preventDefault();
-                handleSubmit(data);
+                updateEmployee(data);
               }}
               className="row gap-y-4"
             >
@@ -569,6 +583,79 @@ export default function PersonalInfo() {
         }}
       </EditFrom>
 
+      {/* password */}
+      <EditFrom<TEmployeePasswordUpdate>
+        isUpdating={isPasswordUpdating}
+        data={{
+          id: employeeId,
+          current_password: "",
+          new_password: "",
+        }}
+        title="Password Management"
+      >
+        {({ handleChange, isReadOnly, data, formRef }) => {
+          return (
+            <form
+              ref={formRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                updatePassword({
+                  id: employeeId,
+                  current_password: data.current_password,
+                  new_password: data.new_password,
+                });
+              }}
+              className="row gap-y-4"
+            >
+              {isReadOnly ? (
+                <div className="lg:col-12">
+                  <p className="text-sm">Update Your Password</p>
+                </div>
+              ) : (
+                <>
+                  <div className="lg:col-6">
+                    <Label>Current Password:</Label>
+                    <Input
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        handleChange({
+                          ...data,
+                          [name]: value,
+                        });
+                      }}
+                      type="password"
+                      value={data.current_password || ""}
+                      name="current_password"
+                      placeholder="Current Password"
+                      readOnly={isReadOnly}
+                    />
+                  </div>
+
+                  <div className="lg:col-6">
+                    <Label>New Password:</Label>
+                    <Input
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+                        handleChange({
+                          ...data,
+                          [name]: value,
+                        });
+                      }}
+                      type="password"
+                      value={data.new_password || ""}
+                      name="new_password"
+                      placeholder="New Password"
+                      readOnly={isReadOnly}
+                    />
+                  </div>
+                </>
+              )}
+            </form>
+          );
+        }}
+      </EditFrom>
+
+      {/* bank */}
       {modules.find((mod) => mod.name === "employee-bank")?.enable && (
         <EditFrom<TEmployeeBank>
           isUpdating={isBankInfoUpdating}
@@ -744,6 +831,7 @@ export default function PersonalInfo() {
         </EditFrom>
       )}
 
+      {/* education */}
       {modules.find((mod) => mod.name === "employee-education")?.enable && (
         <EditFrom<TEmployeeEducation>
           isUpdating={isEducationUpdating}

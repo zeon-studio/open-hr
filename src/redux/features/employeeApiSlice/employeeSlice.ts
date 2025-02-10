@@ -64,6 +64,23 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
+    updateEmployeePassword: builder.mutation<
+      TEmployeeState<TEmployee>,
+      Pick<TEmployee, "id"> & {
+        current_password: string;
+        new_password: string;
+      }
+    >({
+      query: (data) => {
+        return {
+          url: `/authentication/update-password`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["employees"],
+    }),
+
     updateEmployee: builder.mutation<
       TEmployeeState<TEmployee>,
       TEmployee & { token?: string }
@@ -94,7 +111,7 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployeeEmail: builder.mutation<
+    setEmployeeEmail: builder.mutation<
       TEmployeeState<TEmployee>,
       Pick<TEmployee, "id"> & {
         email: string;
@@ -116,7 +133,29 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployeeDiscord: builder.mutation<
+    setEmployeePassword: builder.mutation<
+      TEmployeeState<TEmployee>,
+      Pick<TEmployee, "id"> & {
+        password: string;
+        token?: string;
+      }
+    >({
+      query: (data) => {
+        return {
+          url: `/employee/password/${data.id}`,
+          method: "PATCH",
+          body: data,
+          ...(data.token && {
+            headers: {
+              authorization: `Bearer ${data.token}`,
+            },
+          }),
+        };
+      },
+      invalidatesTags: ["employees"],
+    }),
+
+    setEmployeeDiscord: builder.mutation<
       TEmployeeState<TEmployee>,
       Pick<TEmployee, "id" | "discord"> & {
         token?: string;
@@ -137,7 +176,7 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
-    updateEmployeePersonality: builder.mutation<
+    setEmployeePersonality: builder.mutation<
       TEmployeeState<TEmployee>,
       Pick<TEmployee, "id" | "personality"> & {
         token?: string;
@@ -188,11 +227,13 @@ export const {
   useGetEmployeeQuery,
   useGetAdminAndModsQuery,
   useAddEmployeeMutation,
+  useUpdateEmployeePasswordMutation,
   useUpdateEmployeeMutation,
   useDeleteEmployeeMutation,
-  useUpdateEmployeeEmailMutation,
-  useUpdateEmployeeDiscordMutation,
-  useUpdateEmployeePersonalityMutation,
+  useSetEmployeeEmailMutation,
+  useSetEmployeePasswordMutation,
+  useSetEmployeeDiscordMutation,
+  useSetEmployeePersonalityMutation,
   useUpdateEmployeeRoleMutation,
   useGetEmployeeDetailsByTokenQuery,
 } = employeeApi;
