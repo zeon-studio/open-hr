@@ -44,6 +44,8 @@ import { useAppSelector } from "@/redux/hook";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function PersonalInfo() {
   // check module enabled or not
@@ -62,28 +64,88 @@ export default function PersonalInfo() {
     useGetEmployeeQuery(employeeId ?? session?.user.id!);
 
   // update employee details
-  const [updateEmployee, { isLoading: isPersonalUpdating }] =
-    useUpdateEmployeeMutation();
+  const [
+    updateEmployee,
+    {
+      isLoading: isPersonalUpdating,
+      isSuccess: isEmployeeUpdateSuccess,
+      isError: isEmployeeUpdateError,
+    },
+  ] = useUpdateEmployeeMutation();
+
+  // update employee details
+  useEffect(() => {
+    if (isEmployeeUpdateSuccess) {
+      toast("Employee details updated successfully");
+    } else if (isEmployeeUpdateError) {
+      toast("Failed to update employee details");
+    }
+  }, [isEmployeeUpdateSuccess, isEmployeeUpdateError]);
 
   // update employee password
-  const [updatePassword, { isLoading: isPasswordUpdating }] =
-    useUpdateEmployeePasswordMutation();
+  const [
+    updatePassword,
+    {
+      isLoading: isPasswordUpdating,
+      isSuccess: isPasswordUpdateSuccess,
+      isError: isPasswordUpdateError,
+    },
+  ] = useUpdateEmployeePasswordMutation();
+
+  // update employee password
+  useEffect(() => {
+    if (isPasswordUpdateSuccess) {
+      toast("Password updated successfully");
+    } else if (isPasswordUpdateError) {
+      toast("Failed to update password");
+    }
+  }, [isPasswordUpdateSuccess, isPasswordUpdateError]);
 
   // get employee bank
   const { data: bankDetails, isLoading: isBankLoading } =
     useGetEmployeeBankQuery(employeeId ?? session?.user.id!);
 
   // update employee bank
-  const [updateBankInfo, { isLoading: isBankInfoUpdating }] =
-    useUpdateEmployeeBankMutation();
+  const [
+    updateBankInfo,
+    {
+      isLoading: isBankInfoUpdating,
+      isSuccess: isBankUpdateSuccess,
+      isError: isBankUpdateError,
+    },
+  ] = useUpdateEmployeeBankMutation();
+
+  // update employee bank
+  useEffect(() => {
+    if (isBankUpdateSuccess) {
+      toast("Bank details updated successfully");
+    } else if (isBankUpdateError) {
+      toast("Failed to update bank details");
+    }
+  }, [isBankUpdateSuccess, isBankUpdateError]);
 
   // get employee education
   const { data: educationDetails, isLoading: isEducationLoading } =
     useGetEmployeeEducationQuery(employeeId ?? session?.user.id!);
 
   // update employee education
-  const [updateEducationInfo, { isLoading: isEducationUpdating }] =
-    useUpdateEmployeeEducationMutation();
+  const [
+    updateEducationInfo,
+    {
+      isLoading: isEducationUpdating,
+      isSuccess: isEducationUpdateSuccess,
+      isError: isEducationUpdateError,
+    },
+  ] = useUpdateEmployeeEducationMutation();
+
+  // update employee education
+  useEffect(() => {
+    if (isEducationUpdateSuccess) {
+      toast("Education details updated successfully");
+    } else if (isEducationUpdateError) {
+      toast("Failed to update education details");
+    }
+  }, [isEducationUpdateSuccess, isEducationUpdateError]);
 
   // loading
   if (isPersonalLoading || isBankLoading || isEducationLoading) {

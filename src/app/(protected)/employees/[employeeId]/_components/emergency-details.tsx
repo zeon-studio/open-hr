@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/shadcn";
 import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeContactQuery,
@@ -13,6 +12,8 @@ import { TEmployeeContact } from "@/redux/features/employeeContactApiSlice/emplo
 import { Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function Emergency() {
   const { data: session } = useSession();
@@ -20,9 +21,19 @@ export default function Emergency() {
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
-  const [addContact, { isLoading: isAddLoading }] =
-    useUpdateEmployeeContactMutation();
+  const [
+    addContact,
+    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError },
+  ] = useUpdateEmployeeContactMutation();
   const { data, isLoading } = useGetEmployeeContactQuery(employeeId);
+
+  useEffect(() => {
+    if (isAddSuccess) {
+      toast("Emergency contact details updated successfully");
+    } else if (isAddError) {
+      toast("Failed to update emergency contact details");
+    }
+  }, [isAddSuccess, isAddError]);
 
   return (
     <div>
@@ -58,11 +69,11 @@ export default function Emergency() {
                     data?.contacts?.map((contact, index, contacts) => {
                       return (
                         <div
-                          className={`${isReadOnly ? "bg-white" : "bg-light px-5"} rounded relative`}
+                          className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5"} rounded relative`}
                           key={index}
                         >
                           {!isReadOnly && (
-                            <div className="absolute top-3 right-5">
+                            <div className="lg:col-span-2 absolute right-5 top-3">
                               <Button
                                 type="button"
                                 size={"xs"}
@@ -96,7 +107,6 @@ export default function Emergency() {
                                     }),
                                   });
                                 }}
-                                className={cn(isReadOnly && "bg-transparent")}
                                 required
                                 value={contact.name}
                                 readOnly={isReadOnly}
@@ -107,7 +117,6 @@ export default function Emergency() {
                             <div className="lg:col-6 mb-4">
                               <Label>Relation:</Label>
                               <Input
-                                className={cn(isReadOnly && "bg-transparent")}
                                 onChange={(e) => {
                                   const { name, value } = e.target;
                                   handleChange({
@@ -130,7 +139,6 @@ export default function Emergency() {
                             <div className="lg:col-6 mb-4">
                               <Label>Phone:</Label>
                               <Input
-                                className={cn(isReadOnly && "bg-transparent")}
                                 onChange={(e) => {
                                   const { name, value } = e.target;
                                   handleChange({
