@@ -352,4 +352,46 @@ export const steppers = [
       );
     },
   },
+  {
+    id: 6,
+    title: "Step 6",
+    description: "Complete Onboarding Form",
+    completed: false,
+    component: ({ isActive, isCompleted, token }: Props) => {
+      return (
+        <StepperCard
+          isActive={isActive}
+          isCompleted={isCompleted}
+          title="Update Password"
+          description={
+            <div>
+              <p>Update your password to secure your account</p>
+              <Link
+                className={buttonVariants({
+                  className: "inline-block !p-0",
+                  variant: "link",
+                })}
+                href={""}
+              >
+                Update Password
+              </Link>
+            </div>
+          }
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              signIn("credentials", {
+                token: token,
+              });
+            }}
+          >
+            <Button type="submit" variant={"outline"}>
+              I Agree
+            </Button>
+          </form>
+        </StepperCard>
+      );
+    },
+  },
 ];

@@ -26,7 +26,8 @@
       "@/partials/*": ["./src/layouts/partials/*"],
       "@/helpers/*": ["./src/layouts/helpers/*"],
       "@/ui/*": ["src/layouts/components/ui/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/assets/*": ["./public/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

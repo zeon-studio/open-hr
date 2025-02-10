@@ -9,14 +9,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: "credentials",
       id: "credentials",
       credentials: {
-        token: { label: "token", type: "text" },
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" },
       },
       type: "credentials",
       // @ts-ignore
       async authorize(credentials) {
         try {
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/token-login`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/password-login`,
             {
               method: "POST",
               headers: {
@@ -24,7 +25,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
               },
               body: JSON.stringify({
-                token: credentials.token,
+                email: credentials.email,
+                password: credentials.password,
               }),
             }
           );
