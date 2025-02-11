@@ -1,4 +1,3 @@
-import { signIn } from "@/auth";
 import { ErrorResponse } from "@/types";
 import { toast } from "sonner";
 import { apiSlice } from "../apiSlice/apiSlice";
@@ -46,13 +45,6 @@ export const authenticationApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { email, password, currentTime: Date.now() },
       }),
-      async onQueryStarted({ email, password }, { queryFulfilled }) {
-        await queryFulfilled;
-        signIn("credentials", {
-          email,
-          password,
-        });
-      },
     }),
 
     resendOTP: builder.mutation<{ message: string }, { email: string }>({

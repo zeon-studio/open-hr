@@ -8,6 +8,7 @@ import { Button } from "@/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";
 import PasswordInput from "@/ui/password-input";
 import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Timer } from "./resend-otp-timer";
@@ -55,6 +56,10 @@ export default function Verify({ email }: { email: string }) {
     try {
       await resetPassword({ email, password }).unwrap();
       toast.success("Password reset successfully");
+      signIn("credentials", {
+        email,
+        password,
+      });
     } catch (error) {
       const errorMessage =
         (error as ErrorResponse).data.message || "Something went wrong";
