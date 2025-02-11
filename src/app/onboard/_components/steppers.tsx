@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import PasswordInput from "@/app/(auth)/_components/PasswordInput";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -19,6 +20,7 @@ import { cn } from "@/lib/shadcn";
 import {
   useSetEmployeeDiscordMutation,
   useSetEmployeeEmailMutation,
+  useSetEmployeePasswordMutation,
   useSetEmployeePersonalityMutation,
 } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { ErrorResponse } from "@/types";
@@ -38,6 +40,7 @@ interface Props {
   fromData: any;
   employeeId: string;
   token: string;
+  value: any;
 }
 
 function StepperCard({
@@ -85,12 +88,14 @@ export const steppers = [
     title: "Step 1",
     description: "Create your account",
     completed: false,
+    name: "work_email",
     component: ({
       isCompleted,
       isActive,
       handleStepChange,
       employeeId,
       token,
+      value,
     }: Props) => {
       const [updateEmail, { isLoading }] = useSetEmployeeEmailMutation();
       return (
@@ -127,6 +132,7 @@ export const steppers = [
             className="space-y-4"
           >
             <Input
+              defaultValue={value}
               name="working_email"
               type="email"
               placeholder="name.themefisher@gmail.com"
@@ -143,14 +149,70 @@ export const steppers = [
   {
     id: 2,
     title: "Step 2",
-    description: "Create A Discord Account",
+    description: "Create password",
     completed: false,
+    name: "password",
     component: ({
       isCompleted,
       isActive,
       handleStepChange,
       employeeId,
       token,
+    }: Props) => {
+      const [updatePassword, { isLoading }] = useSetEmployeePasswordMutation();
+
+      return (
+        <StepperCard
+          isActive={isActive}
+          isCompleted={isCompleted}
+          title="Create Password"
+          description={<p>Create a password to secure your account</p>}
+        >
+          <form
+            className="space-y-4"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              const formObject = Object.fromEntries(formData.entries());
+              try {
+                await updatePassword({
+                  id: employeeId,
+                  password: formObject.password as string,
+                  token: token,
+                }).unwrap();
+                handleStepChange();
+              } catch (error) {
+                toast.error(
+                  (error as ErrorResponse).data.message ||
+                    "Something with wrong!"
+                );
+              }
+            }}
+          >
+            <PasswordInput name="password" placeholder="Password" />
+            <Button disabled={isLoading} type="submit" variant={"outline"}>
+              Submit{" "}
+              {isLoading && <Loader2 className="animate-spin size-4 ml-3" />}
+            </Button>
+          </form>
+        </StepperCard>
+      );
+    },
+  },
+  {
+    id: 3,
+    title: "Step 3",
+    description: "Create A Discord Account",
+    completed: false,
+    name: "discord",
+
+    component: ({
+      isCompleted,
+      isActive,
+      handleStepChange,
+      employeeId,
+      token,
+      value,
     }: Props) => {
       const [updateDiscord, { isLoading }] = useSetEmployeeDiscordMutation();
 
@@ -191,6 +253,7 @@ export const steppers = [
               name="discord"
               type="text"
               placeholder="https://discord.com/invite/123456789"
+              defaultValue={value}
             />
             <Button disabled={isLoading} type="submit" variant={"outline"}>
               Submit{" "}
@@ -202,11 +265,12 @@ export const steppers = [
     },
   },
   {
-    id: 3,
-    title: "Step 3",
+    id: 4,
+    title: "Step 4",
     description: "Complete Onboarding Form",
     completed: false,
-    component: ({ isActive, isCompleted, employeeId }: Props) => {
+    name: "onboarding_form",
+    component: ({ isActive, isCompleted, employeeId, value }: Props) => {
       return (
         <StepperCard
           isActive={isActive}
@@ -228,11 +292,11 @@ export const steppers = [
                 <ExternalLink className="ml-1.5 size-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl">
+            <DialogContent className="max-w-3xl h-[80vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Complete Onboarding Form</DialogTitle>
               </DialogHeader>
-              <OnboardingForm employeeId={employeeId} />
+              <OnboardingForm defaultValue={value} employeeId={employeeId} />
             </DialogContent>
           </Dialog>
         </StepperCard>
@@ -240,16 +304,18 @@ export const steppers = [
     },
   },
   {
-    id: 4,
-    title: "Step 4",
+    id: 5,
+    title: "Step 5",
     description: "Complete Onboarding Form",
     completed: false,
+    name: "personality",
     component: ({
       isActive,
       isCompleted,
       handleStepChange,
       employeeId,
       token,
+      value,
     }: Props) => {
       const [updatePersonality, { isLoading }] =
         useSetEmployeePersonalityMutation();
@@ -298,7 +364,12 @@ export const steppers = [
             }}
             className="space-y-4 -mt-3"
           >
-            <Input type="text" placeholder="ENTG" name={"personality"} />
+            <Input
+              type="text"
+              placeholder="ENTG"
+              defaultValue={value}
+              name={"personality"}
+            />
             <Button type="submit" variant={"outline"}>
               {isLoading && <Loader2 className="animate-spin size-4 ml-1.5" />}
               Submit
@@ -309,10 +380,11 @@ export const steppers = [
     },
   },
   {
-    id: 5,
-    title: "Step 5",
+    id: 6,
+    title: "Step 6",
     description: "Complete Onboarding Form",
     completed: false,
+    name: "policies",
     component: ({ isActive, isCompleted, token }: Props) => {
       return (
         <StepperCard
@@ -325,7 +397,7 @@ export const steppers = [
                 Read and acknowledge our organization{" "}
                 <Link
                   className={buttonVariants({
-                    className: "inline-block !p-0",
+                    className: "inline-block !p-0 h-auto",
                     variant: "link",
                   })}
                   href={""}

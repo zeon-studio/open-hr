@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { checkCompletion } from "@/lib/check-completion";
 import { useGetEmployeeDetailsByTokenQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -114,6 +115,7 @@ function OnBoarding() {
                 employeeId: string;
                 isCompleted: boolean;
                 currentStep: number;
+                value: any;
                 handleStepChange: (stepIndex?: number) => void;
               }) => React.JSX.Element;
 
@@ -126,6 +128,11 @@ function OnBoarding() {
                   isCompleted={completedSteps.includes(stepper.id)}
                   isActive={currentStep === stepper.id}
                   key={stepper.id}
+                  value={
+                    stepper.name === "onboarding_form"
+                      ? data?.result
+                      : data?.result?.[stepper.name as keyof TEmployee]
+                  }
                 />
               );
             })}

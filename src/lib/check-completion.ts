@@ -11,15 +11,19 @@ export function checkCompletion(data: TEmployee) {
     completedSteps.push(1);
   }
 
-  // Step 2: Check if discord exists
-  if (data?.discord) {
+  // step 2: check password
+  if (data?.password) {
     completedSteps.push(2);
   }
 
-  // Step 3: Check if all required fields exist
+  // Step 3: Check if discord exists
+  if (data?.discord) {
+    completedSteps.push(3);
+  }
+
+  // Step 4: Check if all required fields exist
   const requiredFields: (keyof TEmployee)[] = [
     "name",
-    "work_email",
     "personal_email",
     "dob",
     "nid",
@@ -32,18 +36,24 @@ export function checkCompletion(data: TEmployee) {
     "facebook",
     "twitter",
     "linkedin",
-    "discord",
   ];
 
-  const isStep3Complete = requiredFields.every((field) => data[field]);
+  const isStep4Complete = requiredFields.every((field) => {
+    const exit = data[field];
 
-  if (isStep3Complete) {
-    completedSteps.push(3);
+    if (!exit) {
+      console.log({ field, exit });
+    }
+    return exit;
+  });
+
+  if (isStep4Complete) {
+    completedSteps.push(4);
   }
 
-  // Step 4: Check if personality exists
+  // Step 5: Check if all required fields exist
   if (data.personality) {
-    completedSteps.push(4);
+    completedSteps.push(5);
   }
 
   return completedSteps;

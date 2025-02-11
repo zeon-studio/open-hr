@@ -9,28 +9,52 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: "credentials",
       id: "credentials",
       credentials: {
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" },
         token: { label: "token", type: "text" },
       },
       type: "credentials",
-      // @ts-ignore
       async authorize(credentials) {
-        try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/token-login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-              },
-              body: JSON.stringify({
-                token: credentials.token,
-              }),
-            }
-          );
-          const data = await res.json();
+        let data;
+        let status;
 
-          if (res.status === 200) {
+        try {
+          if (credentials.token) {
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/token-login`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+                },
+                body: JSON.stringify({
+                  token: credentials.token,
+                }),
+              }
+            );
+            data = await res.json();
+            status = res.status;
+          } else {
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/password-login`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+                },
+                body: JSON.stringify({
+                  email: credentials.email,
+                  password: credentials.password,
+                }),
+              }
+            );
+            data = await res.json();
+            status = res.status;
+          }
+
+          if (status === 200) {
             return {
               ...data.result,
               id: data.result.userId,

@@ -21,15 +21,22 @@ const StepperProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleStepChange = (stepId?: number | number[]) => {
     if (Array.isArray(stepId)) {
-      setCurrentStep(
-        stepId.length === 0 ? steppers[0].id : Math.max(...stepId) + 1
-      );
+      const ids = steppers.map((step) => step.id);
+
+      const firstMissingStep = ids.find((id) => !stepId.includes(id));
+
+      setCurrentStep(firstMissingStep ?? currentStep + 1);
       setCompletedSteps([...new Set([...completedSteps, ...stepId])]);
       return;
     }
 
     const nextStep = stepId ?? currentStep + 1;
-    setCurrentStep(nextStep);
+    const ids = steppers.map((step) => step.id);
+    const nextIncompleteStep = ids.find(
+      (id) => !completedSteps.includes(id) && id !== currentStep
+    );
+
+    setCurrentStep(nextIncompleteStep ?? nextStep);
     setCompletedSteps([...new Set([...completedSteps, currentStep])]);
   };
 
