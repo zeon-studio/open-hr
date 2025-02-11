@@ -1,0 +1,25 @@
+{
+  "employee_id": "TFDEV2018001",
+  "years": [
+    {
+      "year": 2025,
+      "casual": {
+        "allotted": 10,
+        "consumed": 0
+      },
+      "earned": {
+        "allotted": 15,
+        "consumed": 0
+      },
+      "sick": {
+        "allotted": 15,
+        "consumed": 0
+      },
+      "without_pay": {
+        "allotted": 30,
+        "consumed": 0
+      }
+    }
+  ],
+  "status": "active"
+}

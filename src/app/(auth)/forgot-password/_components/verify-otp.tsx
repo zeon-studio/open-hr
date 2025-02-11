@@ -2,7 +2,7 @@ import { Label } from "@/layouts/components/ui/label";
 import {
   useResetPasswordMutation,
   useVerifyOTPMutation,
-} from "@/redux/features/authentication-slice/authentication-api-slice";
+} from "@/redux/features/authenticationApiSlice/authenticationSlice";
 import { ErrorResponse } from "@/types";
 import { Button } from "@/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";

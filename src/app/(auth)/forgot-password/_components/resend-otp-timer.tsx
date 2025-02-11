@@ -1,5 +1,5 @@
 import { Button } from "@/layouts/components/ui/button";
-import { useResendOTPMutation } from "@/redux/features/authentication-slice/authentication-api-slice";
+import { useResendOTPMutation } from "@/redux/features/authenticationApiSlice/authenticationSlice";
 import { useEffect, useState } from "react";
 
 export function Timer({ email }: { email: string }) {

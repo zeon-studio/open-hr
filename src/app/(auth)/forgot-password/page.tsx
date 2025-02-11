@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserVerifyMutation } from "@/redux/features/authentication-slice/authentication-api-slice";
+import { useUserVerifyMutation } from "@/redux/features/authenticationApiSlice/authenticationSlice";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
