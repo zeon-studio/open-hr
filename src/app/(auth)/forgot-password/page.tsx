@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useUserVerifyMutation } from "@/redux/features/authentication-slice/authentication-api-slice";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import Verify from "../_components/Verify";
+import Verify from "../_components/verify";
 
 function Page() {
   const [showVerify, setShowVerify] = useState(false);

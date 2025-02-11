@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import PasswordInput from "@/app/(auth)/_components/PasswordInput";
+import PasswordInput from "@/app/(auth)/_components/password-input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,

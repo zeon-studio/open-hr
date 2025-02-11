@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 
 import { Label } from "@/layouts/components/ui/label";
 import { Loader2 } from "lucide-react";
-import PasswordInput from "./PasswordInput";
-import { Timer } from "./Timer";
+import PasswordInput from "./password-input";
+import { Timer } from "./timer";
 
 import {
   InputOTP,
