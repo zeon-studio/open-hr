@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import PasswordInput from "./PasswordInput";
+import PasswordInput from "./password-input";
 
 export default function EmailVerify() {
   const [isLoading, startLoading] = useTransition();

@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 
 import { Label } from "@/layouts/components/ui/label";
 import { Loader2 } from "lucide-react";
-import PasswordInput from "./PasswordInput";
-import { Timer } from "./Timer";
+import PasswordInput from "./password-input";
 
 import {
   InputOTP,
@@ -17,6 +16,7 @@ import {
 import { ErrorResponse } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Timer } from "./timer";
 
 export default function Verify({ email }: { email: string }) {
   const [showVerify, setShowVerify] = useState(false);
