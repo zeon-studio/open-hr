@@ -127,6 +127,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                 className="rounded-full mr-2 size-5"
                 email={session?.user?.email!}
                 size={30}
+                default="mp"
               />
               <span className="text-sm capitalize font-medium text-text-dark">
                 {session?.user?.name?.slice(0, 13)}

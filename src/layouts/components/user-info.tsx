@@ -14,7 +14,6 @@ const UserInfo = ({
   description?: string;
   imgSize?: number;
 }): JSX.Element => {
-  console.log(user);
   return (
     <>
       {user.id && (

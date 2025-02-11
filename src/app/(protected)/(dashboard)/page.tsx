@@ -32,6 +32,7 @@ const Home = () => {
                 className="rounded-md shrink-0"
                 email={data?.user?.email!}
                 size={72}
+                default="mp"
               />
               <div className="ml-4">
                 <h1 className="text-2xl mb-2">Hi, {data?.user?.name}</h1>
