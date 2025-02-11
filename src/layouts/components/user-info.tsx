@@ -14,6 +14,7 @@ const UserInfo = ({
   description?: string;
   imgSize?: number;
 }): JSX.Element => {
+  console.log(user);
   return (
     <>
       {user.id && (
@@ -29,7 +30,7 @@ const UserInfo = ({
               />
             ) : (
               <Gravatar
-                email={user?.work_email ?? user.personal_email}
+                email={user?.work_email || "unknown@mail.com"}
                 size={imgSize}
                 default="mp"
                 className="rounded-full"
@@ -39,7 +40,7 @@ const UserInfo = ({
           <div className="ml-3">
             <h6 className={`font-medium mb-1.5 text-sm line-clamp-1`}>
               <Link className="stretched-link" href={`/employees/${user.id}`}>
-                {user?.name}
+                {user?.name || "UNKNOWN"}
               </Link>
             </h6>
             <p className="text-xs text-muted-foreground line-clamp-1">
