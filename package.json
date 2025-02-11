@@ -1,9 +1,8 @@
 {
   "name": "erp-solution",
-  "version": "2.0.0",
-  "private": true,
-  "author": "teamosis",
-  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "author": "zeon.studio",
+  "license": "MIT",
   "description": "admin for erp.teamosis.com",
   "scripts": {
     "dev": "next dev",

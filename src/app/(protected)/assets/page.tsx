@@ -76,7 +76,7 @@ const Asset = () => {
         <TableBody>
           {!assets?.length && (
             <TableRow>
-              <TableCell colSpan={5}>
+              <TableCell colSpan={6}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>
