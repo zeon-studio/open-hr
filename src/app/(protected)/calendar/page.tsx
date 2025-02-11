@@ -85,12 +85,12 @@ const CalendarPage = () => {
   }
 
   return (
-    <section className="p-8">
+    <section className="p-6">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-1 sm:gap-4 relative sm:-mb-10 mb-1 z-10 sm:w-fit">
         {session?.user.role === "user" ? (
-          <h4>
+          <h2 className="text-h4 mr-2">
             {format(new Date(), "MMMM")} {new Date().getFullYear()}
-          </h4>
+          </h2>
         ) : (
           <>
             <div className="flex items-center max-sm:w-full">
@@ -100,7 +100,9 @@ const CalendarPage = () => {
                 onOpenChange={onDialogChange}
               >
                 <DialogTrigger asChild>
-                  <Button className="w-full rounded-r-none">Add New</Button>
+                  <Button className="w-full rounded-r-none">
+                    Add Calendar Year
+                  </Button>
                 </DialogTrigger>
                 <CalendarInsert onDialogChange={onDialogChange} />
               </Dialog>

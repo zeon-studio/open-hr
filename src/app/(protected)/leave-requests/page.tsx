@@ -1,13 +1,9 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import SearchBox from "@/components/search-box";
-import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { useAppSelector } from "@/redux/hook";
-import { Button } from "@/ui/button";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
   Table,
   TableBody,
@@ -17,12 +13,10 @@ import {
   TableRow,
 } from "@/ui/table";
 import { notFound, useSearchParams } from "next/navigation";
-import LeaveRequestInsert from "./_components/leave-request-insert";
 import LeaveRequestPage from "./_components/leave-request-page";
 
 const LeaveRequest = () => {
   const searchParams = useSearchParams();
-  const { isDialogOpen, onDialogChange } = useDialog();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
   const search = searchParams.get("search");
@@ -51,16 +45,9 @@ const LeaveRequest = () => {
   }
 
   return (
-    <section className="p-8">
-      <div className="flex justify-between items-center mb-6">
-        <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
-          <DialogTrigger asChild>
-            <Button>Request Leave</Button>
-          </DialogTrigger>
-          <LeaveRequestInsert onDialogChange={onDialogChange} />
-        </Dialog>
-        <SearchBox />
-        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
+    <section className="p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-h4 hidden sm:block mr-2">Leave Requests</h2>
       </div>
 
       <Table>
@@ -93,10 +80,7 @@ const LeaveRequest = () => {
         </TableBody>
       </Table>
 
-      <Pagination
-        total={meta?.total!}
-        className="ml-auto flex md:hidden mt-5"
-      />
+      <Pagination total={meta?.total!} className="ml-auto flex mt-4" />
     </section>
   );
 };

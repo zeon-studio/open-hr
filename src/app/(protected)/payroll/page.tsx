@@ -1,7 +1,6 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import SearchBox from "@/components/search-box";
 import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetPayrollsQuery } from "@/redux/features/payrollApiSlice/payrollSlice";
@@ -51,16 +50,15 @@ const Payroll = () => {
   }
 
   return (
-    <section className="p-8">
-      <div className="flex justify-between items-center mb-6">
+    <section className="p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-h4 hidden sm:block mr-2">Payroll</h2>
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
-            <Button>Add Salary</Button>
+            <Button className="ml-auto">Add Salary</Button>
           </DialogTrigger>
           <PayrollInsert onDialogChange={onDialogChange} />
         </Dialog>
-        <SearchBox />
-        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
       </div>
 
       <Table>
@@ -90,10 +88,7 @@ const Payroll = () => {
         </TableBody>
       </Table>
 
-      <Pagination
-        total={meta?.total!}
-        className="ml-auto flex md:hidden mt-5"
-      />
+      <Pagination total={meta?.total!} className="ml-auto flex mt-4" />
     </section>
   );
 };

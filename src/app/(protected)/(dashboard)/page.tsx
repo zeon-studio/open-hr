@@ -20,7 +20,7 @@ const Home = () => {
   const { modules } = useAppSelector((state) => state["setting-slice"]);
 
   return (
-    <section className="p-8">
+    <section className="p-6">
       {!data ? (
         <Loader />
       ) : (

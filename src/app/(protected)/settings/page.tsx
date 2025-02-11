@@ -25,7 +25,7 @@ const Setting = () => {
 
   if (isLoading) {
     return (
-      <div className="p-8">
+      <div className="p-6">
         <Card>
           <CardContent className="py-20 text-center">
             <Loader2 className="animate-spin size-5 mx-auto" />
@@ -44,7 +44,7 @@ const Setting = () => {
   };
 
   return (
-    <section className="p-8">
+    <section className="p-6">
       <div className="space-y-10">
         <SettingModuleForm data={data?.result!} />
         <SettingConfigureForm

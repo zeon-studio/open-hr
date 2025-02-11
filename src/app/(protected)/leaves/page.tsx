@@ -65,9 +65,10 @@ const Leave = () => {
   }
 
   return (
-    <section className="p-8">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
+    <section className="p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-h4 hidden sm:block mr-2">Leaves</h2>
+        <div className="flex items-center ml-auto">
           <Label className="hidden md:block mr-2 mb-0">Year</Label>
           <Select
             onValueChange={(value) => {
@@ -87,7 +88,6 @@ const Leave = () => {
             </SelectContent>
           </Select>
         </div>
-        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
       </div>
       <Table>
         <TableHeader className="sticky top-0">
@@ -157,10 +157,7 @@ const Leave = () => {
           )}
         </TableBody>
       </Table>
-      <Pagination
-        total={meta?.total!}
-        className="ml-auto flex md:hidden mt-5"
-      />
+      <Pagination total={meta?.total!} className="ml-auto flex mt-4" />
     </section>
   );
 };

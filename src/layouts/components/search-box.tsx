@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 
 const SearchBox = ({
-  className = "ml-2",
+  className = "mr-2",
   onSearch,
 }: {
   className?: string;

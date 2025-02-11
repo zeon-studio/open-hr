@@ -6,7 +6,7 @@ import {
   TModuleItem,
   TSetting,
 } from "@/redux/features/settingApiSlice/settingType";
-import { Card, CardContent } from "@/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
@@ -71,6 +71,9 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
 
   return (
     <Card>
+      <CardHeader className="border-0 pb-0">
+        <CardTitle>Modules</CardTitle>
+      </CardHeader>
       <CardContent>
         <form
           onSubmit={(e) => {

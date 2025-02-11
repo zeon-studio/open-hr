@@ -51,15 +51,15 @@ const LeaveRequest = () => {
   }
 
   return (
-    <section className="p-8">
-      <div className="flex justify-between items-center mb-6">
+    <section className="p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-h4 hidden sm:block mr-2">My Leave Requests</h2>
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
-            <Button>Request Leave</Button>
+            <Button className="ml-auto">Request Leave</Button>
           </DialogTrigger>
           <LeaveRequestInsert onDialogChange={onDialogChange} />
         </Dialog>
-        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
       </div>
 
       <Table>
@@ -91,10 +91,7 @@ const LeaveRequest = () => {
         </TableBody>
       </Table>
 
-      <Pagination
-        total={meta?.total!}
-        className="ml-auto flex md:hidden mt-5"
-      />
+      <Pagination total={meta?.total!} className="ml-auto flex mt-4" />
     </section>
   );
 };

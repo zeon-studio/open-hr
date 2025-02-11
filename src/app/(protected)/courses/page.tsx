@@ -50,16 +50,16 @@ const Course = () => {
   }
 
   return (
-    <section className="p-8">
-      <div className="flex justify-between items-center mb-6">
+    <section className="p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-h4 hidden sm:block mr-2">Courses</h2>
+        <SearchBox />
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
-            <Button>Add New Platform</Button>
+            <Button className="ml-auto">Add New Platform</Button>
           </DialogTrigger>
           <CourseInsert onDialogChange={onDialogChange} />
         </Dialog>
-        <SearchBox />
-        <Pagination total={meta?.total!} className="ml-auto hidden md:flex" />
       </div>
 
       <Table>
@@ -90,10 +90,7 @@ const Course = () => {
         </TableBody>
       </Table>
 
-      <Pagination
-        total={meta?.total!}
-        className="ml-auto flex md:hidden mt-5"
-      />
+      <Pagination total={meta?.total!} className="ml-auto flex mt-4" />
     </section>
   );
 };

@@ -81,11 +81,13 @@ const CalendarUpdate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);
 
+  console.log(updatedCalendarData);
+
   return (
     <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
       <DialogTrigger asChild>
         <Button variant="outline" className="max-sm:w-full">
-          Update Calendar
+          Update Calendar Year
         </Button>
       </DialogTrigger>
       <DialogContent
@@ -116,6 +118,7 @@ const CalendarUpdate = () => {
         </div>
 
         <CalendarForm
+          key={updatedCalendarData.year}
           calendarData={updatedCalendarData}
           setCalendarData={setUpdatedCalendarData}
           handleSubmit={handleSubmit}
