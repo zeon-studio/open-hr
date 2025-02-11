@@ -131,7 +131,7 @@ const PayrollInsert = ({
       onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Add New Payroll</DialogTitle>
-      <form onSubmit={handleSubmit} className="row">
+      <form onSubmit={handleSubmit} className="row gx-3">
         <div className="col-12 mb-4">
           <Label>Salary Date</Label>
           <Popover>

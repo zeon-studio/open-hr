@@ -1,23 +1,26 @@
 import { moduleIcons } from "@/components/icons";
-import EditFrom from "@/layouts/partials/edit-from";
+import ConfirmationPopup from "@/layouts/components/confirmation-popup";
 import { titleify } from "@/lib/text-converter";
 import { useUpdateSettingModuleStatusMutation } from "@/redux/features/settingApiSlice/settingSlice";
 import {
   TModuleItem,
   TSetting,
 } from "@/redux/features/settingApiSlice/settingType";
-import { Badge } from "@/ui/badge";
+import { Card, CardContent } from "@/ui/card";
 import { Switch } from "@/ui/switch";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const SettingModuleForm = ({ data }: { data: TSetting }) => {
-  const [loader, setLoader] = useState(false);
-
   const [updateModuleStatus, { isSuccess, isError, error }] =
     useUpdateSettingModuleStatusMutation();
 
   const [initialData, setInitialData] = useState<TModuleItem[]>([]);
+  const [selectedModule, setSelectedModule] = useState<TModuleItem | null>(
+    null
+  );
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (data.modules.length > 0) {
@@ -32,11 +35,9 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
       toast("Something went wrong");
       console.log(error);
     }
-    setLoader(false);
   }, [isSuccess, isError, error]);
 
   const handleSubmit = async (data: TModuleItem[]) => {
-    setLoader(true);
     try {
       const payload = [
         ...data.map(({ name, enable }) => ({
@@ -47,74 +48,78 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
       await Promise.all(payload.map(updateModuleStatus));
     } catch (error) {
       console.log(error);
-      setLoader(false);
+    }
+  };
+
+  const handleChange = async (updatedModule: TModuleItem, index: number) => {
+    const updatedData = initialData.map((module, i) =>
+      i === index ? updatedModule : module
+    );
+    setInitialData(updatedData);
+    try {
+      await updateModuleStatus(updatedModule);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleConfirmation = () => {
+    if (selectedModule && selectedIndex !== null) {
+      handleChange(selectedModule, selectedIndex);
     }
   };
 
   return (
-    <EditFrom<TModuleItem[]>
-      isUpdating={loader}
-      data={initialData}
-      key={JSON.stringify(initialData)}
-      title="Modules"
-    >
-      {({ handleChange, isReadOnly, data, formRef }) => {
-        return (
-          <form
-            ref={formRef}
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(data);
-            }}
-            className="row gx-3 2xl:row-cols-5 xl:row-cols-3 lg:row-cols-3 md:row-cols-3 sm:row-cols-2 row-cols-1"
-          >
-            {data?.map((item, i) => {
-              const Icon = moduleIcons[item.name];
-              return (
-                <div key={`module-${item.name}`} className={"col mb-4"}>
-                  <div className="border rounded p-4">
-                    <div className="flex justify-between items-start mb-3">
-                      <span className="p-2 bg-light rounded">
-                        <Icon className="size-5" />
-                      </span>
-                      {isReadOnly ? (
-                        <Badge
-                          variant={item.enable ? "success" : "destructive"}
-                        >
-                          {item.enable ? "Enabled" : "Disabled"}
-                        </Badge>
-                      ) : (
-                        <Switch
-                          defaultChecked={item.enable}
-                          name="enable"
-                          onCheckedChange={() => {
-                            handleChange([
-                              ...data.map((item, index) => {
-                                if (index === i) {
-                                  return {
-                                    ...item,
-                                    enable: !item.enable,
-                                  };
-                                }
-                                return item;
-                              }),
-                            ]);
-                          }}
-                        />
-                      )}
-                    </div>
-                    <strong className="block">{titleify(item.name)}</strong>
-                    <small className="text-text-light">
-                      {item.description}
-                    </small>
+    <Card>
+      <CardContent>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(initialData);
+          }}
+          className="row gx-3 2xl:row-cols-5 xl:row-cols-3 lg:row-cols-3 md:row-cols-3 sm:row-cols-2 row-cols-1"
+        >
+          {initialData?.map((item, i) => {
+            const Icon = moduleIcons[item.name];
+            return (
+              <div key={`module-${item.name}`} className={"col mb-4"}>
+                <div className="border rounded p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="p-2 bg-light rounded">
+                      <Icon className="size-5" />
+                    </span>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <div>
+                          <Switch
+                            defaultChecked={item.enable}
+                            name="enable"
+                            onCheckedChange={() => {
+                              setSelectedModule({
+                                ...item,
+                                enable: !item.enable,
+                              });
+                              setSelectedIndex(i);
+                            }}
+                          />
+                        </div>
+                      </DialogTrigger>
+                      <ConfirmationPopup
+                        handleConfirmation={handleConfirmation}
+                        skipWrite={true}
+                        description="Are you sure you want to update this module?"
+                      />
+                    </Dialog>
                   </div>
+                  <strong className="block">{titleify(item.name)}</strong>
+                  <small className="text-text-light">{item.description}</small>
                 </div>
-              );
-            })}
-          </form>
-        );
-      }}
-    </EditFrom>
+              </div>
+            );
+          })}
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 

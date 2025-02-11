@@ -72,14 +72,6 @@ To start using this project, you need to have some prerequisites installed on yo
   yarn dev
   ```
 
-### 👉 Project Setup (Backend)
-
-1. Clone backend repo
-
-  ```bash
-  git clone https://github.com/zeon-studio/erp-solution-backend.git
-  ```
-
 1. Go to project folder
 
   ```bash
@@ -97,16 +89,59 @@ To start using this project, you need to have some prerequisites installed on yo
 - Duplicate .env.example to .env
 - Fullfil every env field
 
+1.
+
+### 👉 Project Setup (Backend)
+
+1. Clone backend repo
+
+  ```bash
+  git clone https://github.com/zeon-studio/erp-solution-backend.git
+  ```
+
 1. Quick start with Yarn
 
   ```bash
   yarn start
   ```
 
-1. Upload data
+### 👉 Install Dependencies
 
-- Open `example-data` folder
-- Upload every data to your collection using mongodb-compass
+Install all the dependencies using the following command.
+
+```bash
+npm install
+```
+
+### 👉 Development Command
+
+Start the development server using the following command.
+
+```bash
+npm run dev
+```
+
+---
+
+## 📝 Customization
+
+This template has been designed with a lot of customization options in mind. You can customize almost anything you want, including:
+
+### 👉 Site Config
+
+You can change the site title, base URL, language, theme, plugins, and more from the `hugo.toml` file.
+
+### 👉 Site Params
+
+You can customize all the parameters from the `config/_default/params.toml` file. This includes the logo, favicon, search, SEO metadata, and more.
+
+### 👉 Colors and Fonts
+
+You can change the colors and fonts from the `data/theme.json` file. This includes the primary color, secondary color, font family, and font size.
+
+### 👉 Social Links
+
+You can change the social links from the `data/social.json` file. Add your social links here, and they will automatically be displayed on the site.
 
 ---
 
