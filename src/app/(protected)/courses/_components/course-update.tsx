@@ -1,6 +1,6 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useUpdateCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CourseForm from "./course-form";

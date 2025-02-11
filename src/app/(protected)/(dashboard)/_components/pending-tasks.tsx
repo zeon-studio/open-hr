@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import {
@@ -11,6 +9,8 @@ import {
   useUpdateOnboardingTaskStatusMutation,
 } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
 import { TOnboardingTask } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingType";
+import { Button } from "@/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { BadgeInfo, CheckCircle, CircleDashed } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";

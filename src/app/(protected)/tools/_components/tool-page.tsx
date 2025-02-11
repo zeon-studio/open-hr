@@ -1,18 +1,18 @@
 "use client";
 
 import ConfirmationPopup from "@/components/confirmation-popup";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { useDialog } from "@/hooks/useDialog";
+import { useDeleteToolMutation } from "@/redux/features/toolApiSlice/toolSlice";
+import { TTool } from "@/redux/features/toolApiSlice/toolType";
+import { Button } from "@/ui/button";
+import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { TableCell, TableRow } from "@/components/ui/table";
-import { useDialog } from "@/hooks/useDialog";
-import { useDeleteToolMutation } from "@/redux/features/toolApiSlice/toolSlice";
-import { TTool } from "@/redux/features/toolApiSlice/toolType";
+} from "@/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/ui/table";
 import { Ellipsis, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

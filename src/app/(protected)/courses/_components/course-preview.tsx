@@ -1,7 +1,7 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 
 const CoursePreview = ({ courseData }: { courseData: Partial<TCourse> }) => {
   return (

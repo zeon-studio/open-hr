@@ -1,16 +1,16 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button, buttonVariants } from "@/layouts/components/ui/button";
 import { cn } from "@/lib/shadcn";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import PasswordInput from "@/ui/password-input";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import PasswordInput from "./password-input";
 
-export default function EmailVerify() {
+export default function LoginForm() {
   const [isLoading, startLoading] = useTransition();
 
   const [loginInfo, setLoginInfo] = useState({
@@ -29,23 +29,23 @@ export default function EmailVerify() {
   };
 
   return (
-    <form className="space-y-3" onSubmit={handleSubmit}>
-      <fieldset key={"email"}>
-        <Label htmlFor="user">Email*</Label>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <Label htmlFor="user">Work Email:</Label>
         <Input
           type="email"
           id="user"
-          placeholder="Enter working email"
+          placeholder="Enter work email"
           value={loginInfo.email}
           required
           onChange={(e) =>
             setLoginInfo({ ...loginInfo, email: e.target.value })
           }
         />
-      </fieldset>
+      </div>
 
-      <fieldset>
-        <Label htmlFor="password">Password*</Label>
+      <div className="">
+        <Label htmlFor="password">Password:</Label>
         <PasswordInput
           id="password"
           name="password"
@@ -56,31 +56,32 @@ export default function EmailVerify() {
             setLoginInfo({ ...loginInfo, password: e.target.value })
           }
         />
-      </fieldset>
-      <div className="pb-4">
-        <div className="flex items-center justify-end">
-          <Link
-            className={cn(
-              buttonVariants({ variant: "link", className: "underline" })
-            )}
-            href="/forgot-password"
-          >
-            Forgot password?
-          </Link>
-        </div>
+      </div>
 
-        <div className="my-3">
-          <Button disabled={isLoading} className="w-full">
-            {isLoading ? (
-              <>
-                Login
-                <Loader2 className="size-4 ml-2 animate-spin" />
-              </>
-            ) : (
-              "Login"
-            )}
-          </Button>
-        </div>
+      <div className="text-right mb-5">
+        <Link
+          className={cn(
+            buttonVariants({
+              variant: "link",
+              className: "underline px-0 text-text-light",
+            })
+          )}
+          href="/forgot-password"
+        >
+          Forgot password?
+        </Link>
+      </div>
+      <div>
+        <Button disabled={isLoading} className="w-full">
+          {isLoading ? (
+            <>
+              Login
+              <Loader2 className="size-4 ml-2 animate-spin" />
+            </>
+          ) : (
+            "Login"
+          )}
+        </Button>
       </div>
     </form>
   );

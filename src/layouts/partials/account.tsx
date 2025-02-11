@@ -1,5 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { useAppDispatch } from "@/redux/hook";
+import { Button } from "@/ui/button";
 import {
   Card,
   CardContent,
@@ -7,10 +8,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAppDispatch } from "@/redux/hook";
+} from "@/ui/card";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

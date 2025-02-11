@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetCalendarQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
@@ -10,6 +8,8 @@ import {
   TEvent,
 } from "@/redux/features/calendarApiSlice/calendarType";
 import { useAppSelector } from "@/redux/hook";
+import { Button } from "@/ui/button";
+import { Dialog, DialogTrigger } from "@/ui/dialog";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { notFound } from "next/navigation";

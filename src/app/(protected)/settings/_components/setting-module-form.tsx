@@ -1,6 +1,4 @@
 import { moduleIcons } from "@/components/icons";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import EditFrom from "@/layouts/partials/edit-from";
 import { titleify } from "@/lib/text-converter";
 import { useUpdateSettingModuleStatusMutation } from "@/redux/features/settingApiSlice/settingSlice";
@@ -8,6 +6,8 @@ import {
   TModuleItem,
   TSetting,
 } from "@/redux/features/settingApiSlice/settingType";
+import { Badge } from "@/ui/badge";
+import { Switch } from "@/ui/switch";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 

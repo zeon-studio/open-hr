@@ -1,7 +1,7 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 
 const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
   return (

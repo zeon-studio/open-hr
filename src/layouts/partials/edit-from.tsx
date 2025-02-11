@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Check, Loader2, Pen } from "lucide-react";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 

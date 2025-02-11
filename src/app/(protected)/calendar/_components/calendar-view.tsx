@@ -1,5 +1,5 @@
-import { CalendarFullView } from "@/components/ui/calendar-fullview";
 import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
+import { CalendarFullView } from "@/ui/calendar-fullview";
 import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 

@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dateFormat } from "@/lib/date-converter";
 import { useGetAssetsByUserQuery } from "@/redux/features/assetApiSlice/assetSlice";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Package } from "lucide-react";
 import Image from "next/image";
 

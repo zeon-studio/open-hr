@@ -1,7 +1,7 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 
 const PayrollPreview = ({
   payrollData,

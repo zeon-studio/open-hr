@@ -1,13 +1,13 @@
 import Logo from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import { useDialog } from "@/hooks/useDialog";
+import { Button } from "@/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { useDialog } from "@/hooks/useDialog";
+} from "@/ui/sheet";
 import { Menu } from "lucide-react";
 import Sidebar from "./sidebar";
 

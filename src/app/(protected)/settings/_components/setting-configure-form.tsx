@@ -1,7 +1,7 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import EditFrom from "@/partials/edit-from";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
 
 interface SettingConfigureFormProps {
   isUpdating: boolean;

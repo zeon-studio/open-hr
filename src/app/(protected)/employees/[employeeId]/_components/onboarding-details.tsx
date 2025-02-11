@@ -1,7 +1,7 @@
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { employeeInfoById } from "@/lib/employee-info";
 import { useGetEmployeeOnboardingQuery } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
+import { Badge } from "@/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

@@ -1,9 +1,9 @@
 "use client";
 
-import { TableCell, TableRow } from "@/components/ui/table";
 import UserInfo from "@/components/user-info";
 import { employeeInfoById } from "@/lib/employee-info";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { TableCell, TableRow } from "@/ui/table";
 
 const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
   return employees?.map((employee, index) => (

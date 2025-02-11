@@ -1,21 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import PasswordInput from "@/app/(auth)/_components/password-input";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/shadcn";
 import {
   useSetEmployeeDiscordMutation,
@@ -24,6 +7,23 @@ import {
   useSetEmployeePersonalityMutation,
 } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { ErrorResponse } from "@/types";
+import { Button, buttonVariants } from "@/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/ui/dialog";
+import { Input } from "@/ui/input";
+import PasswordInput from "@/ui/password-input";
 import { Check, ExternalLink, Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";

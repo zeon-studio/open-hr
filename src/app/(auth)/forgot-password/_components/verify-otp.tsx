@@ -1,22 +1,16 @@
-import { Button } from "@/components/ui/button";
-
 import { Label } from "@/layouts/components/ui/label";
-import { Loader2 } from "lucide-react";
-import PasswordInput from "./password-input";
-
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
 import {
   useResetPasswordMutation,
   useVerifyOTPMutation,
 } from "@/redux/features/authentication-slice/authentication-api-slice";
 import { ErrorResponse } from "@/types";
+import { Button } from "@/ui/button";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";
+import PasswordInput from "@/ui/password-input";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Timer } from "./timer";
+import { Timer } from "./resend-otp-timer";
 
 export default function Verify({ email }: { email: string }) {
   const [showVerify, setShowVerify] = useState(false);
@@ -71,13 +65,10 @@ export default function Verify({ email }: { email: string }) {
   return showVerify ? (
     <form className="space-y-3 text-left" onSubmit={handleResetPassword}>
       <div>
-        <Label className="from-input inline-block">
-          New Password
-          <span className="text-destruction">*</span>
-        </Label>
+        <Label className="from-input inline-block">New Password:</Label>
         <PasswordInput
           type="password"
-          placeholder="new password"
+          placeholder="Set password"
           name="password"
           value={password}
           required
@@ -86,13 +77,10 @@ export default function Verify({ email }: { email: string }) {
       </div>
 
       <div>
-        <Label className="from-input inline-block">
-          Confirm new password
-          <span className="text-destruction">*</span>
-        </Label>
+        <Label className="from-input inline-block">Confirm new password:</Label>
         <PasswordInput
           type="password"
-          placeholder="confirm new password"
+          placeholder="Confirm password"
           name="confirmPassword"
           value={confirmPassword}
           required
@@ -125,9 +113,7 @@ export default function Verify({ email }: { email: string }) {
   ) : (
     <form className="space-y-3 text-left" onSubmit={handleVerify}>
       <div className="mb-4 text-left">
-        <Label className="from-input mb-1 inline-block">
-          OTP <span className="text-destructive">*</span>
-        </Label>
+        <Label className="from-input mb-1 inline-block">Enter OTP:</Label>
 
         <div className="space-y-2">
           <InputOTP

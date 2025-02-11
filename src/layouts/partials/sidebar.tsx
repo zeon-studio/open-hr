@@ -1,13 +1,13 @@
 import Logo from "@/components/logo";
+import { menu } from "@/config/menu";
+import { cn } from "@/lib/shadcn";
+import { useAppSelector } from "@/redux/hook";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { menu } from "@/config/menu";
-import { cn } from "@/lib/shadcn";
-import { useAppSelector } from "@/redux/hook";
+} from "@/ui/accordion";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";

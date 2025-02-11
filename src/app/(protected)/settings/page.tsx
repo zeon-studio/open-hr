@@ -1,11 +1,11 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
 import {
   useGetSettingQuery,
   useUpdateSettingMutation,
 } from "@/redux/features/settingApiSlice/settingSlice";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
+import { Card, CardContent } from "@/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound } from "next/navigation";

@@ -1,6 +1,6 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useUpdateLeaveMutation } from "@/redux/features/leaveApiSlice/leaveSlice";
 import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import LeaveForm from "./leave-form";

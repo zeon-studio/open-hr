@@ -1,13 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeGroupByDepartment } from "@/lib/employee-info";
+import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  TEmployeeJob,
+  TPromotion,
+} from "@/redux/features/employeeJobApiSlice/employeeJobType";
+import { Button } from "@/ui/button";
+import { Calendar } from "@/ui/calendar";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 import {
   Select,
   SelectContent,
@@ -16,15 +19,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { dateFormat } from "@/lib/date-converter";
-import { employeeGroupByDepartment } from "@/lib/employee-info";
-import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import {
-  TEmployeeJob,
-  TPromotion,
-} from "@/redux/features/employeeJobApiSlice/employeeJobType";
+} from "@/ui/select";
+import { Textarea } from "@/ui/textarea";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

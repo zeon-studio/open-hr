@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetAssetsByUserQuery } from "@/redux/features/assetApiSlice/assetSlice";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";

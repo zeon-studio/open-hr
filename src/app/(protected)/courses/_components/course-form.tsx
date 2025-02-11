@@ -1,19 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import options from "@/config/options.json";
 import MultipleSelector from "@/layouts/components/ui/multiple-selector";
 import { dateFormat } from "@/lib/date-converter";
@@ -25,6 +9,18 @@ import {
   TCourse,
   TCourseItem,
 } from "@/redux/features/courseApiSlice/courseType";
+import { Button } from "@/ui/button";
+import { Calendar } from "@/ui/calendar";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/ui/select";
 import { CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { SetStateAction, useEffect, useState } from "react";
 

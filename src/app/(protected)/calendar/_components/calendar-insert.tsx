@@ -1,6 +1,6 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CalendarForm from "./calendar-form";

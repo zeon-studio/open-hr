@@ -1,27 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useDialog } from "@/hooks/useDialog";
 import { dateFormat, getDuration } from "@/lib/date-converter";
 import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
@@ -29,6 +5,26 @@ import {
   TEmployeeJob,
   TPrevJob,
 } from "@/redux/features/employeeJobApiSlice/employeeJobType";
+import { Button } from "@/ui/button";
+import { Calendar } from "@/ui/calendar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/ui/dialog";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/ui/select";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

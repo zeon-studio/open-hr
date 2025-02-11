@@ -1,6 +1,6 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useUpdateToolMutation } from "@/redux/features/toolApiSlice/toolSlice";
 import { TTool } from "@/redux/features/toolApiSlice/toolType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ToolForm from "./tool-form";

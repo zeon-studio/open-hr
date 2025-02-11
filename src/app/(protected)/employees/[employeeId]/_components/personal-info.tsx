@@ -1,22 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
 import options from "@/config/options.json";
 import { dateFormat } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
@@ -41,6 +22,22 @@ import {
 } from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
 import { TEmployeeEducation } from "@/redux/features/employeeEducationApiSlice/employeeEducationType";
 import { useAppSelector } from "@/redux/hook";
+import { Button } from "@/ui/button";
+import { Calendar } from "@/ui/calendar";
+import { Card, CardContent } from "@/ui/card";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import PasswordInput from "@/ui/password-input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/ui/select";
+import { Separator } from "@/ui/separator";
+import { Textarea } from "@/ui/textarea";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
@@ -677,7 +674,7 @@ export default function PersonalInfo() {
                 <>
                   <div className="lg:col-6">
                     <Label>Current Password:</Label>
-                    <Input
+                    <PasswordInput
                       onChange={(e) => {
                         const { name, value } = e.target;
                         handleChange({
@@ -695,7 +692,7 @@ export default function PersonalInfo() {
 
                   <div className="lg:col-6">
                     <Label>New Password:</Label>
-                    <Input
+                    <PasswordInput
                       onChange={(e) => {
                         const { name, value } = e.target;
                         handleChange({

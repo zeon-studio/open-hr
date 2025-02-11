@@ -1,8 +1,8 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/shadcn";
+import { buttonVariants } from "@/ui/button";
+import { Input } from "@/ui/input";
 import { Trash2 as RemoveIcon } from "lucide-react";
 import {
   Dispatch,

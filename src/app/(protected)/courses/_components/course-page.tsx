@@ -2,18 +2,18 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import CopyText from "@/components/copy-text";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { useDialog } from "@/hooks/useDialog";
+import { useDeleteCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
+import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+import { Button } from "@/ui/button";
+import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { TableCell, TableRow } from "@/components/ui/table";
-import { useDialog } from "@/hooks/useDialog";
-import { useDeleteCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
-import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+} from "@/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/ui/table";
 import { Ellipsis, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

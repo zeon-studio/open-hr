@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetCoursesByUserQuery } from "@/redux/features/courseApiSlice/courseSlice";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";

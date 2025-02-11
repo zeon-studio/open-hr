@@ -1,7 +1,7 @@
 "use client";
 
-import { TableCell, TableRow } from "@/components/ui/table";
 import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { TableCell, TableRow } from "@/ui/table";
 
 const MyLeavePage = ({ leave }: { leave: TLeaveYear[] }) => {
   return (

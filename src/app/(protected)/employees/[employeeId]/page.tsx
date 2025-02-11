@@ -2,20 +2,20 @@
 
 import Avatar from "@/components/avatar";
 import { Discord, Facebook, Linkedin, Twitter } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getDuration } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import { useAppSelector } from "@/redux/hook";
+import { Button } from "@/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/ui/dropdown-menu";
+import { Separator } from "@/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { format } from "date-fns";
 import {
   Building,

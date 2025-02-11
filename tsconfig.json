@@ -22,12 +22,12 @@
       }
     ],
     "paths": {
+      "@/ui/*": ["./src/layouts/components/ui/*"],
       "@/components/*": ["./src/layouts/components/*"],
       "@/partials/*": ["./src/layouts/partials/*"],
       "@/helpers/*": ["./src/layouts/helpers/*"],
-      "@/ui/*": ["src/layouts/components/ui/*"],
+      "@/assets/*": ["./public/*"],
       "@/*": ["./src/*"],
-      "@/assets/*": ["./public/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,6 +1,6 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useAddAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
 import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AssetForm from "./asset-form";

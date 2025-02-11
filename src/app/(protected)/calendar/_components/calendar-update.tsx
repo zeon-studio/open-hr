@@ -1,24 +1,19 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useDialog } from "@/hooks/useDialog";
 import {
   useGetCalendarsQuery,
   useUpdateCalendarMutation,
 } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
+import { Button } from "@/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
+import { Label } from "@/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/ui/select";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CalendarForm from "./calendar-form";

@@ -1,19 +1,19 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import FileManager from "@/components/file-manager";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { MAX_SIZE } from "@/lib/constant";
 import {
   useDeleteEmployeeDocumentMutation,
   useGetEmployeeDocumentQuery,
 } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
+import { Button } from "@/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Dialog, DialogTrigger } from "@/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/ui/dropdown-menu";
 import { Ellipsis, Loader2, Upload } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

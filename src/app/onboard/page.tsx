@@ -2,17 +2,17 @@
 
 import { Confetti } from "@/components/icons";
 import Loader from "@/components/loader";
-import { buttonVariants } from "@/components/ui/button";
+import { checkCompletion } from "@/lib/check-completion";
+import { useGetEmployeeDetailsByTokenQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { buttonVariants } from "@/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { checkCompletion } from "@/lib/check-completion";
-import { useGetEmployeeDetailsByTokenQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+} from "@/ui/card";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";

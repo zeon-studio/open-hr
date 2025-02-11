@@ -1,5 +1,7 @@
 "use client";
 
+import { useGetLeaveQuery } from "@/redux/features/leaveApiSlice/leaveSlice";
+import { useAppSelector } from "@/redux/hook";
 import {
   Table,
   TableBody,
@@ -7,9 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useGetLeaveQuery } from "@/redux/features/leaveApiSlice/leaveSlice";
-import { useAppSelector } from "@/redux/hook";
+} from "@/ui/table";
 import { useSession } from "next-auth/react";
 import { notFound } from "next/navigation";
 import EmployeeLeavePage from "./_components/my-leave-page";

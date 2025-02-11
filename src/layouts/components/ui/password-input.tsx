@@ -1,8 +1,9 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "@/ui/input";
 import { Check, Eye, EyeOff } from "lucide-react";
 import React, { forwardRef, useState } from "react";
+
 interface PasswordInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;

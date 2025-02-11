@@ -1,8 +1,12 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { useDialog } from "@/hooks/useDialog";
+import useLocalCacheHook from "@/hooks/useLocalCacheHook";
+import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
+import { useAppSelector } from "@/redux/hook";
+import { Button } from "@/ui/button";
+import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
   Table,
   TableBody,
@@ -10,11 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useDialog } from "@/hooks/useDialog";
-import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
-import { useAppSelector } from "@/redux/hook";
+} from "@/ui/table";
 import { useSession } from "next-auth/react";
 import { notFound, useSearchParams } from "next/navigation";
 import LeaveRequestInsert from "../leave-requests/_components/leave-request-insert";

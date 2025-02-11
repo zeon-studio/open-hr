@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useUserVerifyMutation } from "@/redux/features/authentication-slice/authentication-api-slice";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import Verify from "../_components/verify";
+import Verify from "./_components/verify-otp";
 
-function Page() {
+function ForgotPassword() {
   const [showVerify, setShowVerify] = useState(false);
   const [email, setEmail] = useState("");
   const [userVerify, { isLoading }] = useUserVerifyMutation();
@@ -27,21 +27,17 @@ function Page() {
         <Verify email={email} />
       ) : (
         <form onSubmit={handleSubmit}>
-          <fieldset className="mb-7">
-            <Label htmlFor="user">
-              Working Email
-              <span className="text-destruction">*</span>
-            </Label>
+          <div className="mb-6">
+            <Label>Work Email:</Label>
             <Input
               type="email"
-              id="user"
-              placeholder="Enter working email"
+              placeholder="Enter work email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </fieldset>
-          <div className="mb-3">
+          </div>
+          <div>
             <Button disabled={isLoading} className="w-full">
               {isLoading ? (
                 <>
@@ -49,7 +45,7 @@ function Page() {
                   <Loader2 className="size-4 animate-spin ml-2" />
                 </>
               ) : (
-                "Send"
+                "Send OTP"
               )}
             </Button>
           </div>
@@ -59,4 +55,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default ForgotPassword;

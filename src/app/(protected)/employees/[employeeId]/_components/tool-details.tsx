@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetToolsByUserQuery } from "@/redux/features/toolApiSlice/toolSlice";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

@@ -2,8 +2,12 @@
 
 import Pagination from "@/components/pagination";
 import SearchBox from "@/components/search-box";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { useDialog } from "@/hooks/useDialog";
+import useLocalCacheHook from "@/hooks/useLocalCacheHook";
+import { useGetToolsQuery } from "@/redux/features/toolApiSlice/toolSlice";
+import { useAppSelector } from "@/redux/hook";
+import { Button } from "@/ui/button";
+import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
   Table,
   TableBody,
@@ -11,11 +15,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useDialog } from "@/hooks/useDialog";
-import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetToolsQuery } from "@/redux/features/toolApiSlice/toolSlice";
-import { useAppSelector } from "@/redux/hook";
+} from "@/ui/table";
 import { notFound, useSearchParams } from "next/navigation";
 import ToolInsert from "./_components/tool-insert";
 import ToolPage from "./_components/tool-page";

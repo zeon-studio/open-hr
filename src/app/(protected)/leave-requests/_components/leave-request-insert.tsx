@@ -1,6 +1,6 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useAddLeaveRequestMutation } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
+import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

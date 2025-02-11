@@ -3,8 +3,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "@/ui/dialog";
+import { Input } from "@/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { Button } from "./ui/button";

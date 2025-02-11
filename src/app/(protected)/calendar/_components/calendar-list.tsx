@@ -1,3 +1,5 @@
+import { dateFormat } from "@/lib/date-converter";
+import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import {
   Table,
   TableBody,
@@ -5,9 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { dateFormat } from "@/lib/date-converter";
-import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
+} from "@/ui/table";
 
 const CalendarList = ({
   calendar,

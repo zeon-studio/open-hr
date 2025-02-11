@@ -1,13 +1,8 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import { cn } from "@/lib/shadcn";
+import { Badge } from "@/ui/badge";
+import { Command, CommandGroup, CommandItem, CommandList } from "@/ui/command";
 import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { X } from "lucide-react";
 import * as React from "react";

@@ -1,11 +1,11 @@
+import useAxios from "@/hooks/useAxios";
+import { BUCKET_URL } from "@/lib/constant";
+import { cn } from "@/lib/shadcn";
 import {
   FileInput,
   FileUploader,
   FileUploaderContent,
-} from "@/components/ui/file-uploader";
-import useAxios from "@/hooks/useAxios";
-import { BUCKET_URL } from "@/lib/constant";
-import { cn } from "@/lib/shadcn";
+} from "@/ui/file-uploader";
 import { Dialog } from "@radix-ui/react-dialog";
 import { CloudUpload, Loader2, Paperclip, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";

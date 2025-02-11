@@ -1,17 +1,17 @@
 import FileManager from "@/components/file-manager";
-import { Button, ButtonProps } from "@/components/ui/button";
+import { useDialog } from "@/hooks/useDialog";
+import { MAX_SIZE } from "@/lib/constant";
+import { cn } from "@/lib/shadcn";
+import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
+import { ErrorResponse } from "@/types";
+import { Button, ButtonProps } from "@/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useDialog } from "@/hooks/useDialog";
-import { MAX_SIZE } from "@/lib/constant";
-import { cn } from "@/lib/shadcn";
-import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
-import { ErrorResponse } from "@/types";
+} from "@/ui/dialog";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

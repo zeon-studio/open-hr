@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "@/layouts/components/ui/button";
-import { Separator } from "@/layouts/components/ui/separator";
 
 import googleIcon from "@/assets/images/google.svg";
+import { Button } from "@/layouts/components/ui/button";
+import { Separator } from "@/layouts/components/ui/separator";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import EmailVerify from "../_components/login-form";
+import LoginForm from "./_components/login-form";
 
 export default function Login() {
   return (
@@ -32,7 +32,7 @@ export default function Login() {
           <Separator />
         </div>
 
-        <EmailVerify />
+        <LoginForm />
       </div>
     </>
   );
