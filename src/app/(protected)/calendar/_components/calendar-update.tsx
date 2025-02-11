@@ -81,8 +81,6 @@ const CalendarUpdate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);
 
-  console.log(updatedCalendarData);
-
   return (
     <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
       <DialogTrigger asChild>
