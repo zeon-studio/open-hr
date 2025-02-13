@@ -227,7 +227,9 @@ const CalendarForm = ({
                           : undefined,
                         to: holiday.end_date
                           ? new Date(holiday.end_date)
-                          : undefined,
+                          : holiday.start_date
+                            ? new Date(holiday.start_date)
+                            : undefined,
                       }}
                       onSelect={(range) => {
                         if (range) {
@@ -334,7 +336,9 @@ const CalendarForm = ({
                           : undefined,
                         to: event.end_date
                           ? new Date(event.end_date)
-                          : undefined,
+                          : event.start_date
+                            ? new Date(event.start_date)
+                            : undefined,
                       }}
                       onSelect={(range) => {
                         if (range) {
