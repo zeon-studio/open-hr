@@ -82,11 +82,7 @@ const LeaveRequestForm = ({
           </SelectTrigger>
           <SelectContent>
             {options.leave_type.map((item) => (
-              <SelectItem
-                value={item.value}
-                key={item.value}
-                disabled={item.disabled}
-              >
+              <SelectItem value={item.value} key={item.value}>
                 {item.label}
               </SelectItem>
             ))}
