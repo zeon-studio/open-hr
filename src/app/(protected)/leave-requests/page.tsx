@@ -4,6 +4,7 @@ import Pagination from "@/components/pagination";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { useAppSelector } from "@/redux/hook";
+import { Button } from "@/ui/button";
 import {
   Table,
   TableBody,
@@ -12,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/table";
+import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
 import LeaveRequestPage from "./_components/leave-request-page";
 
@@ -48,6 +50,9 @@ const LeaveRequest = () => {
     <section className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-h4 hidden sm:block mr-2">Leave Requests</h2>
+        <Button className="ml-auto">
+          <Link href="/my-leave-requests">My Requests</Link>
+        </Button>
       </div>
 
       <Table>

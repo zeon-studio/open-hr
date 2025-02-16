@@ -56,7 +56,7 @@ const Asset = () => {
         <SearchBox />
         <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
           <DialogTrigger asChild>
-            <Button className="ml-auto">Add New Platform</Button>
+            <Button className="ml-auto">Add New Asset</Button>
           </DialogTrigger>
           <AssetInsert onDialogChange={onDialogChange} />
         </Dialog>

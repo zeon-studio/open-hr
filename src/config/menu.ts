@@ -1,6 +1,5 @@
 import {
   BookKey,
-  BookUser,
   Calendar,
   CalendarOff,
   CircleHelp,
@@ -97,34 +96,6 @@ export const menu = [
     icon: Calendar,
     module: "calendar",
     access: ["admin", "moderator", "user"],
-  },
-  {
-    name: "My Info",
-    icon: BookUser,
-    access: ["admin", "moderator"],
-    children: [
-      {
-        name: "My Profile",
-        path: "/my-profile",
-        icon: CircleUser,
-        module: "employee",
-        access: ["admin", "moderator"],
-      },
-      {
-        name: "My Leaves",
-        path: "/my-leaves",
-        icon: CalendarOff,
-        module: "leave",
-        access: ["admin", "moderator"],
-      },
-      {
-        name: "My Requests",
-        path: "/my-leave-requests",
-        icon: CircleHelp,
-        module: "leave",
-        access: ["admin", "moderator"],
-      },
-    ],
   },
   {
     name: "Settings",
