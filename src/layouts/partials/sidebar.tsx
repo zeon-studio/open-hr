@@ -29,7 +29,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   // only show menu if module is enabled
   const filterMenuByModule = filterMenuByRole
     .map((item) => {
-      if (item.children) {
+      if ("children" in item && Array.isArray(item.children)) {
         const filteredChildren = item.children.filter((child) => {
           const mod = modules?.find((mod) => mod.name === child.module);
           return mod ? mod.enable : true;
@@ -54,22 +54,22 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
       <nav className="px-5 flex-1 flex flex-col">
         <ul className="flex-1">
           {filterMenuByModule.map((item) => {
-            const isActive = item?.children?.some(
-              (child) => pathname === child.path
-            );
+            if (item && "children" in item && item.children) {
+              const isActive = item.children.some(
+                (child) => pathname === child.path
+              );
 
-            if (item?.children) {
               return (
                 <Accordion
-                  key={item?.name}
+                  key={item.name}
                   type="single"
                   collapsible
-                  value={isActive ? item?.name : undefined}
+                  value={isActive ? item.name : undefined}
                 >
                   <AccordionItem className="border-none" value={item.name}>
                     <AccordionTrigger className="pl-2 hover:no-underline pb-3 pt-2 text-sm">
                       <div className="flex items-center justify-start">
-                        {item?.icon && (
+                        {item.icon && (
                           <item.icon className="inline h-5 mr-2 mb-0.5" />
                         )}
                         {item.name}
@@ -98,26 +98,27 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                   </AccordionItem>
                 </Accordion>
               );
-            } else {
+            } else if (item) {
               return (
-                <li className="mb-2" key={item?.name}>
+                <li className="mb-2" key={item.name}>
                   <Link
                     {...(onClose && { onMouseDown: onClose })}
-                    href={item?.path!}
+                    href={item.path}
                     className={cn(
                       "rounded text-black text-sm font-medium block px-2 py-2.5",
-                      item?.path === pathname &&
+                      item.path === pathname &&
                         "bg-primary text-primary-foreground"
                     )}
                   >
-                    {item?.icon && (
+                    {item.icon && (
                       <item.icon className="inline h-5 mr-2 mb-0.5" />
                     )}
-                    {item?.name}
+                    {item.name}
                   </Link>
                 </li>
               );
             }
+            return null;
           })}
         </ul>
         <div className="pb-5">
