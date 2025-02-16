@@ -34,7 +34,10 @@ const Leave = () => {
   const year = searchParams.get("year");
   const currentYear = new Date().getFullYear();
 
-  const years = ["2024", "2025", "2026", "2027", "2028", "2029", "2030"];
+  const getYears = (start_year: number, end_year: number) =>
+    Array.from({ length: end_year - start_year + 1 }, (_, i) =>
+      (start_year + i).toString()
+    );
 
   // add new year data
   const [addNewYearLeave] = useAddNewLeaveYearMutation();
@@ -80,7 +83,7 @@ const Leave = () => {
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
-              {years.map((item) => (
+              {getYears(2024, currentYear).map((item) => (
                 <SelectItem key={item} value={item}>
                   {item}
                 </SelectItem>
