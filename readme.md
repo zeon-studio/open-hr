@@ -1,4 +1,4 @@
-<h1 align="center">ERP Solution</h1>
+<h1 align="center">Minimal HR Solution</h1>
 
 <p align="center">A comprehensive ERP solution to streamline user management, leave, payroll, asset management, and more.</p>
 
