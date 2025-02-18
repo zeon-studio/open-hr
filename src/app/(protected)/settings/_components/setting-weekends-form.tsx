@@ -58,7 +58,7 @@ export default function SettingWeekendsForm({
                       weekends: value.map((v) => v.value),
                     });
                   }}
-                  className="border-border/30"
+                  className="border-border"
                 />
               )}
             </div>
@@ -159,7 +159,7 @@ export default function SettingWeekendsForm({
                                 ),
                             });
                           }}
-                          className="border-border/30"
+                          className="border-border"
                         />
                       )}
                     </div>

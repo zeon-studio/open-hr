@@ -47,7 +47,7 @@ export default function SettingOffboardingTasksForm({
             {data.offboarding_tasks.map((task, index) => (
               <div
                 key={index}
-                className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5 mb-5"} ${index !== 0 && isReadOnly && "border-t pt-5"} rounded relative`}
+                className={`${isReadOnly ? "bg-white" : "bg-light px-5 pt-5 mb-5"} ${index !== 0 && isReadOnly ? "border-t border-border pt-5" : "rounded"} relative`}
               >
                 {!isReadOnly && (
                   <div className="absolute right-5 top-3">

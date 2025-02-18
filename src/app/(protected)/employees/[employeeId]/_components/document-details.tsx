@@ -56,9 +56,9 @@ export default function Document() {
                 return (
                   <li
                     key={index}
-                    className="col-span-1 rounded bg-light p-3 border-border/30 border flex flex-col"
+                    className="col-span-1 rounded bg-light p-3 border-border border flex flex-col"
                   >
-                    <div className="w-full bg-border/30 rounded mx-auto mb-4 items-center h-[160px] p-1.5 flex justify-center">
+                    <div className="w-full bg-border rounded mx-auto mb-4 items-center h-[160px] p-1.5 flex justify-center">
                       <FileManager
                         setFile={() => {}}
                         enable={false}

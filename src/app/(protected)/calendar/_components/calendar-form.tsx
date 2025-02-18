@@ -151,7 +151,7 @@ const CalendarForm = ({
         {holidayItems.map((holiday, index) => (
           <div
             key={index}
-            className="border relative mb-6 bg-light rounded-md p-3"
+            className="border border-border relative mb-6 bg-light rounded-md p-3"
           >
             <div className="absolute right-3 top-3">
               <Button
@@ -210,7 +210,7 @@ const CalendarForm = ({
                             />
                           </span>
                         )}
-                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
                         <span className="pl-2 block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
@@ -260,7 +260,7 @@ const CalendarForm = ({
         {eventItems.map((event, index) => (
           <div
             key={index}
-            className="border relative mb-6 bg-light rounded-md p-3"
+            className="border border-border relative mb-6 bg-light rounded-md p-3"
           >
             <div className="absolute right-3 top-3">
               <Button
@@ -319,7 +319,7 @@ const CalendarForm = ({
                             />
                           </span>
                         )}
-                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
                         <span className="pl-2 block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>

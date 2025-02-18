@@ -103,14 +103,7 @@ export default function JobDetails() {
           )}
         </CardHeader>
         <CardContent>
-          <ul
-            style={
-              {
-                "--space": "15px",
-              } as React.CSSProperties
-            }
-            className="space-y-[--space]"
-          >
+          <ul className="space-y-4">
             <li className="flex space-x-4">
               {company_website && (
                 <Image

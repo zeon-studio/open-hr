@@ -83,7 +83,7 @@ const CalendarInsertSheet = () => {
             <Input
               type="file"
               accept=".csv, .xlsx"
-              className="!border-solid cursor-pointer !py-1.5"
+              className="!border-solid !px-3 cursor-pointer !py-2"
               onChange={async (e) => {
                 const target = e.target as HTMLInputElement;
                 if (target.files) {

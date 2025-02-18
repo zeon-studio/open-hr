@@ -34,15 +34,15 @@ const Pagination = ({
   useEffect(() => setInputPage(page), [page]);
 
   return (
-    <div className={`flex justify-end rounded items-center ${className}`}>
+    <div className={`flex justify-end items-center ${className}`}>
       <p className="mr-4">
         Page {page ? page : 1} of {totalPages}
       </p>
       <div>
         <ul className="flex space-x-2">
           <li
-            className={`border rounded bg-white ${
-              page === 1 ? "text-light" : "text-primary"
+            className={`border border-border rounded-sm bg-white ${
+              page === 1 ? "text-text-light" : "text-primary"
             }`}
             onClick={() => onSelect("1", "page")}
           >
@@ -52,8 +52,8 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border rounded bg-white  ${
-              page === 1 ? " text-light" : "text-primary"
+            className={`border border-border rounded-sm bg-white ${
+              page === 1 ? "text-text-light" : "text-primary"
             }`}
             onClick={() => onSelect(`${page - 1}`, "page")}
           >
@@ -65,18 +65,18 @@ const Pagination = ({
           <li>
             <form onSubmit={handleSubmit}>
               <input
-                type="tex"
+                type="text"
                 name="page"
                 value={inputPage}
                 onChange={(e) => setInputPage(Number(e.target.value))}
                 autoComplete="off"
-                className="w-8 text-center border border-border rounded bg-white h-8 p-0 focus:outline-none focus:ring-0 focus:border-dark"
+                className="w-9 text-center border border-border border-border rounded-sm bg-white h-9 p-0 focus:outline-none focus:ring-0 focus:border-dark"
               />
             </form>{" "}
           </li>
           <li
-            className={`border rounded bg-white  ${
-              page === totalPages ? "text-light" : "text-primary"
+            className={`border border-border rounded-sm bg-white  ${
+              page === totalPages ? "text-text-light" : "text-primary"
             }`}
             onClick={() => onSelect(`${page + 1}`, "page")}
           >
@@ -86,8 +86,8 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border rounded bg-white  ${
-              page === totalPages ? "text-light" : "text-primary"
+            className={`border border-border rounded-sm bg-white  ${
+              page === totalPages ? "text-text-light" : "text-primary"
             }`}
             onClick={() => onSelect(`${totalPages}`, "page")}
           >

@@ -1,0 +1,48 @@
+/* define font family into layout.tsx */
+
+/* font size and radius */
+:root {
+  --font-base: 16px;
+  --font-scale: 1.2;
+  --radius: 0.3rem;
+}
+
+/* default colors */
+:root {
+  --body-color: hsl(0 0% 100%);
+  --primary-color: hsl(0 0% 0%);
+  --border-color: hsl(0, 0%, 90%);
+  --light-color: hsl(230 50% 98%);
+  --dark-color: hsl(221 39% 11%);
+  --accent-color: hsl(20 80% 40%);
+  --muted-color: hsl(216 12% 84%);
+  --danger-color: hsl(347 77% 50%);
+  --success-color: hsl(140 69% 38%);
+  --warning-color: hsl(46 86% 42%);
+
+  --text-default-color: hsl(217 33% 17%);
+  --text-light-color: hsl(220 9% 46%);
+  --text-dark-color: hsl(228 40% 10%);
+  --text-muted-color: hsl(229 15% 41%);
+  --text-white-color: hsl(0 0% 100%);
+}
+
+/* darkmode colors */
+.dark {
+  --body-color: hsl(0 0% 100%);
+  --primary-color: hsl(0 0% 0%);
+  --border-color: hsl(218 11% 65%);
+  --light-color: hsl(230 50% 98%);
+  --dark-color: hsl(221 39% 11%);
+  --accent-color: hsl(20 80% 40%);
+  --muted-color: hsl(216 12% 84%);
+  --danger-color: hsl(347 77% 50%);
+  --success-color: hsl(140 69% 38%);
+  --warning-color: hsl(46 86% 42%);
+
+  --text-default-color: hsl(217 33% 17%);
+  --text-light-color: hsl(220 9% 46%);
+  --text-dark-color: hsl(228 40% 10%);
+  --text-muted-color: hsl(229 15% 41%);
+  --text-white-color: hsl(0 0% 100%);
+}

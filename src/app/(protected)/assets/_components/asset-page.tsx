@@ -75,7 +75,7 @@ const AssetModal = ({
               alt={item.name}
               width={50}
               height={50}
-              className="rounded-md border border-border/30 mr-2 shrink-0"
+              className="rounded-md border border-border mr-2 shrink-0"
             />
             <p className="mb-0 capitalize font-medium">{item.name}</p>
           </div>

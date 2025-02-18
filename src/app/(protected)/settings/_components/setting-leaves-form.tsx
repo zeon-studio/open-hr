@@ -40,7 +40,7 @@ export default function SettingLeavesForm({
             <div className="lg:col-12">
               {data.leaves.map((leave, index) => (
                 <div
-                  className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t pt-5"} mb-5`}
+                  className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t border-border pt-5"} mb-5`}
                   key={index}
                 >
                   {!isReadOnly && (

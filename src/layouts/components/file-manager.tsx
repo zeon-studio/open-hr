@@ -115,7 +115,7 @@ const FileManager = ({
           onValueChange={setFiles}
           dropzoneOptions={dropZoneConfig}
           className={cn(
-            "relative bg-slate-100 border border-border/30 rounded p-8",
+            "relative bg-slate-100 border border-border rounded p-8",
             !enable && "opacity-50 cursor-not-allowed outline",
             files?.length && "bg-transparent p-0 border-transparent"
           )}

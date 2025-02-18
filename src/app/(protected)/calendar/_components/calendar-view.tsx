@@ -96,7 +96,7 @@ const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
         head_cell: "font-normal text-white",
         row: "w-full",
         cell: "w-[14.2857%] relative border border-gray-300",
-        nav_button: "h-full w-[20%] opacity-100",
+        nav_button: "h-full !w-[20%] opacity-100",
         nav_button_previous:
           "absolute left-0 top-1/2 transform -translate-y-1/2",
         nav_button_next: "absolute right-0 top-1/2 transform -translate-y-1/2",

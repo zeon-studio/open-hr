@@ -45,7 +45,7 @@ export default function Assets() {
                         alt={asset.name}
                         width={50}
                         height={50}
-                        className="hidden xl:block rounded-md border border-border/30 mr-2 shrink-0"
+                        className="hidden xl:block rounded-md border border-border mr-2 shrink-0"
                       />
 
                       <div>

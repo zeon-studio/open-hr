@@ -86,7 +86,7 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
             const Icon = moduleIcons[item.name];
             return (
               <div key={`module-${item.name}`} className={"col mb-4"}>
-                <div className="border rounded p-4">
+                <div className="border border-border rounded p-4">
                   <div className="flex justify-between items-start mb-3">
                     <span className="p-2 bg-light rounded">
                       <Icon className="size-5" />

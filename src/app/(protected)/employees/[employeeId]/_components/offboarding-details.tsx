@@ -162,7 +162,7 @@ export default function Offboarding() {
                               <Button
                                 variant={"input"}
                                 className={cn(
-                                  "w-full flex justify-between borer border-border/30"
+                                  "w-full flex justify-between borer border-border"
                                 )}
                               >
                                 {offboardingData.resignation_date ? (

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "tailwindcss-animate";
+@plugin "../tailwind-plugin/tw-bs-grid";
+
+@import "./theme.css";
+@import "./variables.css";
+
+@layer base {
+  @import "./base.css";
+}
+
+@layer components {
+  @import "./components.css";
+}

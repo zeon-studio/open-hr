@@ -36,7 +36,7 @@ const Home = () => {
               />
               <div className="ml-4">
                 <h1 className="text-2xl mb-2">Hi, {data?.user?.name}</h1>
-                <p className="text-light">
+                <p className="text-text-light">
                   Logged in as{" "}
                   <strong className="capitalize text-dark">
                     {data?.user?.role}

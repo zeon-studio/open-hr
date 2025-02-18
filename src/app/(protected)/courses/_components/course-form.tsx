@@ -124,7 +124,7 @@ const CourseForm = ({
       <div className="col-12 mb-6">
         {courseItems.map((item, index) => (
           <div
-            className="border mb-6 relative bg-light rounded-md p-3"
+            className="border border-border mb-6 relative bg-light rounded-md p-3"
             key={index}
           >
             <div className="absolute right-3 top-3">
@@ -231,7 +231,7 @@ const CourseForm = ({
                             />
                           </span>
                         )}
-                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
                         <span className="pl-2  block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
@@ -293,7 +293,7 @@ const CourseForm = ({
                             />
                           </span>
                         )}
-                        <span className="bg-border/30 mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
                         <span className="pl-2  block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
@@ -346,7 +346,7 @@ const CourseForm = ({
                     };
                     setCourseItems(updatedCourseItems);
                   }}
-                  className="border-border/30"
+                  className="border-border"
                   groupBy="department"
                 />
               </div>
