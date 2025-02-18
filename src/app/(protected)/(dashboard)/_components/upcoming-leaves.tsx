@@ -61,7 +61,7 @@ const UpcomingLeaves = () => {
       </CardHeader>
       <CardContent className="lg:h-[300px] scroll-box">
         <div className="mb-6">
-          <h4 className="text-h6 mb-3">Today</h4>
+          <h4 className="text-base font-medium mb-3">Today</h4>
           {todaysLeave?.length === 0 ? (
             <p className="text-text-light">
               Nobody requested time off for today
@@ -80,7 +80,7 @@ const UpcomingLeaves = () => {
           )}
         </div>
         <div className="mb-6">
-          <h4 className="text-h6 mb-3">Tomorrow</h4>
+          <h4 className="text-base font-medium mb-3">Tomorrow</h4>
           {tomorrowsLeave?.length === 0 ? (
             <p className="text-text-light">
               Nobody requested time off for tomorrow
@@ -99,7 +99,7 @@ const UpcomingLeaves = () => {
           )}
         </div>
         <div className="mb-6">
-          <h4 className="text-h6 mb-3">Upcoming Leaves</h4>
+          <h4 className="text-base font-medium mb-3">Upcoming Leaves</h4>
           {othersLeave?.length === 0 ? (
             <p className="text-text-light">
               Nobody requested time off for upcoming days
