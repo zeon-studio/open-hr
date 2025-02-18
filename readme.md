@@ -8,9 +8,9 @@
 ### 📌 Key Features
 
 - 👥 User Management with detailed information
-- 👥 Onboarding Steps for new Employees
+- 👥 Onboarding Steps for New Employees
 - 🎯 Different Dashboards for Admin, Moderator and User
-- 🔍 Search Functionality in every page
+- 🔍 Search Functionality on every page
 - 🏷️ Payroll Management with salary, bonus, and extra pay
 - 🔗 Tools and 3rd-party Account management
 - 📚 Online Course Management
@@ -45,13 +45,13 @@ To start using this project, you need to have some prerequisites installed on yo
 1. Clone frontend repo
 
   ```bash
-  git clone https://github.com/zeon-studio/erp-solution.git
+  git clone https://github.com/zeon-studio/minimal-hr.git
   ```
 
-1. Go to project folder
+1. Go to the project folder
 
   ```bash
-  cd erp-solution
+  cd minimal-hr
   ```
 
 1. Install packages with yarn
@@ -64,7 +64,7 @@ To start using this project, you need to have some prerequisites installed on yo
 
 - Duplicate .env.example to .env
 - Fullfil every env field
-- for gmail authentication, create Google Cloud Client ID for Web application.
+- Create a Google Cloud Client ID for the Web application for Gmail authentication.
 
 1. Quick start with Yarn
 
@@ -77,13 +77,13 @@ To start using this project, you need to have some prerequisites installed on yo
 1. Clone backend repo
 
   ```bash
-  git clone https://github.com/zeon-studio/erp-solution-backend.git
+  git clone https://github.com/zeon-studio/minimal-hr-backend.git
   ```
   
-1. Go to project folder
+1. Go to the project folder
 
   ```bash
-  cd erp-solution-backend
+  cd minimal-hr-backend
   ```
 
 1. Install packages with yarn
@@ -111,7 +111,7 @@ After you finish your development, you can build or deploy your project. Let's s
 
 ### 👉 Build Command
 
-To build your project locally (Frontend and Backend), you can use the following command. It will purge all the unused CSS and minify all the files.
+You can use the following command to build your project locally (Frontend and Backend). It will purge all the unused CSS and minify all the files.
 
 ```bash
 npm run build
@@ -144,4 +144,4 @@ Copyright (c) 2025 - Present, Designed & Developed by [Zeon Studio](https://zeon
 
 ## 💻 Need Help To Setup Or Customization?
 
-If you need to setup application, app customization, or complete application development services from scratch you can [Hire Us](https://zeon.studio/estimate-project).
+If you need to set up the application, app customization, or complete application development services from scratch you can [Hire Us](https://zeon.studio/estimate-project).
