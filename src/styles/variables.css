@@ -38,44 +38,6 @@
   --text-light: var(--text-light-color);
 }
 
-.dark {
-  --background: var(--body-color);
-  --foreground: var(--text-default-color);
-
-  --border: var(--border-color);
-  --ring: var(--text-default-color);
-  --light: var(--light-color);
-  --dark: var(--dark-color);
-
-  --card: var(--body-color);
-  --card-foreground: var(--text-default-color);
-
-  --popover: var(--light-color);
-  --popover-foreground: var(--text-default-color);
-
-  --primary: var(--primary-color);
-  --primary-foreground: var(--text-white-color);
-
-  --muted: var(--muted-color);
-  --muted-foreground: var(--text-muted-color);
-
-  --accent: var(--accent-color);
-  --accent-foreground: var(--text-white-color);
-
-  --destructive: var(--danger-color);
-  --destructive-foreground: var(--text-white-color);
-
-  --success: var(--success-color);
-  --success-foreground: var(--text-white-color);
-
-  --warning: var(--warning-color);
-  --warning-foreground: var(--text-white-color);
-
-  --text-color: var(--text-default-color);
-  --text-dark: var(--text-dark-color);
-  --text-light: var(--text-light-color);
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -106,15 +68,18 @@
   --font-primary: var(--font-primary);
   --font-secondary: var(--font-secondary);
 
-  --text-base: var(--font-base);
-  --text-base-sm: calc(var(--font-base) * 0.8);
-  --text-h6: calc(1 * var(--font-scale));
-  --text-h5: calc(var(--text-h6) * var(--font-scale));
-  --text-h4: calc(var(--text-h5) * var(--font-scale));
-  --text-h3: calc(var(--text-h4) * var(--font-scale));
-  --text-h3-sm: calc(var(--text-h3) * 0.9);
-  --text-h2: calc(var(--text-h3) * var(--font-scale));
-  --text-h2-sm: calc(var(--text-h2) * 0.9);
-  --text-h1: calc(var(--text-h2) * var(--font-scale));
+  /* Base font sizes with px appended */
+  --text-base: calc(var(--font-base) * 1px);
+  --text-base-sm: calc(var(--font-base) * 0.8 * 1px);
+
+  /* Heading sizes in rem using pow() for exponential scaling */
+  --text-h1: calc(1rem * pow(var(--font-scale), 6));
   --text-h1-sm: calc(var(--text-h1) * 0.9);
+  --text-h2: calc(1rem * pow(var(--font-scale), 5));
+  --text-h2-sm: calc(var(--text-h2) * 0.9);
+  --text-h3: calc(1rem * pow(var(--font-scale), 4));
+  --text-h3-sm: calc(var(--text-h3) * 0.9);
+  --text-h4: calc(1rem * pow(var(--font-scale), 3));
+  --text-h5: calc(1rem * pow(var(--font-scale), 2));
+  --text-h6: calc(1rem * var(--font-scale));
 }
