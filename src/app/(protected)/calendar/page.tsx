@@ -74,7 +74,7 @@ const CalendarPage = () => {
     "erp-calendar"
   );
 
-  const yearlyData = getHolydaysAndEvents(calendar! || localData);
+  const yearlyData = getHolydaysAndEvents(calendar! || localData[0]!);
 
   const { isDialogOpen, onDialogChange } = useDialog();
 
