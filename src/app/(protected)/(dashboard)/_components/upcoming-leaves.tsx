@@ -40,6 +40,9 @@ const UpcomingLeaves = () => {
 
   // others leave without today and tomorrow
   const othersLeave = useMemo(() => {
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
     return data?.result?.filter((leave: any) => {
       const start = new Date(leave.start_date);
       start.setHours(0, 0, 0, 0);
@@ -47,7 +50,7 @@ const UpcomingLeaves = () => {
       end.setHours(0, 0, 0, 0);
       const currentDate = new Date(today);
       currentDate.setHours(0, 0, 0, 0);
-      return currentDate < start || currentDate > end;
+      return (currentDate < start && tomorrow < start) || currentDate > end;
     });
   }, [data, today]);
 
