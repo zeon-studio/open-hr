@@ -10,6 +10,8 @@ const initialState: TSettingState["result"] = {
   logo_height: 0,
   company_name: "",
   company_website: "",
+  communication_platform: "",
+  communication_platform_url: "",
   payroll: {
     basic: "",
     house_rent: "",

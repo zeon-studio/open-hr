@@ -1,7 +1,7 @@
 "use client";
 
 import Avatar from "@/components/avatar";
-import { Discord, Facebook, Linkedin, Twitter } from "@/components/icons";
+import { Facebook, Linkedin, Twitter } from "@/components/icons";
 import { getDuration } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
@@ -23,6 +23,7 @@ import {
   ChevronDown,
   Hash,
   Mail,
+  MessageCircle,
   Phone,
   UserRoundCog,
 } from "lucide-react";
@@ -111,7 +112,8 @@ const tabs = [
 ];
 
 export default function EmployeeSingle() {
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  const { modules, communication_platform, communication_platform_url } =
+    useAppSelector((state) => state["setting-slice"]);
 
   // only show tab if module is enabled
   const filterTabByModule = tabs.filter((tab) => {
@@ -271,16 +273,36 @@ export default function EmployeeSingle() {
 
                 <li className="flex space-x-2 text-text-light">
                   <Phone className="size-4 flex-none stroke-current" />
-                  <span className="flex space-x-2 text-xs">
+                  <Link
+                    href={`tel:${data?.result.phone}`}
+                    className="flex space-x-2 text-xs"
+                  >
                     {data?.result.phone}
-                  </span>
+                  </Link>
                 </li>
 
                 <li className="flex space-x-2 text-text-light">
                   <Mail className="size-4 flex-none text-current" />
-                  <span className="flex space-x-2 text-xs">
+                  <Link
+                    href={`mailto:${data?.result.work_email}`}
+                    className="flex space-x-2 text-xs"
+                  >
                     {data?.result.work_email}
-                  </span>
+                  </Link>
+                </li>
+
+                <li className="flex space-x-2 text-text-light">
+                  <MessageCircle className="size-4 flex-none text-current" />
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    href={
+                      communication_platform_url + data?.result.communication_id
+                    }
+                    className="flex space-x-2 text-xs"
+                  >
+                    {communication_platform}
+                  </Link>
                 </li>
 
                 <li className="flex space-x-2 text-text-light">
@@ -360,16 +382,6 @@ export default function EmployeeSingle() {
                     href={data?.result.facebook ?? ""}
                   >
                     <Facebook className="size-7" />
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    href={data?.result.communication_id ?? ""}
-                  >
-                    <Discord className="size-7" />
                   </Link>
                 </li>
               </ul>

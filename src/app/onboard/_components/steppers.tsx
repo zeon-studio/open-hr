@@ -6,6 +6,7 @@ import {
   useSetEmployeePasswordMutation,
   useSetEmployeePersonalityMutation,
 } from "@/redux/features/employeeApiSlice/employeeSlice";
+import { useAppSelector } from "@/redux/hook";
 import { ErrorResponse } from "@/types";
 import { Button, buttonVariants } from "@/ui/button";
 import {
@@ -106,7 +107,7 @@ export const steppers = [
           description={
             <p>
               Set up your company email address using the format:{" "}
-              <strong>name.themefisher@gmail.com</strong>
+              <strong>name.companyname@gmail.com</strong>
             </p>
           }
         >
@@ -135,7 +136,7 @@ export const steppers = [
               defaultValue={value}
               name="working_email"
               type="email"
-              placeholder="name.themefisher@gmail.com"
+              placeholder="name.companyname@gmail.com"
             />
             <Button disabled={isLoading} type="submit" variant={"outline"}>
               Submit Email
@@ -202,7 +203,7 @@ export const steppers = [
   {
     id: 3,
     title: "Step 3",
-    description: "Create A Discord Account",
+    description: "Create A Communication Account",
     completed: false,
     name: "communication_id",
 
@@ -217,15 +218,19 @@ export const steppers = [
       const [updateCommunicationId, { isLoading }] =
         useSetEmployeeCommunicationIdMutation();
 
+      const { communication_platform } = useAppSelector(
+        (state) => state["setting-slice"]
+      );
+
       return (
         <StepperCard
           isActive={isActive}
           isCompleted={isCompleted}
-          title="Create A Discord Account"
+          title={`Create A ${communication_platform} Account`}
           description={
             <p>
-              Create a Discord account using your new company email and join our
-              workspace
+              Create a {communication_platform} account using your new company
+              email and join our workspace
             </p>
           }
         >
@@ -253,7 +258,7 @@ export const steppers = [
             <Input
               name="communication_id"
               type="text"
-              placeholder="username"
+              placeholder="user id"
               defaultValue={value}
             />
             <Button disabled={isLoading} type="submit" variant={"outline"}>

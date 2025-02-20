@@ -47,6 +47,8 @@ export type TSetting = {
   logo_height: number;
   company_name: string;
   company_website: string;
+  communication_platform: string;
+  communication_platform_url: string;
   modules: TModuleItem[];
   weekends: string[];
   conditional_weekends: TConditionalWeekend[];

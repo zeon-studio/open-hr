@@ -155,10 +155,44 @@ export default function SettingConfigureForm({
                     [name]: value,
                   });
                 }}
-                type="text"
+                type="url"
                 value={data.company_website || ""}
                 name="company_website"
                 placeholder="Company Website"
+                readOnly={isReadOnly}
+              />
+            </div>
+            <div className="lg:col-6">
+              <Label>Communication Platform:</Label>
+              <Input
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  handleChange({
+                    ...data,
+                    [name]: value,
+                  });
+                }}
+                type="text"
+                value={data.communication_platform || ""}
+                name="communication_platform"
+                placeholder="Communication Platform"
+                readOnly={isReadOnly}
+              />
+            </div>
+            <div className="lg:col-6">
+              <Label>Communication Platform URL:</Label>
+              <Input
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  handleChange({
+                    ...data,
+                    [name]: value,
+                  });
+                }}
+                type="url"
+                value={data.communication_platform_url || ""}
+                name="communication_platform_url"
+                placeholder="Communication Platform URL"
                 readOnly={isReadOnly}
               />
             </div>

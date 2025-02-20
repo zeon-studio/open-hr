@@ -5,6 +5,7 @@ import Loader from "@/components/loader";
 import { checkCompletion } from "@/lib/check-completion";
 import { useGetEmployeeDetailsByTokenQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { useAppSelector } from "@/redux/hook";
 import { buttonVariants } from "@/ui/button";
 import {
   Card,
@@ -14,7 +15,6 @@ import {
   CardTitle,
 } from "@/ui/card";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -24,6 +24,10 @@ import { useStepper } from "./_components/use-stepper";
 function OnBoarding() {
   const { status, data: session } = useSession();
   const [employeeId, setEmployeeId] = useState<string>("");
+
+  const { company_name, logo_url } = useAppSelector(
+    (state) => state["setting-slice"]
+  );
   const params = useSearchParams();
   const token = params.get("token") as string;
   const { steppers, currentStep, handleStepChange, completedSteps } =
@@ -90,15 +94,15 @@ function OnBoarding() {
   return (
     <div className="bg-light">
       <div className="max-w-[640px] w-full mx-auto py-20 text-center">
-        <Image
+        <img
           className="mx-auto mb-4"
-          src={"/images/favicon.png"}
+          src={logo_url}
           width={61}
           height={64}
           alt="logo"
         />
         <h2>
-          Welcome to Themefisher
+          Welcome to {company_name}
           <Confetti className="inline-block ml-3 mb-4" />
         </h2>
         <p>Let's get you set up with everything you need to get started.</p>

@@ -45,8 +45,10 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function PersonalInfo() {
-  // check module enabled or not
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  // get modules and communication platform from settings
+  const { modules, communication_platform } = useAppSelector(
+    (state) => state["setting-slice"]
+  );
   // session
   const { data: session } = useSession();
   const isUser = session?.user.role === "user";
@@ -548,7 +550,7 @@ export default function PersonalInfo() {
                   </div>
 
                   <div className="lg:col-6">
-                    <Label>Discord Username:</Label>
+                    <Label>{communication_platform} User ID:</Label>
                     <Input
                       onChange={(e) => {
                         const { name, value } = e.target;
@@ -560,7 +562,7 @@ export default function PersonalInfo() {
                       type="text"
                       value={data.communication_id || ""}
                       name="communication_id"
-                      placeholder="Discord Username"
+                      placeholder={`${communication_platform} Username`}
                       readOnly={isReadOnly}
                     />
                   </div>

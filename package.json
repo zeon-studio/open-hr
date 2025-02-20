@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "zeon.studio",
   "license": "MIT",
-  "description": "admin for erp.teamosis.com",
+  "description": "ERP Solution for small and medium enterprises",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
