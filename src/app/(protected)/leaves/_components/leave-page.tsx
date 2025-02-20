@@ -57,37 +57,40 @@ const LeaveModal = ({
       <TableRow>
         <TableCell>
           <UserInfo
-            className="min-w-[200px]"
+            className="min-w-[150px]"
             user={employeeInfoById(item.employee_id!)}
           />
         </TableCell>
-        <TableCell className="border-r border-border">{item.year}</TableCell>
-        <TableCell className="text-center">{item.casual.allotted}</TableCell>
-        <TableCell className="text-center">{item.casual.consumed}</TableCell>
-        <TableCell className="text-center border-r border-border">
-          {item.casual.allotted - item.casual.consumed}
+        <TableCell className="text-center space-x-8 border-l border-border">
+          <span className="text-success">{item.casual.allotted}</span>
+          <span className="text-destructive">{item.casual.consumed}</span>
+          <span className="text-accent">
+            {item.casual.allotted - item.casual.consumed}
+          </span>
         </TableCell>
-        <TableCell className="text-center">{item.earned.allotted}</TableCell>
-        <TableCell className="text-center">{item.earned.consumed}</TableCell>
-        <TableCell className="text-center border-r border-border">
-          {item.earned.allotted - item.earned.consumed}
+        <TableCell className="text-center space-x-8 border-l border-border">
+          <span className="text-success">{item.sick.allotted}</span>
+          <span className="text-destructive">{item.sick.consumed}</span>
+          <span className="text-accent">
+            {item.sick.allotted - item.sick.consumed}
+          </span>
         </TableCell>
-        <TableCell className="text-center">{item.sick.allotted}</TableCell>
-        <TableCell className="text-center">{item.sick.consumed}</TableCell>
-        <TableCell className="text-center border-r border-border">
-          {item.sick.allotted - item.sick.consumed}
+        <TableCell className="text-center space-x-8 border-l border-border">
+          <span className="text-success">{item.earned.allotted}</span>
+          <span className="text-destructive">{item.earned.consumed}</span>
+          <span className="text-accent">
+            {item.earned.allotted - item.earned.consumed}
+          </span>
         </TableCell>
-        <TableCell className="text-center">
-          {item.without_pay.allotted}
-        </TableCell>
-        <TableCell className="text-center">
-          {item.without_pay.consumed}
-        </TableCell>
-        <TableCell className="text-center border-r border-border">
-          {item.without_pay.allotted - item.without_pay.consumed}
+        <TableCell className="text-center space-x-8 border-l border-border">
+          <span className="text-success">{item.without_pay.allotted}</span>
+          <span className="text-destructive">{item.without_pay.consumed}</span>
+          <span className="text-accent">
+            {item.without_pay.allotted - item.without_pay.consumed}
+          </span>
         </TableCell>
 
-        <TableCell className="text-right">
+        <TableCell className="text-right border-l border-border">
           <DropdownMenuTrigger>
             <Ellipsis className="size-4" />
           </DropdownMenuTrigger>

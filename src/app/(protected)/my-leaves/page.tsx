@@ -36,51 +36,24 @@ const Leave = () => {
       </div>
       <Table>
         <TableHeader className="sticky top-0">
-          <TableRow className="sticky top-0 *:pt-2 *:h-0 !border-b-0">
-            <TableHead className="text-center border-r sticky top-0"></TableHead>
-            <TableHead
-              className="text-center border-r sticky top-0"
-              colSpan={3}
-            >
-              Casual Leave
-            </TableHead>
-            <TableHead
-              className="text-center border-r sticky top-0"
-              colSpan={3}
-            >
-              Earn Leave
-            </TableHead>
-            <TableHead
-              className="text-center border-r sticky top-0"
-              colSpan={3}
-            >
+          <TableRow className="sticky top-0">
+            <TableHead className="border-r sticky top-0">Year</TableHead>
+            <TableHead className="text-center border-r">Casual Leave</TableHead>
+            <TableHead className="text-center border-r sticky top-0">
               Sick Leave
             </TableHead>
-            <TableHead className="text-center sticky top-0" colSpan={3}>
+            <TableHead className="text-center border-r sticky top-0">
+              Earn Leave
+            </TableHead>
+            <TableHead className="text-center border-r sticky top-0">
               Leave Without Pay
             </TableHead>
-          </TableRow>
-
-          <TableRow className="border-t-0 sticky top-0">
-            <TableHead className="border-t-0 sticky top-0">Year</TableHead>
-            <TableHead className="border-l sticky top-0">Allotted</TableHead>
-            <TableHead className="sticky top-0">Consumed</TableHead>
-            <TableHead className="border-t-0 sticky top-0">Available</TableHead>
-            <TableHead className="border-l sticky top-0">Allotted</TableHead>
-            <TableHead className="sticky top-0">Consumed</TableHead>
-            <TableHead className="border-t-0 sticky top-0">Available</TableHead>
-            <TableHead className="border-l sticky top-0">Allotted</TableHead>
-            <TableHead className="sticky top-0">Consumed</TableHead>
-            <TableHead className="border-t-0 sticky top-0">Available</TableHead>
-            <TableHead className="border-l sticky top-0">Allotted</TableHead>
-            <TableHead className="sticky top-0">Consumed</TableHead>
-            <TableHead className="border-t-0 sticky top-0">Available</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {!employeeLeaveYears?.length && (
             <TableRow>
-              <TableCell colSpan={12}>
+              <TableCell colSpan={5}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>
@@ -90,6 +63,22 @@ const Leave = () => {
           <EmployeeLeavePage leave={employeeLeaveYears} />
         </TableBody>
       </Table>
+      <div className="row sm:row-cols-2 mt-4">
+        <ul className="flex items-center space-x-4">
+          <li className="flex items-center">
+            <span className="bg-success h-2 w-2 inline-block mr-1 rounded-full" />
+            Allotted
+          </li>
+          <li className="flex items-center">
+            <span className="bg-destructive h-2 w-2 inline-block mr-1 rounded-full" />
+            Consumed
+          </li>
+          <li className="flex items-center">
+            <span className="bg-accent h-2 w-2 inline-block mr-1 rounded-full" />
+            Available
+          </li>
+        </ul>
+      </div>
     </section>
   );
 };
