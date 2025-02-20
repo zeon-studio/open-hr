@@ -7,6 +7,8 @@
   "logo_height": 22,
   "company_name": "Zeon Studio",
   "company_website": "https://zeon.studio",
+  "communication_platform": "Discord",
+  "communication_platform_url": "https://discord.com/channels/@me/",
   "modules": [
     {
       "name": "tool",
