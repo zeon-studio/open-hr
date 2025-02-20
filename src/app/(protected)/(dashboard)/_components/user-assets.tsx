@@ -23,7 +23,7 @@ const UserAssets = ({ userId }: { userId: string }) => {
             <ul className="space-y-3">
               {data?.result?.map((asset) => (
                 <li
-                  className="row mx-0 row-cols-3 items-center bg-light rounded py-3"
+                  className="row !mx-0 row-cols-3 items-center bg-light rounded py-3"
                   key={asset.asset_id}
                 >
                   <div className="flex items-center">

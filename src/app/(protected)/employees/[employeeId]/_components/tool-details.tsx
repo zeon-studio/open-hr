@@ -36,7 +36,7 @@ export default function Tools() {
               <ul className="space-y-3">
                 {data?.result?.map((tool, index) => (
                   <li
-                    className="row mx-0 space-y-3 xl:space-y-0 xl:row-cols-3 items-center bg-light rounded py-3"
+                    className="row !mx-0 space-y-3 xl:space-y-0 xl:row-cols-3 items-center bg-light rounded py-3"
                     key={`tool-${index}`}
                   >
                     <div className="flex items-center xl:space-x-3">
