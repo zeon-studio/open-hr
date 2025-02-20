@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { cn } from "@/lib/shadcn";
 import {
-  useSetEmployeeDiscordMutation,
+  useSetEmployeeCommunicationIdMutation,
   useSetEmployeeEmailMutation,
   useSetEmployeePasswordMutation,
   useSetEmployeePersonalityMutation,
@@ -204,7 +204,7 @@ export const steppers = [
     title: "Step 3",
     description: "Create A Discord Account",
     completed: false,
-    name: "discord",
+    name: "communication_id",
 
     component: ({
       isCompleted,
@@ -214,7 +214,8 @@ export const steppers = [
       token,
       value,
     }: Props) => {
-      const [updateDiscord, { isLoading }] = useSetEmployeeDiscordMutation();
+      const [updateCommunicationId, { isLoading }] =
+        useSetEmployeeCommunicationIdMutation();
 
       return (
         <StepperCard
@@ -235,9 +236,9 @@ export const steppers = [
               const formData = new FormData(e.currentTarget);
               const formObject = Object.fromEntries(formData.entries());
               try {
-                await updateDiscord({
+                await updateCommunicationId({
                   id: employeeId,
-                  discord: formObject.discord as string,
+                  communication_id: formObject.communication_id as string,
                   token: token,
                 }).unwrap();
                 handleStepChange();
@@ -250,9 +251,9 @@ export const steppers = [
             }}
           >
             <Input
-              name="discord"
+              name="communication_id"
               type="text"
-              placeholder="https://discord.com/invite/123456789"
+              placeholder="username"
               defaultValue={value}
             />
             <Button disabled={isLoading} type="submit" variant={"outline"}>

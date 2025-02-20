@@ -5,6 +5,7 @@ export type TEmployee = {
   work_email: string;
   password: string;
   personal_email: string;
+  communication_id: string;
   dob: Date;
   nid: string;
   tin: string;
@@ -17,7 +18,6 @@ export type TEmployee = {
   facebook: string;
   twitter: string;
   linkedin: string;
-  discord: string;
   personality: string;
   note: string;
   status: "pending" | "active" | "archived";

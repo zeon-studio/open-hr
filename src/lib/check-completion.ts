@@ -16,8 +16,8 @@ export function checkCompletion(data: TEmployee) {
     completedSteps.push(2);
   }
 
-  // Step 3: Check if discord exists
-  if (data?.discord) {
+  // Step 3: Check if communication_id exists
+  if (data?.communication_id) {
     completedSteps.push(3);
   }
 

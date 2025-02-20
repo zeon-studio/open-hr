@@ -367,7 +367,7 @@ export default function EmployeeSingle() {
                   <Link
                     target="_blank"
                     rel="noopener noreferrer nofollow"
-                    href={data?.result.discord ?? ""}
+                    href={data?.result.communication_id ?? ""}
                   >
                     <Discord className="size-7" />
                   </Link>

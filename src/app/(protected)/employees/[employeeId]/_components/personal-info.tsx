@@ -548,7 +548,7 @@ export default function PersonalInfo() {
                   </div>
 
                   <div className="lg:col-6">
-                    <Label>Discord Profile:</Label>
+                    <Label>Discord Username:</Label>
                     <Input
                       onChange={(e) => {
                         const { name, value } = e.target;
@@ -558,9 +558,9 @@ export default function PersonalInfo() {
                         });
                       }}
                       type="text"
-                      value={data.discord || ""}
-                      name="discord"
-                      placeholder="Discord Profile"
+                      value={data.communication_id || ""}
+                      name="communication_id"
+                      placeholder="Discord Username"
                       readOnly={isReadOnly}
                     />
                   </div>

@@ -18,7 +18,7 @@
   "facebook": "https://facebook.com/[USERNAME]",
   "twitter": "https://x.com/[USERNAME]",
   "linkedin": "https://linkedin.com/in/[USERNAME]",
-  "discord": "https://discord.com/channels/@me/[USERID]",
+  "communication_id": "[USERID]",
   "personality": "ISTJ",
   "note": "",
   "status": "active",

@@ -145,15 +145,15 @@ export const employeeApi = employeeApiWithTag.injectEndpoints({
       invalidatesTags: ["employees"],
     }),
 
-    setEmployeeDiscord: builder.mutation<
+    setEmployeeCommunicationId: builder.mutation<
       TEmployeeState<TEmployee>,
-      Pick<TEmployee, "id" | "discord"> & {
+      Pick<TEmployee, "id" | "communication_id"> & {
         token?: string;
       }
     >({
       query: (data) => {
         return {
-          url: `/employee/discord/${data.id}`,
+          url: `/employee/communication_id/${data.id}`,
           method: "PATCH",
           body: data,
           ...(data.token && {
@@ -222,7 +222,7 @@ export const {
   useDeleteEmployeeMutation,
   useSetEmployeeEmailMutation,
   useSetEmployeePasswordMutation,
-  useSetEmployeeDiscordMutation,
+  useSetEmployeeCommunicationIdMutation,
   useSetEmployeePersonalityMutation,
   useUpdateEmployeeRoleMutation,
   useGetEmployeeDetailsByTokenQuery,
