@@ -1,9 +1,9 @@
 {
-  "name": "erp-solution",
+  "name": "open-hr",
   "version": "1.0.0",
   "author": "zeon.studio",
   "license": "MIT",
-  "description": "ERP Solution for small and medium enterprises",
+  "description": "HR Solution for small and medium enterprises",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
