@@ -1,4 +1,4 @@
-<h1 align="center">Minimal HR Solution</h1>
+<h1 align="center">Open HR Solution</h1>
 
 <p align="center">A comprehensive ERP solution to streamline user management, leave, payroll, asset management, and more.</p>
 
@@ -6,7 +6,6 @@
 <p align=center>If you find this project useful, please give it a ⭐ to show your support.</p>
 
 ![CleanShot 2025-02-18 at 09 57 27](https://github.com/user-attachments/assets/20e46c6d-b7f0-4042-9251-2cddb2ed1afb)
-
 
 ### 📌 Key Features
 
@@ -48,13 +47,13 @@ To start using this project, you need to have some prerequisites installed on yo
 1. Clone frontend repo
 
   ```bash
-  git clone https://github.com/zeon-studio/minimal-hr.git
+  git clone https://github.com/zeon-studio/open-hr.git
   ```
 
 1. Go to the project folder
 
   ```bash
-  cd minimal-hr
+  cd open-hr
   ```
 
 1. Install packages with yarn
@@ -80,13 +79,13 @@ To start using this project, you need to have some prerequisites installed on yo
 1. Clone backend repo
 
   ```bash
-  git clone https://github.com/zeon-studio/minimal-hr-backend.git
+  git clone https://github.com/zeon-studio/open-hr-backend.git
   ```
   
 1. Go to the project folder
 
   ```bash
-  cd minimal-hr-backend
+  cd open-hr-backend
   ```
 
 1. Install packages with yarn
