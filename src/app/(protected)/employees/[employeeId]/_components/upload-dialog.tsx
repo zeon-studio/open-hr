@@ -3,6 +3,7 @@ import { useDialog } from "@/hooks/useDialog";
 import { MAX_SIZE } from "@/lib/constant";
 import { cn } from "@/lib/shadcn";
 import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
+import { useAppSelector } from "@/redux/hook";
 import { ErrorResponse } from "@/types";
 import { Button, ButtonProps } from "@/ui/button";
 import {
@@ -24,6 +25,8 @@ export default function UploadDialog({
   ...buttonProps
 }: ButtonProps & { file?: string; modalBodyClassName?: string }) {
   const { data: session } = useSession();
+  const { company_name } =
+    useAppSelector((state) => state["setting-slice"]) || {};
   const { isDialogOpen, onDialogChange } = useDialog();
   let { employeeId } = useParams<{ employeeId: string }>();
   if (!employeeId) {
@@ -59,7 +62,7 @@ export default function UploadDialog({
           isLoading={isUploading}
           enable={true}
           existingFile={file}
-          folder={`erp/document`}
+          folder={`/${company_name.replace(/\s/g, "-").toLowerCase()}`}
           maxSize={MAX_SIZE}
           permission="public-read"
           setFile={async (location: any) => {
@@ -70,11 +73,7 @@ export default function UploadDialog({
                 createdAt: new Date(),
                 employee_id: employeeId,
                 documents: [
-                  {
-                    date: new Date(),
-                    file: location,
-                    name: fileName,
-                  },
+                  { date: new Date(), file: location, name: fileName },
                 ],
               }).unwrap();
               onDialogChange(false);

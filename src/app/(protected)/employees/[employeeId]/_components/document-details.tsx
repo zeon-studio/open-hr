@@ -5,6 +5,7 @@ import {
   useDeleteEmployeeDocumentMutation,
   useGetEmployeeDocumentQuery,
 } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
+import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
@@ -20,6 +21,8 @@ import { useParams } from "next/navigation";
 import UploadDialog from "./upload-dialog";
 
 export default function Document() {
+  const { company_name } =
+    useAppSelector((state) => state["setting-slice"]) || {};
   const { data: session } = useSession();
   let { employeeId } = useParams<{ employeeId: string }>();
   if (!employeeId) {
@@ -63,7 +66,7 @@ export default function Document() {
                         setFile={() => {}}
                         enable={false}
                         existingFile={document.file}
-                        folder={`erp/document`}
+                        folder={`/${company_name.replace(/\s/g, "-").toLowerCase()}`}
                         maxSize={MAX_SIZE}
                         permission="public-read"
                       />
