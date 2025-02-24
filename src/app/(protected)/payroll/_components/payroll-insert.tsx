@@ -127,7 +127,7 @@ const PayrollInsert = ({
 
   return (
     <DialogContent
-      className="max-w-2xl overflow-y-auto max-h-[90vh]"
+      className="!max-w-2xl overflow-y-auto max-h-[90vh]"
       onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Add New Payroll</DialogTitle>

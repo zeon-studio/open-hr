@@ -89,7 +89,6 @@ export default function Document() {
                               file={document.file}
                               variant={"outline"}
                               className="h-auto p-1.5 border-none w-full justify-start bg-transparent max-w-sm"
-                              modalBodyClassName="max-w-lg"
                             >
                               Preview
                             </UploadDialog>

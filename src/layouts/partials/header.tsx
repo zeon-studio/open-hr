@@ -22,7 +22,7 @@ const Header = () => {
             <Menu />
           </Button>
         </SheetTrigger>
-        <SheetContent side={"left"} className="max-w-xs">
+        <SheetContent side={"left"} className="!max-w-xs">
           <SheetHeader className="sr-only">
             <SheetTitle>menu bar</SheetTitle>
           </SheetHeader>

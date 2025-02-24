@@ -122,7 +122,7 @@ export default function PreviousJobs({
               onPointerDownOutside={(e) => {
                 if (isPrevJobLoading) e.preventDefault();
               }}
-              className="max-w-2xl w-full overflow-y-auto max-h-[90vh]"
+              className="!max-w-2xl w-full overflow-y-auto max-h-[90vh]"
             >
               <DialogHeader className="mb-8">
                 <DialogTitle>Update Previous Job</DialogTitle>

@@ -49,6 +49,8 @@ export type TSetting = {
   company_website: string;
   communication_platform: string;
   communication_platform_url: string;
+  max_leave_per_day: number;
+  leave_threshold_days: number;
   modules: TModuleItem[];
   weekends: string[];
   conditional_weekends: TConditionalWeekend[];

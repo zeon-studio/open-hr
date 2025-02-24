@@ -12,6 +12,8 @@ const initialState: TSettingState["result"] = {
   company_website: "",
   communication_platform: "",
   communication_platform_url: "",
+  max_leave_per_day: 0,
+  leave_threshold_days: 0,
   payroll: {
     basic: "",
     house_rent: "",

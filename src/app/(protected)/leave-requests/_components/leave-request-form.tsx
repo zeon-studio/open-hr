@@ -2,6 +2,7 @@ import options from "@/config/options.json";
 import { dateFormat } from "@/lib/date-converter";
 import { useGetUpcomingLeaveDatesRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
+import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Label } from "@/ui/label";
@@ -30,6 +31,10 @@ const LeaveRequestForm = ({
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
 }) => {
+  const { max_leave_per_day, leave_threshold_days } = useAppSelector(
+    (state) => state["setting-slice"]
+  );
+
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: undefined,
     to: undefined,
@@ -56,19 +61,38 @@ const LeaveRequestForm = ({
     date.setDate(date.getDate() + days);
     return date;
   };
+
+  // getDisabledDatesByCount function
+  const getDisabledDatesByCount = (count: number): Date[] => {
+    if (count === 0) return [];
+    const disabledDates: Date[] = [];
+    for (let i = 0; i < count; i++) {
+      disabledDates.push(i === 0 ? today : addDays(i));
+    }
+    return disabledDates;
+  };
   const { data } = useGetUpcomingLeaveDatesRequestsQuery(
     today.toISOString().slice(0, 10)
   );
 
-  // get duplicate dates
-  const getDuplicateDates = (arr: any): Date[] =>
-    Array.from(
+  // updated getDuplicateDates function
+  const getDuplicateDates = (arr: any, duplicateNumber: number): Date[] => {
+    if (!arr) return [];
+    if (duplicateNumber === 0) return [];
+    if (duplicateNumber === 1) {
+      return arr.map((dateString: string) => new Date(dateString));
+    }
+    return Array.from(
       new Set(
         arr
-          ?.filter((item: any, i: number) => arr.indexOf(item) !== i)
+          .filter(
+            (dateString: string) =>
+              arr.filter((d: any) => d === dateString).length >= duplicateNumber
+          )
           .map((dateString: string) => new Date(dateString))
       )
     );
+  };
 
   return (
     <form className="row justify-between items-center" onSubmit={handleSubmit}>
@@ -123,10 +147,8 @@ const LeaveRequestForm = ({
             <Calendar
               mode="range"
               disabled={[
-                today,
-                addDays(1),
-                addDays(2),
-                ...getDuplicateDates(data?.result),
+                ...getDisabledDatesByCount(leave_threshold_days || 0),
+                ...getDuplicateDates(data?.result, max_leave_per_day || 0),
               ]}
               numberOfMonths={2}
               selected={dateRange}

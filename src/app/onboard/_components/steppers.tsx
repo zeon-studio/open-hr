@@ -298,7 +298,7 @@ export const steppers = [
                 <ExternalLink className="ml-1.5 size-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl h-[80vh] overflow-y-auto">
+            <DialogContent className="!max-w-3xl h-[80vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Complete Onboarding Form</DialogTitle>
               </DialogHeader>

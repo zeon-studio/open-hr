@@ -36,8 +36,40 @@ export default function SettingLeavesForm({
             }}
             className="row"
           >
+            {/* Leave Threshold Days */}
+            <div className="lg:col-6 mb-5">
+              <Label>Leave Threshold Days:</Label>
+              <Input
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  handleChange({ ...data, [name]: Number(value) });
+                }}
+                type="number"
+                value={data.leave_threshold_days || ""}
+                name="leave_threshold_days"
+                placeholder="Leave Threshold Days"
+                readOnly={isReadOnly}
+              />
+            </div>
+
+            {/* Max Leave Per Day */}
+            <div className="lg:col-6 mb-5">
+              <Label>Max Leave Per Day:</Label>
+              <Input
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  handleChange({ ...data, [name]: Number(value) });
+                }}
+                type="number"
+                value={data.max_leave_per_day || ""}
+                name="max_leave_per_day"
+                placeholder="Max Leave Per Day"
+                readOnly={isReadOnly}
+              />
+            </div>
+
             {/* Leaves */}
-            <div className="lg:col-12">
+            <div className="lg:col-12 mt-10">
               {data.leaves.map((leave, index) => (
                 <div
                   className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t border-border pt-5"} mb-5`}

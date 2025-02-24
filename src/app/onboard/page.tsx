@@ -68,7 +68,7 @@ function OnBoarding() {
   ) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="max-w-[640px] w-full mx-auto py-20 text-center">
+        <div className="!max-w-[640px] w-full mx-auto py-20 text-center">
           <Card>
             <CardHeader>
               <CardTitle>Sorry Invalid Token</CardTitle>
@@ -93,7 +93,7 @@ function OnBoarding() {
 
   return (
     <div className="bg-light">
-      <div className="max-w-[640px] w-full mx-auto py-20 text-center">
+      <div className="!max-w-[640px] w-full mx-auto py-20 text-center">
         <img
           className="mx-auto mb-4"
           src={logo_url}

@@ -44,7 +44,7 @@ const ToolUpdate = ({
 
   return (
     <DialogContent
-      className="max-w-4xl overflow-y-auto max-h-[90vh]"
+      className="!max-w-4xl overflow-y-auto max-h-[90vh]"
       onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Update Tool Platform</DialogTitle>

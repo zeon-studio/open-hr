@@ -57,7 +57,7 @@ const LeaveRequestInsert = ({
 
   return (
     <DialogContent
-      className="max-w-md"
+      className="!max-w-md"
       onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Leave Request</DialogTitle>
