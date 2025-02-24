@@ -50,6 +50,7 @@ To start using this project, you need to have some prerequisites installed on yo
 - [Discord Webhook URL](https://discord.com/) (For Discord Notification)
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (For MongoDB Database)
 - [Digital Ocean Space](https://www.digitalocean.com/products/spaces/) (For Uploading Documents)
+- [Vercel Account](https://vercel.com/) (For Deployment)
 
 ### 👉 Project Setup Locally (Frontend)
 

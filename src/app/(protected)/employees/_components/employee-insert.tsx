@@ -102,10 +102,13 @@ const EmployeeInsert = ({
               setEmployeeData((prev) => ({
                 ...prev,
                 department: e as
-                  | "admin"
                   | "development"
                   | "design"
-                  | "marketing",
+                  | "marketing"
+                  | "admin"
+                  | "hr_finance"
+                  | "production"
+                  | "other",
               }))
             }
           >

@@ -105,6 +105,18 @@
     {
       "label": "Admin",
       "value": "admin"
+    },
+    {
+      "label": "HR & Finance",
+      "value": "hr_finance"
+    },
+    {
+      "label": "Production",
+      "value": "production"
+    },
+    {
+      "label": "Other",
+      "value": "other"
     }
   ],
   "employee_job_type": [

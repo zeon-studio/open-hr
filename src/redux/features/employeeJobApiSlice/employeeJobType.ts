@@ -18,7 +18,14 @@ export type TEmployeeJob = {
   joining_date: Date;
   designation: string;
   manager_id: string;
-  department: "development" | "design" | "marketing" | "admin";
+  department:
+    | "development"
+    | "design"
+    | "marketing"
+    | "admin"
+    | "hr_finance"
+    | "production"
+    | "other";
   permanent_date: Date;
   resignation_date: Date;
   prev_jobs: TPrevJob[];
