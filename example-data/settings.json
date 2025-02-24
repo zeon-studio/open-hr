@@ -13,127 +13,100 @@
     {
       "name": "tool",
       "description": "Manage tools",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "course",
       "description": "Manage courses",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "asset",
       "description": "Manage assets",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "leave",
       "description": "Manage leaves",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "calendar",
       "description": "Manage calendar",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "employee-bank",
       "description": "Manage employee bank",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "payroll",
       "description": "Manage payroll",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "employee-contact",
       "description": "Manage employee contact",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "employee-document",
       "description": "Manage employee document",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "employee-lifecycle",
       "description": "Manage employee lifecycle tasks",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "employee-education",
       "description": "Manage employee education",
-      "enable": true},
+      "enable": true
+    },
     {
       "name": "employee-achievement",
       "description": "Manage employee achievement",
-      "enable": true}
-  ],
-  "weekends": [
-    "Friday"
-  ],
-  "conditional_weekends": [
-    {
-      "name": "Saturday",
-      "pattern": [
-        1,
-        3
-      ]}
-  ],
-  "leaves": [
-    {
-      "name": "casual",
-      "days": 10},
-    {
-      "name": "earned",
-      "days": 15},
-    {
-      "name": "sick",
-      "days": 15},
-    {
-      "name": "without_pay",
-      "days": 30}
-  ],
-  "offboarding_tasks": [
-    {
-      "name": "Remove Fingerprint",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Handover Tasks",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Collect ID Card",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Collect Devices",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Provide NDA",
-      "assigned_to": "TFADM2021002"},
-    {
-      "name": "Provide Certificate",
-      "assigned_to": "TFADM2021002"},
-    {
-      "name": "Farewell",
-      "assigned_to": "TFADM2024003"}
-  ],
-  "onboarding_tasks": [
-    {
-      "name": "Add Fingerprint",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Provide ID Card",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Provide Appointment Letter",
-      "assigned_to": "TFADM2021002"},
-    {
-      "name": "Provide Employment Contract",
-      "assigned_to": "TFADM2021002"},
-    {
-      "name": "Provide Welcome Kit",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Provide Devices",
-      "assigned_to": "TFADM2024003"},
-    {
-      "name": "Provide Office Intro",
-      "assigned_to": "TFADM2024003"}
+      "enable": true
+    }
   ],
   "payroll": {
     "basic": "60%",
     "house_rent": "50%",
     "medical": "8%",
     "conveyance": "8%"
-  }
+  },
+  "weekends": ["Friday"],
+  "conditional_weekends": [],
+  "leaves": [
+    {
+      "name": "casual",
+      "days": 10
+    },
+    {
+      "name": "earned",
+      "days": 15
+    },
+    {
+      "name": "sick",
+      "days": 15
+    },
+    {
+      "name": "without_pay",
+      "days": 30
+    }
+  ],
+  "onboarding_tasks": [
+    {
+      "name": "Add Fingerprint",
+      "assigned_to": "TFADM2024003"
+    }
+  ],
+  "offboarding_tasks": [
+    {
+      "name": "Remove Fingerprint",
+      "assigned_to": "TFADM2024003"
+    }
+  ]
 }

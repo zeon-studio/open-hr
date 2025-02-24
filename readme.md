@@ -38,11 +38,20 @@ To get a local copy up and running, please follow these simple steps.
 
 To start using this project, you need to have some prerequisites installed on your machine.
 
-- [Node v20+](https://nodejs.org/en/download/)
+- [Node v22+](https://nodejs.org/en/download/)
 - [MongoDB Compass](https://www.mongodb.com/products/tools/compass)
 - [Yarn](https://www.npmjs.com/package/yarn)(Recommended)
 
-### 👉 Project Setup (Frontend)
+### Third-Party Services
+
+- [Github Account](https://github.com/) (For Project Fork)
+- [Google Console API](https://console.cloud.google.com/apis/dashboard) (For Google Authentication)
+- [Gmail App Pass](https://myaccount.google.com/apppasswords) (For Sending Email with Nodemailer)
+- [Discord Webhook URL](https://discord.com/) (For Discord Notification)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (For MongoDB Database)
+- [Digital Ocean Space](https://www.digitalocean.com/products/spaces/) (For Uploading Documents)
+
+### 👉 Project Setup Locally (Frontend)
 
 1. Clone frontend repo
 
@@ -74,7 +83,7 @@ To start using this project, you need to have some prerequisites installed on yo
   yarn dev
   ```
 
-### 👉 Project Setup (Backend)
+### 👉 Project Setup Locally (Backend)
 
 1. Clone backend repo
 
@@ -107,7 +116,7 @@ To start using this project, you need to have some prerequisites installed on yo
 
 ---
 
-## 🚀 Build And Deploy
+## 🚀 Build
 
 After you finish your development, you can build or deploy your project. Let's see the process:
 
@@ -116,8 +125,12 @@ After you finish your development, you can build or deploy your project. Let's s
 You can use the following command to build your project locally (Frontend and Backend). It will purge all the unused CSS and minify all the files.
 
 ```bash
-npm run build
+yarn build
 ```
+
+## 🚀 Deploy
+
+If your project built successfully on local, you can deploy it to vercel, render, or any other hosting platform.
 
 ### 👉 Deploy Backend to Vercel
 
@@ -126,6 +139,19 @@ To deploy the backend to Vercel, you can use the `vercel.json` configuration fil
 ### 👉 Deploy Frontend to Vercel
 
 To deploy the frontend to Vercel, Simply overwrite the build command to `yarn build` on the Vercel platform and don't forget to add the environment variables to Vercel. This will ensure that the backend is built and deployed correctly.
+
+### 👉 Upload Sample Data
+
+After deploying the backend, you can upload sample data to the database using Mongodb Compass. Follow these steps:
+
+1. Open Mongodb Compass and connect to your MongoDB database.
+2. Navigate to the `open-hr` database.
+3. Upload `example-data/employee.json` to the `employees` collection. [make sure you have changed the `work_email` to your email address, so that you can login with it]
+4. Upload `example-data/settings.json` to the `settings` collection.
+
+### 👉 Login To Dashboard
+
+After uploading the sample data, you can login to the dashboard using the email address that you used in the `example-data/employee.json` file. Just click on the login with Google button and you will be redirected to the dashboard.
 
 ---
 
