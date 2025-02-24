@@ -62,7 +62,19 @@ const Leave = () => {
   );
 
   // check module enabled or not
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  const { modules, leaves: leaveSetting } = useAppSelector(
+    (state) => state["setting-slice"]
+  );
+
+  // leave type enabled or not
+  const casualEnabled = leaveSetting.some((item) => item.name === "casual");
+  const sickEnabled = leaveSetting.some((item) => item.name === "sick");
+  const earnedEnabled = leaveSetting.some((item) => item.name === "earned");
+  const withoutPayEnabled = leaveSetting.some(
+    (item) => item.name === "without_pay"
+  );
+
+  // check module enabled or not
   if (!modules.find((mod) => mod.name === "leave")?.enable) {
     return notFound();
   }
@@ -98,16 +110,26 @@ const Leave = () => {
             <TableHead className="text-center border-r sticky top-0">
               Employee
             </TableHead>
-            <TableHead className="text-center border-r">Casual Leave</TableHead>
-            <TableHead className="text-center border-r sticky top-0">
-              Sick Leave
-            </TableHead>
-            <TableHead className="text-center border-r sticky top-0">
-              Earn Leave
-            </TableHead>
-            <TableHead className="text-center border-r sticky top-0">
-              Leave Without Pay
-            </TableHead>
+            {casualEnabled && (
+              <TableHead className="text-center border-r sticky top-0">
+                Casual Leave
+              </TableHead>
+            )}
+            {sickEnabled && (
+              <TableHead className="text-center border-r sticky top-0">
+                Sick Leave
+              </TableHead>
+            )}
+            {earnedEnabled && (
+              <TableHead className="text-center border-r sticky top-0">
+                Earn Leave
+              </TableHead>
+            )}
+            {withoutPayEnabled && (
+              <TableHead className="text-center border-r sticky top-0">
+                Leave Without Pay
+              </TableHead>
+            )}
             <TableHead className="sticky top-0"></TableHead>
           </TableRow>
         </TableHeader>
@@ -122,9 +144,21 @@ const Leave = () => {
             </TableRow>
           )}
           {leaves?.length ? (
-            <LeavePage leave={leaves} />
+            <LeavePage
+              leave={leaves}
+              casualEnabled={casualEnabled}
+              sickEnabled={sickEnabled}
+              earnedEnabled={earnedEnabled}
+              withoutPayEnabled={withoutPayEnabled}
+            />
           ) : (
-            <LeavePage leave={localData} />
+            <LeavePage
+              leave={localData}
+              casualEnabled={casualEnabled}
+              sickEnabled={sickEnabled}
+              earnedEnabled={earnedEnabled}
+              withoutPayEnabled={withoutPayEnabled}
+            />
           )}
         </TableBody>
       </Table>
