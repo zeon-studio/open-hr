@@ -69,6 +69,7 @@ export default function Document() {
                         folder={`/${company_name.replace(/\s/g, "-").toLowerCase()}`}
                         maxSize={MAX_SIZE}
                         permission="public-read"
+                        className="h-[150px]"
                       />
                     </div>
                     <div className="flex justify-between mt-auto">

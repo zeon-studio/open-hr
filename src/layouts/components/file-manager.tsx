@@ -23,6 +23,7 @@ const FileManager = ({
   permission,
   setFile,
   isLoading,
+  className,
 }: {
   enable: boolean;
   existingFile: string | null | undefined;
@@ -31,6 +32,7 @@ const FileManager = ({
   permission: string;
   setFile: any;
   isLoading?: boolean;
+  className?: string;
 }) => {
   const session = useSession();
   const axios = useAxios(session);
@@ -189,7 +191,9 @@ const FileManager = ({
             location.split(".").pop() === "gif" ||
             location.split(".").pop() === "avif" ||
             location.split(".").pop() === "webp") ? (
-            <div className="max-h-[300px] overflow-auto">
+            <div
+              className={cn("max-h-[400px] overflow-auto rounded", className)}
+            >
               <img
                 src={`${BUCKET_URL}/${location}`}
                 alt={location}
