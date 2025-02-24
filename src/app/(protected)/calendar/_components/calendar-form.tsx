@@ -72,7 +72,11 @@ const CalendarForm = ({
     updatedHolidayItems[index] = {
       ...updatedHolidayItems[index],
       start_date: range.from ? format(range.from, "yyyy-MM-dd") : undefined,
-      end_date: range.to ? format(range.to, "yyyy-MM-dd") : undefined,
+      end_date: range.to
+        ? format(range.to, "yyyy-MM-dd")
+        : range.from
+          ? format(range.from, "yyyy-MM-dd")
+          : undefined,
     };
     setHolidayItems(updatedHolidayItems);
   };
@@ -109,7 +113,11 @@ const CalendarForm = ({
     updatedEventItems[index] = {
       ...updatedEventItems[index],
       start_date: range.from ? format(range.from, "yyyy-MM-dd") : undefined,
-      end_date: range.to ? format(range.to, "yyyy-MM-dd") : undefined,
+      end_date: range.to
+        ? format(range.to, "yyyy-MM-dd")
+        : range.from
+          ? format(range.from, "yyyy-MM-dd")
+          : undefined,
     };
     setEventItems(updatedEventItems);
   };
@@ -227,9 +235,7 @@ const CalendarForm = ({
                           : undefined,
                         to: holiday.end_date
                           ? new Date(holiday.end_date)
-                          : holiday.start_date
-                            ? new Date(holiday.start_date)
-                            : undefined,
+                          : undefined,
                       }}
                       onSelect={(range) => {
                         if (range) {
@@ -336,9 +342,7 @@ const CalendarForm = ({
                           : undefined,
                         to: event.end_date
                           ? new Date(event.end_date)
-                          : event.start_date
-                            ? new Date(event.start_date)
-                            : undefined,
+                          : undefined,
                       }}
                       onSelect={(range) => {
                         if (range) {
