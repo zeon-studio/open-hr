@@ -123,7 +123,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
         </ul>
         <div className="pb-5">
           <Dialog>
-            <DialogTrigger className="bg-light w-full rounded flex items-center px-3 py-2">
+            <DialogTrigger className="bg-light w-full rounded flex items-center px-3 py-2 cursor-pointer">
               <Gravatar
                 className="rounded-full mr-2 size-5"
                 email={session?.user?.email!}
