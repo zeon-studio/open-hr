@@ -1,4 +1,4 @@
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, dayCount } from "@/lib/date-converter";
 import {
   TCalendar,
   TEvent,
@@ -77,6 +77,12 @@ const CalendarForm = ({
         : range.from
           ? format(range.from, "yyyy-MM-dd")
           : undefined,
+      day_count:
+        range.from && range.to
+          ? dayCount(range.from, range.to)
+          : range.from
+            ? 1
+            : 0,
     };
     setHolidayItems(updatedHolidayItems);
   };
@@ -118,6 +124,12 @@ const CalendarForm = ({
         : range.from
           ? format(range.from, "yyyy-MM-dd")
           : undefined,
+      day_count:
+        range.from && range.to
+          ? dayCount(range.from, range.to)
+          : range.from
+            ? 1
+            : 0,
     };
     setEventItems(updatedEventItems);
   };

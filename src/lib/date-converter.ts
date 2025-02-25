@@ -72,6 +72,12 @@ export function getDuration(
 }
 
 export const dayCount = (startDate: string | Date, endDate: string | Date) => {
-  const countedDate = differenceInDays(endDate, startDate) + 1;
-  return countedDate;
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  // Normalize time to 00:00:00
+  start.setHours(0, 0, 0, 0);
+  end.setHours(0, 0, 0, 0);
+
+  return differenceInDays(end, start) + 1;
 };
