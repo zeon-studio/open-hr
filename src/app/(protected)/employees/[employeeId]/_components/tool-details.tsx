@@ -70,7 +70,7 @@ export default function Tools() {
                       <small className="text-xs text-muted-foreground block">
                         Website:
                       </small>
-                      <strong className="text-h6 line-clamp-1 text-sm font-medium">
+                      <strong className="line-clamp-1 text-sm font-medium">
                         <Link
                           target="_blank"
                           rel="noopener nofollow noreferrer"
