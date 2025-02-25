@@ -15,6 +15,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
+
+import useAxios from "@/hooks/useAxios";
 import { Ellipsis, Loader2, Upload } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -23,7 +25,11 @@ import UploadDialog from "./upload-dialog";
 export default function Document() {
   const { company_name } =
     useAppSelector((state) => state["setting-slice"]) || {};
+
   const { data: session } = useSession();
+  const axios = useAxios({
+    data: session,
+  });
   let { employeeId } = useParams<{ employeeId: string }>();
   if (!employeeId) {
     employeeId = session?.user.id as string;
@@ -108,7 +114,16 @@ export default function Document() {
                                 </DialogTrigger>
 
                                 <ConfirmationPopup
-                                  handleConfirmation={() => {
+                                  handleConfirmation={async () => {
+                                    const encodedKey = encodeURIComponent(
+                                      document.file
+                                    );
+                                    const res = await axios.delete(
+                                      `bucket/delete/${encodedKey}`
+                                    );
+                                    if (res.status !== 200) {
+                                      return;
+                                    }
                                     deleteDocument({
                                       documentId: document._id!,
                                       employeeId: employeeId,

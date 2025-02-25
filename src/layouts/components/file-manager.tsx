@@ -6,14 +6,11 @@ import {
   FileUploader,
   FileUploaderContent,
 } from "@/ui/file-uploader";
-import { Dialog } from "@radix-ui/react-dialog";
 import { CloudUpload, Loader2, Paperclip, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import ConfirmationPopup from "./confirmation-popup";
 import { Button } from "./ui/button";
-import { DialogTrigger } from "./ui/dialog";
 
 const FileManager = ({
   enable,
@@ -79,22 +76,6 @@ const FileManager = ({
       setLocation(key);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  // handle delete
-  const handleDelete = async (key: string) => {
-    try {
-      const encodedKey = encodeURIComponent(key);
-      const res = await axios.delete(`bucket/delete/${encodedKey}`);
-
-      if (res.status === 200) {
-        setLocation("");
-      }
-    } catch (error: any) {
-      if (error.response.status === 404) {
-        setLocation("");
-      }
     }
   };
 
@@ -210,25 +191,6 @@ const FileManager = ({
 
           {enable && (
             <div className="space-x-4">
-              {session.data?.user.role !== "user" && (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      type="button"
-                      size={"sm"}
-                      variant={"outline"}
-                      className="mt-3"
-                    >
-                      Delete
-                    </Button>
-                  </DialogTrigger>
-                  <ConfirmationPopup
-                    skipWrite={true}
-                    handleConfirmation={() => handleDelete(location)}
-                    description="Deleting will permanently delete this file from the Bucket."
-                  />
-                </Dialog>
-              )}
               <Button
                 onClick={() => handleDownload(location)}
                 type="button"
