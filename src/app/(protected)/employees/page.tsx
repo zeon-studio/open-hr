@@ -61,9 +61,9 @@ export default function Employees() {
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
             <TableHead className="sticky top-0">Name</TableHead>
-            <TableHead className="sticky top-0">Email</TableHead>
             <TableHead className="sticky top-0">Department</TableHead>
-            <TableHead className="sticky top-0">Designation</TableHead>
+            <TableHead className="sticky top-0">Email</TableHead>
+            <TableHead className="sticky top-0">Phone</TableHead>
             <TableHead className="sticky top-0">Status</TableHead>
 
             {session?.user?.role === "admin" && (
@@ -74,7 +74,7 @@ export default function Employees() {
         <TableBody>
           {!employees?.length && (
             <TableRow>
-              <TableCell colSpan={session?.user?.role === "admin" ? 8 : 7}>
+              <TableCell colSpan={session?.user?.role === "admin" ? 6 : 5}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>

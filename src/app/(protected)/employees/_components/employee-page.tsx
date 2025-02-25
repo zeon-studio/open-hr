@@ -34,13 +34,11 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
       <TableCell className="min-w-[200px]">
         <UserInfo user={employeeInfoById(employee.id)} />
       </TableCell>
-      <TableCell>{employee.work_email}</TableCell>
       <TableCell className="capitalize">
         {employeeInfoById(employee.id).department?.split("_").join(" & ")}
       </TableCell>
-      <TableCell className="capitalize">
-        {employeeInfoById(employee.id).designation}
-      </TableCell>
+      <TableCell>{employee.work_email}</TableCell>
+      <TableCell>{employee.phone}</TableCell>
       <TableCell>
         <Badge
           variant={
