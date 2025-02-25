@@ -31,7 +31,7 @@ export const employeeContactApi = employeeContactApiWithTag.injectEndpoints({
     updateEmployeeContact: builder.mutation({
       query: (data) => {
         return {
-          url: `/employee-contact/${data.id}`,
+          url: `/employee-contact/${data.employee_id}`,
           method: "PATCH",
           body: data,
         };

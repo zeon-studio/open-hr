@@ -189,7 +189,7 @@ const ToolForm = ({
                     const updatedToolItems = [...toolItems];
                     updatedToolItems[index] = {
                       ...item,
-                      billing: value as "monthly" | "yearly" | "onetime",
+                      billing: value as TOrganization["billing"],
                     };
                     setToolItems(updatedToolItems);
                   }}

@@ -137,6 +137,32 @@
       "value": "contractual"
     }
   ],
+  "employee_achievement_type": [
+    {
+      "label": "Award",
+      "value": "award"
+    },
+    {
+      "label": "Recognition",
+      "value": "recognition"
+    },
+    {
+      "label": "Certificate",
+      "value": "certificate"
+    },
+    {
+      "label": "Course",
+      "value": "course"
+    },
+    {
+      "label": "Training",
+      "value": "training"
+    },
+    {
+      "label": "Other",
+      "value": "other"
+    }
+  ],
   "currency": [
     {
       "label": "BDT",

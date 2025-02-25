@@ -206,7 +206,7 @@ const EmployeeJobForm = ({
                 )}
                 <span className="flex items-center">
                   <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
-                  <span className="pl-2  block">
+                  <span className="pl-2 block">
                     <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                   </span>
                 </span>
@@ -247,7 +247,7 @@ const EmployeeJobForm = ({
           <Label>Job Promotions</Label>
           {employeeJobPromotions.map((item, index) => (
             <div
-              className="border relative mb-6 bg-light rounded-md p-3"
+              className="border border-border relative mb-6 bg-light rounded-md p-3"
               key={index}
             >
               <div className="absolute right-3 top-3">

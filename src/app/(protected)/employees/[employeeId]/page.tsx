@@ -37,6 +37,7 @@ import {
   useSearchParams,
 } from "next/navigation";
 import { useState } from "react";
+import Achievement from "./_components/achievement-details";
 import Assets from "./_components/asset-details";
 import Courses from "./_components/course-details";
 import Document from "./_components/document-details";
@@ -78,6 +79,12 @@ const tabs = [
     value: "documents",
     module: "employee-document",
     content: <Document />,
+  },
+  {
+    label: "Achievements",
+    value: "achievements",
+    module: "employee-achievement",
+    content: <Achievement />,
   },
   {
     label: "Courses",

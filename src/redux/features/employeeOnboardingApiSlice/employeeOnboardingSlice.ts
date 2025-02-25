@@ -60,17 +60,6 @@ export const employeeOnboardingApi =
         invalidatesTags: ["employee-onboardings"],
       }),
 
-      updateEmployeeOnboarding: builder.mutation({
-        query: (data) => {
-          return {
-            url: `/employee-onboarding/${data.id}`,
-            method: "PATCH",
-            body: data,
-          };
-        },
-        invalidatesTags: ["employee-onboardings"],
-      }),
-
       updateOnboardingTaskStatus: builder.mutation({
         query: (data) => {
           return {
@@ -96,7 +85,6 @@ export const {
   useGetEmployeeOnboardingQuery,
   useAddEmployeeOnboardingMutation,
   useGetPendingOnboardingTaskQuery,
-  useUpdateEmployeeOnboardingMutation,
   useUpdateOnboardingTaskStatusMutation,
   useDeleteEmployeeOnboardingMutation,
 } = employeeOnboardingApi;

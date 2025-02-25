@@ -166,7 +166,7 @@ const PayrollUpdate = ({
             onValueChange={(value) =>
               setPayrollData({
                 ...payrollData,
-                status: value as "active" | "archived",
+                status: value as TPayroll["status"],
               })
             }
           >

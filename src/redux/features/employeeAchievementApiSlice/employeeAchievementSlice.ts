@@ -35,22 +35,10 @@ export const employeeAchievementApi =
         providesTags: ["employee-achievements"],
       }),
 
-      addEmployeeAchievement: builder.mutation<
-        TEmployeeAchievementState,
-        TEmployeeAchievement
-      >({
-        query: (data) => ({
-          url: `/employee-achievement`,
-          method: "POST",
-          body: data,
-        }),
-        invalidatesTags: ["employee-achievements"],
-      }),
-
       updateEmployeeAchievement: builder.mutation({
         query: (data) => {
           return {
-            url: `/employee-achievement/${data.id}`,
+            url: `/employee-achievement/${data.employee_id}`,
             method: "PATCH",
             body: data,
           };
@@ -71,7 +59,6 @@ export const employeeAchievementApi =
 export const {
   useGetEmployeeAchievementsQuery,
   useGetEmployeeAchievementQuery,
-  useAddEmployeeAchievementMutation,
   useUpdateEmployeeAchievementMutation,
   useDeleteEmployeeAchievementMutation,
 } = employeeAchievementApi;

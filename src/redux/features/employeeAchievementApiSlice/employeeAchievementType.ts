@@ -1,6 +1,20 @@
+export enum EAchievementType {
+  AWARD = "award",
+  RECOGNITION = "recognition",
+  CERTIFICATE = "certificate",
+  COURSE = "course",
+  TRAINING = "training",
+  OTHER = "other",
+}
 export type TAchievement = {
-  name: string;
-  type: string;
+  type:
+    | "award"
+    | "recognition"
+    | "certificate"
+    | "course"
+    | "training"
+    | "other";
+  description: string;
   date: Date;
 };
 

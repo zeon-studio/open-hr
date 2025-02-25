@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/ui/select";
-import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
+import { CalendarIcon, Loader2, Pen, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
@@ -113,7 +113,15 @@ export default function PreviousJobs({
         {userRole !== "user" && (
           <Dialog open={isDialogOpen} onOpenChange={onDialogChange}>
             <DialogTrigger asChild>
-              <Button className="ml-auto">Update Prev Jobs</Button>
+              <Button
+                type="button"
+                size={"sm"}
+                className="space-x-1 ml-auto"
+                variant={"outline"}
+              >
+                <Pen className="size-4" />
+                <span>Edit</span>
+              </Button>
             </DialogTrigger>
             <DialogContent
               onEscapeKeyDown={(e) => {
@@ -132,7 +140,7 @@ export default function PreviousJobs({
                 {prevJobData.map((job, index) => {
                   return (
                     <div
-                      className="grid grid-cols-1 gap-4 border mb-6 relative bg-light rounded-md p-3"
+                      className="grid grid-cols-1 gap-4 border border-border mb-6 relative bg-light rounded-md p-3"
                       key={index}
                     >
                       <div className="absolute right-3 top-3">

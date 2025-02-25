@@ -5,7 +5,7 @@ import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
-import { Loader2 } from "lucide-react";
+import { Loader2, Pen } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -93,7 +93,15 @@ export default function JobDetails() {
               onOpenChange={onDialogChange}
             >
               <DialogTrigger asChild>
-                <Button className="ml-auto">Update Job Info</Button>
+                <Button
+                  type="button"
+                  size={"sm"}
+                  className="space-x-1 ml-auto"
+                  variant={"outline"}
+                >
+                  <Pen className="size-4" />
+                  <span>Edit</span>
+                </Button>
               </DialogTrigger>
               <EmployeeJobForm
                 employeeJob={data?.result!}

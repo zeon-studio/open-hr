@@ -319,7 +319,7 @@ export default function PersonalInfo() {
                     onValueChange={(value) =>
                       handleChange({
                         ...data,
-                        gender: value as "male" | "female",
+                        gender: value as TEmployee["gender"],
                       })
                     }
                   >
@@ -599,7 +599,7 @@ export default function PersonalInfo() {
                         onValueChange={(value) => {
                           handleChange({
                             ...data,
-                            status: value as "pending" | "active" | "archived",
+                            status: value as TEmployee["status"],
                           });
                         }}
                         name="status"

@@ -54,11 +54,11 @@ const SettingUserRoleForm = () => {
       const payload = [
         ...data.map(({ id, role }) => ({
           id,
-          role: role as "user" | "moderator" | "admin",
+          role: role as TEmployee["role"],
         })),
         ...removedUsers.map(({ id }) => ({
           id,
-          role: "user" as "user" | "moderator" | "admin",
+          role: "user" as TEmployee["role"],
         })),
       ];
       await Promise.all(payload.map(updateUserRole));
