@@ -66,7 +66,7 @@ export default function Document() {
                         setFile={() => {}}
                         enable={false}
                         existingFile={document.file}
-                        folder={`/${company_name.replace(/\s/g, "-").toLowerCase()}`}
+                        folder={`${company_name.replace(/\s/g, "-").toLowerCase()}`}
                         maxSize={MAX_SIZE}
                         permission="public-read"
                         className="h-[150px]"

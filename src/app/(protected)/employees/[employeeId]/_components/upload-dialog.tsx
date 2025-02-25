@@ -62,7 +62,7 @@ export default function UploadDialog({
           isLoading={isUploading}
           enable={true}
           existingFile={file}
-          folder={`/${company_name.replace(/\s/g, "-").toLowerCase()}`}
+          folder={`${company_name.replace(/\s/g, "-").toLowerCase()}`}
           maxSize={MAX_SIZE}
           permission="public-read"
           setFile={async (location: any) => {
