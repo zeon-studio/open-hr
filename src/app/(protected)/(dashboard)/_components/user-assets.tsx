@@ -38,7 +38,7 @@ const UserAssets = ({ userId }: { userId: string }) => {
                       <small className="text-xs text-muted-foreground block">
                         Name:
                       </small>
-                      <strong className="text-h6 font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {asset.name}
                       </strong>
                     </div>
@@ -47,7 +47,7 @@ const UserAssets = ({ userId }: { userId: string }) => {
                     <small className="text-xs text-muted-foreground block">
                       Tag ID:
                     </small>
-                    <strong className="text-h6 font-medium capitalize">
+                    <strong className="text-sm font-medium capitalize">
                       {asset.asset_id}
                     </strong>
                   </div>
@@ -55,7 +55,7 @@ const UserAssets = ({ userId }: { userId: string }) => {
                     <small className="text-xs text-muted-foreground block">
                       Using From:
                     </small>
-                    <strong className="text-h6 font-medium capitalize">
+                    <strong className="text-sm font-medium capitalize">
                       {dateFormat(asset.handover?.date)}
                     </strong>
                   </div>

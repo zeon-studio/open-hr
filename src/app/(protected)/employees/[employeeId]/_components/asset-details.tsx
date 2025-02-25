@@ -52,7 +52,7 @@ export default function Assets() {
                         <small className="text-xs text-muted-foreground block">
                           Name:
                         </small>
-                        <strong className="text-h6 line-clamp-1 text-sm font-medium capitalize">
+                        <strong className="line-clamp-1 text-sm font-medium capitalize">
                           {asset.name}
                         </strong>
                       </div>

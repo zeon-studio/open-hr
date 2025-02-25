@@ -52,7 +52,7 @@ export default function Tools() {
                         <small className="text-xs text-muted-foreground block">
                           Platform:
                         </small>
-                        <strong className="text-h6 line-clamp-1 text-sm font-medium capitalize">
+                        <strong className="line-clamp-1 text-sm font-medium capitalize">
                           {tool.platform}
                         </strong>
                       </div>

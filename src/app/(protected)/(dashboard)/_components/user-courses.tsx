@@ -39,7 +39,7 @@ const UserCourses = ({ userId }: { userId: string }) => {
                       <small className="text-xs text-muted-foreground block">
                         Platform:
                       </small>
-                      <strong className="text-h6 font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         <Link
                           target="_blank"
                           rel="noopener nofollow noreferrer"
@@ -57,7 +57,7 @@ const UserCourses = ({ userId }: { userId: string }) => {
                     <small className="text-xs text-muted-foreground block">
                       Course Name:
                     </small>
-                    <strong className="text-h6 font-medium capitalize">
+                    <strong className="text-sm font-medium capitalize">
                       {course.name}
                     </strong>
                   </div>
@@ -65,7 +65,7 @@ const UserCourses = ({ userId }: { userId: string }) => {
                     <small className="text-xs text-muted-foreground block">
                       User ID:
                     </small>
-                    <strong className="text-h6 font-medium">
+                    <strong className="text-sm font-medium">
                       <CopyText text={course.email} />
                     </strong>
                   </div>
@@ -73,7 +73,7 @@ const UserCourses = ({ userId }: { userId: string }) => {
                     <small className="text-xs text-muted-foreground block">
                       Password:
                     </small>
-                    <strong className="text-h6 font-medium capitalize">
+                    <strong className="text-sm font-medium capitalize">
                       <CopyText text={course.password} isPassword={true} />
                     </strong>
                   </div>
