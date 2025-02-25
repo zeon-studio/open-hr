@@ -61,7 +61,7 @@ export default function Tools() {
                       <small className="text-xs text-muted-foreground block">
                         Organization:
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {tool.name}
                       </strong>
                     </div>

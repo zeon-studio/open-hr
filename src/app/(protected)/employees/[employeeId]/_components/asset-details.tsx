@@ -61,7 +61,7 @@ export default function Assets() {
                       <small className="text-xs text-muted-foreground block">
                         Tag No:
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {asset.asset_id}
                       </strong>
                     </div>
@@ -69,7 +69,7 @@ export default function Assets() {
                       <small className="text-xs text-muted-foreground block">
                         Purchase Date:
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {asset.purchase_date &&
                           format(new Date(asset.purchase_date), "MMM d, yyyy")}
                       </strong>
@@ -79,7 +79,7 @@ export default function Assets() {
                       <small className="text-xs text-muted-foreground block">
                         Handover Date:
                       </small>
-                      <strong className="text-h6 text-sm font-medium">
+                      <strong className="text-sm font-medium">
                         {asset.handover?.date &&
                           format(new Date(asset.handover?.date), "MMM d, yyyy")}
                       </strong>

@@ -41,7 +41,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Reason
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {increment.reason}
                       </strong>
                     </div>
@@ -49,7 +49,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Amount
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {increment.amount} BDT
                       </strong>
                     </div>
@@ -57,7 +57,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Date:
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {increment.date &&
                           format(new Date(increment.date), "MMM d, yyyy")}
                       </strong>
@@ -100,7 +100,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Amount
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {bonus.amount} BDT
                       </strong>
                     </div>
@@ -108,7 +108,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Type:
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {bonus.type}
                       </strong>
                     </div>
@@ -116,7 +116,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Date:
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {bonus.date &&
                           format(new Date(bonus.date), "MMM d, yyyy")}
                       </strong>
@@ -159,7 +159,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Amount
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {salary.amount} BDT
                       </strong>
                     </div>
@@ -167,7 +167,7 @@ export default function Payroll() {
                       <small className="text-xs text-muted-foreground block">
                         Date:
                       </small>
-                      <strong className="text-h6 text-sm font-medium capitalize">
+                      <strong className="text-sm font-medium capitalize">
                         {salary.date &&
                           format(new Date(salary.date), "MMM d, yyyy")}
                       </strong>
