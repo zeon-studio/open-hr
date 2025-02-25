@@ -16,11 +16,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/table";
+import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import EmployeeInsert from "./_components/employee-insert";
 import EmployeePage from "./_components/employee-page";
 
 export default function Employees() {
+  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams.get("page");
@@ -60,18 +62,19 @@ export default function Employees() {
           <TableRow className="sticky top-0">
             <TableHead className="sticky top-0">Name</TableHead>
             <TableHead className="sticky top-0">Email</TableHead>
-            <TableHead className="sticky top-0">Phone </TableHead>
-
             <TableHead className="sticky top-0">Department</TableHead>
-            <TableHead className="sticky top-0 text-left">
-              Designation
-            </TableHead>
+            <TableHead className="sticky top-0">Designation</TableHead>
+            <TableHead className="sticky top-0">Status</TableHead>
+
+            {session?.user?.role === "admin" && (
+              <TableHead className="sticky top-0 text-right">More</TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {!employees?.length && (
             <TableRow>
-              <TableCell colSpan={7}>
+              <TableCell colSpan={session?.user?.role === "admin" ? 8 : 7}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>
