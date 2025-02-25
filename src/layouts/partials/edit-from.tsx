@@ -8,6 +8,7 @@ export default function EditFrom<T>({
   data: initialData,
   isUpdating,
   title,
+  hasEditAccess = true,
 }: {
   children: ({
     handleChange,
@@ -20,6 +21,7 @@ export default function EditFrom<T>({
   data: T;
   isUpdating?: boolean;
   title: string;
+  hasEditAccess?: boolean;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [isReadOnly, setIsReadOnly] = useState(true);
@@ -40,35 +42,36 @@ export default function EditFrom<T>({
       <CardHeader className="border-0 pb-0">
         <CardTitle className="justify-between flex items-center">
           <span>{title}</span>
-          {isReadOnly ? (
-            <Button
-              onClick={() => {
-                setIsReadOnly(false);
-              }}
-              type="button"
-              size={"sm"}
-              className="space-x-1"
-              variant={"outline"}
-            >
-              <Pen className="size-4" />
-              <span>Edit</span>
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                formRef.current?.requestSubmit();
-              }}
-              type="button"
-              size={"sm"}
-              className="space-x-1"
-              variant={"outline"}
-              disabled={isUpdating}
-            >
-              {isUpdating && <Loader2 className="size-4 animate-spin" />}
-              <Check className="size-4" />
-              <span>Save</span>
-            </Button>
-          )}
+          {hasEditAccess &&
+            (isReadOnly ? (
+              <Button
+                onClick={() => {
+                  setIsReadOnly(false);
+                }}
+                type="button"
+                size={"sm"}
+                className="space-x-1"
+                variant={"outline"}
+              >
+                <Pen className="size-4" />
+                <span>Edit</span>
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  formRef.current?.requestSubmit();
+                }}
+                type="button"
+                size={"sm"}
+                className="space-x-1"
+                variant={"outline"}
+                disabled={isUpdating}
+              >
+                {isUpdating && <Loader2 className="size-4 animate-spin" />}
+                <Check className="size-4" />
+                <span>Save</span>
+              </Button>
+            ))}
         </CardTitle>
       </CardHeader>
       <CardContent>
