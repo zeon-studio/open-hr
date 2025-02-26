@@ -15,6 +15,24 @@ import {
 
 export const modules = [
   {
+    name: "Payroll",
+    identifier: "payroll",
+    description: "Manage payroll",
+    icon: HandCoins,
+  },
+  {
+    name: "Leave",
+    identifier: "leave",
+    description: "Manage leaves",
+    icon: CalendarOff,
+  },
+  {
+    name: "Calendar",
+    identifier: "calendar",
+    description: "Manage calendar",
+    icon: Calendar,
+  },
+  {
     name: "Tool",
     identifier: "tool",
     description: "Manage tools",
@@ -33,28 +51,10 @@ export const modules = [
     icon: SquareLibrary,
   },
   {
-    name: "Leave",
-    identifier: "leave",
-    description: "Manage leaves",
-    icon: CalendarOff,
-  },
-  {
-    name: "Calendar",
-    identifier: "calendar",
-    description: "Manage calendar",
-    icon: Calendar,
-  },
-  {
     name: "Employee Bank",
     identifier: "employee-bank",
     description: "Manage employee bank",
     icon: Landmark,
-  },
-  {
-    name: "Payroll",
-    identifier: "payroll",
-    description: "Manage payroll",
-    icon: HandCoins,
   },
   {
     name: "Employee Contact",
