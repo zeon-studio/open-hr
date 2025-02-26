@@ -1,19 +1,12 @@
+import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { store } from "@/redux/store";
-
-interface Employee {
-  id: string;
-  name: string;
-  work_email: string;
-  department: string;
-  designation: string;
-}
 
 const getEmployeesData = () => {
   const employees = store.getState().api.queries[
     "getEmployeesBasics(undefined)"
   ] as {
     data: {
-      result: Employee[];
+      result: Partial<TEmployee>[];
     };
   };
 
@@ -31,24 +24,25 @@ const getEmployeesData = () => {
 
 export const employeeInfoById = (id: string) => {
   const employees = getEmployeesData();
-  const employee: Employee | undefined = employees?.find(
-    (employee: Employee) => employee.id === id
+  const employee: Partial<TEmployee> | undefined = employees?.find(
+    (employee: Partial<TEmployee>) => employee.id === id
   );
 
+  // @ts-ignore
   const fallback = {
     id,
     name: id,
     work_email: "N/A",
     department: "N/A",
     designation: "N/A",
-  };
+  } as Partial<TEmployee>;
 
   return employee ? employee : fallback;
 };
 
 export const employeeGroupByDepartment = () => {
   const employees = getEmployeesData() || [];
-  const result = employees.reduce((acc: any[], curr: Employee) => {
+  const result = employees.reduce((acc: any[], curr: Partial<TEmployee>) => {
     const department = (curr.department || "unassigned").toUpperCase();
     const employee = {
       label: curr.name,

@@ -14,6 +14,15 @@ export type TEmployee = {
   blood_group: "O+" | "O-" | "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-";
   marital_status: "married" | "unmarried" | "divorced" | "widowed";
   present_address: string;
+  department:
+    | "development"
+    | "design"
+    | "marketing"
+    | "admin"
+    | "hr_finance"
+    | "production"
+    | "other";
+  designation: string;
   permanent_address: string;
   facebook: string;
   twitter: string;

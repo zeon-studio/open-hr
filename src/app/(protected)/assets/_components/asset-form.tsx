@@ -142,7 +142,7 @@ const AssetForm = ({
             assetData.user
               ? [
                   {
-                    label: employeeInfoById(assetData.user).name,
+                    label: employeeInfoById(assetData.user)?.name || "Unknown",
                     value: assetData.user,
                   },
                 ]

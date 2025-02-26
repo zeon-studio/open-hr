@@ -9,7 +9,7 @@ const UserInfo = ({
   description,
   imgSize = 50,
 }: {
-  user: Partial<TEmployee & { designation?: string }>;
+  user: Partial<TEmployee>;
   className?: string;
   description?: string;
   imgSize?: number;

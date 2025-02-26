@@ -16,16 +16,7 @@ export type TEmployeeJob = {
   employee_id: string;
   job_type: "full_time" | "part_time" | "remote" | "contractual" | "internship";
   joining_date: Date;
-  designation: string;
   manager_id: string;
-  department:
-    | "development"
-    | "design"
-    | "marketing"
-    | "admin"
-    | "hr_finance"
-    | "production"
-    | "other";
   permanent_date: Date;
   resignation_date: Date;
   prev_jobs: TPrevJob[];

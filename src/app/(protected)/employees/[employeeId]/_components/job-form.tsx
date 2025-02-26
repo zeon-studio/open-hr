@@ -29,21 +29,21 @@ const EmployeeJobForm = ({
   employeeJob,
   onDialogChange,
 }: {
-  employeeJob: Partial<TEmployeeJob>;
+  employeeJob: Partial<TEmployeeJob & { designation: string }>;
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const [employeeJobData, setEmployeeJobData] = useState<Partial<TEmployeeJob>>(
-    {
-      employee_id: employeeJob.employee_id,
-      designation: employeeJob.designation,
-      manager_id: employeeJob.manager_id,
-      joining_date: employeeJob.joining_date,
-      permanent_date: employeeJob.permanent_date,
-      promotions: employeeJob.promotions,
-      note: employeeJob.note,
-    }
-  );
+  const [employeeJobData, setEmployeeJobData] = useState<
+    Partial<TEmployeeJob & { designation: string }>
+  >({
+    employee_id: employeeJob.employee_id,
+    designation: employeeJob.designation,
+    manager_id: employeeJob.manager_id,
+    joining_date: employeeJob.joining_date,
+    permanent_date: employeeJob.permanent_date,
+    promotions: employeeJob.promotions,
+    note: employeeJob.note,
+  });
 
   const [updateEmployeeJob, { isSuccess, isError, error }] =
     useUpdateEmployeeJobMutation();
@@ -111,7 +111,7 @@ const EmployeeJobForm = ({
       >
         {/* designation */}
         <div className="lg:col-6 mb-4">
-          <Label>Designation</Label>
+          <Label>Current Designation</Label>
           <Input
             type="text"
             value={employeeJobData.designation}
@@ -126,7 +126,7 @@ const EmployeeJobForm = ({
         </div>
         {/* Manager ID */}
         <div className="lg:col-6 mb-4">
-          <Label>Manager</Label>
+          <Label>Reports To</Label>
           <Select
             value={employeeJobData.manager_id || "none"}
             onValueChange={(value) =>

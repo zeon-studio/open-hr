@@ -374,7 +374,7 @@ const ToolForm = ({
                 </Label>
                 <MultipleSelector
                   value={item.users.map((user) => ({
-                    label: employeeInfoById(user).name,
+                    label: employeeInfoById(user).name || "Unknown",
                     value: user,
                   }))}
                   options={employeeGroupByDepartment().flatMap(

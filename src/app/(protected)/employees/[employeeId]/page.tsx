@@ -185,7 +185,7 @@ export default function EmployeeSingle() {
                 {data?.result.name}
               </h2>
               <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90 capitalize">
-                {jobData?.result?.designation}
+                {data?.result?.designation}
               </p>
             </div>
 
@@ -316,7 +316,7 @@ export default function EmployeeSingle() {
                   <UserRoundCog className="size-4 stroke-current" />
                   <div className="space-y-1.5">
                     <span className="text-xs block font-semibold capitalize">
-                      {jobData?.result?.designation}
+                      {data?.result?.designation}
                     </span>
                     <span className="text-xs block capitalize">
                       {jobData?.result?.job_type?.replace("_", " ")}
