@@ -1,18 +1,5 @@
 export type TModuleItem = {
-  name:
-    | "tool"
-    | "leave"
-    | "asset"
-    | "course"
-    | "payroll"
-    | "calendar"
-    | "employee-bank"
-    | "employee-contact"
-    | "employee-document"
-    | "employee-lifecycle"
-    | "employee-education"
-    | "employee-achievement";
-  description: string;
+  name: string;
   enable: boolean;
 };
 

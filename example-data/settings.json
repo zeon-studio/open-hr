@@ -12,62 +12,50 @@
   "modules": [
     {
       "name": "tool",
-      "description": "Manage tools",
       "enable": true
     },
     {
       "name": "course",
-      "description": "Manage courses",
       "enable": true
     },
     {
       "name": "asset",
-      "description": "Manage assets",
       "enable": true
     },
     {
       "name": "leave",
-      "description": "Manage leaves",
       "enable": true
     },
     {
       "name": "calendar",
-      "description": "Manage calendar",
       "enable": true
     },
     {
       "name": "employee-bank",
-      "description": "Manage employee bank",
       "enable": true
     },
     {
       "name": "payroll",
-      "description": "Manage payroll",
       "enable": true
     },
     {
       "name": "employee-contact",
-      "description": "Manage employee contact",
       "enable": true
     },
     {
       "name": "employee-document",
-      "description": "Manage employee document",
       "enable": true
     },
     {
       "name": "employee-lifecycle",
-      "description": "Manage employee lifecycle tasks",
       "enable": true
     },
     {
       "name": "employee-education",
-      "description": "Manage employee education",
       "enable": true
     },
     {
       "name": "employee-achievement",
-      "description": "Manage employee achievement",
       "enable": true
     }
   ],
