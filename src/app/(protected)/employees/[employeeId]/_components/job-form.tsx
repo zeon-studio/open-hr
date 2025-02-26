@@ -37,7 +37,6 @@ const EmployeeJobForm = ({
     Partial<TEmployeeJob & { designation: string }>
   >({
     employee_id: employeeJob.employee_id,
-    designation: employeeJob.designation,
     manager_id: employeeJob.manager_id,
     joining_date: employeeJob.joining_date,
     permanent_date: employeeJob.permanent_date,
@@ -109,52 +108,6 @@ const EmployeeJobForm = ({
         className="row justify-between items-center"
         onSubmit={handleSubmit}
       >
-        {/* designation */}
-        <div className="lg:col-6 mb-4">
-          <Label>Current Designation</Label>
-          <Input
-            type="text"
-            value={employeeJobData.designation}
-            onChange={(e: any) =>
-              setEmployeeJobData({
-                ...employeeJobData,
-                designation: e.target.value,
-              })
-            }
-            required
-          />
-        </div>
-        {/* Manager ID */}
-        <div className="lg:col-6 mb-4">
-          <Label>Reports To</Label>
-          <Select
-            value={employeeJobData.manager_id || "none"}
-            onValueChange={(value) =>
-              setEmployeeJobData({
-                ...employeeJobData,
-                manager_id: value,
-              })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select User" />
-            </SelectTrigger>
-            <SelectContent>
-              {employeeGroupByDepartment().map((group) => (
-                <SelectGroup key={group.label}>
-                  <SelectLabel>{group.label}</SelectLabel>
-                  {group.options.map(
-                    (option: { value: string; label: string }) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    )
-                  )}
-                </SelectGroup>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
         {/* joining date */}
         <div className="lg:col-6 mb-4">
           <Label>Joining Date</Label>
@@ -229,6 +182,38 @@ const EmployeeJobForm = ({
               />
             </PopoverContent>
           </Popover>
+        </div>
+
+        {/* Manager ID */}
+        <div className="lg:col-12 mb-4">
+          <Label>Reports To</Label>
+          <Select
+            value={employeeJobData.manager_id || "none"}
+            onValueChange={(value) =>
+              setEmployeeJobData({
+                ...employeeJobData,
+                manager_id: value,
+              })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select User" />
+            </SelectTrigger>
+            <SelectContent>
+              {employeeGroupByDepartment().map((group) => (
+                <SelectGroup key={group.label}>
+                  <SelectLabel>{group.label}</SelectLabel>
+                  {group.options.map(
+                    (option: { value: string; label: string }) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    )
+                  )}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* note */}
