@@ -29,20 +29,20 @@ const EmployeeJobForm = ({
   employeeJob,
   onDialogChange,
 }: {
-  employeeJob: Partial<TEmployeeJob & { designation: string }>;
+  employeeJob: Partial<TEmployeeJob>;
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const [employeeJobData, setEmployeeJobData] = useState<
-    Partial<TEmployeeJob & { designation: string }>
-  >({
-    employee_id: employeeJob.employee_id,
-    manager_id: employeeJob.manager_id,
-    joining_date: employeeJob.joining_date,
-    permanent_date: employeeJob.permanent_date,
-    promotions: employeeJob.promotions,
-    note: employeeJob.note,
-  });
+  const [employeeJobData, setEmployeeJobData] = useState<Partial<TEmployeeJob>>(
+    {
+      employee_id: employeeJob.employee_id,
+      manager_id: employeeJob.manager_id,
+      joining_date: employeeJob.joining_date,
+      permanent_date: employeeJob.permanent_date,
+      promotions: employeeJob.promotions,
+      note: employeeJob.note,
+    }
+  );
 
   const [updateEmployeeJob, { isSuccess, isError, error }] =
     useUpdateEmployeeJobMutation();
