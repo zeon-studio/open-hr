@@ -45,7 +45,7 @@ export default function SettingLeavesForm({
                   handleChange({ ...data, [name]: Number(value) });
                 }}
                 type="number"
-                value={data.leave_threshold_days || ""}
+                value={data.leave_threshold_days ?? ""}
                 name="leave_threshold_days"
                 placeholder="Leave Threshold Days"
                 readOnly={isReadOnly}
