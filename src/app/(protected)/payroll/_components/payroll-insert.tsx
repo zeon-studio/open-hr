@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import {
   useAddMonthlyPayrollMutation,
@@ -162,7 +162,7 @@ const PayrollInsert = ({
                 onSelect={(date) => {
                   setPayrollData((prev) => ({
                     ...prev,
-                    salary_date: date!,
+                    salary_date: formatDateWithTime(date!),
                   }));
                 }}
               />

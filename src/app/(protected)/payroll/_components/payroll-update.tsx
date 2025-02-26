@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { useUpdatePayrollMutation } from "@/redux/features/payrollApiSlice/payrollSlice";
 import {
   TBonus,
@@ -238,13 +238,15 @@ const PayrollUpdate = ({
                       <Calendar
                         mode="single"
                         selected={item.date ? new Date(item.date) : new Date()}
-                        onSelect={(e: any) =>
+                        onSelect={(date) =>
                           setSalary((prevItems) => {
                             const updatedItems = [...prevItems];
-                            updatedItems[index] = {
-                              ...item,
-                              date: e,
-                            };
+                            if (date) {
+                              updatedItems[index] = {
+                                ...prevItems[index],
+                                date: formatDateWithTime(date),
+                              };
+                            }
                             return updatedItems;
                           })
                         }
@@ -372,12 +374,12 @@ const PayrollUpdate = ({
                       <Calendar
                         mode="single"
                         selected={item.date ? new Date(item.date) : new Date()}
-                        onSelect={(e: any) =>
+                        onSelect={(date) =>
                           setBonus((prevItems) => {
                             const updatedItems = [...prevItems];
                             updatedItems[index] = {
                               ...item,
-                              date: e,
+                              date: formatDateWithTime(date!),
                             };
                             return updatedItems;
                           })
@@ -473,16 +475,16 @@ const PayrollUpdate = ({
                       <Calendar
                         mode="single"
                         selected={item.date ? new Date(item.date) : new Date()}
-                        onSelect={(e: any) =>
+                        onSelect={(date) => {
                           setIncrements((prevItems) => {
                             const updatedItems = [...prevItems];
                             updatedItems[index] = {
                               ...item,
-                              date: e,
+                              date: formatDateWithTime(date!),
                             };
                             return updatedItems;
-                          })
-                        }
+                          });
+                        }}
                       />
                     </PopoverContent>
                   </Popover>

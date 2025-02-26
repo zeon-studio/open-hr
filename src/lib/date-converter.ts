@@ -81,3 +81,11 @@ export const dayCount = (startDate: string | Date, endDate: string | Date) => {
 
   return differenceInDays(end, start) + 1;
 };
+
+export const formatDateWithTime = (date: Date): Date => {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  // Create new date with time set to midnight UTC
+  return new Date(Date.UTC(year, month, day, 0, 0, 0));
+};

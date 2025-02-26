@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { useGetUpcomingLeaveDatesRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { useAppSelector } from "@/redux/hook";
@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Textarea } from "@/ui/textarea";
-import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { SetStateAction, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -44,12 +43,12 @@ const LeaveRequestForm = ({
     setLeaveRequestData({
       ...leaveRequestData,
       start_date: dateRange?.from
-        ? format(dateRange.from, "yyyy-MM-dd")
+        ? formatDateWithTime(dateRange.from)
         : undefined,
       end_date: dateRange?.to
-        ? format(dateRange.to, "yyyy-MM-dd")
+        ? formatDateWithTime(dateRange.to)
         : dateRange?.from
-          ? format(dateRange?.from, "yyyy-MM-dd")
+          ? formatDateWithTime(dateRange?.from)
           : undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

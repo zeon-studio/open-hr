@@ -1,6 +1,6 @@
 import options from "@/config/options.json";
 import MultipleSelector from "@/layouts/components/ui/multiple-selector";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
@@ -246,12 +246,12 @@ const CourseForm = ({
                           ? new Date(item.purchase_date)
                           : new Date()
                       }
-                      onSelect={(e: any) =>
+                      onSelect={(date) =>
                         setCourseItems((prevItems) => {
                           const updatedItems = [...prevItems];
                           updatedItems[index] = {
                             ...item,
-                            purchase_date: e,
+                            purchase_date: formatDateWithTime(date!),
                           };
                           return updatedItems;
                         })
@@ -308,12 +308,12 @@ const CourseForm = ({
                           ? new Date(item.expire_date)
                           : new Date()
                       }
-                      onSelect={(e: any) =>
+                      onSelect={(date) =>
                         setCourseItems((prevItems) => {
                           const updatedItems = [...prevItems];
                           updatedItems[index] = {
                             ...item,
-                            expire_date: e,
+                            expire_date: formatDateWithTime(date!),
                           };
                           return updatedItems;
                         })

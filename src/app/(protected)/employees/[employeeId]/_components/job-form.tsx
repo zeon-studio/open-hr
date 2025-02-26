@@ -1,4 +1,4 @@
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { employeeGroupByDepartment } from "@/lib/employee-info";
 import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
@@ -135,10 +135,10 @@ const EmployeeJobForm = ({
                     ? new Date(employeeJobData.joining_date)
                     : new Date()
                 }
-                onSelect={(e: any) =>
+                onSelect={(date) =>
                   setEmployeeJobData({
                     ...employeeJobData,
-                    joining_date: e,
+                    joining_date: date ? formatDateWithTime(date) : undefined,
                   })
                 }
               />
@@ -173,10 +173,10 @@ const EmployeeJobForm = ({
                     ? new Date(employeeJobData.permanent_date)
                     : new Date()
                 }
-                onSelect={(e: any) =>
+                onSelect={(date) =>
                   setEmployeeJobData({
                     ...employeeJobData,
-                    permanent_date: e,
+                    permanent_date: date ? formatDateWithTime(date) : undefined,
                   })
                 }
               />
@@ -289,13 +289,15 @@ const EmployeeJobForm = ({
                             ? new Date(item.promotion_date)
                             : new Date()
                         }
-                        onSelect={(e: any) =>
+                        onSelect={(date) =>
                           setEmployeeJobLogs((prevItems) => {
                             const updatedItems = [...prevItems];
-                            updatedItems[index] = {
-                              ...item,
-                              promotion_date: e,
-                            };
+                            if (date) {
+                              updatedItems[index] = {
+                                ...prevItems[index],
+                                promotion_date: formatDateWithTime(date),
+                              };
+                            }
                             return updatedItems;
                           })
                         }

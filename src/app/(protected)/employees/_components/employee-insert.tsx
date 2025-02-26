@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import {
   useAddEmployeeMutation,
   useGetEmployeesBasicsQuery,
@@ -242,7 +242,7 @@ const EmployeeInsert = ({
                 onSelect={(date) => {
                   setEmployeeData((prev) => ({
                     ...prev,
-                    joining_date: date!,
+                    joining_date: formatDateWithTime(date!),
                   }));
                 }}
               />

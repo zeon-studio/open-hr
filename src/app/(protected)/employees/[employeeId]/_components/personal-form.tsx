@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
 import EditForm from "@/partials/edit-from";
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
@@ -158,7 +158,7 @@ export default function PersonalForm({
                     onSelect={(date) =>
                       handleChange({
                         ...data,
-                        dob: date!,
+                        dob: formatDateWithTime(date!),
                       })
                     }
                   />

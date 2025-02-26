@@ -1,6 +1,6 @@
 import options from "@/config/options.json";
 import MultipleSelector from "@/layouts/components/ui/multiple-selector";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
@@ -202,10 +202,10 @@ const AssetForm = ({
                   ? new Date(assetData.purchase_date)
                   : new Date()
               }
-              onSelect={(e: any) =>
+              onSelect={(date) =>
                 setAssetData({
                   ...assetData,
-                  purchase_date: e,
+                  purchase_date: date ? formatDateWithTime(date) : undefined,
                 })
               }
             />
@@ -329,12 +329,12 @@ const AssetForm = ({
                     <Calendar
                       mode="single"
                       selected={item.date ? new Date(item.date) : new Date()}
-                      onSelect={(e: any) =>
+                      onSelect={(date) =>
                         setAssetLogs((prevItems) => {
                           const updatedItems = [...prevItems];
                           updatedItems[index] = {
                             ...item,
-                            date: e,
+                            date: formatDateWithTime(date!),
                           };
                           return updatedItems;
                         })

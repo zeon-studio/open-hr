@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeAchievementQuery,
@@ -228,7 +228,7 @@ function AchievementForm({
                               ? new Date(achievement.date)
                               : new Date()
                           }
-                          onSelect={(e: any) =>
+                          onSelect={(date) => {
                             handleChange({
                               ...data,
                               achievements: achievements.map(
@@ -236,14 +236,14 @@ function AchievementForm({
                                   if (index === i) {
                                     return {
                                       ...achievement,
-                                      date: e,
+                                      date: formatDateWithTime(date!),
                                     };
                                   }
                                   return achievement;
                                 }
                               ),
-                            })
-                          }
+                            });
+                          }}
                         />
                       </PopoverContent>
                     </Popover>

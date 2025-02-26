@@ -1,4 +1,4 @@
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import { cn } from "@/lib/shadcn";
 import {
@@ -192,7 +192,7 @@ export default function Offboarding() {
                                 onSelect={(date) => {
                                   setOffboardingData({
                                     ...offboardingData,
-                                    resignation_date: date!,
+                                    resignation_date: formatDateWithTime(date!),
                                   });
                                 }}
                               />

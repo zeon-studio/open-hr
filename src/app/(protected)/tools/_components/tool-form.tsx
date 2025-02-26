@@ -1,6 +1,6 @@
 import options from "@/config/options.json";
 import MultipleSelector from "@/layouts/components/ui/multiple-selector";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
@@ -290,13 +290,15 @@ const ToolForm = ({
                           ? new Date(item.purchase_date)
                           : new Date()
                       }
-                      onSelect={(e: any) =>
+                      onSelect={(date) =>
                         setToolItems((prevItems) => {
                           const updatedItems = [...prevItems];
-                          updatedItems[index] = {
-                            ...item,
-                            purchase_date: e,
-                          };
+                          if (date) {
+                            updatedItems[index] = {
+                              ...prevItems[index],
+                              purchase_date: formatDateWithTime(date),
+                            };
+                          }
                           return updatedItems;
                         })
                       }
@@ -352,13 +354,15 @@ const ToolForm = ({
                           ? new Date(item.expire_date)
                           : new Date()
                       }
-                      onSelect={(e: any) =>
+                      onSelect={(date) =>
                         setToolItems((prevItems) => {
                           const updatedItems = [...prevItems];
-                          updatedItems[index] = {
-                            ...item,
-                            expire_date: e,
-                          };
+                          if (date) {
+                            updatedItems[index] = {
+                              ...prevItems[index],
+                              expire_date: formatDateWithTime(date),
+                            };
+                          }
                           return updatedItems;
                         })
                       }

@@ -1,5 +1,9 @@
 import { useDialog } from "@/hooks/useDialog";
-import { dateFormat, getDuration } from "@/lib/date-converter";
+import {
+  dateFormat,
+  formatDateWithTime,
+  getDuration,
+} from "@/lib/date-converter";
 import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
   TEmployeeJob,
@@ -271,7 +275,7 @@ export default function PreviousJobs({
                                 handleChange(
                                   {
                                     ...job,
-                                    start_date: date!,
+                                    start_date: formatDateWithTime(date!),
                                   },
                                   index
                                 )
@@ -314,7 +318,7 @@ export default function PreviousJobs({
                                 handleChange(
                                   {
                                     ...job,
-                                    end_date: date!,
+                                    end_date: formatDateWithTime(date!),
                                   },
                                   index
                                 );

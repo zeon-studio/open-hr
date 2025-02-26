@@ -1,4 +1,4 @@
-import { dateFormat, dayCount } from "@/lib/date-converter";
+import { dateFormat, dayCount, formatDateWithTime } from "@/lib/date-converter";
 import {
   TCalendar,
   TEvent,
@@ -8,7 +8,6 @@ import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
-import { format } from "date-fns";
 import { CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -71,11 +70,11 @@ const CalendarForm = ({
     const updatedHolidayItems = [...holidayItems];
     updatedHolidayItems[index] = {
       ...updatedHolidayItems[index],
-      start_date: range.from ? format(range.from, "yyyy-MM-dd") : undefined,
+      start_date: range.from ? formatDateWithTime(range.from) : undefined,
       end_date: range.to
-        ? format(range.to, "yyyy-MM-dd")
+        ? formatDateWithTime(range.to)
         : range.from
-          ? format(range.from, "yyyy-MM-dd")
+          ? formatDateWithTime(range.from)
           : undefined,
       day_count:
         range.from && range.to
@@ -118,11 +117,11 @@ const CalendarForm = ({
     const updatedEventItems = [...eventItems];
     updatedEventItems[index] = {
       ...updatedEventItems[index],
-      start_date: range.from ? format(range.from, "yyyy-MM-dd") : undefined,
+      start_date: range.from ? formatDateWithTime(range.from) : undefined,
       end_date: range.to
-        ? format(range.to, "yyyy-MM-dd")
+        ? formatDateWithTime(range.to)
         : range.from
-          ? format(range.from, "yyyy-MM-dd")
+          ? formatDateWithTime(range.from)
           : undefined,
       day_count:
         range.from && range.to
