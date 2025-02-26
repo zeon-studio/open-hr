@@ -152,21 +152,23 @@ export default function PersonalInfo() {
       />
 
       {/* Password Form */}
-      <PasswordForm
-        data={{
-          id: employeeId,
-          current_password: "",
-          new_password: "",
-        }}
-        isUpdating={isPasswordUpdating}
-        onSubmit={(data) =>
-          updatePassword({
+      {session?.user.id === employeeId && (
+        <PasswordForm
+          data={{
             id: employeeId,
-            current_password: data.current_password,
-            new_password: data.new_password,
-          })
-        }
-      />
+            current_password: "",
+            new_password: "",
+          }}
+          isUpdating={isPasswordUpdating}
+          onSubmit={(data) =>
+            updatePassword({
+              id: employeeId,
+              current_password: data.current_password,
+              new_password: data.new_password,
+            })
+          }
+        />
+      )}
 
       {/* Bank Form */}
       {modules.find((mod) => mod.name === "employee-bank")?.enable && (
