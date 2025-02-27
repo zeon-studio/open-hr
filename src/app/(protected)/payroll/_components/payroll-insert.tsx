@@ -5,10 +5,7 @@ import {
   useAddMonthlyPayrollMutation,
   useGetPayrollBasicsQuery,
 } from "@/redux/features/payrollApiSlice/payrollSlice";
-import {
-  TCreateMonthlySalary,
-  TPayroll,
-} from "@/redux/features/payrollApiSlice/payrollType";
+import { TCreateMonthlySalary } from "@/redux/features/payrollApiSlice/payrollType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -180,7 +177,7 @@ const PayrollInsert = ({
           {payrollData.employees.map((item) => (
             <div
               className="border border-border relative mb-6 bg-light rounded-md p-3"
-              key={item.employee_id}
+              key={item.employee_id || Math.random()}
             >
               <div className="absolute right-3 top-3">
                 <Button
@@ -225,11 +222,10 @@ const PayrollInsert = ({
                       {employees
                         ?.filter(
                           (employee) =>
-                            !employeesPayroll?.some(
-                              (payroll: TPayroll) =>
-                                payroll.employee_id === employee.id &&
-                                payroll.employee_id !== item.employee_id
-                            )
+                            !payrollData.employees.some(
+                              (payrollEmployee) =>
+                                payrollEmployee.employee_id === employee.id
+                            ) || employee.id === item.employee_id
                         )
                         .map((employee) => (
                           <SelectItem key={employee.id} value={employee.id}>
