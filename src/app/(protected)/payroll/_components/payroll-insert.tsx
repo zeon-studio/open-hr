@@ -71,7 +71,7 @@ const PayrollInsert = ({
       employees: [
         ...prev.employees,
         {
-          employee_id: "",
+          employee_id: `${Date.now()}-${Math.random()}`,
           gross_salary: 0,
           bonus_type: "",
           bonus_reason: "",
@@ -174,10 +174,10 @@ const PayrollInsert = ({
         </div>
 
         <div className="col-12 mb-6">
-          {payrollData.employees.map((item) => (
+          {payrollData.employees.map((item, index) => (
             <div
               className="border border-border relative mb-6 bg-light rounded-md p-3"
-              key={item.employee_id || Math.random()}
+              key={item.employee_id}
             >
               <div className="absolute right-3 top-3">
                 <Button
@@ -202,8 +202,8 @@ const PayrollInsert = ({
                       if (selectedEmployee) {
                         setPayrollData((prev) => ({
                           ...prev,
-                          employees: prev.employees.map((employee) => {
-                            if (employee.employee_id === item.employee_id) {
+                          employees: prev.employees.map((employee, i) => {
+                            if (i === index) {
                               return {
                                 ...employee,
                                 employee_id: selectedEmployee.id,
@@ -243,9 +243,10 @@ const PayrollInsert = ({
                     value={item.gross_salary}
                     onChange={(e) => {
                       const updatedEmployees = [...payrollData.employees];
-                      updatedEmployees.find(
-                        (emp) => emp.employee_id === item.employee_id
-                      )!.gross_salary = Number(e.target.value);
+                      updatedEmployees[index] = {
+                        ...item,
+                        gross_salary: Number(e.target.value),
+                      };
                       setPayrollData((prev) => ({
                         ...prev,
                         employees: updatedEmployees,
@@ -255,21 +256,11 @@ const PayrollInsert = ({
                   />
                 </div>
                 {/* Add Bonus Button */}
-                {!showBonusFields[
-                  payrollData.employees.findIndex(
-                    (emp) => emp.employee_id === item.employee_id
-                  )
-                ] && (
+                {!showBonusFields[index] && (
                   <div className="col-12 mb-4">
                     <Button
                       type="button"
-                      onClick={() =>
-                        handleShowBonusFields(
-                          payrollData.employees.findIndex(
-                            (emp) => emp.employee_id === item.employee_id
-                          )
-                        )
-                      }
+                      onClick={() => handleShowBonusFields(index)}
                       size={"sm"}
                       className="w-full"
                       variant="outline"
@@ -279,11 +270,7 @@ const PayrollInsert = ({
                   </div>
                 )}
                 {/* Bonus Fields */}
-                {showBonusFields[
-                  payrollData.employees.findIndex(
-                    (emp) => emp.employee_id === item.employee_id
-                  )
-                ] && (
+                {showBonusFields[index] && (
                   <>
                     {/* Bonus Type */}
                     <div className="lg:col-6 mb-4">
@@ -293,9 +280,10 @@ const PayrollInsert = ({
                         value={item.bonus_type}
                         onValueChange={(value) => {
                           const updatedEmployees = [...payrollData.employees];
-                          updatedEmployees.find(
-                            (emp) => emp.employee_id === item.employee_id
-                          )!.bonus_type = value;
+                          updatedEmployees[index] = {
+                            ...item,
+                            bonus_type: value,
+                          };
                           setPayrollData((prev) => ({
                             ...prev,
                             employees: updatedEmployees,
@@ -323,9 +311,10 @@ const PayrollInsert = ({
                         value={item.bonus_amount}
                         onChange={(e) => {
                           const updatedEmployees = [...payrollData.employees];
-                          updatedEmployees.find(
-                            (emp) => emp.employee_id === item.employee_id
-                          )!.bonus_amount = Number(e.target.value);
+                          updatedEmployees[index] = {
+                            ...item,
+                            bonus_amount: Number(e.target.value),
+                          };
                           setPayrollData((prev) => ({
                             ...prev,
                             employees: updatedEmployees,
@@ -341,9 +330,10 @@ const PayrollInsert = ({
                         value={item.bonus_reason}
                         onChange={(e) => {
                           const updatedEmployees = [...payrollData.employees];
-                          updatedEmployees.find(
-                            (emp) => emp.employee_id === item.employee_id
-                          )!.bonus_reason = e.target.value;
+                          updatedEmployees[index] = {
+                            ...item,
+                            bonus_reason: e.target.value,
+                          };
                           setPayrollData((prev) => ({
                             ...prev,
                             employees: updatedEmployees,
