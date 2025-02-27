@@ -63,7 +63,7 @@ export default function SettingLeavesForm({
                 type="number"
                 value={data.max_leave_per_day || ""}
                 name="max_leave_per_day"
-                placeholder="Max Leave Per Day"
+                placeholder="Maximum Leave Per Day"
                 readOnly={isReadOnly}
               />
             </div>

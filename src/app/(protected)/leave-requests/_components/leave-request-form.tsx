@@ -39,6 +39,11 @@ const LeaveRequestForm = ({
     to: undefined,
   });
 
+  // Reset dateRange when leave_type changes
+  useEffect(() => {
+    setDateRange({ from: undefined, to: undefined });
+  }, [leaveRequestData.leave_type]);
+
   useEffect(() => {
     setLeaveRequestData({
       ...leaveRequestData,
@@ -54,6 +59,7 @@ const LeaveRequestForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange]);
 
+  // add days to today
   const today = new Date();
   const addDays = (days: number) => {
     const date = new Date(today);
@@ -61,34 +67,56 @@ const LeaveRequestForm = ({
     return date;
   };
 
-  // getDisabledDatesByCount function
-  const getDisabledDatesByCount = (count: number): Date[] => {
-    if (count === 0) return [];
+  // Get threshold days based on leave type
+  const getThresholdDayCount = () => {
+    if (!leaveRequestData.leave_type) return 0;
+    return ["casual", "earned"].includes(leaveRequestData.leave_type)
+      ? leave_threshold_days || 0
+      : 0;
+  };
+
+  // Get max leave per day based on leave type
+  const getMaxLeavePerDay = () => {
+    if (!leaveRequestData.leave_type) return 0;
+    return ["casual", "earned"].includes(leaveRequestData.leave_type)
+      ? max_leave_per_day || 0
+      : 0;
+  };
+
+  // Modify getThresholdDays to remove unused parameter
+  const getThresholdDays = (): Date[] => {
+    const thresholdDays = getThresholdDayCount();
+    if (thresholdDays === 0) return [];
     const disabledDates: Date[] = [];
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < thresholdDays; i++) {
       disabledDates.push(i === 0 ? today : addDays(i));
     }
     return disabledDates;
   };
+
+  // Get duplicate dates from database
   const { data } = useGetUpcomingLeaveDatesRequestsQuery(
     today.toISOString().slice(0, 10)
   );
 
-  // updated getDuplicateDates function
-  const getDuplicateDates = (arr: any, duplicateNumber: number): Date[] => {
-    if (!arr) return [];
+  // updated getDuplicateDates function with proper typing
+  const getDuplicateDates = (): Date[] => {
+    const duplicateNumber = getMaxLeavePerDay();
+    const dates = data?.result as string[] | undefined;
+
+    if (!dates) return [];
     if (duplicateNumber === 0) return [];
     if (duplicateNumber === 1) {
-      return arr.map((dateString: string) => new Date(dateString));
+      return dates.map((date: string) => new Date(date));
     }
     return Array.from(
       new Set(
-        arr
+        dates
           .filter(
-            (dateString: string) =>
-              arr.filter((d: any) => d === dateString).length >= duplicateNumber
+            (date: string) =>
+              dates.filter((d: string) => d === date).length >= duplicateNumber
           )
-          .map((dateString: string) => new Date(dateString))
+          .map((date: string) => new Date(date))
       )
     );
   };
@@ -145,10 +173,7 @@ const LeaveRequestForm = ({
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar
               mode="range"
-              disabled={[
-                ...getDisabledDatesByCount(leave_threshold_days || 0),
-                ...getDuplicateDates(data?.result, max_leave_per_day || 0),
-              ]}
+              disabled={[...getThresholdDays(), ...getDuplicateDates()]}
               numberOfMonths={2}
               selected={dateRange}
               onSelect={setDateRange}
