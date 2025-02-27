@@ -37,7 +37,7 @@ const LeaveRequest = () => {
     {
       data: leaveRequests!,
     },
-    "erp-leave-requests"
+    "local-leave-requests"
   );
 
   // check module enabled or not

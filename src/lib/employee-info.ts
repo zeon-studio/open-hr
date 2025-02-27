@@ -10,10 +10,10 @@ const getEmployeesData = () => {
     };
   };
 
-  const storedData = localStorage.getItem("erp-employees-basics");
+  const storedData = localStorage.getItem("local-employees-basics");
   if (employees?.data?.result) {
     localStorage.setItem(
-      "erp-employees-basics",
+      "local-employees-basics",
       JSON.stringify(employees.data.result)
     );
     return employees.data.result;

@@ -71,7 +71,7 @@ const CalendarPage = () => {
     {
       data: calendar ? [calendar] : [],
     },
-    "erp-calendar"
+    "local-calendar"
   );
 
   const yearlyData = getHolydaysAndEvents(calendar! || localData[0]!);

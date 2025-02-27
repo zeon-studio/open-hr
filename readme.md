@@ -160,14 +160,14 @@ After uploading the sample data, you can login to the dashboard using the email 
 
 ### 🐞 Reporting Issues
 
-We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/erp-solution/issues). It’s possible someone has already reported the same problem.
-If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/zeon-studio/erp-solution/issues).
+We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/open-hr/issues). It’s possible someone has already reported the same problem.
+If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/zeon-studio/open-hr/issues).
 
 ### 📝 License
 
 Copyright (c) 2025 - Present, Designed & Developed by [Zeon Studio](https://zeon.studio/)
 
-**Code License:** Released under the [MIT](https://github.com/zeon-studio/erp-solution/blob/main/LICENSE) license.
+**Code License:** Released under the [MIT](https://github.com/zeon-studio/open-hr/blob/main/LICENSE) license.
 
 ---
 

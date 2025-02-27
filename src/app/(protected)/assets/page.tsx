@@ -40,7 +40,7 @@ const Asset = () => {
     {
       data: assets!,
     },
-    "erp-assets"
+    "local-assets"
   );
 
   // check module enabled or not

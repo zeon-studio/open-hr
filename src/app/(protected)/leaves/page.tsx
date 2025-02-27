@@ -58,7 +58,7 @@ const Leave = () => {
     {
       data: leaves!,
     },
-    "erp-leaves"
+    "local-leaves"
   );
 
   // check module enabled or not

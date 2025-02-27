@@ -40,7 +40,7 @@ const Tool = () => {
     {
       data: tools!,
     },
-    "erp-tools"
+    "local-tools"
   );
 
   // check module enabled or not

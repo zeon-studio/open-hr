@@ -39,7 +39,7 @@ const Payroll = () => {
     {
       data: payrolls!,
     },
-    "erp-payrolls"
+    "local-payrolls"
   );
 
   // check module enabled or not

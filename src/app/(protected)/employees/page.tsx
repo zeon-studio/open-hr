@@ -40,7 +40,7 @@ export default function Employees() {
     {
       data: employees!,
     },
-    "erp-employees"
+    "local-employees"
   );
   const { isDialogOpen, onDialogChange } = useDialog();
 

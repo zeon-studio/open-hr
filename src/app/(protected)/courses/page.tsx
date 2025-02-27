@@ -40,7 +40,7 @@ const Course = () => {
     {
       data: courses!,
     },
-    "erp-courses"
+    "local-courses"
   );
 
   // check module enabled or not

@@ -1,9 +1,7 @@
 import options from "@/config/options.json";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import {
-  useAddEmployeeMutation,
-  useGetEmployeesBasicsQuery,
-} from "@/redux/features/employeeApiSlice/employeeSlice";
+import { employeeGroupByDepartment } from "@/lib/employee-info";
+import { useAddEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { TEmployeeCreate } from "@/redux/features/employeeApiSlice/employeeType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
@@ -14,7 +12,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/ui/select";
@@ -42,7 +42,6 @@ const EmployeeInsert = ({
     useState<TEmployeeCreate>(initialEmployeeData);
 
   const [addEmployee, { isSuccess, isError, error }] = useAddEmployeeMutation();
-  const { data } = useGetEmployeesBasicsQuery(undefined);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -192,21 +191,28 @@ const EmployeeInsert = ({
           <Select
             required
             value={employeeData.manager_id}
-            onValueChange={(e) =>
+            onValueChange={(value) =>
               setEmployeeData((prev) => ({
                 ...prev,
-                manager_id: e,
+                manager_id: value,
               }))
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select Manager" />
+              <SelectValue placeholder="Select User" />
             </SelectTrigger>
             <SelectContent>
-              {data?.result.map((item) => (
-                <SelectItem key={item.id} value={item.id}>
-                  {item.name}
-                </SelectItem>
+              {employeeGroupByDepartment().map((group) => (
+                <SelectGroup key={group.label}>
+                  <SelectLabel>{group.label}</SelectLabel>
+                  {group.options.map(
+                    (option: { value: string; label: string }) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    )
+                  )}
+                </SelectGroup>
               ))}
             </SelectContent>
           </Select>
