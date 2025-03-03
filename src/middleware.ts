@@ -55,6 +55,7 @@ export const config = {
     "/my-leave-requests",
     "/calendar",
     "/settings",
+    "/payroll",
     "/forgot-password",
   ],
 };
