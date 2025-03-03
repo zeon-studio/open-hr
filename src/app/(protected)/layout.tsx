@@ -3,10 +3,6 @@
 import Loader from "@/components/loader";
 import Header from "@/partials/header";
 import Sidebar from "@/partials/sidebar";
-import {
-  clearAuth,
-  setUser,
-} from "@/redux/features/authenticationApiSlice/authSlice";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { settingApi } from "@/redux/features/settingApiSlice/settingSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -19,24 +15,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     dispatch(settingApi.endpoints.getSetting.initiate(undefined));
   }, [dispatch]);
-  const { status, data: session } = useSession();
+  const { status } = useSession();
   const { app_name, company_website, favicon_url } =
     useAppSelector((state) => state["setting-slice"]) || {};
 
   if (status === "loading" || !app_name) {
     return <Loader />;
-  }
-
-  if (status === "authenticated" && typeof window !== undefined) {
-    dispatch(
-      setUser({
-        user: session.user,
-      })
-    );
-  }
-
-  if (status === "unauthenticated" && typeof window !== undefined) {
-    dispatch(clearAuth());
   }
 
   return (
