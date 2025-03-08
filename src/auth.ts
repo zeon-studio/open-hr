@@ -1,44 +1,46 @@
 import Axios from "@/lib/axios";
+import { jwtDecode } from "jwt-decode";
 import NextAuth from "next-auth";
+import { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-let refreshPromise: Promise<any> | null = null;
 
-async function refreshAccessToken(refreshToken: string) {
-  if (!refreshPromise) {
-    refreshPromise = fetch(
+async function refreshAccessToken(token: JWT) {
+  try {
+    const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/refresh-token`,
       {
         method: "POST",
-        body: JSON.stringify({
-          refreshToken: refreshToken,
-        }),
         headers: {
           "Content-Type": "application/json",
-          authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
         },
+        body: JSON.stringify({
+          refreshToken: token.refreshToken,
+          user: "user",
+        }),
       }
-    )
-      .then(async (res) => {
-        const data = await res.json();
-        console.log(data);
-        if (res.ok) {
-          return {
-            refreshToken: data.result.refreshToken,
-            accessToken: data.result.accessToken,
-            expiresAt: data.result.expiresAt,
-          };
-        }
-      })
-      .catch((error) => {
-        console.error("Refresh Token Error:", JSON.stringify(error, null, 2));
-        return null;
-      })
-      .finally(() => {
-        refreshPromise = null;
-      });
+    );
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.message);
+    }
+
+    const result = await response.json();
+    const decode = jwtDecode(result.result.accessToken);
+    return {
+      ...token,
+      accessToken: result.result.accessToken,
+      refreshToken: result.result.refreshToken,
+      expiresAt: decode.exp!,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      ...token,
+      error: "RefreshTokenError",
+    };
   }
-  return refreshPromise;
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -143,6 +145,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const res = await Axios.post("/authentication/oauth-login", {
         email: user.email,
       });
+
       if (res.status === 200) {
         user.id = res.data.result.userId;
         user.name = res.data.result.name;
@@ -157,6 +160,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return false;
     },
 
+    // @ts-ignore
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update") {
         token.name = session.name;
@@ -165,12 +169,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return token;
       }
 
-      if (token.expiresAt && Date.now() > token.expiresAt * 1000) {
-        const refreshedTokens = await refreshAccessToken(token.refreshToken);
-        if (refreshedTokens) {
-          return { ...token, ...refreshedTokens };
-        }
-      } else if (user) {
+      if (user) {
         token.id = user.id!;
         token.name = user.name!;
         token.email = user.email!;
@@ -182,19 +181,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return token;
       }
 
-      return token;
+      const decoded = jwtDecode(token.accessToken);
+      if (Date.now() < decoded.exp!) {
+        return token;
+      }
+
+      return refreshAccessToken(token);
     },
 
     async session({ session, token }) {
       if (token) {
-        const { accessToken, email, id, role, name, image } = token;
+        const { accessToken, refreshToken, email, id, role, name, image } =
+          token;
+
         session.user.id = id;
         session.user.name = name;
         session.user.email = email!;
         session.user.image = image;
         session.user.role = role;
         session.user.accessToken = accessToken;
+        session.user.refreshToken = refreshToken;
+        session.error = token.error;
       }
+
       return session;
     },
   },

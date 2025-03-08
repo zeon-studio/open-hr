@@ -3,8 +3,8 @@ import "next-auth";
 declare module "next-auth" {
   interface Session {
     user: User;
+    error?: "RefreshTokenError";
   }
-
   interface User {
     id: string;
     name: string;
@@ -27,5 +27,6 @@ declare module "@auth/core/jwt" {
     expiresAt: number;
     role: "user" | "moderator" | "admin";
     refreshToken: string;
+    error?: "RefreshTokenError";
   }
 }
