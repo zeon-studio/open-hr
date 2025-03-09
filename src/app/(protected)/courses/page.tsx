@@ -24,8 +24,8 @@ const Course = () => {
   const searchParams = useSearchParams();
   const { isDialogOpen, onDialogChange } = useDialog();
   const { limit } = useAppSelector((state) => state.filter);
-  const page = searchParams?.get("page");
-  const search = searchParams?.get("search");
+  const page = searchParams.get("page");
+  const search = searchParams.get("search");
 
   // get all Data
   const { data } = useGetCoursesQuery({

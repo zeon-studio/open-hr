@@ -25,8 +25,8 @@ export default function Employees() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
-  const page = searchParams?.get("page");
-  const search = searchParams?.get("search");
+  const page = searchParams.get("page");
+  const search = searchParams.get("search");
 
   // get all employees from cache or api
   const { data } = useGetEmployeesQuery({

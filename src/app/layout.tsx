@@ -1,8 +1,9 @@
-import { auth } from "@/auth";
+"use client";
+
 import TwSizeIndicator from "@/helpers/tw-size-indicator";
+import { AuthProvider } from "@/partials/auth-provider";
 import Providers from "@/partials/providers";
 import "@/styles/main.css";
-import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 
@@ -12,13 +13,11 @@ const fontPrimary = Inter({
   variable: "--font-primary",
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-
   return (
     <html lang="en">
       <head>
@@ -26,9 +25,9 @@ export default async function RootLayout({
       </head>
       <body className={fontPrimary.variable} suppressHydrationWarning={true}>
         <TwSizeIndicator />
-        <SessionProvider key={JSON.stringify(session)} session={session}>
+        <AuthProvider>
           <Providers>{children}</Providers>
-        </SessionProvider>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>
