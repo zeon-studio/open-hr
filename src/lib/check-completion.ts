@@ -40,6 +40,10 @@ export function checkCompletion(data: TEmployee) {
 
   const isStep4Complete = requiredFields.every((field) => {
     const exit = data[field];
+
+    if (!exit) {
+      console.log({ field, exit });
+    }
     return exit;
   });
 

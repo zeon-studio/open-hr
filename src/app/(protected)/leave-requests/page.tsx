@@ -20,8 +20,8 @@ import LeaveRequestPage from "./_components/leave-request-page";
 const LeaveRequest = () => {
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
-  const page = searchParams?.get("page");
-  const search = searchParams?.get("search");
+  const page = searchParams.get("page");
+  const search = searchParams.get("search");
 
   // get all Data
   const { data } = useGetLeaveRequestsQuery({

@@ -22,7 +22,7 @@ const Pagination = ({
   // Total number of items in your list
   const totalPages = Math.ceil(total / limit);
   const searchParams = useSearchParams();
-  const page = Number(searchParams?.get("page")) || 1;
+  const page = Number(searchParams.get("page")) || 1;
   const [inputPage, setInputPage] = useState(page);
   const { onSelect } = useQuerySelector();
 

@@ -29,7 +29,7 @@ function OnBoarding() {
     (state) => state["setting-slice"]
   );
   const params = useSearchParams();
-  const token = params?.get("token") as string;
+  const token = params.get("token") as string;
   const { steppers, currentStep, handleStepChange, completedSteps } =
     useStepper();
   const { data, isLoading, isSuccess } = useGetEmployeeDetailsByTokenQuery(

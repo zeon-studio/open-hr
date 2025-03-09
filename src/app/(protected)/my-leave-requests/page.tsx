@@ -25,7 +25,7 @@ const LeaveRequest = () => {
   const { data: session } = useSession();
   const { isDialogOpen, onDialogChange } = useDialog();
   const { limit } = useAppSelector((state) => state.filter);
-  const page = searchParams?.get("page");
+  const page = searchParams.get("page");
 
   // get all Data
   const { data } = useGetLeaveRequestsQuery({

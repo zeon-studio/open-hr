@@ -8,8 +8,7 @@ import { useParams } from "next/navigation";
 
 export default function Onboarding() {
   const { data: session } = useSession();
-  const params = useParams<{ employeeId: string }>();
-  let employeeId = params?.employeeId ?? "";
+  let { employeeId } = useParams<{ employeeId: string }>();
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }

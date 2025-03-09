@@ -31,8 +31,7 @@ import { toast } from "sonner";
 
 export default function Achievement() {
   const { data: session } = useSession();
-  const params = useParams<{ employeeId: string }>();
-  let employeeId = params?.employeeId ?? "";
+  let { employeeId } = useParams<{ employeeId: string }>();
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
