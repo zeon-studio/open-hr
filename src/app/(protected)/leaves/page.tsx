@@ -30,8 +30,8 @@ import LeavePage from "./_components/leave-page";
 const Leave = () => {
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
-  const page = searchParams.get("page");
-  const year = searchParams.get("year");
+  const page = searchParams?.get("page");
+  const year = searchParams?.get("year");
   const currentYear = new Date().getFullYear();
 
   const getYears = (start_year: number, end_year: number) =>

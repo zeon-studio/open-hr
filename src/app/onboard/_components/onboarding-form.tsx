@@ -31,7 +31,7 @@ export default function OnboardingForm({
   defaultValue: TEmployee;
 }) {
   const params = useSearchParams();
-  const token = params.get("token") as string;
+  const token = params?.get("token") as string;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { handleStepChange } = useStepper();
   // @ts-ignore

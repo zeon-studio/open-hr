@@ -130,9 +130,10 @@ export default function EmployeeSingle() {
 
   const router = useRouter();
   const pathname = usePathname();
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
   const { data: session } = useSession();
-  let { employeeId } = useParams<{ employeeId: string }>();
+  const params = useParams<{ employeeId: string }>();
+  let employeeId = params?.employeeId;
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
@@ -160,14 +161,14 @@ export default function EmployeeSingle() {
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
 
   const handleMouseDown = (tab: (typeof tabs)[0]) => {
-    const urlSearchParams = new URLSearchParams(params.toString());
+    const urlSearchParams = new URLSearchParams(searchParams?.toString());
     urlSearchParams.set("tab", tab.value);
     router.push(pathname + "?" + urlSearchParams.toString());
   };
 
   return (
     <div className="bg-light">
-      <Tabs value={params.get("tab") || activeTab.value}>
+      <Tabs value={searchParams?.get("tab") || activeTab.value}>
         <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-[20px] lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
           <div className="flex-shrink-0 xl:basis-[210px] size-[100px] lg:size-[210px]">
             <Avatar

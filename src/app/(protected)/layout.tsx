@@ -6,7 +6,7 @@ import Sidebar from "@/partials/sidebar";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { settingApi } from "@/redux/features/settingApiSlice/settingSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -15,12 +15,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     dispatch(settingApi.endpoints.getSetting.initiate(undefined));
   }, [dispatch]);
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+
   const { app_name, company_website, favicon_url } =
     useAppSelector((state) => state["setting-slice"]) || {};
 
   if (status === "loading" || !app_name) {
     return <Loader />;
+  }
+
+  // if token is expired, sign out
+  if (session?.error === "RefreshTokenError") {
+    signOut();
   }
 
   return (

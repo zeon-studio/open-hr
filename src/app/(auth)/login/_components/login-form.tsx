@@ -13,10 +13,18 @@ import { useState, useTransition } from "react";
 export default function LoginForm() {
   const [isLoading, startLoading] = useTransition();
 
-  const [loginInfo, setLoginInfo] = useState({
-    email: "",
-    password: "",
-  });
+  const defaultValues =
+    process.env.NODE_ENV === "development"
+      ? {
+          email: "",
+          password: "",
+        }
+      : {
+          email: "",
+          password: "",
+        };
+
+  const [loginInfo, setLoginInfo] = useState(defaultValues);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
