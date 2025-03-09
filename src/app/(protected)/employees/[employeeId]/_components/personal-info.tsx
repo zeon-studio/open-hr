@@ -30,8 +30,8 @@ export default function PersonalInfo() {
   // session
   const { data: session } = useSession();
   const isUser = session?.user.role === "user";
-  let { employeeId } = useParams<{ employeeId: string }>();
-
+  const params = useParams<{ employeeId: string }>();
+  let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }

@@ -35,7 +35,8 @@ import { toast } from "sonner";
 export default function Offboarding() {
   const { data: session } = useSession();
   const role = session?.user.role;
-  let { employeeId } = useParams<{ employeeId: string }>();
+  const params = useParams<{ employeeId: string }>();
+  let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }

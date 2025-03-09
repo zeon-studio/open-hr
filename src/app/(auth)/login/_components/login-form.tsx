@@ -16,7 +16,7 @@ export default function LoginForm() {
   const defaultValues =
     process.env.NODE_ENV === "development"
       ? {
-          email: "mukles.themefisher@gmail.com",
+          email: "themefisher.dev@gmail.com",
           password: "Kitkat123$",
         }
       : {

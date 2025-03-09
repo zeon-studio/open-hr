@@ -16,7 +16,6 @@ async function refreshAccessToken(token: JWT) {
         },
         body: JSON.stringify({
           refreshToken: token.refreshToken,
-          user: "user",
         }),
       }
     );
@@ -153,7 +152,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         user.image = res.data.result.image;
         user.role = res.data.result.role;
         user.refreshToken = res.data.result.refreshToken;
-        user.expiresAt = res.data.result.expiresAt;
         user.accessToken = res.data.result.accessToken;
         return true;
       }
@@ -177,7 +175,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.role = user.role!;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
-        token.expiresAt = user.expiresAt;
         return token;
       }
 

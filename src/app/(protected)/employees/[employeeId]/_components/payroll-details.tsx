@@ -7,7 +7,8 @@ import { useParams } from "next/navigation";
 
 export default function Payroll() {
   const { data: session } = useSession();
-  let { employeeId } = useParams<{ employeeId: string }>();
+  const params = useParams<{ employeeId: string }>();
+  let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }

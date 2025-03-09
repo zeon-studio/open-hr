@@ -28,7 +28,8 @@ export default function UploadDialog({
   const { company_name } =
     useAppSelector((state) => state["setting-slice"]) || {};
   const { isDialogOpen, onDialogChange } = useDialog();
-  let { employeeId } = useParams<{ employeeId: string }>();
+  const params = useParams<{ employeeId: string }>();
+  let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }

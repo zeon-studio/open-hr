@@ -6,6 +6,7 @@ const useQuerySelector = () => {
   const router = useRouter();
 
   const onSelect = (queryParam: string, params: string) => {
+    if (!searchParams) return;
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     const value = queryParam.trim();
     if (!value) {
