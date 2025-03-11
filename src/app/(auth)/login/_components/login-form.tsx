@@ -8,24 +8,37 @@ import PasswordInput from "@/ui/password-input";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 
 export default function LoginForm() {
-  const [isLoading, startLoading] = useTransition();
+  const [loading, setLoading] = useState(false);
 
-  const [loginInfo, setLoginInfo] = useState({
-    email: "",
-    password: "",
-  });
+  const defaultValues =
+    process.env.NODE_ENV === "development"
+      ? {
+          email: "",
+          password: "",
+        }
+      : {
+          email: "",
+          password: "",
+        };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [loginInfo, setLoginInfo] = useState(defaultValues);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    startLoading(async () => {
-      signIn("credentials", {
+    setLoading(true);
+    try {
+      await signIn("credentials", {
         email: loginInfo.email,
         password: loginInfo.password,
       });
-    });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,8 +85,8 @@ export default function LoginForm() {
         </Link>
       </div>
       <div>
-        <Button disabled={isLoading} className="w-full">
-          {isLoading ? (
+        <Button disabled={loading} className="w-full">
+          {loading ? (
             <>
               Login
               <Loader2 className="size-4 ml-2 animate-spin" />

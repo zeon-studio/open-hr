@@ -18,7 +18,9 @@ const SearchBox = ({
     if (ref.current?.value) {
       router.push(`?search=${ref.current?.value}`);
     } else {
-      router.push(pathname);
+      if (pathname) {
+        router.push(pathname);
+      }
     }
   };
 

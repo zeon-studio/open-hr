@@ -19,7 +19,8 @@ export default function JobDetails() {
   );
   const isUser = session?.user.role === "user";
 
-  let { employeeId } = useParams<{ employeeId: string }>();
+  const params = useParams<{ employeeId: string }>();
+  let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }

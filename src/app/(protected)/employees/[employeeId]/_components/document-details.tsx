@@ -29,7 +29,8 @@ export default function Document() {
   const axios = useAxios({
     data: session,
   });
-  let { employeeId } = useParams<{ employeeId: string }>();
+  const params = useParams<{ employeeId: string }>();
+  let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
     employeeId = session?.user.id as string;
   }
