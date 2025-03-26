@@ -4,6 +4,7 @@ import NextAuth from "next-auth";
 import { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
+import { InvalidCredentials } from "./lib/error";
 
 async function refreshAccessToken(token: JWT) {
   try {
@@ -57,50 +58,52 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         let data;
         let status;
 
-        try {
-          if (credentials.token) {
-            const res = await fetch(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/token-login`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-                },
-                body: JSON.stringify({
-                  token: credentials.token,
-                }),
-              }
-            );
-            data = await res.json();
-            status = res.status;
-          } else {
-            const res = await fetch(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/password-login`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-                },
-                body: JSON.stringify({
-                  email: credentials.email,
-                  password: credentials.password,
-                }),
-              }
-            );
-            data = await res.json();
-            status = res.status;
-          }
+        if (credentials.token) {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/token-login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+              },
+              body: JSON.stringify({
+                token: credentials.token,
+              }),
+            }
+          );
+          data = await res.json();
+          status = res.status;
+        } else {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/password-login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+              },
+              body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password,
+              }),
+            }
+          );
+          data = await res.json();
+          status = res.status;
+        }
 
-          if (status === 200) {
-            return {
-              ...data.result,
-              id: data.result.userId,
-            };
-          }
-        } catch (error) {
-          console.log(error);
+        if (data?.success === false) {
+          throw new InvalidCredentials({
+            message: data?.message || "Invalid credentials!",
+            errorMessage: data?.errorMessage || [],
+          });
+        }
+        if (status === 200) {
+          return {
+            ...data.result,
+            id: data.result.userId,
+          };
         }
       },
     }),
@@ -141,6 +144,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account?.type === "credentials") {
         return !!user;
       }
+
       const res = await Axios.post("/authentication/oauth-login", {
         email: user.email,
       });

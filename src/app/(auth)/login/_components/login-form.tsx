@@ -6,9 +6,10 @@ import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
 import PasswordInput from "@/ui/password-input";
 import { Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
+import { loginUser } from "./utils";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -29,16 +30,12 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await signIn("credentials", {
-        email: loginInfo.email,
-        password: loginInfo.password,
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+    const result = await loginUser(loginInfo);
+    if (result?.success === false) {
+      toast.error(result.error.message);
     }
+
+    setLoading(false);
   };
 
   return (
