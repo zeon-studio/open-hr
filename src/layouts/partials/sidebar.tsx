@@ -48,7 +48,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="mt-10 mb-6">
+      <div className="sm:mt-10 mb-6">
         <Logo className="pl-5" />
       </div>
       <nav className="px-5 flex-1 flex flex-col">

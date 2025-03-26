@@ -14,7 +14,7 @@ import Sidebar from "./sidebar";
 const Header = () => {
   const { isDialogOpen, onDialogChange } = useDialog();
   return (
-    <header className="sticky px-4 h-[50px] top-0 lg:hidden flex justify-between items-center pb-5">
+    <header className="sticky bg-background px-4 h-[50px] top-0 lg:hidden flex justify-between items-center pb-5">
       <Logo />
       <Sheet open={isDialogOpen} onOpenChange={onDialogChange}>
         <SheetTrigger asChild>
