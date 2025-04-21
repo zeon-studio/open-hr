@@ -22,7 +22,7 @@ export const loginUser = async ({
         message: string;
       };
 
-      switch (error.type) {
+      switch ((error as AuthError & { type: string }).type) {
         case "CredentialsSignin": {
           return {
             success: false,
