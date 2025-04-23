@@ -2,6 +2,7 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import CopyText from "@/components/copy-text";
+import ImageFallback from "@/components/image-fallback";
 import { useDialog } from "@/hooks/useDialog";
 import { useDeleteCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
@@ -15,7 +16,6 @@ import {
 } from "@/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/ui/table";
 import { Ellipsis, ExternalLink } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { memo, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -69,12 +69,13 @@ const CourseModal = ({
       <TableRow>
         <TableCell>
           <div className="flex items-center">
-            <Image
+            <ImageFallback
               src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
               alt={item.platform}
               width={50}
               height={50}
-              className="rounded border object-cover shrink-0 hidden lg:block mr-2"
+              fallback="/images/fallback.jpg"
+              className="rounded border border-border object-cover shrink-0 hidden lg:block mr-2"
             />
             <Link
               href={item.website}
