@@ -153,6 +153,22 @@ export default function EmployeeSingle() {
         }
       : session?.user;
 
+  // hide tabs from alumni
+  const hideFromAlumni = [
+    "courses",
+    "tools",
+    "assets",
+    "emergency",
+    "documents",
+    "onboarding",
+  ];
+  const filteredTabs = filterTabByModule.filter((tab) => {
+    if (session?.user.role === "alumni") {
+      return !hideFromAlumni.includes(tab.value);
+    }
+    return true;
+  });
+
   const employmentDuration = getDuration(
     jobData?.result?.joining_date!,
     new Date().toISOString()
@@ -206,7 +222,7 @@ export default function EmployeeSingle() {
                     align="start"
                     className="p-2 border-none bg-background"
                   >
-                    {filterTabByModule.map((tab) => (
+                    {filteredTabs.map((tab) => (
                       <DropdownMenuItem
                         onClick={() => {
                           setTab(tab);
@@ -236,7 +252,7 @@ export default function EmployeeSingle() {
               </div>
 
               <TabsList className="hidden xl:flex h-auto 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6 max-w-[750px] 2xl:max-w-full overflow-x-auto rounded-none">
-                {filterTabByModule.map((tab, index) => (
+                {filteredTabs.map((tab, index) => (
                   <TabsTrigger
                     value={tab.value}
                     key={index}

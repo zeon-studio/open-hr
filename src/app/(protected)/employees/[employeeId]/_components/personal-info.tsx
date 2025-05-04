@@ -29,7 +29,7 @@ export default function PersonalInfo() {
   );
   // session
   const { data: session } = useSession();
-  const isUser = session?.user.role === "user";
+  const userRole = session?.user.role;
   const params = useParams<{ employeeId: string }>();
   let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
@@ -146,13 +146,13 @@ export default function PersonalInfo() {
       <PersonalForm
         data={personalDetails?.result!}
         isUpdating={isPersonalUpdating}
-        isUser={isUser}
+        userRole={userRole!}
         communication_platform={communication_platform}
         onSubmit={updateEmployee}
       />
 
       {/* Password Form */}
-      {session?.user.id === employeeId && (
+      {session?.user.id === employeeId && session?.user.role !== "alumni" && (
         <PasswordForm
           data={{
             id: employeeId,
@@ -171,32 +171,34 @@ export default function PersonalInfo() {
       )}
 
       {/* Bank Form */}
-      {modules.find((mod) => mod.name === "employee-bank")?.enable && (
-        <BankForm
-          data={bankDetails?.result!}
-          isUpdating={isBankInfoUpdating}
-          onSubmit={(data) =>
-            updateBankInfo({
-              employee_id: employeeId,
-              banks: data?.banks,
-            })
-          }
-        />
-      )}
+      {modules.find((mod) => mod.name === "employee-bank")?.enable &&
+        session?.user.role !== "alumni" && (
+          <BankForm
+            data={bankDetails?.result!}
+            isUpdating={isBankInfoUpdating}
+            onSubmit={(data) =>
+              updateBankInfo({
+                employee_id: employeeId,
+                banks: data?.banks,
+              })
+            }
+          />
+        )}
 
       {/* Education Form */}
-      {modules.find((mod) => mod.name === "employee-education")?.enable && (
-        <EducationForm
-          data={educationDetails?.result!}
-          isUpdating={isEducationUpdating}
-          onSubmit={(data) =>
-            updateEducationInfo({
-              employee_id: employeeId,
-              educations: data?.educations,
-            })
-          }
-        />
-      )}
+      {modules.find((mod) => mod.name === "employee-education")?.enable &&
+        session?.user.role !== "alumni" && (
+          <EducationForm
+            data={educationDetails?.result!}
+            isUpdating={isEducationUpdating}
+            onSubmit={(data) =>
+              updateEducationInfo({
+                employee_id: employeeId,
+                educations: data?.educations,
+              })
+            }
+          />
+        )}
     </div>
   );
 }

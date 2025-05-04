@@ -54,12 +54,18 @@ const LeaveRequest = () => {
     <section className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-h4 hidden sm:block mr-2">My Leave Requests</h2>
-        <Dialog modal={true} open={isDialogOpen} onOpenChange={onDialogChange}>
-          <DialogTrigger asChild>
-            <Button className="ml-auto">Request Leave</Button>
-          </DialogTrigger>
-          <LeaveRequestInsert onDialogChange={onDialogChange} />
-        </Dialog>
+        {session?.user?.role !== "alumni" && (
+          <Dialog
+            modal={true}
+            open={isDialogOpen}
+            onOpenChange={onDialogChange}
+          >
+            <DialogTrigger asChild>
+              <Button className="ml-auto">Request Leave</Button>
+            </DialogTrigger>
+            <LeaveRequestInsert onDialogChange={onDialogChange} />
+          </Dialog>
+        )}
       </div>
 
       <Table>

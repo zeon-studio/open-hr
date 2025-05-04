@@ -21,7 +21,7 @@ import { CalendarIcon } from "lucide-react";
 interface PersonalFormProps {
   data: TEmployee;
   isUpdating: boolean;
-  isUser: boolean;
+  userRole: string;
   communication_platform: string;
   onSubmit: (data: TEmployee) => void;
 }
@@ -29,7 +29,7 @@ interface PersonalFormProps {
 export default function PersonalForm({
   data,
   isUpdating,
-  isUser,
+  userRole,
   communication_platform,
   onSubmit,
 }: PersonalFormProps) {
@@ -38,6 +38,7 @@ export default function PersonalForm({
       isUpdating={isUpdating}
       data={data}
       title="Personal Details"
+      hasEditAccess={userRole !== "alumni"}
     >
       {({ handleChange, isReadOnly, data, formRef }) => (
         <form
@@ -445,7 +446,7 @@ export default function PersonalForm({
               readOnly={isReadOnly}
             />
           </div>
-          {!isUser && (
+          {(userRole === "admin" || userRole === "moderator") && (
             <>
               <div className="lg:col-6">
                 <Label>Status:</Label>

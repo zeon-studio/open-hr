@@ -12,7 +12,7 @@ declare module "next-auth" {
     image: string;
     accessToken: string;
     refreshToken: string;
-    role: "user" | "moderator" | "admin";
+    role: "user" | "moderator" | "admin" | "alumni";
   }
 }
 
@@ -24,7 +24,7 @@ declare module "@auth/core/jwt" {
     image: string;
     accessToken: string;
     refreshToken: string;
-    role: "user" | "moderator" | "admin";
+    role: "user" | "moderator" | "admin" | "alumni";
     error?: "RefreshTokenError";
   }
 }

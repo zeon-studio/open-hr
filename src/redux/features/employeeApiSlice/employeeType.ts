@@ -30,7 +30,7 @@ export type TEmployee = {
   personality: string;
   note: string;
   status: "pending" | "active" | "archived";
-  role: "user" | "moderator" | "admin";
+  role: "user" | "moderator" | "admin" | "alumni";
   createdAt?: Date;
 };
 

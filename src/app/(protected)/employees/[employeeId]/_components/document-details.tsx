@@ -99,7 +99,8 @@ export default function Document() {
                               Preview
                             </UploadDialog>
                           </DropdownMenuItem>
-                          {session?.user.role !== "user" && (
+                          {(session?.user.role === "admin" ||
+                            session?.user.role === "moderator") && (
                             <DropdownMenuItem asChild>
                               <Dialog>
                                 <DialogTrigger asChild>

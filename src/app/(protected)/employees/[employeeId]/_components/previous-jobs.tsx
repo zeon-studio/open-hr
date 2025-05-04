@@ -114,7 +114,7 @@ export default function PreviousJobs({
     <Card>
       <CardHeader className="border-b-transparent pb-0 flex-row gap-0 space-y-0">
         <CardTitle>Previous Jobs</CardTitle>
-        {userRole !== "user" && (
+        {(userRole === "admin" || userRole === "moderator") && (
           <Dialog open={isDialogOpen} onOpenChange={onDialogChange}>
             <DialogTrigger asChild>
               <Button

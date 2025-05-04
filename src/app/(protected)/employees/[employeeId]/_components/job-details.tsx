@@ -17,7 +17,7 @@ export default function JobDetails() {
   const { company_name, company_website } = useAppSelector(
     (state) => state["setting-slice"]
   );
-  const isUser = session?.user.role === "user";
+  const userRole = session?.user.role;
 
   const params = useParams<{ employeeId: string }>();
   let employeeId = params?.employeeId ?? "";
@@ -87,7 +87,7 @@ export default function JobDetails() {
       <Card>
         <CardHeader className="border-b-transparent pb-0 flex-row gap-0 space-y-0">
           <CardTitle>Job Information</CardTitle>
-          {!isUser && (
+          {(userRole === "admin" || userRole === "moderator") && (
             <Dialog
               modal={true}
               open={isDialogOpen}

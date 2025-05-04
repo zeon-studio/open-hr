@@ -13,7 +13,61 @@ import UserAssets from "./_components/user-assets";
 import UserCourses from "./_components/user-courses";
 import UserTools from "./_components/user-tools";
 
-const Home = () => {
+const isModuleEnabled = (modules: any[], name: string) =>
+  modules.find((mod) => mod.name === name)?.enable;
+
+const UserSection = ({
+  modules,
+  userId,
+}: {
+  modules: any[];
+  userId: string;
+}) => (
+  <>
+    {isModuleEnabled(modules, "tool") && (
+      <div className="col-12">
+        <UserTools userId={userId} />
+      </div>
+    )}
+    {isModuleEnabled(modules, "course") && (
+      <div className="col-12">
+        <UserCourses userId={userId} />
+      </div>
+    )}
+    {isModuleEnabled(modules, "asset") && (
+      <div className="col-12">
+        <UserAssets userId={userId} />
+      </div>
+    )}
+  </>
+);
+
+const AdminSection = ({ modules }: { modules: any[] }) => (
+  <>
+    {isModuleEnabled(modules, "leave") && (
+      <div className="lg:col-6">
+        <UpcomingLeaves />
+      </div>
+    )}
+    {isModuleEnabled(modules, "employee-lifecycle") && (
+      <div className="lg:col-6">
+        <PendingTasks />
+      </div>
+    )}
+    {isModuleEnabled(modules, "calendar") && (
+      <>
+        <div className="lg:col-6">
+          <UpcomingHolidays />
+        </div>
+        <div className="lg:col-6">
+          <UpcomingEvents />
+        </div>
+      </>
+    )}
+  </>
+);
+
+const Dashboard = () => {
   const { data } = useSession();
 
   // check module enabled or not
@@ -46,52 +100,21 @@ const Home = () => {
             </div>
           </div>
           {data?.user.role === "user" ? (
-            <>
-              {modules.find((mod) => mod.name === "tool")?.enable && (
-                <div className="col-12">
-                  <UserTools userId={data?.user?.id!} />
-                </div>
-              )}
-
-              {modules.find((mod) => mod.name === "course")?.enable && (
-                <div className="col-12">
-                  <UserCourses userId={data?.user?.id!} />
-                </div>
-              )}
-
-              {modules.find((mod) => mod.name === "asset")?.enable && (
-                <div className="col-12">
-                  <UserAssets userId={data?.user?.id!} />
-                </div>
-              )}
-            </>
+            <UserSection modules={modules} userId={data?.user?.id!} />
+          ) : data?.user.role === "admin" ? (
+            <AdminSection modules={modules} />
+          ) : data?.user.role === "alumni" ? (
+            <div className="col-12">
+              <h4 className="mb-3">Your Account Has Been Archived!</h4>
+              <p>
+                Thanks you for your service. Your contribution to the
+                organization is greatly appreciated.
+              </p>
+            </div>
           ) : (
-            <>
-              {modules.find((mod) => mod.name === "leave")?.enable && (
-                <div className="lg:col-6">
-                  <UpcomingLeaves />
-                </div>
-              )}
-
-              {modules.find((mod) => mod.name === "employee-lifecycle")
-                ?.enable && (
-                <div className="lg:col-6">
-                  <PendingTasks />
-                </div>
-              )}
-
-              {modules.find((mod) => mod.name === "calendar")?.enable && (
-                <div className="lg:col-6">
-                  <UpcomingHolidays />
-                </div>
-              )}
-
-              {modules.find((mod) => mod.name === "calendar")?.enable && (
-                <div className="lg:col-6">
-                  <UpcomingEvents />
-                </div>
-              )}
-            </>
+            <div className="col-12">
+              <h4 className="mb-3">You Don't Have Permissions!</h4>
+            </div>
           )}
         </div>
       )}
@@ -99,4 +122,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

@@ -66,7 +66,10 @@ export default function Achievement() {
             isUpdating={isAddLoading}
             data={data?.result!}
             title="Achievement Details"
-            hasEditAccess={session?.user.role !== "user"}
+            hasEditAccess={
+              session?.user.role === "admin" ||
+              session?.user.role === "moderator"
+            }
           >
             {(props) => (
               <AchievementForm
