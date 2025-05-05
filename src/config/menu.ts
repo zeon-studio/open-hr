@@ -18,7 +18,7 @@ export const menu = [
     path: "/",
     icon: LayoutDashboard,
     module: "dashboard",
-    access: ["admin", "moderator", "user", "alumni"],
+    access: ["admin", "moderator", "user", "former"],
   },
   {
     name: "Employees",
@@ -74,21 +74,21 @@ export const menu = [
     path: "/my-profile",
     icon: CircleUser,
     module: "employee",
-    access: ["user", "alumni"],
+    access: ["user", "former"],
   },
   {
     name: "My Leaves",
     path: "/my-leaves",
     icon: CalendarOff,
     module: "leave",
-    access: ["user", "alumni"],
+    access: ["user", "former"],
   },
   {
     name: "My Leave Requests",
     path: "/my-leave-requests",
     icon: CircleHelp,
     module: "leave",
-    access: ["user", "alumni"],
+    access: ["user", "former"],
   },
   {
     name: "Calendar",

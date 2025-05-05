@@ -103,7 +103,7 @@ const Dashboard = () => {
             <UserSection modules={modules} userId={data?.user?.id!} />
           ) : data?.user.role === "admin" ? (
             <AdminSection modules={modules} />
-          ) : data?.user.role === "alumni" ? (
+          ) : data?.user.role === "former" ? (
             <div className="col-12">
               <h4 className="mb-3">Your Account Has Been Archived!</h4>
               <p>

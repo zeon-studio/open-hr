@@ -11,7 +11,7 @@ export type TEmployee = {
   tin: string;
   phone: string;
   gender: "male" | "female";
-  blood_group: "O+" | "O-" | "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-";
+  blood_group: "o+" | "o-" | "a+" | "a-" | "b+" | "b-" | "ab+" | "ab-";
   marital_status: "married" | "unmarried" | "divorced" | "widowed";
   present_address: string;
   department:
@@ -30,7 +30,7 @@ export type TEmployee = {
   personality: string;
   note: string;
   status: "pending" | "active" | "archived";
-  role: "user" | "moderator" | "admin" | "alumni";
+  role: "user" | "moderator" | "admin" | "former";
   createdAt?: Date;
 };
 

@@ -152,7 +152,7 @@ export default function PersonalInfo() {
       />
 
       {/* Password Form */}
-      {session?.user.id === employeeId && session?.user.role !== "alumni" && (
+      {session?.user.id === employeeId && session?.user.role !== "former" && (
         <PasswordForm
           data={{
             id: employeeId,
@@ -172,7 +172,7 @@ export default function PersonalInfo() {
 
       {/* Bank Form */}
       {modules.find((mod) => mod.name === "employee-bank")?.enable &&
-        session?.user.role !== "alumni" && (
+        session?.user.role !== "former" && (
           <BankForm
             data={bankDetails?.result!}
             isUpdating={isBankInfoUpdating}
@@ -187,7 +187,7 @@ export default function PersonalInfo() {
 
       {/* Education Form */}
       {modules.find((mod) => mod.name === "employee-education")?.enable &&
-        session?.user.role !== "alumni" && (
+        session?.user.role !== "former" && (
           <EducationForm
             data={educationDetails?.result!}
             isUpdating={isEducationUpdating}

@@ -38,7 +38,7 @@ export default function PersonalForm({
       isUpdating={isUpdating}
       data={data}
       title="Personal Details"
-      hasEditAccess={userRole !== "alumni"}
+      hasEditAccess={userRole !== "former"}
     >
       {({ handleChange, isReadOnly, data, formRef }) => (
         <form
@@ -249,14 +249,14 @@ export default function PersonalForm({
                   handleChange({
                     ...data,
                     blood_group: value as
-                      | "A+"
-                      | "A-"
-                      | "B+"
-                      | "B-"
-                      | "O+"
-                      | "O-"
-                      | "AB+"
-                      | "AB-",
+                      | "a+"
+                      | "a-"
+                      | "b+"
+                      | "b-"
+                      | "o+"
+                      | "o-"
+                      | "ab+"
+                      | "ab-",
                   })
                 }
                 name="blood_group"

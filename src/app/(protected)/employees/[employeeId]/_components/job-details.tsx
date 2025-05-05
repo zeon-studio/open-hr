@@ -42,7 +42,9 @@ export default function JobDetails() {
   }
   const employmentDuration = getDuration(
     data?.result?.joining_date!,
-    new Date().toISOString()
+    data?.result?.resignation_date
+      ? data?.result?.resignation_date
+      : new Date().toISOString()
   );
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
@@ -59,7 +61,9 @@ export default function JobDetails() {
   ) => {
     const endDate =
       index === 0
-        ? new Date().toISOString()
+        ? data?.result?.resignation_date
+          ? data?.result?.resignation_date
+          : new Date().toISOString()
         : promotions[index - 1]?.promotion_date;
     const employmentDuration = getDuration(promotion.promotion_date, endDate);
     const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;

@@ -54,7 +54,7 @@ const LeaveRequest = () => {
     <section className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-h4 hidden sm:block mr-2">My Leave Requests</h2>
-        {session?.user?.role !== "alumni" && (
+        {session?.user?.role !== "former" && (
           <Dialog
             modal={true}
             open={isDialogOpen}

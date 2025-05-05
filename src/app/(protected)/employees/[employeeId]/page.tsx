@@ -153,7 +153,7 @@ export default function EmployeeSingle() {
         }
       : session?.user;
 
-  // hide tabs from alumni
+  // hide tabs from former
   const hideFromAlumni = [
     "courses",
     "tools",
@@ -163,7 +163,7 @@ export default function EmployeeSingle() {
     "onboarding",
   ];
   const filteredTabs = filterTabByModule.filter((tab) => {
-    if (session?.user.role === "alumni") {
+    if (session?.user.role === "former") {
       return !hideFromAlumni.includes(tab.value);
     }
     return true;
@@ -354,27 +354,36 @@ export default function EmployeeSingle() {
               <Separator className="my-5" />
             </div>
 
-            <div>
-              <h6 className="text-base font-semibold mb-4 text-text-dark">
-                Join Date
-              </h6>
-              <ul className="list-none space-y-4">
-                <li className="flex space-x-2 text-text-light">
-                  <Calendar className="size-4 stroke-current" />
-                  <div className="space-y-1.5">
-                    <span className="text-xs block font-semibold">
-                      {jobData?.result?.joining_date
-                        ? format(
-                            new Date(jobData?.result?.joining_date),
+            {!jobData?.result?.resignation_date && (
+              <div>
+                <h6 className="text-base font-semibold mb-4 text-text-dark">
+                  Join Date
+                </h6>
+                <ul className="list-none space-y-4">
+                  {(jobData?.result?.permanent_date ||
+                    jobData?.result?.joining_date) && (
+                    <li className="flex space-x-2 text-text-light">
+                      <Calendar className="size-4 stroke-current" />
+                      <div className="space-y-1.5">
+                        <span className="text-xs block font-semibold">
+                          {format(
+                            new Date(
+                              jobData?.result?.permanent_date
+                                ? jobData?.result?.permanent_date
+                                : jobData?.result?.joining_date
+                            ),
                             "MMM d, yyyy"
-                          )
-                        : null}
-                    </span>
-                    <span className="text-xs block">{formattedDuration}</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
+                          )}
+                        </span>
+                        <span className="text-xs block">
+                          {formattedDuration}
+                        </span>
+                      </div>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
 
             <div>
               <h6 className="text-base font-semibold mb-4 text-text-dark">
