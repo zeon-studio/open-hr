@@ -47,9 +47,6 @@
   .print-area p {
     margin-bottom: 0.7rem;
   }
-  .print-instruction {
-    display: none !important;
-  }
 }
 
 @keyframes line-bounce {

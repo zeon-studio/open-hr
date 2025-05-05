@@ -17,7 +17,8 @@ import {
 import { TableCell, TableRow } from "@/ui/table";
 import { Ellipsis } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import EmployeeAppointmentLetter, {
   getAppointmentLetterHtml,
@@ -31,6 +32,21 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
   const [deleteEmployee] = useDeleteEmployeeMutation();
   const [printContent, setPrintContent] = useState<string | null>(null);
   const printRef = useRef<HTMLDivElement>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Only print when printContent is set and on client
+  useEffect(() => {
+    if (printContent && isClient) {
+      setTimeout(() => {
+        window.print();
+        setPrintContent(null);
+      }, 100);
+    }
+  }, [printContent, isClient]);
 
   // delete employee
   const handleEmployeeDelete = (employee_id: string) => {
@@ -40,33 +56,43 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
 
   const handlePrint = (htmlContent: string) => {
     setPrintContent(htmlContent);
-    setTimeout(() => {
-      window.print();
-      setPrintContent(null);
-    }, 100); // Give React time to render the content
   };
 
   return (
     <>
-      {/* Hidden print area */}
-      {printContent && (
-        <div
-          ref={printRef}
-          className="print-area"
-          style={{
-            position: "fixed",
-            left: 0,
-            top: 0,
-            width: "100vw",
-            minHeight: "100vh",
-            zIndex: 9999,
-            background: "#fff",
-            padding: 0,
-          }}
-        >
-          <div dangerouslySetInnerHTML={{ __html: printContent }} />
-        </div>
-      )}
+      {/* Hidden print area using portal to avoid duplicate rendering */}
+      {isClient &&
+        createPortal(
+          <div
+            ref={printRef}
+            className="print-area"
+            style={{
+              position: "fixed",
+              left: 0,
+              top: 0,
+              width: "100vw",
+              minHeight: "100vh",
+              zIndex: 9999,
+              background: "#fff",
+              padding: 0,
+              display: printContent ? "flex" : "none",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                maxWidth: 600,
+                margin: "auto",
+                fontSize: "1.15rem",
+                lineHeight: 1.7,
+                color: "#222",
+              }}
+              dangerouslySetInnerHTML={{ __html: printContent || "" }}
+            />
+          </div>,
+          typeof window !== "undefined" ? document.body : ({} as HTMLElement)
+        )}
 
       {/* employees map */}
       {employees?.map((employee, index) => {
