@@ -12,6 +12,10 @@
   @apply absolute top-0 right-0 bottom-0 left-0 z-10 content-[""];
 }
 
+.print-area {
+  display: none;
+}
+
 @media print {
   body * {
     visibility: hidden !important;
@@ -21,16 +25,21 @@
     visibility: visible !important;
   }
   .print-area {
+    display: flex !important;
     position: fixed !important;
     left: 0 !important;
     top: 0 !important;
     width: 100vw !important;
     min-height: 100vh !important;
     background: #fff !important;
-    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     padding: 0 !important;
+    page-break-after: avoid !important;
+  }
+  /* Only show the first .print-area if there are duplicates */
+  .print-area ~ .print-area {
+    display: none !important;
   }
   .print-area > div {
     max-width: 600px;
@@ -46,6 +55,10 @@
   }
   .print-area p {
     margin-bottom: 0.7rem;
+  }
+  /* Hide all siblings of .print-area */
+  body > :not(.print-area) {
+    display: none !important;
   }
 }
 

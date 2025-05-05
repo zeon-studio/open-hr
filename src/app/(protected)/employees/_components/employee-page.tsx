@@ -41,10 +41,17 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
   // Only print when printContent is set and on client
   useEffect(() => {
     if (printContent && isClient) {
+      // Remove all but the first .print-area before printing
       setTimeout(() => {
+        const printAreas = document.querySelectorAll(".print-area");
+        if (printAreas.length > 1) {
+          printAreas.forEach((el, idx) => {
+            if (idx > 0) el.parentNode?.removeChild(el);
+          });
+        }
         window.print();
         setPrintContent(null);
-      }, 100);
+      }, 300);
     }
   }, [printContent, isClient]);
 
@@ -66,6 +73,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
           <div
             ref={printRef}
             className="print-area"
+            id="print-area"
             style={{
               position: "fixed",
               left: 0,
