@@ -12,6 +12,46 @@
   @apply absolute top-0 right-0 bottom-0 left-0 z-10 content-[""];
 }
 
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible !important;
+  }
+  .print-area {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    min-height: 100vh !important;
+    background: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+  .print-area > div {
+    max-width: 600px;
+    margin: auto;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #222;
+  }
+  .print-area h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.2rem;
+  }
+  .print-area p {
+    margin-bottom: 0.7rem;
+  }
+  .print-instruction {
+    display: none !important;
+  }
+}
+
 @keyframes line-bounce {
   0% {
     left: calc(100% - 200px);
