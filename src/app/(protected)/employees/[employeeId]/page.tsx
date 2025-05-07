@@ -203,6 +203,11 @@ export default function EmployeeSingle() {
               </h2>
               <p className="text-xs font-semibold lg:font-normal lg:text-base text-primary-foreground/90 capitalize">
                 {data?.result?.designation}
+                {data?.result?.role === "former" && (
+                  <span className="text-destructive font-normal">
+                    {" (Former)"}
+                  </span>
+                )}
               </p>
             </div>
 
