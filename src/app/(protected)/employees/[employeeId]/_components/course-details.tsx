@@ -1,9 +1,9 @@
+import ImageFallback from "@/components/image-fallback";
 import { useGetCoursesByUserQuery } from "@/redux/features/courseApiSlice/courseSlice";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -42,11 +42,12 @@ export default function Courses() {
                     key={index}
                   >
                     <div className="flex items-center">
-                      <Image
+                      <ImageFallback
                         src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${course.website}&size=64`}
                         alt={course.name}
                         width={50}
                         height={50}
+                        fallback="/images/fallback.jpg"
                         className="rounded-md shrink-0 hidden xl:block mr-4"
                       />
                       <div>
