@@ -1,6 +1,6 @@
 <h1 align="center">Open HR Solution</h1>
 
-<p align="center">A comprehensive ERP solution to streamline user management, leave, payroll, asset management, and more.</p>
+<p align="center">A comprehensive HR solution to streamline user management, leave, payroll, asset management, and more.</p>
 
 <p align="center">Made with ♥ by <a href="https://zeon.studio/"> Zeon Studio</a></p>
 <p align=center>If you find this project useful, please give it a ⭐ to show your support.</p>

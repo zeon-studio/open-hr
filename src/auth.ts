@@ -35,7 +35,7 @@ async function refreshAccessToken(token: JWT) {
       expiresAt: decode.exp!,
     };
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return {
       ...token,
       error: "RefreshTokenError",

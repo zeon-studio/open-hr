@@ -4,7 +4,7 @@ import useCookie, { getCookie } from "react-use-cookie";
 
 const ClearCache = () => {
   // name
-  const UPDATE_DATE = "27feb2025";
+  const UPDATE_DATE = "11May2025";
 
   // cookie bar
   const [announcementClose, setAnnouncementClose] = useCookie(UPDATE_DATE, "");
@@ -18,17 +18,17 @@ const ClearCache = () => {
   // cookie handler
   const cookieHandler = () => {
     // clear local storage of `employees` and `assets`
-    localStorage.removeItem("erp-assets");
-    localStorage.removeItem("erp-calendar");
-    localStorage.removeItem("erp-courses");
-    localStorage.removeItem("erp-employees");
-    localStorage.removeItem("erp-employees-basics");
-    localStorage.removeItem("erp-leave-requests");
-    localStorage.removeItem("erp-my-leave-requests");
-    localStorage.removeItem("erp-leaves");
-    localStorage.removeItem("erp-payrolls");
-    localStorage.removeItem("erp-tools");
-    localStorage.removeItem("erp-settings");
+    localStorage.removeItem("hr-assets");
+    localStorage.removeItem("hr-calendar");
+    localStorage.removeItem("hr-courses");
+    localStorage.removeItem("hr-employees");
+    localStorage.removeItem("hr-employees-basics");
+    localStorage.removeItem("hr-leave-requests");
+    localStorage.removeItem("hr-my-leave-requests");
+    localStorage.removeItem("hr-leaves");
+    localStorage.removeItem("hr-payrolls");
+    localStorage.removeItem("hr-tools");
+    localStorage.removeItem("hr-settings");
 
     // set cookie
     setAnnouncementClose(UPDATE_DATE, {
