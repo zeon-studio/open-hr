@@ -9,40 +9,20 @@
 
 /* default colors */
 :root {
-  --body-color: hsl(0 0% 100%);
-  --primary-color: hsl(0 0% 0%);
-  --border-color: hsl(0, 0%, 90%);
-  --light-color: hsl(230 50% 98%);
-  --dark-color: hsl(221 39% 11%);
-  --accent-color: hsl(235, 82%, 49%);
-  --muted-color: hsl(216 12% 84%);
-  --danger-color: hsl(347 77% 50%);
-  --success-color: hsl(140 69% 38%);
-  --warning-color: hsl(46 86% 42%);
+  --body-color: #ffffff;
+  --primary-color: #000000;
+  --border-color: #e6e6e6;
+  --light-color: #f7f8fc;
+  --dark-color: #111827;
+  --accent-color: #1628e3;
+  --muted-color: #d1d5db;
+  --danger-color: #e21d48;
+  --success-color: #1ea44b;
+  --warning-color: #e7b718;
 
-  --text-default-color: hsl(217 33% 17%);
-  --text-light-color: hsl(220 9% 46%);
-  --text-dark-color: hsl(228 40% 10%);
-  --text-muted-color: hsl(229 15% 41%);
-  --text-white-color: hsl(0 0% 100%);
-}
-
-/* darkmode colors */
-.dark {
-  --body-color: hsl(0 0% 100%);
-  --primary-color: hsl(0 0% 0%);
-  --border-color: hsl(218 11% 65%);
-  --light-color: hsl(230 50% 98%);
-  --dark-color: hsl(221 39% 11%);
-  --accent-color: hsl(235, 82%, 49%);
-  --muted-color: hsl(216 12% 84%);
-  --danger-color: hsl(347 77% 50%);
-  --success-color: hsl(140 69% 38%);
-  --warning-color: hsl(46 86% 42%);
-
-  --text-default-color: hsl(217 33% 17%);
-  --text-light-color: hsl(220 9% 46%);
-  --text-dark-color: hsl(228 40% 10%);
-  --text-muted-color: hsl(229 15% 41%);
-  --text-white-color: hsl(0 0% 100%);
+  --text-default-color: #1d283a;
+  --text-light-color: #6b7280;
+  --text-dark-color: #0f1324;
+  --text-muted-color: #595f78;
+  --text-white-color: #ffffff;
 }

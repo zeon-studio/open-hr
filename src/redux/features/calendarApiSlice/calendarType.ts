@@ -3,13 +3,14 @@ export type TEvent = {
   end_date?: Date | string;
   day_count: number;
   reason: string;
-  type?: "holiday" | "event";
+  type?: "holiday" | "event" | "weekend";
 };
 
 export type TCalendar = {
   year: number;
   holidays: TEvent[];
   events: TEvent[];
+  weekends?: TEvent[];
   createdAt?: Date;
 };
 
@@ -37,5 +38,6 @@ export type TAllCalendarEvents = {
   result: {
     holidays: TEvent[];
     events: TEvent[];
+    weekends?: TEvent[];
   };
 };

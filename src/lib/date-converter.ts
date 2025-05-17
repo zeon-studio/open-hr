@@ -23,7 +23,8 @@ const monthNames = [
 export const dateFormat = (
   date: Date | string,
   timeZoneOffset: number = 6,
-  showTime: boolean = false
+  showTime: boolean = false,
+  showWeekday: boolean = false // new option
 ): string => {
   if (!date) return "";
 
@@ -40,8 +41,18 @@ export const dateFormat = (
   const month = monthNames[Number(adjustedDate.slice(5, 7)) - 1];
   const year = adjustedDate.slice(0, 4);
 
+  // Optionally extract weekday
+  let weekday = "";
+  if (showWeekday) {
+    const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const dateForWeekday = typeof date === "string" ? new Date(date) : date;
+    weekday = weekdayNames[dateForWeekday.getDay()];
+  }
+
   // Construct formatted date string
-  let formattedDate = `${day} ${month}, ${year}`;
+  let formattedDate = showWeekday
+    ? `${weekday}, ${day} ${month}, ${year}`
+    : `${day} ${month}, ${year}`;
 
   if (showTime) {
     const hours = Number(adjustedDate.slice(11, 13));

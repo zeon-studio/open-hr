@@ -37,12 +37,19 @@ const getHolydaysAndEvents = (calendar: TCalendar | undefined): TEvent[] => {
       reason: event.reason,
       type: "event" as const,
     })) ?? []),
+    ...(calendar?.weekends?.map((weekend) => ({
+      start_date: new Date(weekend.start_date!),
+      end_date: new Date(weekend.end_date!),
+      day_count: weekend.day_count,
+      reason: weekend.reason,
+      type: "weekend" as const,
+    })) ?? []),
   ];
 };
 
 const renderCalendarList = (
   calendar: TCalendar | undefined,
-  type: "holidays" | "events",
+  type: "holidays" | "events" | "weekends",
   title: string
 ) => {
   const items = calendar?.[type] ?? [];

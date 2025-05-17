@@ -50,11 +50,23 @@ const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
       }, [event.reason]);
       return (
         <div
-          className={`${event?.type === "holiday" ? "bg-destructive sm:bg-destructive/10 border-l-2 border-l-destructive" : "bg-success sm:bg-success/10 border-l-2 border-l-success"} rounded-md py-0.5 sm:py-1.5 px-1.5 mb-0.5`}
+          className={
+            event?.type === "holiday"
+              ? "bg-destructive sm:bg-destructive/10 border-l-2 border-l-destructive rounded-md py-0.5 sm:py-1.5 px-1.5 mb-0.5"
+              : event?.type === "weekend"
+                ? "bg-warning sm:bg-warning/10 border-l-2 border-l-warning rounded-md py-0.5 sm:py-1.5 px-1.5 mb-0.5"
+                : "bg-success sm:bg-success/10 border-l-2 border-l-success rounded-md py-0.5 sm:py-1.5 px-1.5 mb-0.5"
+          }
         >
           <div
             ref={badgeRef}
-            className={`hidden sm:block text-xs ${event?.type === "holiday" ? "text-destructive" : "text-success"} text-center overflow-hidden whitespace-nowrap`}
+            className={`hidden sm:block text-xs ${
+              event?.type === "holiday"
+                ? "text-destructive"
+                : event?.type === "weekend"
+                  ? "text-warning"
+                  : "text-success"
+            } text-center overflow-hidden whitespace-nowrap`}
             style={{ maxWidth: "100%" }}
           >
             {isOverflowing ? (

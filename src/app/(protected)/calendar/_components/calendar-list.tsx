@@ -34,23 +34,9 @@ const CalendarList = ({
                 {el?.reason}
               </TableCell>
               <TableCell>
-                {el?.start_date
-                  ? new Date(el.start_date).toLocaleDateString("en-US", {
-                      weekday: "short",
-                    })
-                  : ""}
-                {", "}
-                {dateFormat(el?.end_date!)}
+                {dateFormat(el?.start_date!, 6, false, true)}
               </TableCell>
-              <TableCell>
-                {el?.end_date
-                  ? new Date(el.end_date).toLocaleDateString("en-US", {
-                      weekday: "short",
-                    })
-                  : ""}
-                {", "}
-                {dateFormat(el?.end_date!)}
-              </TableCell>
+              <TableCell>{dateFormat(el?.end_date!, 6, false, true)}</TableCell>
               <TableCell>
                 {el?.day_count} {el?.day_count! > 1 ? "days" : "day"}
               </TableCell>

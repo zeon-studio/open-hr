@@ -70,10 +70,10 @@ const LeaveRequestModal = ({
       </TableCell>
       <TableCell>{item.leave_type}</TableCell>
       <TableCell className="whitespace-nowrap">
-        {dateFormat(item.start_date)}
+        {dateFormat(item.start_date, 6, false, true)}
       </TableCell>
       <TableCell className="whitespace-nowrap">
-        {dateFormat(item.end_date)}
+        {dateFormat(item.end_date, 6, false, true)}
       </TableCell>
       <TableCell>{item.day_count}</TableCell>
       <TableCell>{item.reason}</TableCell>
