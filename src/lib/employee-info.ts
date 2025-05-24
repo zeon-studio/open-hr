@@ -42,25 +42,32 @@ export const employeeInfoById = (id: string) => {
 
 export const employeeGroupByDepartment = () => {
   const employees = getEmployeesData() || [];
-  const result = employees.reduce((acc: any[], curr: Partial<TEmployee>) => {
-    const department = (curr.department || "unassigned").toUpperCase();
-    const employee = {
-      label: curr.name,
-      value: curr.id,
-      department,
-    };
+  const filterFormerEmployees = employees.filter(
+    (employee: Partial<TEmployee>) => employee.role !== "former"
+  );
 
-    const groupIndex = acc.findIndex((dept) => dept.label === department);
-    if (groupIndex !== -1) {
-      acc[groupIndex].options.push(employee);
-    } else {
-      acc.push({
-        label: department,
-        options: [employee],
-      });
-    }
-    return acc;
-  }, []);
+  const result = filterFormerEmployees.reduce(
+    (acc: any[], curr: Partial<TEmployee>) => {
+      const department = (curr.department || "unassigned").toUpperCase();
+      const employee = {
+        label: curr.name,
+        value: curr.id,
+        department,
+      };
+
+      const groupIndex = acc.findIndex((dept) => dept.label === department);
+      if (groupIndex !== -1) {
+        acc[groupIndex].options.push(employee);
+      } else {
+        acc.push({
+          label: department,
+          options: [employee],
+        });
+      }
+      return acc;
+    },
+    []
+  );
 
   const extraFields = [
     {
