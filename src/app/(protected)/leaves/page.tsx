@@ -107,26 +107,26 @@ const Leave = () => {
       <Table>
         <TableHeader className="sticky top-0">
           <TableRow className="sticky top-0">
-            <TableHead className="text-center border-r sticky top-0">
+            <TableHead className="text-center border-r border-border sticky top-0">
               Employee
             </TableHead>
             {casualEnabled && (
-              <TableHead className="text-center border-r sticky top-0">
+              <TableHead className="text-center border-r border-border sticky top-0">
                 Casual Leave
               </TableHead>
             )}
             {sickEnabled && (
-              <TableHead className="text-center border-r sticky top-0">
+              <TableHead className="text-center border-border border-r sticky top-0">
                 Sick Leave
               </TableHead>
             )}
             {earnedEnabled && (
-              <TableHead className="text-center border-r sticky top-0">
+              <TableHead className="text-center border-border border-r sticky top-0">
                 Earn Leave
               </TableHead>
             )}
             {withoutPayEnabled && (
-              <TableHead className="text-center border-r sticky top-0">
+              <TableHead className="text-center border-border border-r sticky top-0">
                 Leave Without Pay
               </TableHead>
             )}

@@ -68,7 +68,7 @@ export default function SettingWeekendsForm({
               {data.conditional_weekends.map((weekend, index) => (
                 <div
                   key={index}
-                  className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t pt-5"} mb-5`}
+                  className={`${!isReadOnly && "p-5 bg-light relative"} ${isReadOnly && index !== 0 && "border-t border-border pt-5"} mb-5`}
                 >
                   {!isReadOnly && (
                     <div className="lg:col-span-2 absolute right-5 top-3">

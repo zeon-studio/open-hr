@@ -120,7 +120,7 @@ const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
               {customWeekDays.map((dayName) => (
                 <th
                   key={dayName}
-                  className={`border-r last:border-0 font-normal text-white`}
+                  className={`border-r border-border last:border-0 font-normal text-white`}
                 >
                   {dayName}
                 </th>

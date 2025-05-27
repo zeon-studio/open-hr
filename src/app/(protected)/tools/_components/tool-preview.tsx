@@ -21,7 +21,7 @@ const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {
         </div>
         <div className="col-12 mb-6">
           {toolData.organizations?.map((item, index) => (
-            <div className="border-t mt-6 pt-6" key={index}>
+            <div className="border-t border-border mt-6 pt-6" key={index}>
               <div className="row">
                 <div className="lg:col-6 mb-4">
                   <div className="font-medium mb-1">Tool Name</div>
