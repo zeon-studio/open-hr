@@ -60,7 +60,7 @@ const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
         <div className="col-12">
           <div className="font-medium mb-3">Asset Logs</div>
           {assetData.logs?.map((log, index) => (
-            <div className="border mb-4 p-3 rounded" key={index}>
+            <div className="border border-border mb-4 p-3 rounded" key={index}>
               <div className="row">
                 <div className="lg:col-6 mb-2">
                   <div className="font-medium mb-1">Type</div>
