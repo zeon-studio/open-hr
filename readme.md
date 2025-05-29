@@ -39,7 +39,8 @@ To get a local copy up and running, please follow these simple steps.
 To start using this project, you need to have some prerequisites installed on your machine.
 
 - [Node v22+](https://nodejs.org/en/download/)
-- [MongoDB Compass](https://www.mongodb.com/products/tools/compass)
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+- [MongoDB Compass](https://www.mongodb.com/products/tools/compass) (Optional GUI)
 - [Yarn](https://www.npmjs.com/package/yarn)(Recommended)
 
 ### Third-Party Services
@@ -48,7 +49,7 @@ To start using this project, you need to have some prerequisites installed on yo
 - [Google Console API](https://console.cloud.google.com/apis/dashboard) (For Google Authentication)
 - [Gmail App Pass](https://myaccount.google.com/apppasswords) (For Sending Email with Nodemailer)
 - [Discord Webhook URL](https://discord.com/) (For Discord Notification)
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (For MongoDB Database)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (For Production MongoDB Database)
 - [Digital Ocean Space](https://www.digitalocean.com/products/spaces/) (For Uploading Documents)
 - [Vercel Account](https://vercel.com/) (For Deployment)
 
@@ -109,11 +110,67 @@ To start using this project, you need to have some prerequisites installed on yo
 - Duplicate .env.example to .env
 - Fullfil every env field
 
+1. **Configure MongoDB for Development (Required for Employee Creation)**
+
+   The application uses MongoDB transactions for data integrity. To enable transactions in development:
+
+   **Option A: MongoDB as Replica Set (Recommended)**
+   ```bash
+   # Stop MongoDB if running
+   sudo systemctl stop mongod
+   
+   # Start MongoDB with replica set
+   sudo mongod --replSet rs0 --dbpath /var/lib/mongodb --logpath /var/log/mongodb/mongod.log --port 27017 --bind_ip 127.0.0.1 --fork
+   
+   # Initialize replica set
+   mongosh --eval "rs.initiate()"
+   
+   # Verify replica set status
+   mongosh --eval "rs.status()"
+   ```
+
+   **Option B: Use MongoDB Atlas (Cloud)**
+   - Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+   - Get the connection string and update MONGO_URI in your .env file
+
 1. Quick start with Yarn
 
   ```bash
   yarn start
   ```
+
+### 🔧 MongoDB Setup Troubleshooting
+
+If you encounter the error: `"Transaction numbers are only allowed on a replica set member or mongos"`, it means MongoDB is running as a standalone instance. Follow these steps:
+
+1. **Check MongoDB Status:**
+   ```bash
+   mongosh --eval "rs.status()"
+   ```
+
+2. **If not a replica set, configure it:**
+   ```bash
+   # Stop current MongoDB
+   sudo systemctl stop mongod
+   
+   # Edit MongoDB config (if you prefer config file approach)
+   sudo nano /etc/mongod.conf
+   # Add these lines:
+   # replication:
+   #   replSetName: "rs0"
+   
+   # OR start manually with replica set
+   sudo mongod --replSet rs0 --dbpath /var/lib/mongodb --logpath /var/log/mongodb/mongod.log --port 27017 --bind_ip 127.0.0.1 --fork
+   
+   # Initialize replica set
+   mongosh --eval "rs.initiate()"
+   ```
+
+3. **Verify Setup:**
+   ```bash
+   mongosh --eval "rs.status()"
+   # Should show: "stateStr": "PRIMARY"
+   ```
 
 ### 📝 Default Configuration Values
 
@@ -128,7 +185,7 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-google-client-id"
 PORT="4000"
 NODE_ENV="development"
 
-# MongoDB
+# MongoDB (Local Replica Set)
 MONGO_URI="mongodb://localhost:27017/open-hr-backend"
 BEARER_TOKEN="your-super-secret-bearer-token-2024"
 
@@ -193,6 +250,286 @@ CORS_ORIGIN="*"
 
 ---
 
+## 🚀 Production Deployment Guide
+
+### 🌐 Prerequisites for Production
+
+Before deploying to production, ensure you have:
+
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account for production database
+- [Vercel](https://vercel.com/) or [Netlify](https://netlify.com/) account for frontend hosting
+- [Heroku](https://heroku.com/), [Railway](https://railway.app/), or [Render](https://render.com/) for backend hosting
+- Domain name (optional but recommended)
+- SSL certificate (handled automatically by most platforms)
+
+### 🗄️ Production Database Setup (MongoDB Atlas)
+
+1. **Create MongoDB Atlas Cluster:**
+   ```bash
+   # Go to https://www.mongodb.com/cloud/atlas
+   # Create a free M0 cluster (or paid cluster for production)
+   # Choose your preferred cloud provider and region
+   ```
+
+2. **Configure Database Access:**
+   ```bash
+   # In Atlas Dashboard:
+   # 1. Go to Database Access
+   # 2. Add Database User with readWrite permissions
+   # 3. Set username and password (save these for connection string)
+   ```
+
+3. **Configure Network Access:**
+   ```bash
+   # In Atlas Dashboard:
+   # 1. Go to Network Access
+   # 2. Add IP Address: 0.0.0.0/0 (allows all IPs)
+   # 3. Or add specific IPs of your hosting platform
+   ```
+
+4. **Get Connection String:**
+   ```bash
+   # In Atlas Dashboard:
+   # 1. Go to Clusters
+   # 2. Click "Connect"
+   # 3. Choose "Connect your application"
+   # 4. Copy the connection string
+   # Format: mongodb+srv://username:password@cluster.mongodb.net/open-hr-backend
+   ```
+
+### 🖥️ Backend Deployment
+
+#### Option A: Deploy to Railway (Recommended)
+
+1. **Prepare for Railway:**
+   ```bash
+   # In your backend root directory, create railway.json
+   {
+     "build": {
+       "builder": "nixpacks"
+     },
+     "deploy": {
+       "startCommand": "npm run build && npm run server"
+     }
+   }
+   ```
+
+2. **Deploy to Railway:**
+   ```bash
+   # Install Railway CLI
+   npm install -g @railway/cli
+   
+   # Login to Railway
+   railway login
+   
+   # Initialize project
+   railway link
+   
+   # Set environment variables
+   railway variables set MONGO_URI="your-mongodb-atlas-connection-string"
+   railway variables set NODE_ENV="production"
+   railway variables set JWT_SECRET="your-production-jwt-secret"
+   # ... add all other environment variables
+   
+   # Deploy
+   railway up
+   ```
+
+#### Option B: Deploy to Render
+
+1. **Connect Repository:**
+   ```bash
+   # Go to https://render.com/
+   # Connect your GitHub repository
+   # Create a new Web Service
+   ```
+
+2. **Configure Build Settings:**
+   ```bash
+   # Build Command: npm run build
+   # Start Command: npm run server
+   # Environment: Node
+   ```
+
+3. **Set Environment Variables:**
+   ```bash
+   # In Render dashboard, add all environment variables:
+   MONGO_URI="your-mongodb-atlas-connection-string"
+   NODE_ENV="production"
+   JWT_SECRET="your-production-jwt-secret"
+   # ... add all other variables from your .env file
+   ```
+
+#### Option C: Deploy to Heroku
+
+1. **Prepare Heroku Deployment:**
+   ```bash
+   # Install Heroku CLI
+   # Create Procfile in backend root:
+   echo "web: npm run build && npm run server" > Procfile
+   ```
+
+2. **Deploy to Heroku:**
+   ```bash
+   # Create Heroku app
+   heroku create your-app-name-backend
+   
+   # Set environment variables
+   heroku config:set MONGO_URI="your-mongodb-atlas-connection-string"
+   heroku config:set NODE_ENV="production"
+   heroku config:set JWT_SECRET="your-production-jwt-secret"
+   # ... add all other environment variables
+   
+   # Deploy
+   git push heroku main
+   ```
+
+### 🎨 Frontend Deployment
+
+#### Deploy to Vercel (Recommended)
+
+1. **Prepare Vercel Deployment:**
+   ```bash
+   # In your frontend root directory
+   # Ensure your .env.local has production values:
+   NEXT_PUBLIC_API_URL="https://your-backend-domain.com"
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-production-google-client-id"
+   ```
+
+2. **Deploy to Vercel:**
+   ```bash
+   # Install Vercel CLI
+   npm install -g vercel
+   
+   # Login to Vercel
+   vercel login
+   
+   # Deploy
+   vercel
+   
+   # Set production environment variables in Vercel dashboard
+   ```
+
+3. **Configure Environment Variables in Vercel:**
+   ```bash
+   # Go to Vercel Dashboard > Your Project > Settings > Environment Variables
+   # Add:
+   NEXT_PUBLIC_API_URL = "https://your-backend-domain.com"
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID = "your-production-google-client-id"
+   ```
+
+#### Deploy to Netlify
+
+1. **Build Settings:**
+   ```bash
+   # Build command: npm run build
+   # Publish directory: .next
+   # or use out directory if using static export
+   ```
+
+2. **Environment Variables:**
+   ```bash
+   # In Netlify dashboard, add environment variables:
+   NEXT_PUBLIC_API_URL = "https://your-backend-domain.com"
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID = "your-production-google-client-id"
+   ```
+
+### 🔧 Production Environment Variables
+
+#### Backend Production .env
+```bash
+PORT="4000"
+NODE_ENV="production"
+
+# MongoDB Atlas
+MONGO_URI="mongodb+srv://username:password@cluster.mongodb.net/open-hr-backend?retryWrites=true&w=majority"
+BEARER_TOKEN="your-super-secure-production-bearer-token"
+
+# Strong JWT secrets for production
+JWT_SECRET="your-super-secure-production-jwt-secret-min-32-chars"
+JWT_TOKEN_EXPIRE="1d"
+JWT_REFRESH_SECRET="your-super-secure-production-refresh-secret-min-32-chars"
+JWT_REFRESH_TOKEN_EXPIRE="7d"
+
+# Bcrypt
+SALT_ROUND="12"
+
+# ID Generator
+ID_GENERATOR_PREFIX="EMP"
+
+# Digital Ocean Spaces (Production)
+DOS_PUBLIC_ACCESS_KEY="your-production-access-key"
+DOS_PUBLIC_SECRET_KEY="your-production-secret-key"
+DOS_BUCKET_NAME="your-production-bucket"
+DOS_REGION="nyc3"
+
+# Discord Webhook (Production)
+DISCORD_WEBHOOK_URL="your-production-discord-webhook"
+
+# Email (Production)
+SENDER_EMAIL="your-production-email@gmail.com"
+EMAIL_PASSWORD="your-production-app-password"
+
+# CORS (Set to your frontend domain)
+CORS_ORIGIN="https://your-frontend-domain.com"
+```
+
+#### Frontend Production .env
+```bash
+NEXT_PUBLIC_API_URL="https://your-backend-domain.com"
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-production-google-client-id.googleusercontent.com"
+```
+
+### 🔒 Production Security Checklist
+
+- [ ] Use strong, unique JWT secrets (minimum 32 characters)
+- [ ] Set CORS_ORIGIN to your actual frontend domain
+- [ ] Use MongoDB Atlas with authentication enabled
+- [ ] Enable SSL/HTTPS on all domains
+- [ ] Use environment variables for all sensitive data
+- [ ] Set up monitoring and error tracking
+- [ ] Configure backup strategy for database
+- [ ] Set up logging for backend API
+- [ ] Use strong passwords for all services
+- [ ] Enable 2FA on all third-party services
+
+### 📊 Post-Deployment Steps
+
+1. **Upload Sample Data:**
+   ```bash
+   # Connect to your production MongoDB using MongoDB Compass
+   # Upload example-data/employee.json to employees collection
+   # Upload example-data/settings.json to settings collection
+   # Update work_email in employee data to your email
+   ```
+
+2. **Test Functionality:**
+   ```bash
+   # Test Google OAuth login
+   # Test employee creation
+   # Test email functionality
+   # Test file uploads (if configured)
+   # Test all major features
+   ```
+
+3. **Configure Custom Domain (Optional):**
+   ```bash
+   # In Vercel: Settings > Domains > Add custom domain
+   # In Railway: Settings > Networking > Custom Domain
+   # Update CORS_ORIGIN and frontend API URL accordingly
+   ```
+
+### 🔍 Monitoring and Maintenance
+
+- **Database Monitoring:** Use MongoDB Atlas monitoring tools
+- **Application Monitoring:** Set up error tracking (Sentry, LogRocket)
+- **Uptime Monitoring:** Use tools like UptimeRobot or Pingdom
+- **Performance Monitoring:** Use Vercel Analytics or Google Analytics
+- **Regular Backups:** Configure automated database backups
+- **Security Updates:** Keep dependencies updated regularly
+
+---
+
 ## 🚀 Build
 
 After you finish your development, you can build or deploy your project. Let's see the process:
@@ -236,7 +573,7 @@ After uploading the sample data, you can login to the dashboard using the email 
 
 ### 🐞 Reporting Issues
 
-We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/open-hr/issues). It’s possible someone has already reported the same problem.
+We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/open-hr/issues). It's possible someone has already reported the same problem.
 If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/zeon-studio/open-hr/issues).
 
 ### 📝 License
