@@ -115,6 +115,82 @@ To start using this project, you need to have some prerequisites installed on yo
   yarn start
   ```
 
+### 📝 Default Configuration Values
+
+#### Frontend (.env)
+```
+NEXT_PUBLIC_API_URL="http://localhost:4000"
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-google-client-id"
+```
+
+#### Backend (.env)
+```
+PORT="4000"
+NODE_ENV="development"
+
+# MongoDB
+MONGO_URI="mongodb://localhost:27017/open-hr-backend"
+BEARER_TOKEN="your-super-secret-bearer-token-2024"
+
+# Bycrypt
+SALT_ROUND="10"
+
+# ID Generator prefix
+ID_GENERATOR_PREFIX="EMP"
+
+# JWT config
+JWT_SECRET="your-super-secret-jwt-key-2024"
+JWT_TOKEN_EXPIRE="1d"
+JWT_REFRESH_SECRET="your-super-secret-refresh-key-2024"
+JWT_REFRESH_TOKEN_EXPIRE="7d"
+
+# Digital Ocean Spaces
+DOS_PUBLIC_ACCESS_KEY=""
+DOS_PUBLIC_SECRET_KEY=""
+DOS_BUCKET_NAME=""
+DOS_REGION="nyc3"
+
+# Discord Webhook
+DISCORD_WEBHOOK_URL=""
+
+# nodemailer config
+SENDER_EMAIL=""
+EMAIL_PASSWORD=""
+
+# cors config
+CORS_ORIGIN="*"
+```
+
+### 🔑 Required Third-Party Services Setup
+
+1. **Google Authentication**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project
+   - Enable Google OAuth2 API
+   - Create OAuth 2.0 Client ID for Web application
+   - Add authorized JavaScript origins: `http://localhost:3000`
+   - Add authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`
+   - Copy the Client ID to your frontend .env file
+
+2. **MongoDB Setup**
+   - Install MongoDB locally or use MongoDB Atlas
+   - Create a database named `open-hr-backend`
+   - Update the MONGO_URI in backend .env file
+
+3. **Email Setup (Optional)**
+   - Create an app password in your Google Account
+   - Use it in the backend .env file for EMAIL_PASSWORD
+   - Set SENDER_EMAIL to your Gmail address
+
+4. **Digital Ocean Spaces (Optional)**
+   - Create a Space in Digital Ocean
+   - Get the access key and secret
+   - Update the DOS_* variables in backend .env
+
+5. **Discord Webhook (Optional)**
+   - Create a webhook in your Discord server
+   - Copy the webhook URL to DISCORD_WEBHOOK_URL in backend .env
+
 ---
 
 ## 🚀 Build

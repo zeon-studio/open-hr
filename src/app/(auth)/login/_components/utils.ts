@@ -34,6 +34,7 @@ export const loginUser = async ({
               ),
               details: {
                 originalError: "Unknown error occurred",
+                error: JSON.stringify(error),
               },
             },
           };
@@ -57,6 +58,7 @@ export const loginUser = async ({
               message: error.message,
               details: {
                 originalError: "Unknown error occurred",
+                error: JSON.stringify(error),
               },
             },
           };
