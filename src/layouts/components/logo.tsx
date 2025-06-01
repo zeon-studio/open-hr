@@ -3,6 +3,7 @@
 import { cn } from "@/lib/shadcn";
 import { useAppSelector } from "@/redux/hook";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Logo = ({ src, className }: { src?: string; className?: string }) => {
   const {
@@ -13,9 +14,16 @@ const Logo = ({ src, className }: { src?: string; className?: string }) => {
   } = useAppSelector((state) => state["setting-slice"]);
   const logoPath = logo ? logo : src;
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <Link href="/" className={cn("navbar-brand inline-block", className)}>
-      {logoPath ? (
+      {logoPath && logo_width && logo_height ? (
         <img
           width={logo_width}
           height={logo_height}
@@ -25,7 +33,7 @@ const Logo = ({ src, className }: { src?: string; className?: string }) => {
       ) : logo_text ? (
         logo_text
       ) : (
-        logo_text
+        "Logo"
       )}
     </Link>
   );
