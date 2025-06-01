@@ -33,7 +33,7 @@ const Logo = ({ src, className }: { src?: string; className?: string }) => {
       ) : logo_text ? (
         logo_text
       ) : (
-        "logo_text"
+        logo_text
       )}
     </Link>
   );
