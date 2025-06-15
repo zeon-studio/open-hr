@@ -115,6 +115,10 @@
       "value": "production"
     },
     {
+      "label": "Project Management",
+      "value": "project_management"
+    },
+    {
       "label": "Other",
       "value": "other"
     }

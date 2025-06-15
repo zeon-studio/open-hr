@@ -21,6 +21,7 @@ export type TEmployee = {
     | "admin"
     | "hr_finance"
     | "production"
+    | "project_management"
     | "other";
   designation: string;
   permanent_address: string;
@@ -49,6 +50,7 @@ export type TEmployeeCreate = {
     | "admin"
     | "hr_finance"
     | "production"
+    | "project_management"
     | "other";
   job_type: "full_time" | "part_time" | "remote" | "contractual" | "internship";
   gross_salary: number;
