@@ -27,9 +27,6 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    nodeMiddleware: true,
-  },
   reactStrictMode: true,
 };
 
