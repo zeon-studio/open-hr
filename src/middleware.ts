@@ -41,7 +41,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   runtime: "experimental-edge",
-  regions: ["iad1"],
   matcher: [
     "/login",
     "/",
