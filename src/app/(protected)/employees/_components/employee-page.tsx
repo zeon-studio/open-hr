@@ -110,7 +110,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
               <UserInfo user={employeeInfoById(employee.id)} />
             </TableCell>
             <TableCell className="capitalize">
-              {employee.department?.split("_").join(" & ")}
+              {employee.department?.split("_").join(" ")}
             </TableCell>
             <TableCell>{employee.work_email}</TableCell>
             <TableCell>{employee.phone}</TableCell>

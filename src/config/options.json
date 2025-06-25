@@ -43,6 +43,16 @@
       "value": "ab-"
     }
   ],
+  "employee_blood_donor": [
+    {
+      "label": "Yes",
+      "value": "true"
+    },
+    {
+      "label": "No",
+      "value": "false"
+    }
+  ],
   "employee_marital_status": [
     {
       "label": "Married",

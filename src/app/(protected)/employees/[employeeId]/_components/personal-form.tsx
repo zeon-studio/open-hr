@@ -282,6 +282,39 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
+            <Label>Blood Donor:</Label>
+            {isReadOnly ? (
+              <p className="text-sm capitalize">
+                {data.blood_donor ? "Yes" : "No"}
+              </p>
+            ) : (
+              <Select
+                onValueChange={(value) =>
+                  handleChange({
+                    ...data,
+                    blood_donor: value === "true",
+                  })
+                }
+                name="blood_donor"
+                value={data.blood_donor ? "true" : "false"}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Blood Donor" />
+                </SelectTrigger>
+                <SelectContent>
+                  {options.employee_blood_donor.map((item) => {
+                    return (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            )}
+          </div>
+
+          <div className="lg:col-6">
             <Label>Marital Status:</Label>
             {isReadOnly ? (
               <p className="text-sm capitalize">

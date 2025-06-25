@@ -12,6 +12,7 @@ export type TEmployee = {
   phone: string;
   gender: "male" | "female";
   blood_group: "o+" | "o-" | "a+" | "a-" | "b+" | "b-" | "ab+" | "ab-";
+  blood_donor: boolean;
   marital_status: "married" | "unmarried" | "divorced" | "widowed";
   present_address: string;
   department:
