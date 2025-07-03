@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  runtime: "experimental-edge",
+  // runtime: "experimental-edge",
   matcher: [
     "/login",
     "/",
