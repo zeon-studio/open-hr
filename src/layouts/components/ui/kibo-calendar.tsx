@@ -85,7 +85,7 @@ type OutOfBoundsDayProps = {
 };
 
 const OutOfBoundsDay = ({ day }: OutOfBoundsDayProps) => (
-  <div className="relative h-full w-full bg-[#f6f7fa] p-1 text-[#a3a3a3] text-xs">
+  <div className="relative h-full w-full bg-light p-1 text-muted-foreground text-sm">
     {day}
   </div>
 );
@@ -179,7 +179,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     days.push(
       <div
         className={cn(
-          "relative flex h-full w-full flex-col gap-1 p-0 text-text-dark text-base bg-white",
+          "relative flex h-full w-full flex-col gap-1 p-0 text-base bg-white",
           isToday && "bg-accent/5"
         )}
         key={day}
@@ -213,7 +213,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
       {days.map((day, index) => (
         <div
           className={cn(
-            "relative h-32 overflow-hidden border border-border text-xl",
+            "relative sm:h-32 overflow-hidden border border-border text-lg font-medium",
             index % 7 === 0 && "border-l-0",
             index < 7 && "border-t-0"
           )}
@@ -276,7 +276,7 @@ export const CalendarDatePagination = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-between w-full max-w-xs ml-auto rounded border border-border bg-white",
+        "flex items-center w-full sm:max-w-[150px] md:max-w-[250px] justify-between ml-auto truncate rounded border border-border bg-white",
         className
       )}
     >
@@ -357,18 +357,18 @@ export const CalendarItem = memo(
   ({ feature, className }: CalendarItemProps) => (
     <div
       className={cn(
-        "w-full min-h-7 flex items-center px-0 py-0.5 rounded-md",
+        "w-full sm:min-h-7 h-0.5 flex items-center px-0 py-0.5 rounded-md",
         feature.status.id === "holiday"
-          ? "bg-destructive/10 border-l-4 border-destructive"
+          ? "sm:bg-destructive/10 bg-destructive border-l-4 border-destructive"
           : feature.status.id === "weekend"
-            ? "bg-warning/10 border-l-4 border-warning"
-            : "bg-success/10 border-l-4 border-success",
+            ? "sm:bg-warning/10 bg-warning border-l-4 border-warning"
+            : "sm:bg-success/10 bg-success border-l-4 border-success",
         className
       )}
     >
       <span
         className={cn(
-          "pl-2 text-xs font-medium truncate",
+          "pl-2 text-xs hidden sm:block font-medium truncate",
           feature.status.id === "holiday"
             ? "text-destructive"
             : feature.status.id === "weekend"
