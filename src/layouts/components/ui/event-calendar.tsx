@@ -152,19 +152,14 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
       <div
         className={cn(
           "relative flex h-full w-full flex-col gap-1 p-0 text-base",
-          isToday && "bg-accent/10 text-accent"
+          isToday && "bg-accent/5 text-accent"
         )}
         key={day}
       >
         <div className="pl-2 pt-2 font-medium">{day}</div>
         <div className="flex flex-col px-2 pb-2">
-          {eventsForDay.slice(0, 3).map((feature) => children({ feature }))}
+          {eventsForDay.map((feature) => children({ feature }))}
         </div>
-        {eventsForDay.length > 3 && (
-          <span className="block text-xs text-text px-2 pb-2">
-            +{eventsForDay.length - 3} more
-          </span>
-        )}
       </div>
     );
   }
@@ -187,7 +182,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
         return (
           <div
             className={cn(
-              "relative sm:h-32 overflow-hidden text-lg font-medium bg-white",
+              "relative sm:min-h-26 overflow-hidden text-lg font-medium bg-white",
               "border-b border-r border-border",
               col === 0 && "border-l border-border",
               row === 0 && "border-t border-border"
