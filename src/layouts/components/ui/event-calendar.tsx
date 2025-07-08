@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/shadcn";
-import { getDay, getDaysInMonth, isSameDay } from "date-fns";
+import { getDay, getDaysInMonth } from "date-fns";
 import { atom, useAtom } from "jotai";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import {
@@ -106,11 +106,19 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     return { nextMonthDaysArray };
   }, [month, year]);
 
-  const featuresByDay = useMemo(() => {
+  const eventsByDay = useMemo(() => {
     const result: { [day: number]: Feature[] } = {};
     for (let day = 1; day <= daysInMonth; day++) {
       result[day] = features.filter((feature) => {
-        return isSameDay(new Date(feature.endAt), new Date(year, month, day));
+        const start = new Date(feature.startAt);
+        const end = new Date(feature.endAt);
+        const current = new Date(year, month, day);
+
+        return (
+          current >=
+            new Date(start.getFullYear(), start.getMonth(), start.getDate()) &&
+          current <= new Date(end.getFullYear(), end.getMonth(), end.getDate())
+        );
       });
     }
     return result;
@@ -136,7 +144,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   };
 
   for (let day = 1; day <= daysInMonth; day++) {
-    const featuresForDay = featuresByDay[day] || [];
+    const eventsForDay = eventsByDay[day] || [];
     const isToday =
       year === today.year && month === today.month && day === today.day;
 
@@ -150,11 +158,11 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
       >
         <div className="pl-2 pt-2 font-medium">{day}</div>
         <div className="flex flex-col px-2 pb-2">
-          {featuresForDay.slice(0, 3).map((feature) => children({ feature }))}
+          {eventsForDay.slice(0, 3).map((feature) => children({ feature }))}
         </div>
-        {featuresForDay.length > 3 && (
+        {eventsForDay.length > 3 && (
           <span className="block text-xs text-text px-2 pb-2">
-            +{featuresForDay.length - 3} more
+            +{eventsForDay.length - 3} more
           </span>
         )}
       </div>
