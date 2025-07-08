@@ -1,3 +1,4 @@
+import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import {
   CalendarBody,
   CalendarDate,
@@ -5,14 +6,13 @@ import {
   CalendarHeader,
   CalendarItem,
   CalendarProvider,
-} from "@/layouts/components/ui/kibo-calendar";
-import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
+} from "@/ui/event-calendar";
 import { useMemo } from "react";
 
 const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
   const features = useMemo(() => {
     return yearlyData?.map((event, idx) => {
-      const type = (event.type as "holiday" | "event" | "weekend") ?? "event";
+      const type = event.type as "holiday" | "event" | "weekend";
       return {
         id: String(idx),
         name: event.reason,
@@ -27,7 +27,7 @@ const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {
   }, [yearlyData]);
 
   return (
-    <CalendarProvider locale="en-US" startDay={0}>
+    <CalendarProvider>
       <CalendarDate>
         <CalendarDatePagination />
       </CalendarDate>

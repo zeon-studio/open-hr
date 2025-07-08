@@ -51,41 +51,12 @@ export type Feature = {
   status: Status;
 };
 
-export const monthsForLocale = (
-  localeName: Intl.LocalesArgument,
-  monthFormat: Intl.DateTimeFormatOptions["month"] = "long"
-) => {
-  const format = new Intl.DateTimeFormat(localeName, { month: monthFormat })
-    .format;
-
-  return [...new Array(12).keys()].map((m) =>
-    format(new Date(Date.UTC(2021, m, 2)))
-  );
-};
-
-export const daysForLocale = (
-  locale: Intl.LocalesArgument,
-  startDay: number
-) => {
-  const weekdays: string[] = [];
-  const baseDate = new Date(2024, 0, startDay);
-
-  for (let i = 0; i < 7; i++) {
-    weekdays.push(
-      new Intl.DateTimeFormat(locale, { weekday: "short" }).format(baseDate)
-    );
-    baseDate.setDate(baseDate.getDate() + 1);
-  }
-
-  return weekdays;
-};
-
 type OutOfBoundsDayProps = {
   day: number;
 };
 
 const OutOfBoundsDay = ({ day }: OutOfBoundsDayProps) => (
-  <div className="relative h-full w-full bg-light p-1 text-muted-foreground text-sm">
+  <div className="relative h-full w-full bg-muted/30 p-1 text-muted-foreground/70 text-sm">
     {day}
   </div>
 );
@@ -100,7 +71,6 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   const [year] = useCalendarYear();
   const { startDay } = useContext(CalendarContext);
 
-  // Memoize expensive date calculations
   const currentMonthDate = useMemo(
     () => new Date(year, month, 1),
     [year, month]
@@ -114,7 +84,6 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     [currentMonthDate, startDay]
   );
 
-  // Memoize previous month calculations
   const prevMonthData = useMemo(() => {
     const prevMonth = month === 0 ? 11 : month - 1;
     const prevMonthYear = month === 0 ? year - 1 : year;
@@ -126,7 +95,6 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     return { prevMonthDays, prevMonthDaysArray };
   }, [month, year]);
 
-  // Memoize next month calculations
   const nextMonthData = useMemo(() => {
     const nextMonth = month === 11 ? 0 : month + 1;
     const nextMonthYear = month === 11 ? year + 1 : year;
@@ -138,7 +106,6 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     return { nextMonthDaysArray };
   }, [month, year]);
 
-  // Memoize features filtering by day to avoid recalculating on every render
   const featuresByDay = useMemo(() => {
     const result: { [day: number]: Feature[] } = {};
     for (let day = 1; day <= daysInMonth; day++) {
@@ -156,20 +123,17 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
       prevMonthData.prevMonthDaysArray[
         prevMonthData.prevMonthDays - firstDay + i
       ];
-
     if (day) {
       days.push(<OutOfBoundsDay day={day} key={`prev-${i}`} />);
     }
   }
 
-  const today = useMemo(() => {
-    const now = new Date();
-    return {
-      year: now.getFullYear(),
-      month: now.getMonth(),
-      day: now.getDate(),
-    };
-  }, []);
+  const now = new Date();
+  const today = {
+    year: now.getFullYear(),
+    month: now.getMonth(),
+    day: now.getDate(),
+  };
 
   for (let day = 1; day <= daysInMonth; day++) {
     const featuresForDay = featuresByDay[day] || [];
@@ -179,8 +143,8 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     days.push(
       <div
         className={cn(
-          "relative flex h-full w-full flex-col gap-1 p-0 text-base bg-white",
-          isToday && "bg-accent/5"
+          "relative flex h-full w-full flex-col gap-1 p-0 text-base",
+          isToday && "bg-accent/10 text-accent"
         )}
         key={day}
       >
@@ -201,7 +165,6 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   if (remainingDays < 7) {
     for (let i = 0; i < remainingDays; i++) {
       const day = nextMonthData.nextMonthDaysArray[i];
-
       if (day) {
         days.push(<OutOfBoundsDay day={day} key={`next-${i}`} />);
       }
@@ -230,18 +193,6 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     </div>
   );
 };
-
-export type CalendarDatePickerProps = {
-  className?: string;
-  children: ReactNode;
-};
-
-export const CalendarDatePicker = ({
-  className,
-  children,
-}: CalendarDatePickerProps) => (
-  <div className={cn("flex items-center gap-1", className)}>{children}</div>
-);
 
 export type CalendarDatePaginationProps = {
   className?: string;
@@ -289,7 +240,6 @@ export const CalendarDatePagination = ({
         onClick={handlePreviousMonth}
         size="icon"
         variant="ghost"
-        className=""
         aria-label="Previous month"
       >
         <ChevronLeftIcon size={20} />
@@ -301,7 +251,6 @@ export const CalendarDatePagination = ({
         onClick={handleNextMonth}
         size="icon"
         variant="ghost"
-        className=""
         aria-label="Next month"
       >
         <ChevronRightIcon size={20} />
@@ -325,9 +274,16 @@ export type CalendarHeaderProps = {
 export const CalendarHeader = ({ className }: CalendarHeaderProps) => {
   const { locale, startDay } = useContext(CalendarContext);
 
-  // Memoize days data to avoid recalculating date formatting
   const daysData = useMemo(() => {
-    return daysForLocale(locale, startDay);
+    const weekdays: string[] = [];
+    const baseDate = new Date(2024, 0, startDay);
+    for (let i = 0; i < 7; i++) {
+      weekdays.push(
+        new Intl.DateTimeFormat(locale, { weekday: "short" }).format(baseDate)
+      );
+      baseDate.setDate(baseDate.getDate() + 1);
+    }
+    return weekdays;
   }, [locale, startDay]);
 
   return (
@@ -362,7 +318,7 @@ export const CalendarItem = memo(
   ({ feature, className }: CalendarItemProps) => (
     <div
       className={cn(
-        "w-full sm:min-h-7 h-0.5 flex items-center px-0 py-0.5 rounded-md",
+        "w-full sm:min-h-7 h-0.5 flex items-center px-0 py-0.5 rounded-md mb-0.5",
         feature.status.id === "holiday"
           ? "sm:bg-destructive/10 bg-destructive border-l-4 border-destructive"
           : feature.status.id === "weekend"
