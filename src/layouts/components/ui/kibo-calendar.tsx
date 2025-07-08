@@ -209,19 +209,24 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   }
 
   return (
-    <div className="grid flex-grow grid-cols-7 border-l border-border overflow-hidden">
-      {days.map((day, index) => (
-        <div
-          className={cn(
-            "relative sm:h-32 overflow-hidden border border-border text-lg font-medium",
-            index % 7 === 0 && "border-l-0",
-            index < 7 && "border-t-0"
-          )}
-          key={index}
-        >
-          {day}
-        </div>
-      ))}
+    <div className="grid flex-grow grid-cols-7 overflow-hidden">
+      {days.map((day, index) => {
+        const row = Math.floor(index / 7);
+        const col = index % 7;
+        return (
+          <div
+            className={cn(
+              "relative sm:h-32 overflow-hidden text-lg font-medium bg-white",
+              "border-b border-r border-border",
+              col === 0 && "border-l border-border",
+              row === 0 && "border-t border-border"
+            )}
+            key={index}
+          >
+            {day}
+          </div>
+        );
+      })}
     </div>
   );
 };
