@@ -26,7 +26,7 @@ export default async function RootLayout({
       </head>
       <body className={fontPrimary.variable} suppressHydrationWarning={true}>
         <TwSizeIndicator />
-        <SessionProvider key={JSON.stringify(session)} session={session}>
+        <SessionProvider session={session}>
           <Providers>{children}</Providers>
         </SessionProvider>
         <Toaster />
