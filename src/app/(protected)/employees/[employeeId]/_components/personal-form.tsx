@@ -480,57 +480,22 @@ export default function PersonalForm({
             />
           </div>
           {(userRole === "admin" || userRole === "moderator") && (
-            <>
-              <div className="lg:col-6">
-                <Label>Status:</Label>
-                {isReadOnly ? (
-                  <p className="text-sm capitalize">
-                    {data.status || "Not Available"}
-                  </p>
-                ) : (
-                  <Select
-                    onValueChange={(value) => {
-                      handleChange({
-                        ...data,
-                        status: value as TEmployee["status"],
-                      });
-                    }}
-                    name="status"
-                    value={data.status}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.employee_status.map((item) => {
-                        return (
-                          <SelectItem key={item.value} value={item.value}>
-                            {item.label}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
-
-              <div className="lg:col-12">
-                <Label>Note:</Label>
-                <Textarea
-                  onChange={(e) => {
-                    const { name, value } = e.target;
-                    handleChange({
-                      ...data,
-                      [name]: value,
-                    });
-                  }}
-                  value={data.note || ""}
-                  name="note"
-                  rows={5}
-                  readOnly={isReadOnly}
-                />
-              </div>
-            </>
+            <div className="lg:col-12">
+              <Label>Note:</Label>
+              <Textarea
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  handleChange({
+                    ...data,
+                    [name]: value,
+                  });
+                }}
+                value={data.note || ""}
+                name="note"
+                rows={5}
+                readOnly={isReadOnly}
+              />
+            </div>
           )}
         </form>
       )}
