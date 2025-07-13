@@ -88,11 +88,9 @@ export default function Onboarding() {
               </ul>
             </div>
           ) : (
-            <>
-              <p className="text-center text-muted-foreground py-20">
-                No tasks assigned.
-              </p>
-            </>
+            <div>
+              <p>No onboarding tasks created</p>
+            </div>
           )}
         </CardContent>
       </Card>

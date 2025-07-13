@@ -10,13 +10,7 @@ import { ErrorResponse } from "@/types";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -55,9 +49,6 @@ export default function Offboarding() {
       <Card className="overflow-hidden">
         <CardHeader className="border-b-transparent pb-0">
           <CardTitle>Offboarding</CardTitle>
-          {!data?.result && (
-            <CardDescription>Start the offboarding process</CardDescription>
-          )}
         </CardHeader>
         <CardContent className={isLoading ? "py-20" : "pt-6 overflow-hidden"}>
           {isLoading ? (
@@ -121,7 +112,7 @@ export default function Offboarding() {
             <>
               {role === "user" ? (
                 <div>
-                  <p>No offboarding tasks have been assigned to you.</p>
+                  <p>No offboarding tasks created</p>
                 </div>
               ) : (
                 <Dialog>
