@@ -3,7 +3,6 @@ import { BaseQueryFn, createApi } from "@reduxjs/toolkit/query/react";
 import axios, { AxiosRequestConfig } from "axios";
 import { getSession, signOut } from "next-auth/react";
 
-const Token = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 const BackendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const axiosBaseQuery =
@@ -29,10 +28,8 @@ const axiosBaseQuery =
         method,
         data: body,
         params,
-        // withCredentials: true,
         headers: {
           authorization: `Bearer ${session?.user.accessToken}`,
-          authorization_token: `Bearer ${Token}`,
           ...headers,
         },
       });

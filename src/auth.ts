@@ -26,7 +26,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
               },
               body: JSON.stringify({
                 token: credentials.token,
@@ -42,7 +41,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
               },
               body: JSON.stringify({
                 email: credentials.email,
