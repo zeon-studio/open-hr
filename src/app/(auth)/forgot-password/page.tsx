@@ -15,9 +15,11 @@ function ForgotPassword() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await userVerify(email).unwrap();
-    if (res.result.id) {
+    try {
+      await userVerify(email).unwrap();
       setShowVerify(true);
+    } catch (err) {
+      console.error("userVerify failed:", err);
     }
   };
 
