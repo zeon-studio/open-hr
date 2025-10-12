@@ -12,6 +12,7 @@ export type TEmployee = {
   phone: string;
   gender: "male" | "female";
   blood_group: "o+" | "o-" | "a+" | "a-" | "b+" | "b-" | "ab+" | "ab-";
+  blood_donor: boolean;
   marital_status: "married" | "unmarried" | "divorced" | "widowed";
   present_address: string;
   department:
@@ -21,6 +22,7 @@ export type TEmployee = {
     | "admin"
     | "hr_finance"
     | "production"
+    | "project_management"
     | "other";
   designation: string;
   permanent_address: string;
@@ -49,6 +51,7 @@ export type TEmployeeCreate = {
     | "admin"
     | "hr_finance"
     | "production"
+    | "project_management"
     | "other";
   job_type: "full_time" | "part_time" | "remote" | "contractual" | "internship";
   gross_salary: number;

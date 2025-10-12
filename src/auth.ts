@@ -1,47 +1,8 @@
 import Axios from "@/lib/axios";
-import { jwtDecode } from "jwt-decode";
 import NextAuth from "next-auth";
-import { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { InvalidCredentials } from "./lib/error";
-
-async function refreshAccessToken(token: JWT) {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/refresh-token`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refreshToken: token.refreshToken,
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      const result = await response.json();
-      throw new Error(result.message);
-    }
-
-    const result = await response.json();
-    const decode = jwtDecode(result.result.accessToken);
-    return {
-      ...token,
-      accessToken: result.result.accessToken,
-      refreshToken: result.result.refreshToken,
-      expiresAt: decode.exp!,
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      ...token,
-      error: "RefreshTokenError",
-    };
-  }
-}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -65,7 +26,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
               },
               body: JSON.stringify({
                 token: credentials.token,
@@ -81,7 +41,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                authorization_token: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
               },
               body: JSON.stringify({
                 email: credentials.email,
@@ -155,14 +114,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         user.email = res.data.result.email;
         user.image = res.data.result.image;
         user.role = res.data.result.role;
-        user.refreshToken = res.data.result.refreshToken;
         user.accessToken = res.data.result.accessToken;
         return true;
       }
       return false;
     },
 
-    // @ts-ignore
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update") {
         token.name = session.name;
@@ -178,25 +135,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.image = user.image!;
         token.role = user.role!;
         token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
         return token;
       }
 
-      const decodedToken = jwtDecode(token.accessToken);
-      const currentTime = Date.now() / 1000;
-
-      // if not expired, return token
-      if (decodedToken.exp! > currentTime) {
-        return token;
-      }
-
-      return refreshAccessToken(token);
+      return token;
     },
 
     async session({ session, token }) {
       if (token) {
-        const { accessToken, refreshToken, email, id, role, name, image } =
-          token;
+        const { accessToken, email, id, role, name, image } = token;
 
         session.user.id = id;
         session.user.name = name;
@@ -204,8 +151,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.image = image;
         session.user.role = role;
         session.user.accessToken = accessToken;
-        session.user.refreshToken = refreshToken;
-        session.error = token.error;
       }
 
       return session;

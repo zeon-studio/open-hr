@@ -19,7 +19,6 @@ crawler-log.json
 # misc
 .DS_Store
 *.pem
-yarn.lock
 
 # debug
 npm-debug.log*

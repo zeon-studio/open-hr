@@ -30,6 +30,7 @@ export function checkCompletion(data: TEmployee) {
     "phone",
     "gender",
     "blood_group",
+    "blood_donor",
     "marital_status",
     "present_address",
     "permanent_address",

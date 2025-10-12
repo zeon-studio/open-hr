@@ -281,6 +281,34 @@ export default function OnboardingForm({
       </div>
 
       <div className="lg:col-6">
+        <Label>Blood Donor:</Label>
+        <Select
+          onValueChange={(value) => {
+            setData({ ...data, blood_donor: value === "true" });
+          }}
+          name="blood_donor"
+          value={data.blood_donor ? "true" : "false"}
+          required
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Blood Donor" />
+          </SelectTrigger>
+          <SelectContent>
+            {options.employee_blood_donor.map((employee_blood_donor) => {
+              return (
+                <SelectItem
+                  key={employee_blood_donor.value}
+                  value={employee_blood_donor.value}
+                >
+                  {employee_blood_donor.label}
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="lg:col-6">
         <Label>NID:</Label>
         <Input
           onChange={handleChange}

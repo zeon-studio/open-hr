@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/layouts/components/ui/button";
 import { useResendOTPMutation } from "@/redux/features/authenticationApiSlice/authenticationSlice";
 import { useEffect, useState } from "react";

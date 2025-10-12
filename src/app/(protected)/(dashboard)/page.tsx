@@ -101,7 +101,7 @@ const Dashboard = () => {
           </div>
           {data?.user.role === "user" ? (
             <UserSection modules={modules} userId={data?.user?.id!} />
-          ) : data?.user.role === "admin" ? (
+          ) : data?.user.role === "admin" || data?.user.role === "moderator" ? (
             <AdminSection modules={modules} />
           ) : data?.user.role === "former" ? (
             <div className="col-12">

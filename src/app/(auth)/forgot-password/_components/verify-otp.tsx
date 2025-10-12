@@ -1,3 +1,5 @@
+"use client";
+
 import { Label } from "@/layouts/components/ui/label";
 import {
   useResetPasswordMutation,

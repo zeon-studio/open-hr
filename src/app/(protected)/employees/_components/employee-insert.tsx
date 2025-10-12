@@ -107,6 +107,7 @@ const EmployeeInsert = ({
                   | "admin"
                   | "hr_finance"
                   | "production"
+                  | "project_management"
                   | "other",
               }))
             }
