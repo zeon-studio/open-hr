@@ -17,7 +17,7 @@ const CalendarList = ({
   listType: string;
 }) => {
   return (
-    <Table>
+    <Table innerScroll={false}>
       <TableHeader>
         <TableRow>
           <TableHead>{listType}</TableHead>

@@ -34,16 +34,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${company_website}&size=64`
         }
       />
-      <div className="flex justify-between">
+      <div className="flex">
         <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none lg:w-[220px] bg-background min-h-screen h-screen sticky left-0 top-0">
           <Sidebar />
         </aside>
 
-        <div className="flex-1 py-5 px-5 lg:pl-0 max-w-full overflow-x-hidden">
+        <div className="flex-1 flex flex-col min-h-screen min-w-0">
           <Header />
-          <main className="flex-1 max-w-full h-full rounded-lg bg-light overflow-x-hidden">
-            {children}
-          </main>
+
+          <div className="flex-1 overflow-y-auto py-5 px-5 lg:pl-0 max-w-full">
+            <main className="max-w-full rounded-lg bg-light">{children}</main>
+          </div>
         </div>
       </div>
     </>

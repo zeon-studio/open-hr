@@ -1,18 +1,32 @@
 import { cn } from "@/lib/shadcn";
 import * as React from "react";
 
-const Table = React.forwardRef<
-  HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto rounded-lg border border-border flex flex-col max-h-[calc(100vh-190px)]">
-    <table
-      ref={ref}
-      className={cn("w-full caption-bottom text-sm", className)}
-      {...props}
-    />
-  </div>
-));
+type TableProps = React.HTMLAttributes<HTMLTableElement> & {
+  /**
+   * When true (default) the table wrapper provides an internal scroll with a max-height.
+   * Set to false when you want the table to flow with page scroll (e.g., calendar list).
+   */
+  innerScroll?: boolean;
+};
+
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  ({ className, innerScroll = true, ...props }, ref) => (
+    <div
+      className={cn(
+        "relative w-full rounded-lg border border-border flex flex-col",
+        innerScroll
+          ? "overflow-auto max-h-[calc(100vh-250px)] lg:max-h-[calc(100vh-190px)]"
+          : "overflow-x-auto overflow-y-visible"
+      )}
+    >
+      <table
+        ref={ref}
+        className={cn("w-full caption-bottom text-sm", className)}
+        {...props}
+      />
+    </div>
+  )
+);
 Table.displayName = "Table";
 
 const TableHeader = React.forwardRef<
