@@ -9,7 +9,7 @@ export const authenticationApi = apiSlice.injectEndpoints({
       query: (email) => ({
         url: `/authentication/verify-user`,
         method: "POST",
-        body: { email, currentTime: Date.now() },
+        body: { email },
       }),
 
       async onQueryStarted(email, { queryFulfilled }) {
@@ -30,7 +30,7 @@ export const authenticationApi = apiSlice.injectEndpoints({
       query: ({ email, otp }) => ({
         url: `/authentication/verify-otp`,
         method: "POST",
-        body: { email, otp, currentTime: Date.now() },
+        body: { email, otp },
       }),
     }),
 
@@ -38,12 +38,12 @@ export const authenticationApi = apiSlice.injectEndpoints({
       {
         message: string;
       },
-      { email: string; password: string }
+      { email: string; password: string; reset_token: string }
     >({
-      query: ({ email, password }) => ({
+      query: ({ email, password, reset_token }) => ({
         url: `/authentication/recovery-password`,
         method: "PATCH",
-        body: { email, password, currentTime: Date.now() },
+        body: { email, password, reset_token },
       }),
     }),
 
@@ -51,7 +51,7 @@ export const authenticationApi = apiSlice.injectEndpoints({
       query: ({ email }) => ({
         url: `/authentication/resend-otp`,
         method: "POST",
-        body: { email, currentTime: Date.now() },
+        body: { email },
       }),
     }),
   }),

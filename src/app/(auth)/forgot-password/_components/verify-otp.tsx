@@ -56,7 +56,7 @@ export default function Verify({ email }: { email: string }) {
       return;
     }
     try {
-      await resetPassword({ email, password }).unwrap();
+      await resetPassword({ email, password, reset_token: otp }).unwrap();
       toast.success("Password reset successfully");
       signIn("credentials", {
         email,
