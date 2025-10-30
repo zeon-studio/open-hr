@@ -9,7 +9,7 @@ const publicUrl = [
   "/onboard",
 ];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { user } = (await auth()) || {};
   const isAuth = !!user?.accessToken;
 
