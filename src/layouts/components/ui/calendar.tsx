@@ -1,5 +1,7 @@
 "use client";
 
+import { Button, buttonVariants } from "@/layouts/components/ui/button";
+import { cn } from "@/lib/shadcn";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -7,9 +9,6 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker";
-
-import { Button, buttonVariants } from "@/layouts/components/ui/button";
-import { cn } from "@/lib/shadcn";
 
 function Calendar({
   className,
@@ -19,11 +18,16 @@ function Calendar({
   buttonVariant = "ghost",
   formatters,
   components,
+  startMonth,
+  endMonth,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
 }) {
   const defaultClassNames = getDefaultClassNames();
+  const currentYear = new Date().getFullYear();
+  const computedStartMonth = startMonth ?? new Date(currentYear - 50, 0);
+  const computedEndMonth = endMonth ?? new Date(currentYear + 50, 11);
 
   return (
     <DayPicker
@@ -35,6 +39,8 @@ function Calendar({
         className
       )}
       captionLayout={captionLayout}
+      startMonth={computedStartMonth}
+      endMonth={computedEndMonth}
       formatters={{
         formatMonthDropdown: (date) =>
           date.toLocaleString("default", { month: "short" }),
