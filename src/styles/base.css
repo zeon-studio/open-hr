@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  @apply bg-background text-base  font-primary font-normal leading-relaxed text-text;
+  @apply bg-background text-base font-primary font-normal leading-relaxed text-text;
 }
 
 h1,
@@ -52,4 +52,8 @@ strong {
 
 code {
   @apply after:border-none;
+}
+
+button {
+  @apply cursor-pointer;
 }
