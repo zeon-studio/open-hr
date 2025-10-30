@@ -67,16 +67,24 @@ const ToolModal = ({
     <DropdownMenu key={item._id}>
       <TableRow>
         <TableCell>
-          <div className="flex items-center">
-            <Image
-              src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
-              alt={item.platform}
-              width={50}
-              height={50}
-              className="rounded border object-cover shrink-0 hidden lg:block mr-2"
-            />
-            <p className="mb-0 font-medium">{item.platform}</p>
-          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setToolId(item?._id!)}
+              >
+                <Image
+                  src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
+                  alt={item.platform}
+                  width={50}
+                  height={50}
+                  className="rounded border object-cover shrink-0 hidden lg:block mr-2"
+                />
+                <p className="mb-0 font-medium">{item.platform}</p>
+              </div>
+            </DialogTrigger>
+            {singleTool?._id && <ToolPreview toolData={singleTool!} />}
+          </Dialog>
         </TableCell>
         <TableCell>
           <Link

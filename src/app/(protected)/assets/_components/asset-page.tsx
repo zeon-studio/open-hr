@@ -69,16 +69,24 @@ const AssetModal = ({
     <DropdownMenu key={item.asset_id}>
       <TableRow>
         <TableCell>
-          <div className="flex items-center">
-            <Image
-              src={`/images/assets/${item.type}.png`}
-              alt={item.name}
-              width={50}
-              height={50}
-              className="rounded-md border border-border mr-2 shrink-0"
-            />
-            <p className="mb-0 capitalize font-medium">{item.name}</p>
-          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setAssetId(item?.asset_id!)}
+              >
+                <Image
+                  src={`/images/assets/${item.type}.png`}
+                  alt={item.name}
+                  width={50}
+                  height={50}
+                  className="rounded-md border border-border mr-2 shrink-0"
+                />
+                <p className="mb-0 capitalize font-medium">{item.name}</p>
+              </div>
+            </DialogTrigger>
+            {singleAsset?.asset_id && <AssetPreview assetData={singleAsset!} />}
+          </Dialog>
         </TableCell>
         <TableCell>
           <UserInfo user={employeeInfoById(item.user)} />

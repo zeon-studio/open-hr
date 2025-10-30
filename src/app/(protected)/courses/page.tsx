@@ -67,6 +67,7 @@ const Course = () => {
           <TableRow className="sticky top-0">
             <TableHead className="sticky top-0">Platform</TableHead>
             <TableHead className="sticky top-0">Courses</TableHead>
+            <TableHead className="sticky top-0">Website</TableHead>
             <TableHead className="sticky top-0">Login ID</TableHead>
             <TableHead className="sticky top-0">Password</TableHead>
             <TableHead className="sticky top-0 text-right">More</TableHead>
@@ -75,7 +76,7 @@ const Course = () => {
         <TableBody>
           {!courses?.length && (
             <TableRow>
-              <TableCell colSpan={5}>
+              <TableCell colSpan={6}>
                 <div className="loader">
                   <div className="loader-line" />
                 </div>

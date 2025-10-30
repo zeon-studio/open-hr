@@ -68,27 +68,38 @@ const CourseModal = ({
     <DropdownMenu key={item._id}>
       <TableRow>
         <TableCell>
-          <div className="flex items-center">
-            <ImageFallback
-              src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
-              alt={item.platform}
-              width={50}
-              height={50}
-              fallback="/images/fallback.jpg"
-              className="rounded border border-border object-cover shrink-0 hidden lg:block mr-2"
-            />
-            <Link
-              href={item.website}
-              target="_blank"
-              rel="noopener noreferrer nofollow"
-              className="font-medium"
-            >
-              {item.platform}
-              <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
-            </Link>
-          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setCourseId(item?._id!)}
+              >
+                <ImageFallback
+                  src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
+                  alt={item.platform}
+                  width={50}
+                  height={50}
+                  fallback="/images/fallback.jpg"
+                  className="rounded border border-border object-cover shrink-0 hidden lg:block mr-2"
+                />
+                {item.platform}
+              </div>
+            </DialogTrigger>
+            {singleCourse?._id && <CoursePreview courseData={singleCourse!} />}
+          </Dialog>
         </TableCell>
         <TableCell>{item.courses?.length}</TableCell>
+        <TableCell>
+          <Link
+            href={item.website}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            className="font-medium"
+          >
+            {item.website}
+            <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
+          </Link>
+        </TableCell>
         <TableCell>
           <CopyText text={item.email} />
         </TableCell>
