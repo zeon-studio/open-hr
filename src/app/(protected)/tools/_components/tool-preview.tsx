@@ -65,13 +65,51 @@ const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {
                     {item.expire_date ? dateFormat(item.expire_date) : "N/A"}
                   </div>
                 </div>
-                <div className="col-12 mb-4">
+                <div className="lg:col-6 mb-4">
                   <div className="font-medium mb-1">Users</div>
                   <div className="p-2 bg-light rounded">
                     {item.users
                       .map((userId) => employeeInfoById(userId).name)
                       .join(", ")}
                   </div>
+                </div>
+                <div className="lg:col-6 mb-4">
+                  <div className="font-medium mb-1">Status</div>
+                  <div className="p-2 bg-light capitalize rounded">
+                    {item.status || "N/A"}
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div className="font-medium mb-3">Logs</div>
+                  {item.logs?.map((log, index) => (
+                    <div
+                      className="border border-border mb-4 p-3 rounded"
+                      key={index}
+                    >
+                      <div className="row">
+                        <div className="lg:col-6 mb-2">
+                          <div className="font-medium mb-1">Type</div>
+                          <div className="p-2 bg-light rounded">{log.type}</div>
+                        </div>
+                        <div className="lg:col-6 mb-2">
+                          <div className="font-medium mb-1">Date</div>
+                          <div className="p-2 bg-light rounded">
+                            {log.date ? dateFormat(log.date) : "N/A"}
+                          </div>
+                        </div>
+                        <div className="lg:col-12 mb-2">
+                          <div className="font-medium mb-1">Description</div>
+                          <div className="p-2 bg-light rounded">
+                            {log.description || "N/A"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {(!item.logs || item.logs.length === 0) && (
+                    <div className="p-2 bg-light rounded">N/A</div>
+                  )}
                 </div>
               </div>
             </div>

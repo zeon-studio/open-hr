@@ -24,6 +24,8 @@ const ToolInsert = ({
         currency: "bdt",
         billing: "onetime",
         users: [],
+        status: "active",
+        logs: [],
       },
     ],
   });
@@ -53,6 +55,8 @@ const ToolInsert = ({
             currency: "bdt",
             billing: "onetime",
             users: [],
+            status: "active",
+            logs: [],
           },
         ],
       });

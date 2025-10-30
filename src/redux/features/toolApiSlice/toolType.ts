@@ -1,3 +1,9 @@
+export type TOrganizationLog = {
+  type: "renewed" | "cancelled" | "resumed" | "paused";
+  description: string;
+  date: Date;
+};
+
 export type TOrganization = {
   name: string;
   login_id: string;
@@ -8,6 +14,8 @@ export type TOrganization = {
   users: string[];
   purchase_date?: Date;
   expire_date?: Date;
+  status: "active" | "expired" | "archived";
+  logs: TOrganizationLog[];
 };
 
 export type TTool = {

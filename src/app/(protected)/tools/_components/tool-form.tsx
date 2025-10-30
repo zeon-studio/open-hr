@@ -52,6 +52,8 @@ const ToolForm = ({
         users: toolItem.users,
         purchase_date: toolItem.purchase_date,
         expire_date: toolItem.expire_date,
+        status: toolItem.status,
+        logs: toolItem.logs || [],
       })),
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,6 +71,8 @@ const ToolForm = ({
         password: "",
         currency: "bdt",
         users: [],
+        status: "active",
+        logs: [],
       },
     ]);
   };
@@ -372,7 +376,7 @@ const ToolForm = ({
               </div>
 
               {/* users */}
-              <div className="col-12 mb-4">
+              <div className="lg:col-6 mb-4">
                 <Label htmlFor="organization" className="col-span-4">
                   Users
                 </Label>
@@ -397,6 +401,234 @@ const ToolForm = ({
                   className="border-border"
                   groupBy="department"
                 />
+              </div>
+
+              {/* status */}
+              <div className="lg:col-6 mb-4">
+                <Label>Status</Label>
+                <Select
+                  value={item.status}
+                  onValueChange={(value) => {
+                    const updatedToolItems = [...toolItems];
+                    updatedToolItems[index] = {
+                      ...item,
+                      status: value as TOrganization["status"],
+                    };
+                    setToolItems(updatedToolItems);
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {options.organization_status.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* logs */}
+              <div className="col-12 mb-6">
+                {item.logs?.map((log, li) => (
+                  <div
+                    className="border border-border relative mb-6 bg-light rounded-md p-3"
+                    key={li}
+                  >
+                    <div className="absolute right-3 top-3">
+                      <Button
+                        type="button"
+                        onClick={() =>
+                          setToolItems((prevItems) => {
+                            const updatedItems = [...prevItems];
+                            const updatedLogs = updatedItems[index].logs
+                              ? [...(updatedItems[index].logs as any[])]
+                              : [];
+                            updatedLogs.splice(li, 1);
+                            updatedItems[index] = {
+                              ...updatedItems[index],
+                              logs: updatedLogs,
+                            };
+                            return updatedItems;
+                          })
+                        }
+                        size={"xs"}
+                        variant="outline"
+                      >
+                        <Trash2 size={16} />
+                      </Button>
+                    </div>
+                    <div className="row">
+                      <div className="lg:col-6 mb-4">
+                        <Label>Log Type</Label>
+                        <Select
+                          value={log.type}
+                          onValueChange={(value) =>
+                            setToolItems((prevItems) => {
+                              const updatedItems = [...prevItems];
+                              const updatedLogs = updatedItems[index].logs
+                                ? [...(updatedItems[index].logs as any[])]
+                                : [];
+                              updatedLogs[li] = {
+                                ...updatedLogs[li],
+                                type: value as any,
+                              };
+                              updatedItems[index] = {
+                                ...updatedItems[index],
+                                logs: updatedLogs,
+                              };
+                              return updatedItems;
+                            })
+                          }
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {options.organization_log_type.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="lg:col-6 mb-4">
+                        <Label>Date</Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"input"}
+                              className="w-full flex justify-between"
+                            >
+                              {log.date ? (
+                                dateFormat(log.date)
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <span className="flex items-center">
+                                {log.date && (
+                                  <span className="p-2">
+                                    <X
+                                      className="cursor-pointer border-box ml-auto h-4 w-4 opacity-50"
+                                      onClick={() =>
+                                        setToolItems((prevItems) => {
+                                          const updatedItems = [...prevItems];
+                                          const updatedLogs = updatedItems[
+                                            index
+                                          ].logs
+                                            ? [
+                                                ...(updatedItems[index]
+                                                  .logs as any[]),
+                                              ]
+                                            : [];
+                                          updatedLogs[li] = {
+                                            ...updatedLogs[li],
+                                            date: undefined,
+                                          };
+                                          updatedItems[index] = {
+                                            ...updatedItems[index],
+                                            logs: updatedLogs,
+                                          };
+                                          return updatedItems;
+                                        })
+                                      }
+                                    />
+                                  </span>
+                                )}
+                                <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
+                                <span className="pl-2  block">
+                                  <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                                </span>
+                              </span>
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={
+                                log.date ? new Date(log.date) : new Date()
+                              }
+                              onSelect={(date) =>
+                                setToolItems((prevItems) => {
+                                  const updatedItems = [...prevItems];
+                                  const updatedLogs = updatedItems[index].logs
+                                    ? [...(updatedItems[index].logs as any[])]
+                                    : [];
+                                  if (date) {
+                                    updatedLogs[li] = {
+                                      ...updatedLogs[li],
+                                      date: formatDateWithTime(date),
+                                    };
+                                  }
+                                  updatedItems[index] = {
+                                    ...updatedItems[index],
+                                    logs: updatedLogs,
+                                  };
+                                  return updatedItems;
+                                })
+                              }
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      <div className="col-12 mb-4">
+                        <Label>Description</Label>
+                        <Input
+                          type="text"
+                          value={log.description}
+                          onChange={(e) =>
+                            setToolItems((prevItems) => {
+                              const updatedItems = [...prevItems];
+                              const updatedLogs = updatedItems[index].logs
+                                ? [...(updatedItems[index].logs as any[])]
+                                : [];
+                              updatedLogs[li] = {
+                                ...updatedLogs[li],
+                                description: e.target.value,
+                              };
+                              updatedItems[index] = {
+                                ...updatedItems[index],
+                                logs: updatedLogs,
+                              };
+                              return updatedItems;
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <Button
+                  type="button"
+                  onClick={() =>
+                    setToolItems((prevItems) => {
+                      const updatedItems = [...prevItems];
+                      const updatedLogs = updatedItems[index].logs
+                        ? [...(updatedItems[index].logs as any[])]
+                        : [];
+                      updatedLogs.push({
+                        type: "subscription",
+                        description: "",
+                        date: new Date(),
+                      });
+                      updatedItems[index] = {
+                        ...updatedItems[index],
+                        logs: updatedLogs,
+                      };
+                      return updatedItems;
+                    })
+                  }
+                  size={"sm"}
+                  className="w-full"
+                  variant="outline"
+                >
+                  Add Log
+                </Button>
               </div>
             </div>
           </div>

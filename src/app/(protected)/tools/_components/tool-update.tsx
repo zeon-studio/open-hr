@@ -17,7 +17,11 @@ const ToolUpdate = ({
     _id: tool._id,
     platform: tool.platform,
     website: tool.website,
-    organizations: tool.organizations,
+    organizations: tool.organizations?.map((org) => ({
+      ...org,
+      status: (org as any).status || "active",
+      logs: (org as any).logs || [],
+    })),
   });
 
   const [updateTool, { isSuccess, isError, error }] = useUpdateToolMutation();

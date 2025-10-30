@@ -201,6 +201,38 @@
       "value": "onetime"
     }
   ],
+  "organization_status": [
+    {
+      "label": "Active",
+      "value": "active"
+    },
+    {
+      "label": "Expired",
+      "value": "expired"
+    },
+    {
+      "label": "Archived",
+      "value": "archived"
+    }
+  ],
+  "organization_log_type": [
+    {
+      "label": "Renewed",
+      "value": "renewed"
+    },
+    {
+      "label": "Cancelled",
+      "value": "cancelled"
+    },
+    {
+      "label": "Resumed",
+      "value": "resumed"
+    },
+    {
+      "label": "Paused",
+      "value": "paused"
+    }
+  ],
   "asset_type": [
     {
       "label": "Macbook",
