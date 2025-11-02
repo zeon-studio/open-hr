@@ -193,6 +193,14 @@
       "value": "monthly"
     },
     {
+      "label": "Quarterly",
+      "value": "quarterly"
+    },
+    {
+      "label": "Half Yearly",
+      "value": "half-yearly"
+    },
+    {
       "label": "Yearly",
       "value": "yearly"
     },
