@@ -117,7 +117,7 @@ export default function OnboardingForm({
               {data.dob ? dateFormat(data.dob) : <span>Select Date</span>}
               <span className="flex items-center">
                 <span
-                  className={cn("bg-light mb-2 mt-2 h-5 block w-[1px]")}
+                  className={cn("bg-light mb-2 mt-2 h-5 block w-px")}
                 ></span>
                 <span className={cn("pl-2  block")}>
                   <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />

@@ -217,7 +217,7 @@ function AchievementForm({
                             <span>Pick a date</span>
                           )}
                           <span className="flex items-center">
-                            <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
+                            <span className="bg-border mb-2 mt-2 h-5 block w-px"></span>
                             <span className="pl-2  block">
                               <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                             </span>

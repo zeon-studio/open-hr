@@ -1,8 +1,8 @@
 // https://www.kibo-ui.com/components/calendar
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/shadcn";
+import { Button } from "@/ui/button";
 import { getDay, getDaysInMonth } from "date-fns";
 import { atom, useAtom } from "jotai";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";

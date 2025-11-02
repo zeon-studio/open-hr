@@ -1,6 +1,6 @@
 {
   "name": "open-hr",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "zeon.studio",
   "license": "MIT",
   "description": "HR Solution for small and medium enterprises",
@@ -13,9 +13,6 @@
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
-    "@radix-ui/react-alert-dialog": "^1.1.15",
-    "@radix-ui/react-aspect-ratio": "^1.1.7",
-    "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-label": "^2.1.7",
@@ -35,15 +32,12 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
-    "eslint": "9.38.0",
-    "eslint-config-next": "16.0.1",
     "input-otp": "^1.4.2",
     "jotai": "^2.15.0",
     "lucide-react": "^0.548.0",
     "marked": "^16.4.1",
     "next": "^16.0.1",
     "next-auth": "^5.0.0-beta.30",
-    "postcss": "8.5.6",
     "react": "19.2.0",
     "react-day-picker": "^9.11.1",
     "react-dom": "19.2.0",
@@ -55,7 +49,6 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "4.1.16",
-    "tailwindcss-animate": "^1.0.7",
     "typescript": "5.9.3",
     "vaul": "^1.1.2",
     "xlsx": "^0.18.5"
@@ -65,6 +58,8 @@
     "@tailwindcss/postcss": "^4.1.16",
     "@types/react-gravatar": "^2.6.14",
     "eslint-config-prettier": "^10.1.8",
+    "eslint": "9.38.0",
+    "eslint-config-next": "16.0.1",
     "prettier": "^3.6.2"
   },
   "resolutions": {

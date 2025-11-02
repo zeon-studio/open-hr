@@ -1,9 +1,9 @@
 import options from "@/config/options.json";
-import MultipleSelector from "@/layouts/components/ui/multiple-selector";
 import EditFrom from "@/partials/edit-from";
 import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
+import MultiSelect from "@/ui/multi-select";
 import {
   Select,
   SelectContent,
@@ -44,7 +44,7 @@ export default function SettingWeekendsForm({
                   {data.weekends.join(", ")}
                 </small>
               ) : (
-                <MultipleSelector
+                <MultiSelect
                   value={data.weekends.map((weekend) => ({
                     label: weekend,
                     value: weekend,
@@ -135,7 +135,7 @@ export default function SettingWeekendsForm({
                           {weekend.pattern.join(", ")}
                         </small>
                       ) : (
-                        <MultipleSelector
+                        <MultiSelect
                           value={weekend.pattern.map((weekend) => ({
                             label: weekend.toString(),
                             value: weekend.toString(),

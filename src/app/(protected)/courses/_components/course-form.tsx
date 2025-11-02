@@ -1,5 +1,4 @@
 import options from "@/config/options.json";
-import MultipleSelector from "@/layouts/components/ui/multiple-selector";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import {
   employeeGroupByDepartment,
@@ -13,6 +12,7 @@ import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
+import MultiSelect from "@/ui/multi-select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 import {
   Select,
@@ -231,7 +231,7 @@ const CourseForm = ({
                             />
                           </span>
                         )}
-                        <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="bg-border mb-2 mt-2 h-5 block w-px"></span>
                         <span className="pl-2  block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
@@ -293,7 +293,7 @@ const CourseForm = ({
                             />
                           </span>
                         )}
-                        <span className="bg-border mb-2 mt-2 h-5 block w-[1px]"></span>
+                        <span className="bg-border mb-2 mt-2 h-5 block w-px"></span>
                         <span className="pl-2  block">
                           <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
                         </span>
@@ -328,7 +328,7 @@ const CourseForm = ({
                 <Label htmlFor="organization" className="col-span-4">
                   Users
                 </Label>
-                <MultipleSelector
+                <MultiSelect
                   value={item.users.map((user) => ({
                     label: employeeInfoById(user).name || "Unknown",
                     value: user,
