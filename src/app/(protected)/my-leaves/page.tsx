@@ -91,7 +91,7 @@ const Leave = () => {
         </TableBody>
       </Table>
       <div className="row sm:row-cols-2 mt-4">
-        <ul className="flex items-center space-x-4">
+        <ul className="flex! items-center space-x-4 mb-4 md:mb-0">
           <li className="flex items-center">
             <span className="bg-success h-2 w-2 inline-block mr-1 rounded-full" />
             Allotted

@@ -34,7 +34,7 @@ const Pagination = ({
   useEffect(() => setInputPage(page), [page]);
 
   return (
-    <div className={`flex justify-end items-center ${className}`}>
+    <div className={`flex! justify-end items-center ${className}`}>
       <p className="mr-4">
         Page {page ? page : 1} of {totalPages}
       </p>
@@ -70,7 +70,7 @@ const Pagination = ({
                 value={inputPage}
                 onChange={(e) => setInputPage(Number(e.target.value))}
                 autoComplete="off"
-                className="w-9 text-center border border-border border-border rounded-sm bg-white h-9 p-0 focus:outline-none focus:ring-0 focus:border-dark"
+                className="w-9 text-center border border-border rounded-sm bg-white h-9 p-0 focus:outline-none focus:ring-0 focus:border-dark"
               />
             </form>{" "}
           </li>
