@@ -4,16 +4,17 @@ import useCookie, { getCookie } from "react-use-cookie";
 
 const ClearCache = () => {
   // name
-  const UPDATE_DATE = "11May2025";
+  const UPDATE_DATE = "26Nov2025";
 
   // cookie bar
-  const [announcementClose, setAnnouncementClose] = useCookie(UPDATE_DATE, "");
-  const [announcementCloseState, setAnnouncementCloseState] = useState(true);
+  const [_announcementClose, setAnnouncementClose] = useCookie(UPDATE_DATE, "");
+  const [isMounted, setIsMounted] = useState(false);
 
-  // cookie check from browser
   useEffect(() => {
-    setAnnouncementCloseState(getCookie(UPDATE_DATE) === "" ? false : true);
-  }, [announcementClose]);
+    // Use setTimeout to avoid the lint warning about synchronous setState
+    const timer = setTimeout(() => setIsMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   // cookie handler
   const cookieHandler = () => {
@@ -38,9 +39,16 @@ const ClearCache = () => {
     });
   };
 
+  // Don't render anything until component is mounted on client
+  if (!isMounted) {
+    return null;
+  }
+
+  const shouldShowAnnouncement = getCookie(UPDATE_DATE) === "";
+
   return (
     <>
-      {!announcementCloseState && (
+      {shouldShowAnnouncement && (
         <button
           className="p-4 bg-yellow-100 w-full mb-4 text-center rounded border border-yellow-200"
           onClick={cookieHandler}

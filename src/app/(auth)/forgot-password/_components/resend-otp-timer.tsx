@@ -2,36 +2,43 @@
 
 import { Button } from "@/layouts/components/ui/button";
 import { useResendOTPMutation } from "@/redux/features/authenticationApiSlice/authenticationSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export function Timer({ email }: { email: string }) {
   const [resendOTP, { isLoading }] = useResendOTPMutation();
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(59);
+
+  const minutesRef = useRef(minutes);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
-      }
-      if (seconds === 0) {
-        if (minutes === 0) {
-          clearInterval(interval);
-        } else {
-          setSeconds(59);
-          setMinutes(minutes - 1);
+    minutesRef.current = minutes;
+  }, [minutes]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSeconds((prevSeconds) => {
+        if (prevSeconds > 0) {
+          return prevSeconds - 1;
         }
-      }
+
+        if (minutesRef.current === 0) {
+          clearInterval(intervalId);
+          return 0;
+        }
+
+        setMinutes((prevMinutes) => {
+          const next = prevMinutes - 1;
+          minutesRef.current = next;
+          return next;
+        });
+        return 59;
+      });
     }, 1000);
 
     return () => {
-      clearInterval(interval);
+      clearInterval(intervalId);
     };
-  });
-
-  useEffect(() => {
-    setMinutes(1);
-    setSeconds(59);
   }, []);
 
   return (
@@ -48,6 +55,7 @@ export function Timer({ email }: { email: string }) {
           variant={"link"}
           onClick={() => {
             setMinutes(1);
+            minutesRef.current = 1;
             setSeconds(59);
             resendOTP({ email });
           }}

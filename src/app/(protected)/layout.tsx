@@ -12,21 +12,24 @@ import { ReactNode, useEffect } from "react";
 export default function RootLayout({ children }: { children: ReactNode }) {
   useGetEmployeesBasicsQuery(undefined);
   const dispatch = useAppDispatch();
+
+  // Initialize settings on first render
   useEffect(() => {
     dispatch(settingApi.endpoints.getSetting.initiate(undefined));
   }, [dispatch]);
-  const { status } = useSession();
 
+  const { status } = useSession();
   const { app_name, company_website, favicon_url } =
     useAppSelector((state) => state["setting-slice"]) || {};
 
-  if (status === "loading" || !app_name) {
+  // Only show loader for session loading, not for mounting
+  if (status === "loading") {
     return <Loader />;
   }
 
   return (
     <>
-      <title>{app_name}</title>
+      <title>{app_name || "Loading..."}</title>
       <link
         rel="icon"
         href={

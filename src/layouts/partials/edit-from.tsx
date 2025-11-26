@@ -1,7 +1,7 @@
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Check, Loader2, Pen } from "lucide-react";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 
 export default function EditFrom<T>({
   children,
@@ -31,10 +31,15 @@ export default function EditFrom<T>({
     setData(value);
   };
 
-  useEffect(() => {
-    if (!isUpdating) {
+  // Automatically switch to readonly mode when updating completes
+  const wasUpdating = useRef(false);
+
+  React.useLayoutEffect(() => {
+    if (wasUpdating.current && !isUpdating) {
+      // Update completed, switch to readonly
       setIsReadOnly(true);
     }
+    wasUpdating.current = !!isUpdating;
   }, [isUpdating]);
 
   return (

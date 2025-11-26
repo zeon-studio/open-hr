@@ -93,7 +93,8 @@ function OnBoarding() {
 
   return (
     <div className="bg-light">
-      <div className="!max-w-[640px] w-full mx-auto py-20 text-center">
+      <div className="max-w-[640px]! w-full mx-auto py-20 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="mx-auto mb-4"
           src={logo_url}
@@ -105,7 +106,7 @@ function OnBoarding() {
           Welcome to {company_name}
           <Confetti className="inline-block ml-3 mb-4" />
         </h2>
-        <p>Let's get you set up with everything you need to get started.</p>
+        <p>Let&apos;s get you set up with everything you need to get started.</p>
 
         {!isCompleted && (
           <div className="space-y-4 mt-12 text-left">

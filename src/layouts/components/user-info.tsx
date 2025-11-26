@@ -20,6 +20,7 @@ const UserInfo = ({
         <div className={`flex relative items-center ${className}`}>
           <div className={`shrink-0`}>
             {user?.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 className="object-cover rounded-full"
                 src={user?.image}

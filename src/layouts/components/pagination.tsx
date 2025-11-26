@@ -9,7 +9,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Pagination = ({
   total,
@@ -23,7 +23,10 @@ const Pagination = ({
   const totalPages = Math.ceil(total / limit);
   const searchParams = useSearchParams();
   const page = Number(searchParams?.get("page")) || 1;
+
+  // Use local state for input, initialize with current page
   const [inputPage, setInputPage] = useState(page);
+
   const { onSelect } = useQuerySelector();
 
   // handle pagination by input box
@@ -31,7 +34,11 @@ const Pagination = ({
     e.preventDefault();
     onSelect(`${inputPage}`, "page");
   };
-  useEffect(() => setInputPage(page), [page]);
+
+  // Reset input when page changes (happens after navigation)
+  if (inputPage !== page && !document.activeElement?.matches('input[name="page"]')) {
+    setInputPage(page);
+  }
 
   return (
     <div className={`flex! justify-end items-center ${className}`}>
@@ -41,9 +48,8 @@ const Pagination = ({
       <div>
         <ul className="flex space-x-2">
           <li
-            className={`border border-border rounded-sm bg-white ${
-              page === 1 ? "text-text-light" : "text-primary"
-            }`}
+            className={`border border-border rounded-sm bg-white ${page === 1 ? "text-text-light" : "text-primary"
+              }`}
             onClick={() => onSelect("1", "page")}
           >
             <button className="block p-2" disabled={page === 1}>
@@ -52,9 +58,8 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border border-border rounded-sm bg-white ${
-              page === 1 ? "text-text-light" : "text-primary"
-            }`}
+            className={`border border-border rounded-sm bg-white ${page === 1 ? "text-text-light" : "text-primary"
+              }`}
             onClick={() => onSelect(`${page - 1}`, "page")}
           >
             <button className="block p-2" disabled={page === 1}>
@@ -75,9 +80,8 @@ const Pagination = ({
             </form>{" "}
           </li>
           <li
-            className={`border border-border rounded-sm bg-white  ${
-              page === totalPages ? "text-text-light" : "text-primary"
-            }`}
+            className={`border border-border rounded-sm bg-white  ${page === totalPages ? "text-text-light" : "text-primary"
+              }`}
             onClick={() => onSelect(`${page + 1}`, "page")}
           >
             <button className="block p-2" disabled={page === totalPages}>
@@ -86,9 +90,8 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border border-border rounded-sm bg-white  ${
-              page === totalPages ? "text-text-light" : "text-primary"
-            }`}
+            className={`border border-border rounded-sm bg-white  ${page === totalPages ? "text-text-light" : "text-primary"
+              }`}
             onClick={() => onSelect(`${totalPages}`, "page")}
           >
             <button className="block p-2" disabled={page === totalPages}>

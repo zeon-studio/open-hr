@@ -8,30 +8,30 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { toast } from "sonner";
 
 const SettingModuleForm = ({ data }: { data: TSetting }) => {
   const [updateModuleStatus, { isSuccess, isError, error }] =
     useUpdateSettingModuleStatusMutation();
-  const [enabledModules, setEnabledModules] = useState<Record<string, boolean>>(
-    {}
-  );
-  const [selectedModule, setSelectedModule] = useState<TModuleItem | null>(
-    null
-  );
 
-  // Initialize enabled states from data.modules
-  useEffect(() => {
-    const moduleStates = data.modules.reduce(
+  // Initialize enabled states from data.modules using useMemo
+  const initialModuleStates = useMemo(() => {
+    return data.modules.reduce(
       (acc, module) => {
         acc[module.name] = module.enable;
         return acc;
       },
       {} as Record<string, boolean>
     );
-    setEnabledModules(moduleStates);
   }, [data.modules]);
+
+  const [enabledModules, setEnabledModules] = useState<Record<string, boolean>>(
+    initialModuleStates
+  );
+  const [selectedModule, setSelectedModule] = useState<TModuleItem | null>(
+    null
+  );
 
   useEffect(() => {
     if (isSuccess) {
