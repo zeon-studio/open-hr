@@ -96,6 +96,67 @@ export const FileUploader = forwardRef<
       [value, onValueChange]
     );
 
+    const onDrop = useCallback(
+      (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+        const files = acceptedFiles;
+
+        if (!files) {
+          toast.error("file error , probably too big");
+          return;
+        }
+
+        const newValues: File[] = value ? [...value] : [];
+
+        if (reSelectAll) {
+          newValues.splice(0, newValues.length);
+        }
+
+        files.forEach((file) => {
+          if (newValues.length < maxFiles) {
+            newValues.push(file);
+          }
+        });
+
+        onValueChange(newValues);
+
+        if (rejectedFiles.length > 0) {
+          for (let i = 0; i < rejectedFiles.length; i++) {
+            if (rejectedFiles[i].errors[0]?.code === "file-too-large") {
+              toast.error(
+                `File is too large. Max size is ${maxSize / 1024 / 1024}MB`
+              );
+              break;
+            }
+            if (rejectedFiles[i].errors[0]?.message) {
+              toast.error(rejectedFiles[i].errors[0].message);
+              break;
+            }
+          }
+        }
+      },
+      [reSelectAll, value, maxFiles, maxSize, onValueChange]
+    );
+
+    useEffect(() => {
+      if (!value) return;
+      if (value.length === maxFiles) {
+        setIsLOF(true);
+        return;
+      }
+      setIsLOF(false);
+    }, [value, maxFiles]);
+
+    const opts = dropzoneOptions
+      ? dropzoneOptions
+      : { accept, maxFiles, maxSize, multiple };
+
+    const dropzoneState = useDropzone({
+      ...opts,
+      onDrop,
+      onDropRejected: () => setIsFileTooBig(true),
+      onDropAccepted: () => setIsFileTooBig(false),
+    });
+
     const handleKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -148,69 +209,8 @@ export const FileUploader = forwardRef<
           setActiveIndex(-1);
         }
       },
-      [value, activeIndex, removeFileFromSet]
+      [value, activeIndex, removeFileFromSet, orientation, direction, dropzoneState.inputRef]
     );
-
-    const onDrop = useCallback(
-      (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-        const files = acceptedFiles;
-
-        if (!files) {
-          toast.error("file error , probably too big");
-          return;
-        }
-
-        const newValues: File[] = value ? [...value] : [];
-
-        if (reSelectAll) {
-          newValues.splice(0, newValues.length);
-        }
-
-        files.forEach((file) => {
-          if (newValues.length < maxFiles) {
-            newValues.push(file);
-          }
-        });
-
-        onValueChange(newValues);
-
-        if (rejectedFiles.length > 0) {
-          for (let i = 0; i < rejectedFiles.length; i++) {
-            if (rejectedFiles[i].errors[0]?.code === "file-too-large") {
-              toast.error(
-                `File is too large. Max size is ${maxSize / 1024 / 1024}MB`
-              );
-              break;
-            }
-            if (rejectedFiles[i].errors[0]?.message) {
-              toast.error(rejectedFiles[i].errors[0].message);
-              break;
-            }
-          }
-        }
-      },
-      [reSelectAll, value]
-    );
-
-    useEffect(() => {
-      if (!value) return;
-      if (value.length === maxFiles) {
-        setIsLOF(true);
-        return;
-      }
-      setIsLOF(false);
-    }, [value, maxFiles]);
-
-    const opts = dropzoneOptions
-      ? dropzoneOptions
-      : { accept, maxFiles, maxSize, multiple };
-
-    const dropzoneState = useDropzone({
-      ...opts,
-      onDrop,
-      onDropRejected: () => setIsFileTooBig(true),
-      onDropAccepted: () => setIsFileTooBig(false),
-    });
 
     return (
       <FileUploaderContext.Provider
@@ -321,24 +321,26 @@ export const FileInput = forwardRef<
 >(({ className, children, ...props }, ref) => {
   const { dropzoneState, isFileTooBig, isLOF } = useFileUpload();
   const rootProps = isLOF ? {} : dropzoneState.getRootProps();
+
+  const inputProps = dropzoneState.getInputProps();
+  const restInputProps = inputProps;
+
   return (
     <div
       ref={ref}
       {...props}
-      className={`relative w-full ${
-        isLOF ? "opacity-50 cursor-not-allowed " : "cursor-pointer "
-      }`}
+      className={`relative w-full ${isLOF ? "opacity-50 cursor-not-allowed " : "cursor-pointer "
+        }`}
     >
       <div
         className={cn(
           `w-full rounded-lg duration-300 ease-in-out
-         ${
-           dropzoneState.isDragAccept
-             ? "border-green-500"
-             : dropzoneState.isDragReject || isFileTooBig
-               ? "border-red-500"
-               : "border-gray-300"
-         }`,
+         ${dropzoneState.isDragAccept
+            ? "border-green-500"
+            : dropzoneState.isDragReject || isFileTooBig
+              ? "border-red-500"
+              : "border-gray-300"
+          }`,
           className
         )}
         {...rootProps}
@@ -346,9 +348,8 @@ export const FileInput = forwardRef<
         {children}
       </div>
       <Input
-        ref={dropzoneState.inputRef}
         disabled={isLOF}
-        {...dropzoneState.getInputProps()}
+        {...restInputProps}
         className={`${isLOF ? "cursor-not-allowed" : ""}`}
       />
     </div>

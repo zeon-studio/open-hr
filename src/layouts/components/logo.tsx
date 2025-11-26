@@ -15,7 +15,10 @@ const Logo = ({ src, className }: { src?: string; className?: string }) => {
   const logoPath = logo ? logo : src;
 
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const id = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(id);
+  }, []);
 
   if (!mounted) {
     return null;
@@ -24,6 +27,7 @@ const Logo = ({ src, className }: { src?: string; className?: string }) => {
   return (
     <Link href="/" className={cn("navbar-brand inline-block", className)}>
       {logoPath && logo_width && logo_height ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           width={logo_width}
           height={logo_height}

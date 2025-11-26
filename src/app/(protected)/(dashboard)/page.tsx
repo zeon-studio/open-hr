@@ -4,6 +4,7 @@ import Loader from "@/components/loader";
 import ClearCache from "@/helpers/clear-cache";
 import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import Gravatar from "react-gravatar";
 import PendingTasks from "./_components/pending-tasks";
 import UpcomingEvents from "./_components/upcoming-events";
@@ -69,9 +70,24 @@ const AdminSection = ({ modules }: { modules: any[] }) => (
 
 const Dashboard = () => {
   const { data } = useSession();
+  const [isMounted, setIsMounted] = useState(false);
 
   // check module enabled or not
   const { modules } = useAppSelector((state) => state["setting-slice"]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show loader during initial mount to prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <section className="p-6">
+        <Loader />
+      </section>
+    );
+  }
 
   return (
     <section className="p-6">
@@ -113,7 +129,7 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="col-12">
-              <h4 className="mb-3">You Don't Have Permissions!</h4>
+              <h4 className="mb-3">You Don&apos;t Have Permissions!</h4>
             </div>
           )}
         </div>

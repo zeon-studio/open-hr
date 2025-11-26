@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const SettingUserRoleForm = () => {
@@ -25,17 +25,12 @@ const SettingUserRoleForm = () => {
   const { result: employees } = employeesData || {};
 
   const [loader, setLoader] = useState(false);
-  const [initialData, setInitialData] = useState<Partial<TEmployee>[]>([]);
   const [removedUsers, setRemovedUsers] = useState<Partial<TEmployee>[]>([]);
   const [updateUserRole, { isSuccess, isError, error }] =
     useUpdateEmployeeRoleMutation();
 
-  useEffect(() => {
-    if (adminAndMods) {
-      setInitialData(
-        adminAndMods.map(({ id, name, role }) => ({ id, name, role }))
-      );
-    }
+  const initialData = useMemo(() => {
+    return adminAndMods ? adminAndMods.map(({ id, name, role }) => ({ id, name, role })) : [];
   }, [adminAndMods]);
 
   useEffect(() => {
@@ -45,7 +40,6 @@ const SettingUserRoleForm = () => {
       toast("Something went wrong");
       console.log(error);
     }
-    setLoader(false);
   }, [isSuccess, isError, error]);
 
   const handleSubmit = async (data: Partial<TEmployee>[]) => {
@@ -64,6 +58,7 @@ const SettingUserRoleForm = () => {
       await Promise.all(payload.map(updateUserRole));
     } catch (error) {
       console.log(error);
+    } finally {
       setLoader(false);
     }
   };
@@ -130,10 +125,10 @@ const SettingUserRoleForm = () => {
                             data.map((userRole, i) =>
                               i === index
                                 ? {
-                                    ...userRole,
-                                    id: selectedEmployee?.id || "",
-                                    name: value,
-                                  }
+                                  ...userRole,
+                                  id: selectedEmployee?.id || "",
+                                  name: value,
+                                }
                                 : userRole
                             )
                           );
@@ -176,12 +171,12 @@ const SettingUserRoleForm = () => {
                             data.map((userRole, i) =>
                               i === index
                                 ? {
-                                    ...userRole,
-                                    role: value as
-                                      | "user"
-                                      | "moderator"
-                                      | "admin",
-                                  }
+                                  ...userRole,
+                                  role: value as
+                                    | "user"
+                                    | "moderator"
+                                    | "admin",
+                                }
                                 : userRole
                             )
                           )

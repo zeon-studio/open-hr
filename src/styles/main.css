@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
 @plugin "tailwindcss-animate";
-@plugin "../tailwind-plugin/tw-bs-grid";
+@plugin "../tailwind-plugin/tw-bs-grid.mjs";
 
 @import "./theme.css";
 @import "./variables.css";

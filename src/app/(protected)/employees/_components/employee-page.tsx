@@ -35,7 +35,8 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    const id = setTimeout(() => setIsClient(true), 0);
+    return () => clearTimeout(id);
   }, []);
 
   // Only print when printContent is set and on client

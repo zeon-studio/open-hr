@@ -113,8 +113,8 @@ function transToGroupOption(options: Option[], groupBy?: string) {
 function removePickedOption(groupOption: GroupOption, picked: Option[]) {
   const cloneOption = JSON.parse(JSON.stringify(groupOption)) as GroupOption;
 
-  for (const [key, value] of Object.entries(cloneOption)) {
-    cloneOption[key] = value.filter(
+  for (const [_key, value] of Object.entries(cloneOption)) {
+    cloneOption[_key] = value.filter(
       (val) => !picked.find((p) => p.value === val.value),
     );
   }
@@ -122,7 +122,7 @@ function removePickedOption(groupOption: GroupOption, picked: Option[]) {
 }
 
 function isOptionsExist(groupOption: GroupOption, targetOption: Option[]) {
-  for (const [key, value] of Object.entries(groupOption)) {
+  for (const [_key, value] of Object.entries(groupOption)) {
     if (
       value.some((option) => targetOption.find((p) => p.value === option.value))
     ) {
@@ -197,23 +197,25 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
     const [inputValue, setInputValue] = React.useState("");
     const debouncedSearchTerm = useDebounce(inputValue, delay || 500);
 
+    const selectedValue = React.useMemo(() => value || selected, [value, selected]);
+
     React.useImperativeHandle(
       ref,
       () => ({
-        selectedValue: [...selected],
+        selectedValue: [...selectedValue],
         input: inputRef.current as HTMLInputElement,
         focus: () => inputRef.current?.focus(),
       }),
-      [selected],
+      [selectedValue],
     );
 
     const handleUnselect = React.useCallback(
       (option: Option) => {
-        const newOptions = selected.filter((s) => s.value !== option.value);
+        const newOptions = selectedValue.filter((s) => s.value !== option.value);
         setSelected(newOptions);
         onChange?.(newOptions);
       },
-      [onChange, selected],
+      [onChange, selectedValue],
     );
 
     const handleKeyDown = React.useCallback(
@@ -221,8 +223,8 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
         const input = inputRef.current;
         if (input) {
           if (e.key === "Delete" || e.key === "Backspace") {
-            if (input.value === "" && selected.length > 0) {
-              handleUnselect(selected[selected.length - 1]);
+            if (input.value === "" && selectedValue.length > 0) {
+              handleUnselect(selectedValue[selectedValue.length - 1]);
             }
           }
           // This is not a default behavior of the <input /> field
@@ -231,25 +233,22 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
           }
         }
       },
-      [handleUnselect, selected],
+      [handleUnselect, selectedValue],
     );
 
-    useEffect(() => {
-      if (value) {
+    // Sync selected state when value prop changes externally
+    React.useLayoutEffect(() => {
+      if (value && JSON.stringify(value) !== JSON.stringify(selected)) {
         setSelected(value);
       }
-    }, [value]);
+    }, [value, selected]);
 
-    useEffect(() => {
-      /** If `onSearch` is provided, do not trigger options updated. */
-      if (!arrayOptions || onSearch) {
-        return;
-      }
-      const newOption = transToGroupOption(arrayOptions || [], groupBy);
-      if (JSON.stringify(newOption) !== JSON.stringify(options)) {
+    React.useLayoutEffect(() => {
+      if (!onSearch && arrayOptions) {
+        const newOption = transToGroupOption(arrayOptions, groupBy);
         setOptions(newOption);
       }
-    }, [arrayDefaultOptions, arrayOptions, groupBy, onSearch, options]);
+    }, [onSearch, arrayOptions, groupBy]);
 
     useEffect(() => {
       const doSearch = async () => {
@@ -272,13 +271,13 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
       };
 
       void exec();
-    }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus]);
+    }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus, onSearch]);
 
     const CreatableItem = () => {
       if (!creatable) return undefined;
       if (
         isOptionsExist(options, [{ value: inputValue, label: inputValue }]) ||
-        selected.find((s) => s.value === inputValue)
+        selectedValue.find((s) => s.value === inputValue)
       ) {
         return undefined;
       }
@@ -292,12 +291,12 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
             e.stopPropagation();
           }}
           onSelect={(value: string) => {
-            if (selected.length >= maxSelected) {
-              onMaxSelected?.(selected.length);
+            if (selectedValue.length >= maxSelected) {
+              onMaxSelected?.(selectedValue.length);
               return;
             }
             setInputValue("");
-            const newOptions = [...selected, { value, label: value }];
+            const newOptions = [...selectedValue, { value, label: value }];
             setSelected(newOptions);
             onChange?.(newOptions);
           }}
@@ -335,8 +334,8 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
     }, [creatable, emptyIndicator, onSearch, options]);
 
     const selectables = React.useMemo<GroupOption>(
-      () => removePickedOption(options, selected),
-      [options, selected],
+      () => removePickedOption(options, selectedValue),
+      [options, selectedValue],
     );
 
     /** Avoid Creatable Selector freezing or lagging when paste a long string. */
@@ -352,7 +351,7 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
       }
       // Using default filter in `cmdk`. We don't have to provide it.
       return undefined;
-    }, [creatable, commandProps?.filter]);
+    }, [creatable, commandProps]);
 
     return (
       <Command
@@ -376,8 +375,8 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
           className={cn(
             "min-h-10 rounded border border-border focus:border-border bg-white px-3 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
             {
-              "px-3 py-2": selected.length !== 0,
-              "cursor-text": !disabled && selected.length !== 0,
+              "px-3 py-2": selectedValue.length !== 0,
+              "cursor-text": !disabled && selectedValue.length !== 0,
             },
             className,
           )}
@@ -387,13 +386,13 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
           }}
         >
           <div className="flex flex-wrap gap-1">
-            {selected.map((option) => {
+            {selectedValue.map((option) => {
               return (
                 <Badge
                   key={option.value}
                   className={cn(
-                    "data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground",
-                    "data-[fixed]:bg-muted-foreground data-[fixed]:text-muted data-[fixed]:hover:bg-muted-foreground",
+                    "data-disabled:bg-muted-foreground data-disabled:text-muted data-disabled:hover:bg-muted-foreground",
+                    "data-fixed:bg-muted-foreground data-fixed:text-muted data-fixed:hover:bg-muted-foreground",
                     badgeClassName,
                   )}
                   data-fixed={option.fixed}
@@ -441,7 +440,7 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                 inputProps?.onFocus?.(event);
               }}
               placeholder={
-                hidePlaceholderWhenSelected && selected.length !== 0
+                hidePlaceholderWhenSelected && selectedValue.length !== 0
                   ? ""
                   : placeholder
               }
@@ -449,8 +448,8 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                 "flex-1 bg-transparent outline-none py-1 px-1 placeholder:text-muted-foreground border-0 focus:ring-0",
                 {
                   "w-full": hidePlaceholderWhenSelected,
-                  "px-1 py-1": selected.length === 0,
-                  "ml-1": selected.length !== 0,
+                  "px-1 py-1": selectedValue.length === 0,
+                  "ml-1": selectedValue.length !== 0,
                 },
                 inputProps?.className,
               )}
@@ -487,19 +486,19 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                 e.stopPropagation();
                               }}
                               onSelect={() => {
-                                if (selected.length >= maxSelected) {
-                                  onMaxSelected?.(selected.length);
+                                if (selectedValue.length >= maxSelected) {
+                                  onMaxSelected?.(selectedValue.length);
                                   return;
                                 }
                                 setInputValue("");
-                                const newOptions = [...selected, option];
+                                const newOptions = [...selectedValue, option];
                                 setSelected(newOptions);
                                 onChange?.(newOptions);
                               }}
                               className={cn(
                                 "cursor-pointer",
                                 option.disable &&
-                                  "cursor-default text-muted-foreground",
+                                "cursor-default text-muted-foreground",
                               )}
                             >
                               {option.label}

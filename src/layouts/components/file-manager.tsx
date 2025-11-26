@@ -125,6 +125,7 @@ const FileManager = ({
               files.map((file, i) => (
                 <React.Fragment key={i}>
                   {file.type.includes("image") && (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={`${URL.createObjectURL(file)}`}
                       alt={file.name}
@@ -166,15 +167,16 @@ const FileManager = ({
         <div className="flex items-center justify-center flex-col w-full">
           {/* preview only if it's an image and permission is public-read */}
           {permission === "public-read" &&
-          (location.split(".").pop() === "jpg" ||
-            location.split(".").pop() === "png" ||
-            location.split(".").pop() === "jpeg" ||
-            location.split(".").pop() === "gif" ||
-            location.split(".").pop() === "avif" ||
-            location.split(".").pop() === "webp") ? (
+            (location.split(".").pop() === "jpg" ||
+              location.split(".").pop() === "png" ||
+              location.split(".").pop() === "jpeg" ||
+              location.split(".").pop() === "gif" ||
+              location.split(".").pop() === "avif" ||
+              location.split(".").pop() === "webp") ? (
             <div
               className={cn("max-h-[400px] overflow-auto rounded", className)}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`${BUCKET_URL}/${location}`}
                 alt={location}
