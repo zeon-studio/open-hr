@@ -57,21 +57,21 @@ To start using this project, you need to have some prerequisites installed on yo
 
 1. Clone frontend repo
 
-  ```bash
-  git clone https://github.com/zeon-studio/open-hr.git
-  ```
+```bash
+git clone https://github.com/zeon-studio/open-hr.git
+```
 
 1. Go to the project folder
 
-  ```bash
-  cd open-hr
-  ```
+```bash
+cd open-hr
+```
 
 1. Install packages with yarn
 
-  ```bash
-  yarn
-  ```
+```bash
+yarn
+```
 
 1. Set up your .env file
 
@@ -81,29 +81,29 @@ To start using this project, you need to have some prerequisites installed on yo
 
 1. Quick start with Yarn
 
-  ```bash
-  yarn dev
-  ```
+```bash
+yarn dev
+```
 
 ### 👉 Project Setup Locally (Backend)
 
 1. Clone backend repo
 
-  ```bash
-  git clone https://github.com/zeon-studio/open-hr-backend.git
-  ```
-  
+```bash
+git clone https://github.com/zeon-studio/open-hr-backend.git
+```
+
 1. Go to the project folder
 
-  ```bash
-  cd open-hr-backend
-  ```
+```bash
+cd open-hr-backend
+```
 
 1. Install packages with yarn
 
-  ```bash
-  yarn
-  ```
+```bash
+yarn
+```
 
 1. Set up your .env file
 
@@ -115,16 +115,17 @@ To start using this project, you need to have some prerequisites installed on yo
    The application uses MongoDB transactions for data integrity. To enable transactions in development:
 
    **Option A: MongoDB as Replica Set (Recommended)**
+
    ```bash
    # Stop MongoDB if running
    sudo systemctl stop mongod
-   
+
    # Start MongoDB with replica set
    sudo mongod --replSet rs0 --dbpath /var/lib/mongodb --logpath /var/log/mongodb/mongod.log --port 27017 --bind_ip 127.0.0.1 --fork
-   
+
    # Initialize replica set
    mongosh --eval "rs.initiate()"
-   
+
    # Verify replica set status
    mongosh --eval "rs.status()"
    ```
@@ -135,33 +136,52 @@ To start using this project, you need to have some prerequisites installed on yo
 
 1. Quick start with Yarn
 
-  ```bash
-  yarn start
-  ```
+```bash
+yarn start
+```
+
+### 📊 Upload Sample Data
+
+After setting up both frontend and backend, you'll need to upload sample data to get started:
+
+1. **Upload Sample Data:**
+
+   ```bash
+   # Connect to your MongoDB database using MongoDB Compass
+   # Upload example-data/employee.json to employees collection
+   # Upload example-data/settings.json to settings collection
+   # Update work_email in employee data to your email
+   ```
+
+2. **Login to Dashboard:**
+
+   After uploading the sample data, you can login to the dashboard using the email address that you used in the `example-data/employee.json` file. Just click on the login with Google button and you will be redirected to the dashboard.
 
 ### 🔧 MongoDB Setup Troubleshooting
 
 If you encounter the error: `"Transaction numbers are only allowed on a replica set member or mongos"`, it means MongoDB is running as a standalone instance. Follow these steps:
 
 1. **Check MongoDB Status:**
+
    ```bash
    mongosh --eval "rs.status()"
    ```
 
 2. **If not a replica set, configure it:**
+
    ```bash
    # Stop current MongoDB
    sudo systemctl stop mongod
-   
+
    # Edit MongoDB config (if you prefer config file approach)
    sudo nano /etc/mongod.conf
    # Add these lines:
    # replication:
    #   replSetName: "rs0"
-   
+
    # OR start manually with replica set
    sudo mongod --replSet rs0 --dbpath /var/lib/mongodb --logpath /var/log/mongodb/mongod.log --port 27017 --bind_ip 127.0.0.1 --fork
-   
+
    # Initialize replica set
    mongosh --eval "rs.initiate()"
    ```
@@ -175,19 +195,30 @@ If you encounter the error: `"Transaction numbers are only allowed on a replica 
 ### 📝 Default Configuration Values
 
 #### Frontend (.env)
+
 ```
-NEXT_PUBLIC_API_URL="http://localhost:4000"
-NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-google-client-id"
+# Only for development
+NEXTAUTH_URL="http://localhost:3000/"
+
+# For production and development
+NEXT_PUBLIC_BUCKET_URL="https://BUCKET_NAME.fra1.cdn.digitaloceanspaces.com"
+NEXT_PUBLIC_BACKEND_URL="http://localhost:4000/api/v1"
+NEXT_AUTH_SECRET="YOUR_SECRET"
+
+# google auth id and secret for next auth
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
 ```
 
 #### Backend (.env)
+
 ```
 PORT="4000"
 NODE_ENV="development"
 
 # MongoDB (Local Replica Set)
 MONGO_URI="mongodb://localhost:27017/open-hr-backend"
-BEARER_TOKEN="your-super-secret-bearer-token-2024"
+BEARER_TOKEN="your-super-secret-bearer-token-2025"
 
 # Bycrypt
 SALT_ROUND="10"
@@ -196,9 +227,9 @@ SALT_ROUND="10"
 ID_GENERATOR_PREFIX="EMP"
 
 # JWT config
-JWT_SECRET="your-super-secret-jwt-key-2024"
+JWT_SECRET="your-super-secret-jwt-key-2025"
 JWT_TOKEN_EXPIRE="1d"
-JWT_REFRESH_SECRET="your-super-secret-refresh-key-2024"
+JWT_REFRESH_SECRET="your-super-secret-refresh-key-2025"
 JWT_REFRESH_TOKEN_EXPIRE="7d"
 
 # Digital Ocean Spaces
@@ -242,7 +273,7 @@ CORS_ORIGIN="*"
 4. **Digital Ocean Spaces (Optional)**
    - Create a Space in Digital Ocean
    - Get the access key and secret
-   - Update the DOS_* variables in backend .env
+   - Update the DOS\_\* variables in backend .env
 
 5. **Discord Webhook (Optional)**
    - Create a webhook in your Discord server
@@ -265,6 +296,7 @@ Before deploying to production, ensure you have:
 ### 🗄️ Production Database Setup (MongoDB Atlas)
 
 1. **Create MongoDB Atlas Cluster:**
+
    ```bash
    # Go to https://www.mongodb.com/cloud/atlas
    # Create a free M0 cluster (or paid cluster for production)
@@ -272,6 +304,7 @@ Before deploying to production, ensure you have:
    ```
 
 2. **Configure Database Access:**
+
    ```bash
    # In Atlas Dashboard:
    # 1. Go to Database Access
@@ -280,6 +313,7 @@ Before deploying to production, ensure you have:
    ```
 
 3. **Configure Network Access:**
+
    ```bash
    # In Atlas Dashboard:
    # 1. Go to Network Access
@@ -302,6 +336,7 @@ Before deploying to production, ensure you have:
 #### Option A: Deploy to Railway (Recommended)
 
 1. **Prepare for Railway:**
+
    ```bash
    # In your backend root directory, create railway.json
    {
@@ -315,22 +350,23 @@ Before deploying to production, ensure you have:
    ```
 
 2. **Deploy to Railway:**
+
    ```bash
    # Install Railway CLI
    npm install -g @railway/cli
-   
+
    # Login to Railway
    railway login
-   
+
    # Initialize project
    railway link
-   
+
    # Set environment variables
    railway variables set MONGO_URI="your-mongodb-atlas-connection-string"
    railway variables set NODE_ENV="production"
    railway variables set JWT_SECRET="your-production-jwt-secret"
    # ... add all other environment variables
-   
+
    # Deploy
    railway up
    ```
@@ -338,6 +374,7 @@ Before deploying to production, ensure you have:
 #### Option B: Deploy to Render
 
 1. **Connect Repository:**
+
    ```bash
    # Go to https://render.com/
    # Connect your GitHub repository
@@ -345,6 +382,7 @@ Before deploying to production, ensure you have:
    ```
 
 2. **Configure Build Settings:**
+
    ```bash
    # Build Command: npm run build
    # Start Command: npm run server
@@ -363,6 +401,7 @@ Before deploying to production, ensure you have:
 #### Option C: Deploy to Heroku
 
 1. **Prepare Heroku Deployment:**
+
    ```bash
    # Install Heroku CLI
    # Create Procfile in backend root:
@@ -370,16 +409,17 @@ Before deploying to production, ensure you have:
    ```
 
 2. **Deploy to Heroku:**
+
    ```bash
    # Create Heroku app
    heroku create your-app-name-backend
-   
+
    # Set environment variables
    heroku config:set MONGO_URI="your-mongodb-atlas-connection-string"
    heroku config:set NODE_ENV="production"
    heroku config:set JWT_SECRET="your-production-jwt-secret"
    # ... add all other environment variables
-   
+
    # Deploy
    git push heroku main
    ```
@@ -389,6 +429,7 @@ Before deploying to production, ensure you have:
 #### Deploy to Vercel (Recommended)
 
 1. **Prepare Vercel Deployment:**
+
    ```bash
    # In your frontend root directory
    # Ensure your .env.local has production values:
@@ -397,16 +438,17 @@ Before deploying to production, ensure you have:
    ```
 
 2. **Deploy to Vercel:**
+
    ```bash
    # Install Vercel CLI
    npm install -g vercel
-   
+
    # Login to Vercel
    vercel login
-   
+
    # Deploy
    vercel
-   
+
    # Set production environment variables in Vercel dashboard
    ```
 
@@ -421,6 +463,7 @@ Before deploying to production, ensure you have:
 #### Deploy to Netlify
 
 1. **Build Settings:**
+
    ```bash
    # Build command: npm run build
    # Publish directory: .next
@@ -437,6 +480,7 @@ Before deploying to production, ensure you have:
 ### 🔧 Production Environment Variables
 
 #### Backend Production .env
+
 ```bash
 PORT="4000"
 NODE_ENV="production"
@@ -475,6 +519,7 @@ CORS_ORIGIN="https://your-frontend-domain.com"
 ```
 
 #### Frontend Production .env
+
 ```bash
 NEXT_PUBLIC_API_URL="https://your-backend-domain.com"
 NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-production-google-client-id.googleusercontent.com"
@@ -495,15 +540,8 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-production-google-client-id.googleusercontent
 
 ### 📊 Post-Deployment Steps
 
-1. **Upload Sample Data:**
-   ```bash
-   # Connect to your production MongoDB using MongoDB Compass
-   # Upload example-data/employee.json to employees collection
-   # Upload example-data/settings.json to settings collection
-   # Update work_email in employee data to your email
-   ```
+1. **Test Functionality:**
 
-2. **Test Functionality:**
    ```bash
    # Test Google OAuth login
    # Test employee creation
@@ -512,7 +550,7 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-production-google-client-id.googleusercontent
    # Test all major features
    ```
 
-3. **Configure Custom Domain (Optional):**
+2. **Configure Custom Domain (Optional):**
    ```bash
    # In Vercel: Settings > Domains > Add custom domain
    # In Railway: Settings > Networking > Custom Domain
@@ -553,19 +591,6 @@ To deploy the backend to Vercel, you can use the `vercel.json` configuration fil
 ### 👉 Deploy Frontend to Vercel
 
 To deploy the frontend to Vercel, Simply overwrite the build command to `yarn build` on the Vercel platform and don't forget to add the environment variables to Vercel. This will ensure that the backend is built and deployed correctly.
-
-### 👉 Upload Sample Data
-
-After deploying the backend, you can upload sample data to the database using Mongodb Compass. Follow these steps:
-
-1. Open Mongodb Compass and connect to your MongoDB database.
-2. Navigate to the `open-hr` database.
-3. Upload `example-data/employee.json` to the `employees` collection. [make sure you have changed the `work_email` to your email address, so that you can login with it]
-4. Upload `example-data/settings.json` to the `settings` collection.
-
-### 👉 Login To Dashboard
-
-After uploading the sample data, you can login to the dashboard using the email address that you used in the `example-data/employee.json` file. Just click on the login with Google button and you will be redirected to the dashboard.
 
 ---
 
