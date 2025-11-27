@@ -1,21 +1,35 @@
 "use client";
 
+import { cn } from "@/lib/shadcn";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
 
-import { cn } from "@/lib/shadcn";
+function Popover({
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Root>) {
+  return <PopoverPrimitive.Root data-slot="popover" {...props} />;
+}
 
-const Popover = PopoverPrimitive.Root;
+function PopoverTrigger({
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {
+  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
+}
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
-
-const PopoverContent = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  disablePortal = false,
+  container,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Content> & {
+  disablePortal?: boolean;
+  container?: HTMLElement | null;
+}) {
+  const content = (
     <PopoverPrimitive.Content
-      ref={ref}
+      data-slot="popover-content"
       align={align}
       sideOffset={sideOffset}
       className={cn(
@@ -24,8 +38,21 @@ const PopoverContent = React.forwardRef<
       )}
       {...props}
     />
-  </PopoverPrimitive.Portal>
-));
-PopoverContent.displayName = PopoverPrimitive.Content.displayName;
+  );
 
-export { Popover, PopoverContent, PopoverTrigger };
+  if (disablePortal) return content;
+
+  return (
+    <PopoverPrimitive.Portal container={container}>
+      {content}
+    </PopoverPrimitive.Portal>
+  );
+}
+
+function PopoverAnchor({
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {
+  return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
+}
+
+export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger };

@@ -46,7 +46,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Header />
 
           <div className="flex-1 overflow-y-auto py-5 px-5 lg:pl-0 max-w-full">
-            <main className="max-w-full rounded-lg bg-light">{children}</main>
+            <main className="max-w-full rounded-lg bg-light min-h-full">
+              {children}
+            </main>
           </div>
         </div>
       </div>

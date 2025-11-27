@@ -51,6 +51,9 @@ const CourseModal = ({
   setCourseId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // Simulate fetching course data
   const singleCourse = useMemo(() => {
@@ -64,118 +67,149 @@ const CourseModal = ({
     toast("Course deleted complete");
   };
 
+  const handleAction = (action: "preview" | "edit" | "delete") => {
+    if (!item?._id) return;
+
+    setCourseId(item._id);
+    setIsMenuOpen(false);
+
+    switch (action) {
+      case "preview":
+        setIsPreviewOpen(true);
+        break;
+      case "edit":
+        onDialogChange(true);
+        break;
+      case "delete":
+        setIsDeleteDialogOpen(true);
+        break;
+    }
+  };
+
   return (
-    <DropdownMenu key={item._id}>
-      <TableRow>
-        <TableCell>
-          <Dialog>
-            <DialogTrigger asChild>
-              <div
-                className="flex items-center cursor-pointer"
-                onClick={() => setCourseId(item?._id!)}
-              >
-                <ImageFallback
-                  src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
-                  alt={item.platform}
-                  width={50}
-                  height={50}
-                  fallback="/images/fallback.jpg"
-                  className="rounded border border-border object-cover shrink-0 hidden lg:block mr-2"
-                />
-                {item.platform}
-              </div>
-            </DialogTrigger>
-            {singleCourse?._id && <CoursePreview courseData={singleCourse!} />}
-          </Dialog>
-        </TableCell>
-        <TableCell>{item.courses?.length}</TableCell>
-        <TableCell>
-          <Link
-            href={item.website}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="font-medium"
-          >
-            {item.website}
-            <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
-          </Link>
-        </TableCell>
-        <TableCell>
-          <CopyText text={item.email} />
-        </TableCell>
-        <TableCell>
-          <CopyText text={item.password} isPassword />
-        </TableCell>
-        <TableCell className="text-right">
-          <DropdownMenuTrigger>
-            <Ellipsis className="size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {/* preview */}
-            <DropdownMenuItem asChild>
-              <Dialog modal={true}>
-                <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
-                  <Button
-                    className="w-full justify-start"
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    Preview
-                  </Button>
-                </DialogTrigger>
-                {singleCourse?._id && (
-                  <CoursePreview courseData={singleCourse!} />
-                )}
-              </Dialog>
-            </DropdownMenuItem>
-            {/* edit */}
-            <DropdownMenuItem asChild>
-              <Dialog
-                modal={true}
-                open={isDialogOpen}
-                onOpenChange={onDialogChange}
-              >
-                <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
-                  <Button
-                    className="w-full justify-start"
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    Edit
-                  </Button>
-                </DialogTrigger>
-                {singleCourse?._id && (
-                  <CourseUpdate
-                    course={singleCourse!}
-                    onDialogChange={onDialogChange}
+    <>
+      <DropdownMenu
+        key={item._id}
+        open={isMenuOpen}
+        onOpenChange={setIsMenuOpen}
+        modal={false}
+      >
+        <TableRow>
+          <TableCell>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div
+                  className="flex items-center cursor-pointer"
+                  onClick={() => setCourseId(item?._id!)}
+                >
+                  <ImageFallback
+                    src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
+                    alt={item.platform}
+                    width={50}
+                    height={50}
+                    fallback="/images/fallback.jpg"
+                    className="rounded border border-border object-cover shrink-0 hidden lg:block mr-2"
                   />
-                )}
-              </Dialog>
-            </DropdownMenuItem>
-            {/* delete */}
-            <DropdownMenuItem asChild>
-              <Dialog>
-                <DialogTrigger asChild onClick={() => setCourseId(item?._id!)}>
-                  <Button
-                    className="w-full text-destructive hover:bg-destructive justify-start"
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    Delete
-                  </Button>
-                </DialogTrigger>
-                {singleCourse?._id && (
-                  <ConfirmationPopup
-                    handleConfirmation={handleCourseDelete}
-                    id={singleCourse?._id!}
-                  />
-                )}
-              </Dialog>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </TableCell>
-      </TableRow>
-    </DropdownMenu>
+                  {item.platform}
+                </div>
+              </DialogTrigger>
+              {singleCourse?._id && (
+                <CoursePreview courseData={singleCourse!} />
+              )}
+            </Dialog>
+          </TableCell>
+          <TableCell>{item.courses?.length}</TableCell>
+          <TableCell>
+            <Link
+              href={item.website}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="font-medium"
+            >
+              {item.website}
+              <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
+            </Link>
+          </TableCell>
+          <TableCell>
+            <CopyText text={item.email} />
+          </TableCell>
+          <TableCell>
+            <CopyText text={item.password} isPassword />
+          </TableCell>
+          <TableCell className="text-right">
+            <DropdownMenuTrigger>
+              <Ellipsis className="size-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem className="p-0">
+                <Button
+                  className="w-full justify-start"
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => handleAction("preview")}
+                >
+                  Preview
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="p-0">
+                <Button
+                  className="w-full justify-start"
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => handleAction("edit")}
+                >
+                  Edit
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="p-0">
+                <Button
+                  className="w-full text-destructive hover:bg-destructive justify-start"
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => handleAction("delete")}
+                >
+                  Delete
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </TableCell>
+        </TableRow>
+      </DropdownMenu>
+
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        {singleCourse?._id && <CoursePreview courseData={singleCourse!} />}
+      </Dialog>
+
+      <Dialog
+        modal={true}
+        open={isDialogOpen}
+        onOpenChange={(open) => {
+          onDialogChange(open);
+          if (!open) {
+            setCourseId("");
+          }
+        }}
+      >
+        {singleCourse?._id && (
+          <CourseUpdate
+            course={singleCourse!}
+            onDialogChange={onDialogChange}
+          />
+        )}
+      </Dialog>
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        {singleCourse?._id && (
+          <ConfirmationPopup
+            handleConfirmation={() => {
+              handleCourseDelete();
+              setIsDeleteDialogOpen(false);
+            }}
+            id={singleCourse?._id!}
+          />
+        )}
+      </Dialog>
+    </>
   );
 };
 

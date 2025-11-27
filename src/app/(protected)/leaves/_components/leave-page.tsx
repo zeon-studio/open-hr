@@ -5,7 +5,7 @@ import { useDialog } from "@/hooks/useDialog";
 import { employeeInfoById } from "@/lib/employee-info";
 import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
 import { Button } from "@/ui/button";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
+import { Dialog } from "@/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -70,95 +70,109 @@ const LeaveModal = ({
   withoutPayEnabled: boolean;
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Simulate fetching leave data
   const singleLeave = useMemo(() => {
     return leaveId === item.employee_id ? item : null;
   }, [leaveId, item]);
 
+  const handleEdit = () => {
+    if (!item?.employee_id) return;
+
+    setLeaveId(item.employee_id);
+    setIsMenuOpen(false);
+    onDialogChange(true);
+  };
+
   return (
-    <DropdownMenu key={item.employee_id}>
-      <TableRow>
-        <TableCell>
-          <UserInfo
-            className="min-w-[150px]"
-            user={employeeInfoById(item.employee_id!)}
-          />
-        </TableCell>
-        {casualEnabled && (
-          <TableCell className="text-center space-x-8 border-l border-border">
-            <span className="text-success">{item.casual.allotted}</span>
-            <span className="text-destructive">{item.casual.consumed}</span>
-            <span className="text-accent">
-              {item.casual.allotted - item.casual.consumed}
-            </span>
+    <>
+      <DropdownMenu
+        key={item.employee_id}
+        open={isMenuOpen}
+        onOpenChange={setIsMenuOpen}
+        modal={false}
+      >
+        <TableRow>
+          <TableCell>
+            <UserInfo
+              className="min-w-[150px]"
+              user={employeeInfoById(item.employee_id!)}
+            />
           </TableCell>
-        )}
-        {sickEnabled && (
-          <TableCell className="text-center space-x-8 border-l border-border">
-            <span className="text-success">{item.sick.allotted}</span>
-            <span className="text-destructive">{item.sick.consumed}</span>
-            <span className="text-accent">
-              {item.sick.allotted - item.sick.consumed}
-            </span>
-          </TableCell>
-        )}
-        {earnedEnabled && (
-          <TableCell className="text-center space-x-8 border-l border-border">
-            <span className="text-success">{item.earned.allotted}</span>
-            <span className="text-destructive">{item.earned.consumed}</span>
-            <span className="text-accent">
-              {item.earned.allotted - item.earned.consumed}
-            </span>
-          </TableCell>
-        )}
-        {withoutPayEnabled && (
-          <TableCell className="text-center space-x-8 border-l border-border">
-            <span className="text-success">{item.without_pay.allotted}</span>
-            <span className="text-destructive">
-              {item.without_pay.consumed}
-            </span>
-            <span className="text-accent">
-              {item.without_pay.allotted - item.without_pay.consumed}
-            </span>
-          </TableCell>
-        )}
-        <TableCell className="text-right border-l border-border">
-          <DropdownMenuTrigger>
-            <Ellipsis className="size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {/* edit */}
-            <DropdownMenuItem asChild>
-              <Dialog
-                modal={true}
-                open={isDialogOpen}
-                onOpenChange={onDialogChange}
-              >
-                <DialogTrigger
-                  asChild
-                  onClick={() => setLeaveId(item?.employee_id!)}
+          {casualEnabled && (
+            <TableCell className="text-center space-x-8 border-l border-border">
+              <span className="text-success">{item.casual.allotted}</span>
+              <span className="text-destructive">{item.casual.consumed}</span>
+              <span className="text-accent">
+                {item.casual.allotted - item.casual.consumed}
+              </span>
+            </TableCell>
+          )}
+          {sickEnabled && (
+            <TableCell className="text-center space-x-8 border-l border-border">
+              <span className="text-success">{item.sick.allotted}</span>
+              <span className="text-destructive">{item.sick.consumed}</span>
+              <span className="text-accent">
+                {item.sick.allotted - item.sick.consumed}
+              </span>
+            </TableCell>
+          )}
+          {earnedEnabled && (
+            <TableCell className="text-center space-x-8 border-l border-border">
+              <span className="text-success">{item.earned.allotted}</span>
+              <span className="text-destructive">{item.earned.consumed}</span>
+              <span className="text-accent">
+                {item.earned.allotted - item.earned.consumed}
+              </span>
+            </TableCell>
+          )}
+          {withoutPayEnabled && (
+            <TableCell className="text-center space-x-8 border-l border-border">
+              <span className="text-success">{item.without_pay.allotted}</span>
+              <span className="text-destructive">
+                {item.without_pay.consumed}
+              </span>
+              <span className="text-accent">
+                {item.without_pay.allotted - item.without_pay.consumed}
+              </span>
+            </TableCell>
+          )}
+          <TableCell className="text-right border-l border-border">
+            <DropdownMenuTrigger>
+              <Ellipsis className="size-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem className="p-0">
+                <Button
+                  className="w-full justify-start"
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={handleEdit}
                 >
-                  <Button
-                    className="w-full justify-start"
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    Edit
-                  </Button>
-                </DialogTrigger>
-                {singleLeave && (
-                  <LeaveUpdate
-                    leave={singleLeave!}
-                    onDialogChange={onDialogChange}
-                  />
-                )}
-              </Dialog>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </TableCell>
-      </TableRow>
-    </DropdownMenu>
+                  Edit
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </TableCell>
+        </TableRow>
+      </DropdownMenu>
+
+      <Dialog
+        modal={true}
+        open={isDialogOpen}
+        onOpenChange={(open) => {
+          onDialogChange(open);
+          if (!open) {
+            setLeaveId("");
+          }
+        }}
+      >
+        {singleLeave && (
+          <LeaveUpdate leave={singleLeave!} onDialogChange={onDialogChange} />
+        )}
+      </Dialog>
+    </>
   );
 };
 

@@ -28,7 +28,7 @@ const PayrollPreview = ({
         <div className="col-12">
           <div className="font-medium mb-3">Salary Logs</div>
           {payrollData.salary?.map((salary, index) => (
-            <div className="border mb-4 p-3 rounded" key={index}>
+            <div className="border border-border mb-4 p-3 rounded" key={index}>
               <div className="row">
                 <div className="lg:col-6 mb-2">
                   <div className="font-medium mb-1">Amount</div>
@@ -47,7 +47,7 @@ const PayrollPreview = ({
         <div className="col-12">
           <div className="font-medium mb-3">Bonus Logs</div>
           {payrollData.bonus?.map((bonus, index) => (
-            <div className="border mb-4 p-3 rounded" key={index}>
+            <div className="border border-border mb-4 p-3 rounded" key={index}>
               <div className="row">
                 <div className="lg:col-6 mb-2">
                   <div className="font-medium mb-1">Type</div>
@@ -74,7 +74,7 @@ const PayrollPreview = ({
         <div className="col-12">
           <div className="font-medium mb-3">Increment Logs</div>
           {payrollData.increments?.map((increment, index) => (
-            <div className="border mb-4 p-3 rounded" key={index}>
+            <div className="border border-border mb-4 p-3 rounded" key={index}>
               <div className="row">
                 <div className="lg:col-6 mb-2">
                   <div className="font-medium mb-1">Reason</div>

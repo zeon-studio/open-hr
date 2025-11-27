@@ -187,7 +187,7 @@ const PayrollUpdate = ({
         <div className="col-12 mb-6">
           {salary.map((item, index) => (
             <div
-              className="border relative mb-6 bg-light rounded-md p-3"
+              className="border border-border relative mb-6 bg-light rounded-md p-3"
               key={index}
             >
               <div className="absolute right-3 top-3">
@@ -273,7 +273,7 @@ const PayrollUpdate = ({
         <div className="col-12 mb-6">
           {bonus.map((item, index) => (
             <div
-              className="border relative mb-6 bg-light rounded-md p-3"
+              className="border border-border relative mb-6 bg-light rounded-md p-3"
               key={index}
             >
               <div className="absolute right-3 top-3">
@@ -407,7 +407,7 @@ const PayrollUpdate = ({
         <div className="col-12 mb-6">
           {increments.map((item, index) => (
             <div
-              className="border relative mb-6 bg-light rounded-md p-3"
+              className="border border-border relative mb-6 bg-light rounded-md p-3"
               key={index}
             >
               <div className="absolute right-3 top-3">

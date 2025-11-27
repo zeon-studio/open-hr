@@ -50,6 +50,9 @@ const ToolModal = ({
   setToolId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // Simulate fetching tool data
   const singleTool = useMemo(() => {
@@ -63,108 +66,138 @@ const ToolModal = ({
     toast("Tool deleted complete");
   };
 
+  const handleAction = (action: "preview" | "edit" | "delete") => {
+    if (!item?._id) return;
+
+    setToolId(item._id);
+    setIsMenuOpen(false);
+
+    switch (action) {
+      case "preview":
+        setIsPreviewOpen(true);
+        break;
+      case "edit":
+        onDialogChange(true);
+        break;
+      case "delete":
+        setIsDeleteDialogOpen(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <DropdownMenu key={item._id}>
-      <TableRow>
-        <TableCell>
-          <Dialog>
-            <DialogTrigger asChild>
-              <div
-                className="flex items-center cursor-pointer"
-                onClick={() => setToolId(item?._id!)}
-              >
-                <Image
-                  src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
-                  alt={item.platform}
-                  width={50}
-                  height={50}
-                  className="rounded border object-cover shrink-0 hidden lg:block mr-2"
-                />
-                <p className="mb-0 font-medium">{item.platform}</p>
-              </div>
-            </DialogTrigger>
-            {singleTool?._id && <ToolPreview toolData={singleTool!} />}
-          </Dialog>
-        </TableCell>
-        <TableCell>
-          <Link
-            href={item.website}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-          >
-            {item.website}
-            <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
-          </Link>
-        </TableCell>
-        <TableCell>{item.organizations?.length}</TableCell>
-        <TableCell className="text-right">
-          <DropdownMenuTrigger>
-            <Ellipsis className="size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {/* preview */}
-            <DropdownMenuItem asChild>
-              <Dialog modal={true}>
-                <DialogTrigger asChild onClick={() => setToolId(item?._id!)}>
-                  <Button
-                    className="w-full justify-start"
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    Preview
-                  </Button>
-                </DialogTrigger>
-                {singleTool?._id && <ToolPreview toolData={singleTool!} />}
-              </Dialog>
-            </DropdownMenuItem>
-            {/* edit */}
-            <DropdownMenuItem asChild>
-              <Dialog
-                modal={true}
-                open={isDialogOpen}
-                onOpenChange={onDialogChange}
-              >
-                <DialogTrigger asChild onClick={() => setToolId(item?._id!)}>
-                  <Button
-                    className="w-full justify-start"
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    Edit
-                  </Button>
-                </DialogTrigger>
-                {singleTool?._id && (
-                  <ToolUpdate
-                    tool={singleTool!}
-                    onDialogChange={onDialogChange}
+    <>
+      <DropdownMenu
+        key={item._id}
+        open={isMenuOpen}
+        onOpenChange={setIsMenuOpen}
+        modal={false}
+      >
+        <TableRow>
+          <TableCell>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div
+                  className="flex items-center cursor-pointer"
+                  onClick={() => setToolId(item?._id!)}
+                >
+                  <Image
+                    src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${item.website}&size=64`}
+                    alt={item.platform}
+                    width={50}
+                    height={50}
+                    className="rounded border border-border object-cover shrink-0 hidden lg:block mr-2"
                   />
-                )}
-              </Dialog>
-            </DropdownMenuItem>
-            {/* delete */}
-            <DropdownMenuItem asChild>
-              <Dialog>
-                <DialogTrigger asChild onClick={() => setToolId(item?._id!)}>
-                  <Button
-                    className="w-full text-destructive hover:bg-destructive justify-start"
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    Delete
-                  </Button>
-                </DialogTrigger>
-                {singleTool?._id && (
-                  <ConfirmationPopup
-                    handleConfirmation={handleToolDelete}
-                    id={singleTool?._id!}
-                  />
-                )}
-              </Dialog>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </TableCell>
-      </TableRow>
-    </DropdownMenu>
+                  <p className="mb-0 font-medium">{item.platform}</p>
+                </div>
+              </DialogTrigger>
+              {singleTool?._id && <ToolPreview toolData={singleTool!} />}
+            </Dialog>
+          </TableCell>
+          <TableCell>
+            <Link
+              href={item.website}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
+              {item.website}
+              <ExternalLink className="inline-block ml-1 -mt-1 size-[1em]" />
+            </Link>
+          </TableCell>
+          <TableCell>{item.organizations?.length}</TableCell>
+          <TableCell className="text-right">
+            <DropdownMenuTrigger>
+              <Ellipsis className="size-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem className="p-0">
+                <Button
+                  className="w-full justify-start"
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => handleAction("preview")}
+                >
+                  Preview
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="p-0">
+                <Button
+                  className="w-full justify-start"
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => handleAction("edit")}
+                >
+                  Edit
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="p-0">
+                <Button
+                  className="w-full text-destructive hover:bg-destructive justify-start"
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => handleAction("delete")}
+                >
+                  Delete
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </TableCell>
+        </TableRow>
+      </DropdownMenu>
+
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        {singleTool?._id && <ToolPreview toolData={singleTool!} />}
+      </Dialog>
+
+      <Dialog
+        modal={true}
+        open={isDialogOpen}
+        onOpenChange={(open) => {
+          onDialogChange(open);
+          if (!open) {
+            setToolId("");
+          }
+        }}
+      >
+        {singleTool?._id && (
+          <ToolUpdate tool={singleTool!} onDialogChange={onDialogChange} />
+        )}
+      </Dialog>
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        {singleTool?._id && (
+          <ConfirmationPopup
+            handleConfirmation={() => {
+              handleToolDelete();
+              setIsDeleteDialogOpen(false);
+            }}
+            id={singleTool?._id!}
+          />
+        )}
+      </Dialog>
+    </>
   );
 };
 
