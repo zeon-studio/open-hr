@@ -24,11 +24,13 @@ const LeaveRequestForm = ({
   setLeaveRequestData,
   handleSubmit,
   loader,
+  popoverContainer,
 }: {
   leaveRequestData: Partial<TLeaveRequest>;
   setLeaveRequestData: SetStateAction<any>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
+  popoverContainer?: HTMLElement | null;
 }) => {
   const { max_leave_per_day, leave_threshold_days } = useAppSelector(
     (state) => state["setting-slice"]
@@ -170,7 +172,11 @@ const LeaveRequestForm = ({
               </span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
+          <PopoverContent
+            className="w-auto p-0"
+            align="start"
+            container={popoverContainer || undefined}
+          >
             <Calendar
               mode="range"
               disabled={[...getThresholdDays(), ...getDuplicateDates()]}

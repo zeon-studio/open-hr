@@ -42,8 +42,14 @@ function PopoverContent({
 
   if (disablePortal) return content;
 
+  const portalContainer =
+    container ??
+    (document.querySelector(
+      '[data-slot="dialog-content"]'
+    ) as HTMLElement | null);
+
   return (
-    <PopoverPrimitive.Portal container={container}>
+    <PopoverPrimitive.Portal container={portalContainer}>
       {content}
     </PopoverPrimitive.Portal>
   );

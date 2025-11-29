@@ -73,7 +73,7 @@ export default function Offboarding() {
                   return (
                     <li
                       key={`task-${index}`}
-                      className="row !mx-0 space-y-3 lg:space-y-0 lg:row-cols-3 items-center bg-light rounded py-3"
+                      className="row mx-0! space-y-3 lg:space-y-0 lg:row-cols-3 items-center bg-light rounded py-3"
                     >
                       <div className="flex items-center">
                         <div>
