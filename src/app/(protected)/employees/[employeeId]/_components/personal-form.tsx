@@ -24,6 +24,7 @@ interface PersonalFormProps {
   userRole: string;
   communication_platform: string;
   onSubmit: (data: TEmployee) => void;
+  popoverContainer?: HTMLElement | null;
 }
 
 export default function PersonalForm({
@@ -32,6 +33,7 @@ export default function PersonalForm({
   userRole,
   communication_platform,
   onSubmit,
+  popoverContainer,
 }: PersonalFormProps) {
   return (
     <EditForm<TEmployee>
@@ -152,7 +154,11 @@ export default function PersonalForm({
                     </span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent
+                  className="w-auto p-0"
+                  align="start"
+                  container={popoverContainer}
+                >
                   <Calendar
                     mode="single"
                     selected={data.dob ? new Date(data.dob) : new Date()}

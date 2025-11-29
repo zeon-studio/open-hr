@@ -1,7 +1,7 @@
 import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
 import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import CalendarForm from "./calendar-form";
 
@@ -32,6 +32,8 @@ const CalendarInsert = ({
   });
 
   const [addCalendar, { isSuccess, isError, error }] = useAddCalendarMutation();
+
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -64,19 +66,19 @@ const CalendarInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent
-      className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
+    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
       <DialogTitle className="mb-4">Add New Year Calendar</DialogTitle>
 
-      <CalendarForm
-        calendarData={calendarData}
-        setCalendarData={setCalendarData}
-        handleSubmit={handleSubmit}
-        loader={loader}
-        formType="insert"
-      />
+      <div className="max-h-[90vh] overflow-y-auto pr-2">
+        <CalendarForm
+          calendarData={calendarData}
+          setCalendarData={setCalendarData}
+          handleSubmit={handleSubmit}
+          loader={loader}
+          formType="insert"
+          popoverContainer={dialogContentRef.current}
+        />
+      </div>
     </DialogContent>
   );
 };

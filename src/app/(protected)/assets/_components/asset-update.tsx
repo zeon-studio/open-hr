@@ -1,7 +1,7 @@
 import { useUpdateAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
 import { TAsset } from "@/redux/features/assetApiSlice/assetType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import AssetForm from "./asset-form";
 
@@ -13,6 +13,7 @@ const AssetUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [assetData, setAssetData] = useState({
     asset_id: asset.asset_id,
     name: asset.name,
@@ -50,18 +51,18 @@ const AssetUpdate = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent
-      className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
+    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
       <DialogTitle className="mb-4">Update Asset</DialogTitle>
-      <AssetForm
-        assetData={assetData}
-        setAssetData={setAssetData}
-        handleSubmit={handleSubmit}
-        formType="update"
-        loader={loader}
-      />
+      <div className="max-h-[90vh] overflow-y-auto pr-2">
+        <AssetForm
+          assetData={assetData}
+          setAssetData={setAssetData}
+          handleSubmit={handleSubmit}
+          formType="update"
+          loader={loader}
+          popoverContainer={dialogContentRef.current}
+        />
+      </div>
     </DialogContent>
   );
 };

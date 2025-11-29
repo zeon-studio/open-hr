@@ -32,7 +32,7 @@ import {
 import { CalendarIcon, Loader2, Pen, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const initialPrevJobData: TPrevJob = {
@@ -110,6 +110,15 @@ export default function PreviousJobs({
     ]);
   };
 
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
+  const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
+    null
+  );
+  const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
+    dialogContentRef.current = node;
+    setPopoverContainer(node);
+  }, []);
+
   return (
     <Card>
       <CardHeader className="border-b-transparent pb-0 flex-row gap-0 space-y-0">
@@ -128,232 +137,247 @@ export default function PreviousJobs({
               </Button>
             </DialogTrigger>
             <DialogContent
+              ref={setDialogContentRef}
               onEscapeKeyDown={(e) => {
                 if (isPrevJobLoading) e.preventDefault();
               }}
               onPointerDownOutside={(e) => {
                 if (isPrevJobLoading) e.preventDefault();
               }}
-              className="!max-w-2xl w-full overflow-y-auto max-h-[90vh]"
+              className="max-w-2xl! w-full"
             >
               <DialogHeader className="mb-8">
                 <DialogTitle>Update Previous Job</DialogTitle>
               </DialogHeader>
 
-              <form className="space-y-4" onSubmit={handleSubmit}>
-                {prevJobData.map((job, index) => {
-                  return (
-                    <div
-                      className="grid grid-cols-1 gap-4 border border-border mb-6 relative bg-light rounded-md p-3"
-                      key={index}
-                    >
-                      <div className="absolute right-3 top-3">
-                        <Button
-                          type="button"
-                          size={"xs"}
-                          variant="outline"
-                          onClick={() => {
-                            handleDelete(index);
-                          }}
-                        >
-                          <Trash2 className="size-4" />
-                        </Button>
-                      </div>
+              <div className="max-h-[90vh] overflow-y-auto pr-2">
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                  {prevJobData.map((job, index) => {
+                    return (
+                      <div
+                        className="grid grid-cols-1 gap-4 border border-border mb-6 relative bg-light rounded-md p-3"
+                        key={index}
+                      >
+                        <div className="absolute right-3 top-3">
+                          <Button
+                            type="button"
+                            size={"xs"}
+                            variant="outline"
+                            onClick={() => {
+                              handleDelete(index);
+                            }}
+                          >
+                            <Trash2 className="size-4" />
+                          </Button>
+                        </div>
 
-                      <div>
-                        <Label>Company Name</Label>
-                        <Input
-                          type="text"
-                          value={job.company_name}
-                          onChange={(e) => {
-                            handleChange(
-                              {
-                                ...job,
-                                company_name: e.target.value,
-                              },
-                              index
-                            );
-                          }}
-                          required
-                        />
-                      </div>
+                        <div>
+                          <Label>Company Name</Label>
+                          <Input
+                            type="text"
+                            value={job.company_name}
+                            onChange={(e) => {
+                              handleChange(
+                                {
+                                  ...job,
+                                  company_name: e.target.value,
+                                },
+                                index
+                              );
+                            }}
+                            required
+                          />
+                        </div>
 
-                      <div>
-                        <Label>Company Website</Label>
-                        <Input
-                          type="url"
-                          value={job.company_website}
-                          onChange={(e) =>
-                            handleChange(
-                              {
-                                ...job,
-                                company_website: e.target.value,
-                              },
-                              index
-                            )
-                          }
-                          required
-                        />
-                      </div>
+                        <div>
+                          <Label>Company Website</Label>
+                          <Input
+                            type="url"
+                            value={job.company_website}
+                            onChange={(e) =>
+                              handleChange(
+                                {
+                                  ...job,
+                                  company_website: e.target.value,
+                                },
+                                index
+                              )
+                            }
+                            required
+                          />
+                        </div>
 
-                      <div>
-                        <Label>Designation</Label>
-                        <Input
-                          type="text"
-                          value={job.designation}
-                          onChange={(e) =>
-                            handleChange(
-                              {
-                                ...job,
-                                designation: e.target.value,
-                              },
-                              index
-                            )
-                          }
-                          required
-                        />
-                      </div>
+                        <div>
+                          <Label>Designation</Label>
+                          <Input
+                            type="text"
+                            value={job.designation}
+                            onChange={(e) =>
+                              handleChange(
+                                {
+                                  ...job,
+                                  designation: e.target.value,
+                                },
+                                index
+                              )
+                            }
+                            required
+                          />
+                        </div>
 
-                      <div>
-                        <Label>Job Type</Label>
-                        <Select
-                          value={job.job_type}
-                          onValueChange={(value) => {
-                            handleChange(
-                              {
-                                ...job,
-                                job_type: value as any,
-                              },
-                              index
-                            );
-                          }}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select job type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="full_time">Full Time</SelectItem>
-                            <SelectItem value="part_time">Part Time</SelectItem>
-                            <SelectItem value="contract">Contract</SelectItem>
-                            <SelectItem value="internship">
-                              Internship
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                        <div>
+                          <Label>Job Type</Label>
+                          <Select
+                            value={job.job_type}
+                            onValueChange={(value) => {
+                              handleChange(
+                                {
+                                  ...job,
+                                  job_type: value as any,
+                                },
+                                index
+                              );
+                            }}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select job type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="full_time">
+                                Full Time
+                              </SelectItem>
+                              <SelectItem value="part_time">
+                                Part Time
+                              </SelectItem>
+                              <SelectItem value="contract">Contract</SelectItem>
+                              <SelectItem value="internship">
+                                Internship
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                      <div>
-                        <Label>Start Date</Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="input"
-                              className="w-full flex justify-between"
-                            >
-                              {job.start_date ? (
-                                dateFormat(job.start_date)
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <span className="flex items-center">
-                                <span className="bg-border mb-2 mt-2 h-5 block w-px"></span>
-                                <span className="pl-2 block">
-                                  <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                        <div>
+                          <Label>Start Date</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="input"
+                                className="w-full flex justify-between"
+                              >
+                                {job.start_date ? (
+                                  dateFormat(job.start_date)
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <span className="flex items-center">
+                                  <span className="bg-border mb-2 mt-2 h-5 block w-px"></span>
+                                  <span className="pl-2 block">
+                                    <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                                  </span>
                                 </span>
-                              </span>
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={
-                                job.start_date
-                                  ? new Date(job.start_date)
-                                  : new Date()
-                              }
-                              onSelect={(date) =>
-                                handleChange(
-                                  {
-                                    ...job,
-                                    start_date: formatDateWithTime(date!),
-                                  },
-                                  index
-                                )
-                              }
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-
-                      <div>
-                        <Label>End Date</Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="input"
-                              className="w-full flex justify-between"
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                              container={popoverContainer || undefined}
                             >
-                              {job.end_date ? (
-                                dateFormat(job.end_date)
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <span className="flex items-center">
-                                <span className="bg-border mb-2 mt-2 h-5 block w-px"></span>
-                                <span className="pl-2 block">
-                                  <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                              <Calendar
+                                mode="single"
+                                selected={
+                                  job.start_date
+                                    ? new Date(job.start_date)
+                                    : new Date()
+                                }
+                                onSelect={(date) =>
+                                  handleChange(
+                                    {
+                                      ...job,
+                                      start_date: formatDateWithTime(date!),
+                                    },
+                                    index
+                                  )
+                                }
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+
+                        <div>
+                          <Label>End Date</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="input"
+                                className="w-full flex justify-between"
+                              >
+                                {job.end_date ? (
+                                  dateFormat(job.end_date)
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <span className="flex items-center">
+                                  <span className="bg-border mb-2 mt-2 h-5 block w-px"></span>
+                                  <span className="pl-2 block">
+                                    <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                                  </span>
                                 </span>
-                              </span>
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={
-                                job.end_date
-                                  ? new Date(job.end_date)
-                                  : new Date()
-                              }
-                              onSelect={(date) => {
-                                handleChange(
-                                  {
-                                    ...job,
-                                    end_date: formatDateWithTime(date!),
-                                  },
-                                  index
-                                );
-                              }}
-                            />
-                          </PopoverContent>
-                        </Popover>
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                              container={popoverContainer || undefined}
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={
+                                  job.end_date
+                                    ? new Date(job.end_date)
+                                    : new Date()
+                                }
+                                onSelect={(date) => {
+                                  handleChange(
+                                    {
+                                      ...job,
+                                      end_date: formatDateWithTime(date!),
+                                    },
+                                    index
+                                  );
+                                }}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
 
-                <Button
-                  type="button"
-                  size={"sm"}
-                  className="w-full"
-                  variant="outline"
-                  onClick={handleAdd}
-                >
-                  Add Job
-                </Button>
-
-                <div className="col-12 text-right">
-                  <Button disabled={isPrevJobLoading}>
-                    {isPrevJobLoading ? (
-                      <>
-                        Please wait
-                        <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
-                      </>
-                    ) : (
-                      "Update Job"
-                    )}
+                  <Button
+                    type="button"
+                    size={"sm"}
+                    className="w-full"
+                    variant="outline"
+                    onClick={handleAdd}
+                  >
+                    Add Job
                   </Button>
-                </div>
-              </form>
+
+                  <div className="col-12 text-right">
+                    <Button disabled={isPrevJobLoading}>
+                      {isPrevJobLoading ? (
+                        <>
+                          Please wait
+                          <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
+                        </>
+                      ) : (
+                        "Update Job"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </div>
             </DialogContent>
           </Dialog>
         )}
@@ -378,7 +402,7 @@ export default function PreviousJobs({
               return (
                 <li className="flex space-x-4 group items-center" key={index}>
                   <Image
-                    className="rounded size-[48px] flex-none"
+                    className="rounded size-12 flex-none"
                     src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${job.company_website}&size=64`}
                     width={48}
                     height={48}

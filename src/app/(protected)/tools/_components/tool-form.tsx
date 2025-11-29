@@ -27,13 +27,16 @@ const ToolForm = ({
   handleSubmit,
   loader,
   formType,
+  popoverContainer,
 }: {
   toolData: Partial<TTool>;
   setToolData: SetStateAction<any>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
   formType: string;
+  popoverContainer?: HTMLElement | null;
 }) => {
+  const _popoverContainer = popoverContainer || undefined;
   const [toolItems, setToolItems] = useState<TOrganization[]>(
     toolData.organizations || []
   );
@@ -286,7 +289,11 @@ const ToolForm = ({
                       </span>
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    container={_popoverContainer}
+                  >
                     <Calendar
                       mode="single"
                       selected={
@@ -350,7 +357,11 @@ const ToolForm = ({
                       </span>
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    container={_popoverContainer}
+                  >
                     <Calendar
                       mode="single"
                       selected={
@@ -546,7 +557,11 @@ const ToolForm = ({
                               </span>
                             </Button>
                           </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          <PopoverContent
+                            className="w-auto p-0"
+                            align="start"
+                            container={_popoverContainer}
+                          >
                             <Calendar
                               mode="single"
                               selected={

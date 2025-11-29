@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import CalendarForm from "./calendar-form";
 
@@ -27,6 +27,7 @@ const CalendarUpdate = () => {
 
   const { isDialogOpen, onDialogChange } = useDialog();
   const [loader, setLoader] = useState(false);
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   const [updatedCalendarData, setUpdatedCalendarData] = useState<TCalendar>(
     () => {
@@ -88,41 +89,41 @@ const CalendarUpdate = () => {
           Update Calendar Year
         </Button>
       </DialogTrigger>
-      <DialogContent
-        className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-        onPointerDownOutside={(e) => e.preventDefault()}
-      >
+      <DialogContent ref={dialogContentRef} className="max-w-4xl!">
         <DialogTitle className="mb-4">Update Calendar</DialogTitle>
 
-        <div className="mb-6">
-          <Label>Select Year</Label>
-          <Select
-            value={year.toString()}
-            onValueChange={(value) => {
-              setYear(parseInt(value, 10));
-            }}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Year" />
-            </SelectTrigger>
-            <SelectContent>
-              {calendars?.map((cal) => (
-                <SelectItem key={cal.year} value={cal.year.toString()}>
-                  {cal.year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="max-h-[90vh] overflow-y-auto pr-2">
+          <div className="mb-6">
+            <Label>Select Year</Label>
+            <Select
+              value={year.toString()}
+              onValueChange={(value) => {
+                setYear(parseInt(value, 10));
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Year" />
+              </SelectTrigger>
+              <SelectContent>
+                {calendars?.map((cal) => (
+                  <SelectItem key={cal.year} value={cal.year.toString()}>
+                    {cal.year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-        <CalendarForm
-          key={updatedCalendarData.year}
-          calendarData={updatedCalendarData}
-          setCalendarData={setUpdatedCalendarData}
-          handleSubmit={handleSubmit}
-          loader={loader}
-          formType="update"
-        />
+          <CalendarForm
+            key={updatedCalendarData.year}
+            calendarData={updatedCalendarData}
+            setCalendarData={setUpdatedCalendarData}
+            handleSubmit={handleSubmit}
+            loader={loader}
+            formType="update"
+            popoverContainer={dialogContentRef.current}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -1,7 +1,7 @@
 import { useAddAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
 import { TAsset } from "@/redux/features/assetApiSlice/assetType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import AssetForm from "./asset-form";
 
@@ -12,6 +12,7 @@ const AssetInsert = ({
 }) => {
   const [addAsset, { isSuccess, isError }] = useAddAssetMutation();
   const [loader, setLoader] = useState(false);
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [assetData, setAssetData] = useState<TAsset>({
     name: "",
     user: "",
@@ -61,18 +62,18 @@ const AssetInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent
-      className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
+    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
       <DialogTitle className="mb-4">Add Asset</DialogTitle>
-      <AssetForm
-        assetData={assetData}
-        setAssetData={setAssetData}
-        handleSubmit={handleSubmit}
-        loader={loader}
-        formType="insert"
-      />
+      <div className="max-h-[90vh] overflow-y-auto pr-2">
+        <AssetForm
+          assetData={assetData}
+          setAssetData={setAssetData}
+          handleSubmit={handleSubmit}
+          loader={loader}
+          formType="insert"
+          popoverContainer={dialogContentRef.current}
+        />
+      </div>
     </DialogContent>
   );
 };

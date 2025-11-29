@@ -185,8 +185,8 @@ export default function EmployeeSingle() {
   return (
     <div className="bg-light">
       <Tabs value={searchParams?.get("tab") || activeTab.value}>
-        <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-[20px] lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
-          <div className="flex-shrink-0 xl:basis-[210px] size-[100px] lg:size-[210px]">
+        <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-5 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
+          <div className="shrink-0 xl:basis-[210px] size-[100px] lg:size-[210px]">
             <Avatar
               className="rounded-md w-[100px] lg:w-[210px]"
               width={210}
@@ -217,7 +217,7 @@ export default function EmployeeSingle() {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant={"secondary"}
-                      className="mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 rounded-b-none bg-light shadow-none"
+                      className="mt-3 flex space-x-1 focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible!ring-0! rounded-b-none bg-light shadow-none"
                     >
                       <span>{activeTab.label}</span>
                       <ChevronDown className="size-4" />
@@ -237,7 +237,7 @@ export default function EmployeeSingle() {
                       >
                         <Button
                           className={cn(
-                            "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:!ring-0 cursor-pointer p-1.5",
+                            "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:ring-0! cursor-pointer p-1.5",
 
                             tab.value === activeTab.value &&
                               "bg-[#F3F4F6] text-text-dark"
@@ -272,7 +272,7 @@ export default function EmployeeSingle() {
                       onClick={() => {
                         setTab(tab);
                       }}
-                      className="rounded-none px-4 h-9 data-[state=active]:border-none data-[state=active]:rounded !rounded-b-none data-[state=active]:ring-offset-0 data-[state=active]:ring-0 !shadow-none"
+                      className="rounded-none px-4 h-9 data-[state=active]:border-none data-[state=active]:rounded rounded-b-none! data-[state=active]:ring-offset-0 data-[state=active]:ring-0 shadow-none!"
                     >
                       {tab.label}
                     </Button>

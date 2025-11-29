@@ -11,7 +11,7 @@ import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
 import { FileDown, FileUp, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const CalendarInsertSheet = () => {
@@ -24,6 +24,8 @@ const CalendarInsertSheet = () => {
   });
 
   const [addCalendar, { isSuccess, isError, error }] = useAddCalendarMutation();
+
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -61,7 +63,7 @@ const CalendarInsertSheet = () => {
           <FileUp size={16} />
         </Button>
       </DialogTrigger>
-      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
+      <DialogContent ref={dialogContentRef}>
         <DialogTitle className="mb-4">Add New Year Calendar Sheet</DialogTitle>
         <form className="row" onSubmit={handleSubmit}>
           <div className="col-12 mb-4">
@@ -83,7 +85,7 @@ const CalendarInsertSheet = () => {
             <Input
               type="file"
               accept=".csv, .xlsx"
-              className="!border-solid !px-3 cursor-pointer !py-2"
+              className="border-solid! px-3! cursor-pointer py-2!"
               onChange={async (e) => {
                 const target = e.target as HTMLInputElement;
                 if (target.files) {

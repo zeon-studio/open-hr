@@ -2,16 +2,19 @@ import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { useRef } from "react";
 
 const PayrollPreview = ({
   payrollData,
 }: {
   payrollData: Partial<TPayroll>;
 }) => {
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <DialogContent
+      ref={dialogContentRef}
       className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Payroll Details</DialogTitle>
       <div className="row justify-between items-center">

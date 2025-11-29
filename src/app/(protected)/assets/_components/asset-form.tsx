@@ -27,13 +27,16 @@ const AssetForm = ({
   handleSubmit,
   loader,
   formType,
+  popoverContainer,
 }: {
   assetData: Partial<TAsset>;
   setAssetData: SetStateAction<any>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
   formType: string;
+  popoverContainer?: HTMLElement | null;
 }) => {
+  const _popoverContainer = popoverContainer || undefined;
   const [assetLogs, setAssetLogs] = useState<TAssetLog[]>(assetData.logs || []);
 
   // set asset logs
@@ -194,7 +197,11 @@ const AssetForm = ({
               </span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
+          <PopoverContent
+            className="w-auto p-0"
+            align="start"
+            container={_popoverContainer}
+          >
             <Calendar
               mode="single"
               selected={
@@ -325,7 +332,11 @@ const AssetForm = ({
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    container={_popoverContainer}
+                  >
                     <Calendar
                       mode="single"
                       selected={item.date ? new Date(item.date) : new Date()}

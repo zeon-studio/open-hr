@@ -2,12 +2,14 @@ import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
 import { TTool } from "@/redux/features/toolApiSlice/toolType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { useRef } from "react";
 
 const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   return (
     <DialogContent
+      ref={dialogContentRef}
       className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Tool Platform</DialogTitle>
       <div className="row justify-between items-center">

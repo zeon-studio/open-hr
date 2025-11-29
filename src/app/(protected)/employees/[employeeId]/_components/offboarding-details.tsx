@@ -23,7 +23,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function Offboarding() {
@@ -43,6 +43,15 @@ export default function Offboarding() {
       employee_id: "",
       resignation_date: new Date(),
     });
+
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
+  const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
+    null
+  );
+  const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
+    dialogContentRef.current = node;
+    setPopoverContainer(node);
+  }, []);
 
   return (
     <div>
@@ -119,85 +128,105 @@ export default function Offboarding() {
                   <DialogTrigger asChild>
                     <Button>Initiate Off-boarding</Button>
                   </DialogTrigger>
-                  <DialogContent className="overflow-y-auto">
+                  <DialogContent
+                    ref={setDialogContentRef}
+                    data-slot="dialog-content"
+                  >
                     <DialogHeader>
                       <DialogTitle>
                         Initiate Off-boarding for Employee
                       </DialogTitle>
                     </DialogHeader>
 
-                    <form
-                      onSubmit={async (e) => {
-                        try {
-                          e.preventDefault();
-                          await employeeOffboarding({
-                            employee_id: employeeId,
-                            resignation_date: new Date(),
-                          }).unwrap();
-                          toast.success("Off-boarding initiated successfully");
-                        } catch (error) {
-                          const errorMessage =
-                            (error as ErrorResponse).data.message ||
-                            "Something went wrong";
-                          toast.error(errorMessage);
-                        }
-                      }}
-                      className="pt-4"
-                    >
-                      <div className="space-y-5">
-                        <div>
-                          <Label htmlFor="resignation_date">
-                            Resignation Date
-                          </Label>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant={"input"}
-                                className={cn(
-                                  "w-full flex justify-between borer border-border"
-                                )}
-                              >
-                                {offboardingData.resignation_date ? (
-                                  dateFormat(offboardingData.resignation_date)
-                                ) : (
-                                  <span>Select Date</span>
-                                )}
-                                <span className="flex items-center">
-                                  <span
-                                    className={cn(
-                                      "bg-light mb-2 mt-2 h-5 block w-px"
-                                    )}
-                                  ></span>
-                                  <span className={cn("pl-2  block")}>
-                                    <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                    <div className="max-h-[90vh] overflow-y-auto pr-2">
+                      <form
+                        onSubmit={async (e) => {
+                          try {
+                            e.preventDefault();
+                            await employeeOffboarding({
+                              employee_id: employeeId,
+                              resignation_date:
+                                offboardingData.resignation_date,
+                            }).unwrap();
+                            toast.success(
+                              "Off-boarding initiated successfully"
+                            );
+                          } catch (error) {
+                            const errorMessage =
+                              (error as ErrorResponse).data.message ||
+                              "Something went wrong";
+                            toast.error(errorMessage);
+                          }
+                        }}
+                        className="pt-4"
+                      >
+                        <div className="space-y-5">
+                          <div>
+                            <Label htmlFor="resignation_date">
+                              Resignation Date
+                            </Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant={"input"}
+                                  className={cn(
+                                    "w-full flex justify-between borer border-border"
+                                  )}
+                                >
+                                  {offboardingData.resignation_date ? (
+                                    dateFormat(offboardingData.resignation_date)
+                                  ) : (
+                                    <span>Select Date</span>
+                                  )}
+                                  <span className="flex items-center">
+                                    <span
+                                      className={cn(
+                                        "bg-light mb-2 mt-2 h-5 block w-px"
+                                      )}
+                                    ></span>
+                                    <span className={cn("pl-2  block")}>
+                                      <CalendarIcon className="ml-auto border-box h-4 w-4 opacity-50" />
+                                    </span>
                                   </span>
-                                </span>
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                                container={popoverContainer || undefined}
+                              >
+                                <Calendar
+                                  mode="single"
+                                  selected={
+                                    offboardingData.resignation_date
+                                      ? new Date(
+                                          offboardingData.resignation_date
+                                        )
+                                      : new Date()
+                                  }
+                                  onSelect={(date) => {
+                                    if (!date) return;
+                                    setOffboardingData({
+                                      ...offboardingData,
+                                      resignation_date:
+                                        formatDateWithTime(date),
+                                    });
+                                  }}
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                          <div className="flex flex-col justify-center gap-4">
+                            <Button
+                              type="submit"
+                              disabled={isOffboardingLoading}
                             >
-                              <Calendar
-                                mode="single"
-                                selected={new Date()}
-                                onSelect={(date) => {
-                                  setOffboardingData({
-                                    ...offboardingData,
-                                    resignation_date: formatDateWithTime(date!),
-                                  });
-                                }}
-                              />
-                            </PopoverContent>
-                          </Popover>
+                              Initiate Off-boarding
+                            </Button>
+                          </div>
                         </div>
-                        <div className="flex flex-col justify-center gap-4">
-                          <Button type="submit" disabled={isOffboardingLoading}>
-                            Initiate Off-boarding
-                          </Button>
-                        </div>
-                      </div>
-                    </form>
+                      </form>
+                    </div>
                   </DialogContent>
                 </Dialog>
               )}

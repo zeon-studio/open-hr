@@ -30,13 +30,16 @@ const CourseForm = ({
   handleSubmit,
   loader,
   formType,
+  popoverContainer,
 }: {
   courseData: Partial<TCourse>;
   setCourseData: SetStateAction<any>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
   formType: string;
+  popoverContainer?: HTMLElement | null;
 }) => {
+  const _popoverContainer = popoverContainer || undefined;
   const [courseItems, setCourseItems] = useState<TCourseItem[]>(
     courseData.courses || []
   );
@@ -238,7 +241,11 @@ const CourseForm = ({
                       </span>
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    container={_popoverContainer}
+                  >
                     <Calendar
                       mode="single"
                       selected={
@@ -300,7 +307,11 @@ const CourseForm = ({
                       </span>
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    container={_popoverContainer}
+                  >
                     <Calendar
                       mode="single"
                       selected={

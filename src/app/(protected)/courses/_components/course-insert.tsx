@@ -1,7 +1,7 @@
 import { useAddCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
 import { TCourse } from "@/redux/features/courseApiSlice/courseType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import CourseForm from "./course-form";
 
@@ -12,6 +12,7 @@ const CourseInsert = ({
 }) => {
   const [addCourse, { isSuccess, isError }] = useAddCourseMutation();
   const [loader, setLoader] = useState(false);
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [courseData, setCourseData] = useState<TCourse>({
     platform: "",
     website: "",
@@ -67,18 +68,18 @@ const CourseInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent
-      className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
+    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
       <DialogTitle className="mb-4">Add New Course Platform</DialogTitle>
-      <CourseForm
-        courseData={courseData}
-        setCourseData={setCourseData}
-        handleSubmit={handleSubmit}
-        loader={loader}
-        formType="insert"
-      />
+      <div className="max-h-[90vh] overflow-y-auto pr-2">
+        <CourseForm
+          courseData={courseData}
+          setCourseData={setCourseData}
+          handleSubmit={handleSubmit}
+          loader={loader}
+          formType="insert"
+          popoverContainer={dialogContentRef.current}
+        />
+      </div>
     </DialogContent>
   );
 };

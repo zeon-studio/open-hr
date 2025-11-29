@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Loader2, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const PayrollUpdate = ({
@@ -32,6 +32,7 @@ const PayrollUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [payrollData, setPayrollData] = useState({
     employee_id: payroll.employee_id,
     gross_salary: payroll.gross_salary || 0,
@@ -134,389 +135,406 @@ const PayrollUpdate = ({
   };
 
   return (
-    <DialogContent
-      className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
+    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
       <DialogTitle className="mb-4">Update Payroll</DialogTitle>
-      <form
-        className="row gx-3 justify-between items-center"
-        onSubmit={handleSubmit}
-      >
-        {/* Gross Salary */}
-        <div className="lg:col-6 mb-4">
-          <Label>Gross Salary</Label>
-          <Input
-            type="number"
-            value={payrollData.gross_salary}
-            onChange={(e: any) =>
-              setPayrollData({
-                ...payrollData,
-                gross_salary: Number(e.target.value),
-              })
-            }
-            required
-          />
-        </div>
-        {/* status */}
-        <div className="lg:col-6 mb-4">
-          <Label>Status</Label>
-          <Select
-            value={payrollData.status}
-            onValueChange={(value) =>
-              setPayrollData({
-                ...payrollData,
-                status: value as TPayroll["status"],
-              })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select Status" />
-            </SelectTrigger>
-            <SelectContent>
-              {options.payroll_status.map((item) => (
-                <SelectItem value={item.value} key={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Salary */}
-        <div className="col-12 mb-6">
-          {salary.map((item, index) => (
-            <div
-              className="border border-border relative mb-6 bg-light rounded-md p-3"
-              key={index}
+      <div className="max-h-[90vh] overflow-y-auto pr-2">
+        <form
+          className="row gx-3 justify-between items-center"
+          onSubmit={handleSubmit}
+        >
+          {/* Gross Salary */}
+          <div className="lg:col-6 mb-4">
+            <Label>Gross Salary</Label>
+            <Input
+              type="number"
+              value={payrollData.gross_salary}
+              onChange={(e: any) =>
+                setPayrollData({
+                  ...payrollData,
+                  gross_salary: Number(e.target.value),
+                })
+              }
+              required
+            />
+          </div>
+          {/* status */}
+          <div className="lg:col-6 mb-4">
+            <Label>Status</Label>
+            <Select
+              value={payrollData.status}
+              onValueChange={(value) =>
+                setPayrollData({
+                  ...payrollData,
+                  status: value as TPayroll["status"],
+                })
+              }
             >
-              <div className="absolute right-3 top-3">
-                <Button
-                  type="button"
-                  onClick={() => handleDeleteSalaryItem(index)}
-                  size={"xs"}
-                  variant="outline"
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </div>
-              <div className="row gx-3">
-                {/* Amount */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Salary Amount</Label>
-                  <Input
-                    type="number"
-                    value={item.amount}
-                    onChange={(e) => {
-                      const updatedSalaryItems = [...salary];
-                      updatedSalaryItems[index] = {
-                        ...item,
-                        amount: Number(e.target.value),
-                      };
-                      setSalary(updatedSalaryItems);
-                    }}
-                    required
-                  />
-                </div>
-                {/* Date */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Salary Date</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"input"}
-                        className="w-full flex justify-between"
-                      >
-                        {item.date ? (
-                          dateFormat(item.date)
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={item.date ? new Date(item.date) : new Date()}
-                        onSelect={(date) =>
-                          setSalary((prevItems) => {
-                            const updatedItems = [...prevItems];
-                            if (date) {
-                              updatedItems[index] = {
-                                ...prevItems[index],
-                                date: formatDateWithTime(date),
-                              };
-                            }
-                            return updatedItems;
-                          })
-                        }
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
-            </div>
-          ))}
+              <SelectTrigger>
+                <SelectValue placeholder="Select Status" />
+              </SelectTrigger>
+              <SelectContent>
+                {options.payroll_status.map((item) => (
+                  <SelectItem value={item.value} key={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-          <Button
-            type="button"
-            onClick={handleAddSalaryItem}
-            size={"sm"}
-            className="w-full"
-            variant="outline"
-          >
-            Add Salary
-          </Button>
-        </div>
-
-        {/* Bonus */}
-        <div className="col-12 mb-6">
-          {bonus.map((item, index) => (
-            <div
-              className="border border-border relative mb-6 bg-light rounded-md p-3"
-              key={index}
-            >
-              <div className="absolute right-3 top-3">
-                <Button
-                  type="button"
-                  onClick={() => handleDeleteBonusItem(index)}
-                  size={"xs"}
-                  variant="outline"
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </div>
-              <div className="row gx-3">
-                {/* Type */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Bonus Type</Label>
-                  <Select
-                    value={item.type}
-                    onValueChange={(value) => {
-                      const updatedBonusItems = [...bonus];
-                      updatedBonusItems[index] = {
-                        ...item,
-                        type: value as
-                          | "festive"
-                          | "performance"
-                          | "project"
-                          | "other",
-                      };
-                      setBonus(updatedBonusItems);
-                    }}
+          {/* Salary */}
+          <div className="col-12 mb-6">
+            {salary.map((item, index) => (
+              <div
+                className="border border-border relative mb-6 bg-light rounded-md p-3"
+                key={index}
+              >
+                <div className="absolute right-3 top-3">
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteSalaryItem(index)}
+                    size={"xs"}
+                    variant="outline"
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.payroll_bonus_type.map((bonusType) => (
-                        <SelectItem
-                          value={bonusType.value}
-                          key={bonusType.value}
+                    <Trash2 size={16} />
+                  </Button>
+                </div>
+                <div className="row gx-3">
+                  {/* Amount */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Salary Amount</Label>
+                    <Input
+                      type="number"
+                      value={item.amount}
+                      onChange={(e) => {
+                        const updatedSalaryItems = [...salary];
+                        updatedSalaryItems[index] = {
+                          ...item,
+                          amount: Number(e.target.value),
+                        };
+                        setSalary(updatedSalaryItems);
+                      }}
+                      required
+                    />
+                  </div>
+                  {/* Date */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Salary Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"input"}
+                          className="w-full flex justify-between"
                         >
-                          {bonusType.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                {/* Reason */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Bonus Reason</Label>
-                  <Input
-                    type="text"
-                    value={item.reason}
-                    onChange={(e) => {
-                      const updatedBonusItems = [...bonus];
-                      updatedBonusItems[index] = {
-                        ...item,
-                        reason: e.target.value,
-                      };
-                      setBonus(updatedBonusItems);
-                    }}
-                    required
-                  />
-                </div>
-                {/* Amount */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Bonus Amount</Label>
-                  <Input
-                    type="number"
-                    value={item.amount}
-                    onChange={(e) => {
-                      const updatedBonusItems = [...bonus];
-                      updatedBonusItems[index] = {
-                        ...item,
-                        amount: Number(e.target.value),
-                      };
-                      setBonus(updatedBonusItems);
-                    }}
-                    required
-                  />
-                </div>
-                {/* Date */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Bonus Date</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"input"}
-                        className="w-full flex justify-between"
+                          {item.date ? (
+                            dateFormat(item.date)
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto p-0"
+                        align="start"
+                        container={dialogContentRef.current}
                       >
-                        {item.date ? (
-                          dateFormat(item.date)
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={item.date ? new Date(item.date) : new Date()}
-                        onSelect={(date) =>
-                          setBonus((prevItems) => {
-                            const updatedItems = [...prevItems];
-                            updatedItems[index] = {
-                              ...item,
-                              date: formatDateWithTime(date!),
-                            };
-                            return updatedItems;
-                          })
-                        }
-                      />
-                    </PopoverContent>
-                  </Popover>
+                        <Calendar
+                          mode="single"
+                          selected={
+                            item.date ? new Date(item.date) : new Date()
+                          }
+                          onSelect={(date) =>
+                            setSalary((prevItems) => {
+                              const updatedItems = [...prevItems];
+                              if (date) {
+                                updatedItems[index] = {
+                                  ...prevItems[index],
+                                  date: formatDateWithTime(date),
+                                };
+                              }
+                              return updatedItems;
+                            })
+                          }
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          <Button
-            type="button"
-            onClick={handleAddBonusItem}
-            size={"sm"}
-            className="w-full"
-            variant="outline"
-          >
-            Add Bonus
-          </Button>
-        </div>
-
-        {/* Increments */}
-        <div className="col-12 mb-6">
-          {increments.map((item, index) => (
-            <div
-              className="border border-border relative mb-6 bg-light rounded-md p-3"
-              key={index}
+            <Button
+              type="button"
+              onClick={handleAddSalaryItem}
+              size={"sm"}
+              className="w-full"
+              variant="outline"
             >
-              <div className="absolute right-3 top-3">
-                <Button
-                  type="button"
-                  onClick={() => handleDeleteIncrementItem(index)}
-                  size={"xs"}
-                  variant="outline"
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </div>
-              <div className="row gx-3">
-                {/* reason */}
-                <div className="col-12 mb-4">
-                  <Label>Increment Reason</Label>
-                  <Input
-                    type="text"
-                    value={item.reason}
-                    onChange={(e) => {
-                      const updatedPayrollItems = [...increments];
-                      updatedPayrollItems[index] = {
-                        ...item,
-                        reason: e.target.value,
-                      };
-                      setIncrements(updatedPayrollItems);
-                    }}
-                    required
-                  />
+              Add Salary
+            </Button>
+          </div>
+
+          {/* Bonus */}
+          <div className="col-12 mb-6">
+            {bonus.map((item, index) => (
+              <div
+                className="border border-border relative mb-6 bg-light rounded-md p-3"
+                key={index}
+              >
+                <div className="absolute right-3 top-3">
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteBonusItem(index)}
+                    size={"xs"}
+                    variant="outline"
+                  >
+                    <Trash2 size={16} />
+                  </Button>
                 </div>
-                {/* Amount */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Increment Amount</Label>
-                  <Input
-                    type="number"
-                    value={item.amount}
-                    onChange={(e) => {
-                      const updatedPayrollItems = [...increments];
-                      updatedPayrollItems[index] = {
-                        ...item,
-                        amount: Number(e.target.value),
-                      };
-                      setIncrements(updatedPayrollItems);
-                    }}
-                    required
-                  />
-                </div>
-                {/* Date */}
-                <div className="lg:col-6 mb-4">
-                  <Label>Increment Date</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"input"}
-                        className="w-full flex justify-between"
+                <div className="row gx-3">
+                  {/* Type */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Bonus Type</Label>
+                    <Select
+                      value={item.type}
+                      onValueChange={(value) => {
+                        const updatedBonusItems = [...bonus];
+                        updatedBonusItems[index] = {
+                          ...item,
+                          type: value as
+                            | "festive"
+                            | "performance"
+                            | "project"
+                            | "other",
+                        };
+                        setBonus(updatedBonusItems);
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {options.payroll_bonus_type.map((bonusType) => (
+                          <SelectItem
+                            value={bonusType.value}
+                            key={bonusType.value}
+                          >
+                            {bonusType.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {/* Reason */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Bonus Reason</Label>
+                    <Input
+                      type="text"
+                      value={item.reason}
+                      onChange={(e) => {
+                        const updatedBonusItems = [...bonus];
+                        updatedBonusItems[index] = {
+                          ...item,
+                          reason: e.target.value,
+                        };
+                        setBonus(updatedBonusItems);
+                      }}
+                      required
+                    />
+                  </div>
+                  {/* Amount */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Bonus Amount</Label>
+                    <Input
+                      type="number"
+                      value={item.amount}
+                      onChange={(e) => {
+                        const updatedBonusItems = [...bonus];
+                        updatedBonusItems[index] = {
+                          ...item,
+                          amount: Number(e.target.value),
+                        };
+                        setBonus(updatedBonusItems);
+                      }}
+                      required
+                    />
+                  </div>
+                  {/* Date */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Bonus Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"input"}
+                          className="w-full flex justify-between"
+                        >
+                          {item.date ? (
+                            dateFormat(item.date)
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto p-0"
+                        align="start"
+                        container={dialogContentRef.current}
                       >
-                        {item.date ? (
-                          dateFormat(item.date)
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={item.date ? new Date(item.date) : new Date()}
-                        onSelect={(date) => {
-                          setIncrements((prevItems) => {
-                            const updatedItems = [...prevItems];
-                            updatedItems[index] = {
-                              ...item,
-                              date: formatDateWithTime(date!),
-                            };
-                            return updatedItems;
-                          });
-                        }}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                        <Calendar
+                          mode="single"
+                          selected={
+                            item.date ? new Date(item.date) : new Date()
+                          }
+                          onSelect={(date) =>
+                            setBonus((prevItems) => {
+                              const updatedItems = [...prevItems];
+                              updatedItems[index] = {
+                                ...item,
+                                date: formatDateWithTime(date!),
+                              };
+                              return updatedItems;
+                            })
+                          }
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          <Button
-            type="button"
-            onClick={handleAddIncrementItem}
-            size={"sm"}
-            className="w-full"
-            variant="outline"
-          >
-            Add Increment
-          </Button>
-        </div>
+            <Button
+              type="button"
+              onClick={handleAddBonusItem}
+              size={"sm"}
+              className="w-full"
+              variant="outline"
+            >
+              Add Bonus
+            </Button>
+          </div>
 
-        <div className="col-12 text-right">
-          <Button type="submit" disabled={loader}>
-            {loader ? (
-              <>
-                Please wait
-                <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
-              </>
-            ) : (
-              "Update Payroll"
-            )}
-          </Button>
-        </div>
-      </form>
+          {/* Increments */}
+          <div className="col-12 mb-6">
+            {increments.map((item, index) => (
+              <div
+                className="border border-border relative mb-6 bg-light rounded-md p-3"
+                key={index}
+              >
+                <div className="absolute right-3 top-3">
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteIncrementItem(index)}
+                    size={"xs"}
+                    variant="outline"
+                  >
+                    <Trash2 size={16} />
+                  </Button>
+                </div>
+                <div className="row gx-3">
+                  {/* reason */}
+                  <div className="col-12 mb-4">
+                    <Label>Increment Reason</Label>
+                    <Input
+                      type="text"
+                      value={item.reason}
+                      onChange={(e) => {
+                        const updatedPayrollItems = [...increments];
+                        updatedPayrollItems[index] = {
+                          ...item,
+                          reason: e.target.value,
+                        };
+                        setIncrements(updatedPayrollItems);
+                      }}
+                      required
+                    />
+                  </div>
+                  {/* Amount */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Increment Amount</Label>
+                    <Input
+                      type="number"
+                      value={item.amount}
+                      onChange={(e) => {
+                        const updatedPayrollItems = [...increments];
+                        updatedPayrollItems[index] = {
+                          ...item,
+                          amount: Number(e.target.value),
+                        };
+                        setIncrements(updatedPayrollItems);
+                      }}
+                      required
+                    />
+                  </div>
+                  {/* Date */}
+                  <div className="lg:col-6 mb-4">
+                    <Label>Increment Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"input"}
+                          className="w-full flex justify-between"
+                        >
+                          {item.date ? (
+                            dateFormat(item.date)
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto p-0"
+                        align="start"
+                        container={dialogContentRef.current}
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={
+                            item.date ? new Date(item.date) : new Date()
+                          }
+                          onSelect={(date) => {
+                            setIncrements((prevItems) => {
+                              const updatedItems = [...prevItems];
+                              updatedItems[index] = {
+                                ...item,
+                                date: formatDateWithTime(date!),
+                              };
+                              return updatedItems;
+                            });
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <Button
+              type="button"
+              onClick={handleAddIncrementItem}
+              size={"sm"}
+              className="w-full"
+              variant="outline"
+            >
+              Add Increment
+            </Button>
+          </div>
+
+          <div className="col-12 text-right">
+            <Button type="submit" disabled={loader}>
+              {loader ? (
+                <>
+                  Please wait
+                  <Loader2 className="ml-2 h-4 w-4 animate-spin inline-block" />
+                </>
+              ) : (
+                "Update Payroll"
+              )}
+            </Button>
+          </div>
+        </form>
+      </div>
     </DialogContent>
   );
 };

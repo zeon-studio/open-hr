@@ -1,7 +1,7 @@
 import { useUpdateLeaveMutation } from "@/redux/features/leaveApiSlice/leaveSlice";
 import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import LeaveForm from "./leave-form";
 
@@ -13,6 +13,7 @@ const LeaveUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [leaveData, setLeaveData] = useState({
     employee_id: leave.employee_id,
     year: leave.year,
@@ -46,8 +47,8 @@ const LeaveUpdate = ({
 
   return (
     <DialogContent
+      ref={dialogContentRef}
       className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-      onPointerDownOutside={(e) => e.preventDefault()}
     >
       <DialogTitle className="mb-4">Update Leave Platform</DialogTitle>
       <LeaveForm
