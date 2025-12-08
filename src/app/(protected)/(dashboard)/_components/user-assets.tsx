@@ -23,7 +23,7 @@ const UserAssets = ({ userId }: { userId: string }) => {
             <ul className="space-y-3">
               {data?.result?.map((asset) => (
                 <li
-                  className="row mx-0! row-cols-3 items-center bg-light rounded py-3"
+                  className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center bg-light rounded py-3 px-3"
                   key={asset.asset_id}
                 >
                   <div className="flex items-center">
@@ -32,9 +32,9 @@ const UserAssets = ({ userId }: { userId: string }) => {
                       alt={asset.name}
                       width={50}
                       height={50}
-                      className="rounded-md shrink-0"
+                      className="rounded-md shrink-0 hidden lg:block mr-4"
                     />
-                    <div className="ml-4">
+                    <div>
                       <small className="text-xs text-muted-foreground block">
                         Name:
                       </small>

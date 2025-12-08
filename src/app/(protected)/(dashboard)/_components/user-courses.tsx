@@ -24,7 +24,7 @@ const UserCourses = ({ userId }: { userId: string }) => {
             <ul className="space-y-3">
               {data?.result?.map((course, index) => (
                 <li
-                  className="row mx-0! space-y-3 lg:space-y-0 lg:row-cols-4 items-center bg-light rounded py-3"
+                  className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-center bg-light rounded py-3 px-3"
                   key={`course-${index}`}
                 >
                   <div className="flex items-center">
