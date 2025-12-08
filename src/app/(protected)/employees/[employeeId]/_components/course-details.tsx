@@ -38,7 +38,7 @@ export default function Courses() {
               <ul className="space-y-3">
                 {data?.result?.map((course, index) => (
                   <li
-                    className="row !mx-0 space-y-4 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
+                    className="row mx-0! space-y-4 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
                     key={index}
                   >
                     <div className="flex items-center">

@@ -35,7 +35,7 @@ export default function Payroll() {
               <ul className="space-y-3">
                 {data?.result?.increments.map((increment, index) => (
                   <li
-                    className="row !mx-0 space-y-3 xl:space-y-0 xl:row-cols-3 items-center bg-light rounded py-3"
+                    className="row mx-0! space-y-3 xl:space-y-0 xl:row-cols-3 items-center bg-light rounded py-3"
                     key={`increment-${index}`}
                   >
                     <div>
@@ -94,7 +94,7 @@ export default function Payroll() {
               <ul className="space-y-3">
                 {data?.result?.bonus.map((bonus, index) => (
                   <li
-                    className="row !mx-0 space-y-3 xl:space-y-0 xl:row-cols-3 items-center bg-light rounded py-3"
+                    className="row mx-0! space-y-3 xl:space-y-0 xl:row-cols-3 items-center bg-light rounded py-3"
                     key={`bonus-${index}`}
                   >
                     <div>
@@ -153,7 +153,7 @@ export default function Payroll() {
               <ul className="space-y-3">
                 {data?.result?.salary.map((salary, index) => (
                   <li
-                    className="row !mx-0 space-y-3 xl:space-y-0 xl:row-cols-2 items-center bg-light rounded py-3"
+                    className="row mx-0! space-y-3 xl:space-y-0 xl:row-cols-2 items-center bg-light rounded py-3"
                     key={`salary-${index}`}
                   >
                     <div>

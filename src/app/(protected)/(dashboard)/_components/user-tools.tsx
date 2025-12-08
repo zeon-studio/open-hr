@@ -24,7 +24,7 @@ const UserTools = ({ userId }: { userId: string }) => {
             <ul className="space-y-3">
               {data?.result?.map((tool, index) => (
                 <li
-                  className="row !mx-0 space-y-3 lg:space-y-0 lg:row-cols-4 items-center bg-light rounded py-3"
+                  className="row mx-0! space-y-3 lg:space-y-0 lg:row-cols-4 items-center bg-light rounded py-3"
                   key={`tool-${index}`}
                 >
                   <div className="flex items-center">
@@ -53,6 +53,7 @@ const UserTools = ({ userId }: { userId: string }) => {
                       </strong>
                     </div>
                   </div>
+
                   <div>
                     <small className="text-xs text-muted-foreground block">
                       Organization
