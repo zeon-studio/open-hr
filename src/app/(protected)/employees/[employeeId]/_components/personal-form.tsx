@@ -16,7 +16,46 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Textarea } from "@/ui/textarea";
-import { CalendarIcon } from "lucide-react";
+import {
+  AtSign,
+  Briefcase,
+  Cake,
+  CalendarIcon,
+  Droplet,
+  Globe,
+  HandHeart,
+  Hash,
+  Heart,
+  Home,
+  IdCard,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Receipt,
+  Sparkles,
+  StickyNote,
+  User,
+  UserRound,
+  type LucideIcon,
+} from "lucide-react";
+import type { ReactNode } from "react";
+
+// Label decorated with a leading lucide icon for visual scanning.
+function FieldLabel({
+  icon: Icon,
+  children,
+}: {
+  icon: LucideIcon;
+  children: ReactNode;
+}) {
+  return (
+    <Label className="flex items-center gap-1.5 mb-1.5">
+      <Icon className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+      <span>{children}</span>
+    </Label>
+  );
+}
 
 interface PersonalFormProps {
   data: TEmployee;
@@ -52,7 +91,7 @@ export default function PersonalForm({
           className="row gap-y-4"
         >
           <div className="lg:col-6">
-            <Label>Full Name:</Label>
+            <FieldLabel icon={User}>Full Name:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -70,7 +109,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Mobile Phone:</Label>
+            <FieldLabel icon={Phone}>Mobile Phone:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -87,7 +126,7 @@ export default function PersonalForm({
             />
           </div>
           <div className="lg:col-6">
-            <Label>Work Email:</Label>
+            <FieldLabel icon={Mail}>Work Email:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -104,7 +143,7 @@ export default function PersonalForm({
             />
           </div>
           <div className="lg:col-6">
-            <Label>Personal Email:</Label>
+            <FieldLabel icon={AtSign}>Personal Email:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -122,7 +161,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Date of Birth:</Label>
+            <FieldLabel icon={Cake}>Date of Birth:</FieldLabel>
             {isReadOnly ? (
               <p className="text-sm">
                 {data.dob ? dateFormat(data.dob) : "Not Available"}
@@ -175,7 +214,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Gender:</Label>
+            <FieldLabel icon={UserRound}>Gender:</FieldLabel>
             {isReadOnly ? (
               <p className="text-sm capitalize">
                 {data.gender || "Not Available"}
@@ -208,7 +247,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Present Address:</Label>
+            <FieldLabel icon={MapPin}>Present Address:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -226,7 +265,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Permanent Address:</Label>
+            <FieldLabel icon={Home}>Permanent Address:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -244,7 +283,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Blood Group:</Label>
+            <FieldLabel icon={Droplet}>Blood Group:</FieldLabel>
             {isReadOnly ? (
               <p className="text-sm uppercase">
                 {data.blood_group || "Not Available"}
@@ -288,7 +327,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Blood Donor:</Label>
+            <FieldLabel icon={HandHeart}>Blood Donor:</FieldLabel>
             {isReadOnly ? (
               <p className="text-sm capitalize">
                 {data.blood_donor ? "Yes" : "No"}
@@ -321,7 +360,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Marital Status:</Label>
+            <FieldLabel icon={Heart}>Marital Status:</FieldLabel>
             {isReadOnly ? (
               <p className="text-sm capitalize">
                 {data.marital_status || "Not Available"}
@@ -358,7 +397,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Tin:</Label>
+            <FieldLabel icon={Receipt}>TIN:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -375,7 +414,7 @@ export default function PersonalForm({
             />
           </div>
           <div className="lg:col-6">
-            <Label>NID:</Label>
+            <FieldLabel icon={IdCard}>NID:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -395,7 +434,7 @@ export default function PersonalForm({
           {!isReadOnly && (
             <>
               <div className="lg:col-6">
-                <Label>Facebook Profile:</Label>
+                <FieldLabel icon={Globe}>Facebook Profile:</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -413,7 +452,7 @@ export default function PersonalForm({
               </div>
 
               <div className="lg:col-6">
-                <Label>Twitter(X) Profile:</Label>
+                <FieldLabel icon={Hash}>Twitter(X) Profile:</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -431,7 +470,7 @@ export default function PersonalForm({
               </div>
 
               <div className="lg:col-6">
-                <Label>Linkedin Profile:</Label>
+                <FieldLabel icon={Briefcase}>Linkedin Profile:</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -449,7 +488,9 @@ export default function PersonalForm({
               </div>
 
               <div className="lg:col-6">
-                <Label>{communication_platform} User ID:</Label>
+                <FieldLabel icon={MessageCircle}>
+                  {communication_platform} User ID:
+                </FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -469,7 +510,7 @@ export default function PersonalForm({
           )}
 
           <div className="lg:col-6">
-            <Label>Personality:</Label>
+            <FieldLabel icon={Sparkles}>Personality:</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -487,7 +528,7 @@ export default function PersonalForm({
           </div>
           {(userRole === "admin" || userRole === "moderator") && (
             <div className="lg:col-12">
-              <Label>Note:</Label>
+              <FieldLabel icon={StickyNote}>Note:</FieldLabel>
               <Textarea
                 onChange={(e) => {
                   const { name, value } = e.target;
