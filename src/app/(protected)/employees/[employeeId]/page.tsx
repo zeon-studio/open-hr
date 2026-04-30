@@ -3,6 +3,7 @@
 import Avatar from "@/components/avatar";
 import { Facebook, Linkedin, Twitter } from "@/components/icons";
 import { getDuration } from "@/lib/date-converter";
+import { profileCompletion } from "@/lib/profile-completion";
 import { cn } from "@/lib/shadcn";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
@@ -176,6 +177,8 @@ export default function EmployeeSingle() {
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
 
+  const completion = profileCompletion(data?.result);
+
   const handleMouseDown = (tab: (typeof tabs)[0]) => {
     const urlSearchParams = new URLSearchParams(searchParams?.toString());
     urlSearchParams.set("tab", tab.value);
@@ -285,6 +288,48 @@ export default function EmployeeSingle() {
 
         <div className="gap-5 px-4 pb-4 mt-6 lg:mt-8 xl:mt-16 flex">
           <div className="space-y-5 xl:basis-[210px] hidden xl:block xl:pl-8">
+            <div
+              className="xl:max-w-[210px]"
+              aria-label={`Profile ${completion.percent}% complete`}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-semibold text-text-dark">
+                  Profile completion
+                </span>
+                <span className="text-xs font-semibold text-text-dark">
+                  {completion.percent}%
+                </span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-light overflow-hidden">
+                <div
+                  className={cn(
+                    "h-full rounded-full transition-all",
+                    completion.percent >= 80
+                      ? "bg-success"
+                      : completion.percent >= 50
+                        ? "bg-warning"
+                        : "bg-destructive"
+                  )}
+                  style={{ width: `${completion.percent}%` }}
+                />
+              </div>
+              <p className="text-[10px] text-text-light mt-1">
+                {completion.filled} of {completion.total} fields filled
+              </p>
+              {completion.missing.length > 0 && (
+                <details className="mt-2 text-[11px] text-text-light group">
+                  <summary className="cursor-pointer select-none hover:text-text-dark transition-colors">
+                    View {completion.missing.length} missing field
+                    {completion.missing.length === 1 ? "" : "s"}
+                  </summary>
+                  <ul className="mt-1.5 pl-4 list-disc space-y-0.5">
+                    {completion.missing.map((label) => (
+                      <li key={label}>{label}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
             <div className="xl:max-w-[210px]">
               <h6 className="text-base font-semibold mb-4">Vitals</h6>
               <ul className="list-none space-y-4">
