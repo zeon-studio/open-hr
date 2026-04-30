@@ -104,9 +104,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return !!user;
       }
 
-      const res = await Axios.post("/authentication/oauth-login", {
-        email: user.email,
-      });
+      // SECURITY: Forward the Google-issued ID token to the backend so it
+      // can verify the signature against Google's public keys. Trusting
+      // user.email here would let anyone POST any email to /oauth-login
+      // and log in as that user.
+      const idToken = account?.id_token;
+      if (!idToken) {
+        return false;
+      }
+
+      const res = await Axios.post("/authentication/oauth-login", { idToken });
 
       if (res.status === 200) {
         user.id = res.data.result.userId;
