@@ -10,6 +10,11 @@ const getEmployeesData = () => {
     };
   };
 
+  // localStorage is unavailable during SSR; fall back to the in-memory store.
+  if (typeof window === "undefined") {
+    return employees?.data?.result ?? [];
+  }
+
   const storedData = localStorage.getItem("local-employees-basics");
   if (employees?.data?.result) {
     localStorage.setItem(
