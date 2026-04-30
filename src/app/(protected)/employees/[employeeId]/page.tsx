@@ -390,40 +390,50 @@ export default function EmployeeSingle() {
               </div>
             )}
 
-            <div>
-              <h6 className="text-base font-semibold mb-4 text-text-dark">
-                Social
-              </h6>
-              <ul className="flex space-x-2">
-                <li>
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    href={data?.result.linkedin ?? ""}
-                  >
-                    <Linkedin className="size-7" />
-                  </Link>
-                </li>
-                <li className="flex items-center justify-center">
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    href={data?.result.twitter ?? ""}
-                  >
-                    <Twitter className="size-7" />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    href={data?.result.facebook ?? ""}
-                  >
-                    <Facebook className="size-7" />
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            {(data?.result.linkedin ||
+              data?.result.twitter ||
+              data?.result.facebook) && (
+              <div>
+                <h6 className="text-base font-semibold mb-4 text-text-dark">
+                  Social
+                </h6>
+                <ul className="flex space-x-2">
+                  {data?.result.linkedin && (
+                    <li>
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={data.result.linkedin}
+                      >
+                        <Linkedin className="size-7" />
+                      </Link>
+                    </li>
+                  )}
+                  {data?.result.twitter && (
+                    <li className="flex items-center justify-center">
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={data.result.twitter}
+                      >
+                        <Twitter className="size-7" />
+                      </Link>
+                    </li>
+                  )}
+                  {data?.result.facebook && (
+                    <li>
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={data.result.facebook}
+                      >
+                        <Facebook className="size-7" />
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
           <div className="xl:pl-6 flex-1">
             {tabs.map((tab, index) => (
