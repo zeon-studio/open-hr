@@ -2,10 +2,14 @@ import {
   TCalendar,
   TCalSheet,
 } from "@/redux/features/calendarApiSlice/calendarType";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { dayCount } from "./date-converter";
 
 // read calendar sheet data
+//
+// Replaces the previous `xlsx` (SheetJS community 0.18.5) parser, which is
+// no longer maintained on npm and has known prototype-pollution and ReDoS
+// CVEs. ExcelJS is actively maintained and yields the same calendar rows.
 export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
   return new Promise((resolve, reject) => {
     if (!file) {
@@ -17,22 +21,54 @@ export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
     const fileReader = new FileReader();
     fileReader.readAsArrayBuffer(file);
 
-    fileReader.onload = (e) => {
+    fileReader.onload = async (e) => {
       try {
         const bufferArray = e?.target?.result;
-        if (!bufferArray) {
+        if (!bufferArray || typeof bufferArray === "string") {
           throw new Error("Failed to read file buffer");
         }
 
-        // Acquiring and Extracting Data
-        const workbook = XLSX.read(bufferArray, { type: "buffer" });
-        const worksheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[worksheetName];
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(bufferArray as ArrayBuffer);
 
-        // Processing Data
-        const data = XLSX.utils.sheet_to_json(worksheet, {
-          raw: false,
-        }) as TCalendar[];
+        const worksheet = workbook.worksheets[0];
+        if (!worksheet) {
+          throw new Error("Workbook contained no sheets");
+        }
+
+        // Header row → column-name array
+        const headerRow = worksheet.getRow(1);
+        const headers: string[] = [];
+        headerRow.eachCell({ includeEmpty: false }, (cell, colNumber) => {
+          headers[colNumber - 1] = String(cell.value ?? "").trim();
+        });
+
+        // Data rows → object[] keyed by header
+        const data: TCalendar[] = [];
+        worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+          if (rowNumber === 1) return;
+          const obj: Record<string, unknown> = {};
+          row.eachCell({ includeEmpty: false }, (cell, colNumber) => {
+            const key = headers[colNumber - 1];
+            if (!key) return;
+            const value = cell.value;
+            // Coerce to the same string-y shape XLSX produced with raw:false
+            if (value instanceof Date) {
+              obj[key] = value.toISOString().split("T")[0];
+            } else if (
+              value !== null &&
+              typeof value === "object" &&
+              "text" in (value as object)
+            ) {
+              obj[key] = (value as { text: string }).text;
+            } else if (value === null || value === undefined) {
+              obj[key] = "";
+            } else {
+              obj[key] = String(value);
+            }
+          });
+          data.push(obj as unknown as TCalendar);
+        });
 
         if (data.length === 0) {
           alert("No data found in the file");
