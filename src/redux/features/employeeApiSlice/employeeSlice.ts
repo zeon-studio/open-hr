@@ -9,10 +9,18 @@ const employeeApiWithTag = apiSlice.enhanceEndpoints({
 export const employeeApi = employeeApiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     getEmployees: builder.query<TEmployeeState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/employee?page=${page}&limit=${limit}&search=${search}`,
-        method: "GET",
-      }),
+      query: ({ page, limit, search, status }) => {
+        const params = new URLSearchParams({
+          page: String(page),
+          limit: String(limit),
+          search: search ?? "",
+        });
+        if (status) params.set("status", status);
+        return {
+          url: `/employee?${params.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: ["employees"],
       keepUnusedDataFor: 30 * 60,
     }),
