@@ -57,7 +57,7 @@ const Payroll = () => {
           <DialogTrigger asChild>
             <Button className="ml-auto">Add Salary</Button>
           </DialogTrigger>
-          <PayrollInsert onDialogChange={onDialogChange} />
+          {isDialogOpen && <PayrollInsert onDialogChange={onDialogChange} />}
         </Dialog>
       </div>
 

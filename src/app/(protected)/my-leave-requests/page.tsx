@@ -63,7 +63,9 @@ const LeaveRequest = () => {
             <DialogTrigger asChild>
               <Button className="ml-auto">Request Leave</Button>
             </DialogTrigger>
-            <LeaveRequestInsert onDialogChange={onDialogChange} />
+            {isDialogOpen && (
+              <LeaveRequestInsert onDialogChange={onDialogChange} />
+            )}
           </Dialog>
         )}
       </div>
