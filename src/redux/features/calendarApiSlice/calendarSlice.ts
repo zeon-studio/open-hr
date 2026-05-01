@@ -31,6 +31,7 @@ export const calendarApi = calendarApiWithTag.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["calendars"],
+      keepUnusedDataFor: 30 * 60,
     }),
 
     addCalendar: builder.mutation<TCalendarState, TCalendar>({
