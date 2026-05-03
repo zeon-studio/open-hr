@@ -453,36 +453,35 @@ export default function EmployeeSingle() {
               <Separator className="my-5" />
             </div>
 
-            {!jobData?.result?.resignation_date && (
-              <div>
-                <h6 className="text-base font-semibold mb-4 text-text-dark">
-                  Join Date
-                </h6>
-                <ul className="list-none space-y-4">
-                  {(jobData?.result?.permanent_date ||
-                    jobData?.result?.joining_date) && (
-                      <li className="flex space-x-2 text-text-light">
-                        <Calendar className="size-4 stroke-current" />
-                        <div className="space-y-1.5">
-                          <span className="text-xs block font-semibold">
-                            {format(
-                              new Date(
-                                jobData?.result?.permanent_date
-                                  ? jobData?.result?.permanent_date
-                                  : jobData?.result?.joining_date
-                              ),
-                              "MMM d, yyyy"
-                            )}
-                          </span>
-                          <span className="text-xs block">
-                            {formattedDuration}
-                          </span>
-                        </div>
-                      </li>
-                    )}
-                </ul>
-              </div>
-            )}
+            {!jobData?.result?.resignation_date &&
+              (jobData?.result?.permanent_date ||
+                jobData?.result?.joining_date) && (
+                <div>
+                  <h6 className="text-base font-semibold mb-4 text-text-dark">
+                    Join Date
+                  </h6>
+                  <ul className="list-none space-y-4">
+                    <li className="flex space-x-2 text-text-light">
+                      <Calendar className="size-4 stroke-current" />
+                      <div className="space-y-1.5">
+                        <span className="text-xs block font-semibold">
+                          {format(
+                            new Date(
+                              jobData.result.permanent_date
+                                ? jobData.result.permanent_date
+                                : jobData.result.joining_date
+                            ),
+                            "MMM d, yyyy"
+                          )}
+                        </span>
+                        <span className="text-xs block">
+                          {formattedDuration}
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              )}
 
             {(data?.result.linkedin ||
               data?.result.twitter ||
