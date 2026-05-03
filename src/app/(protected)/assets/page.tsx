@@ -58,7 +58,7 @@ const Asset = () => {
           <DialogTrigger asChild>
             <Button className="ml-auto">Add New Asset</Button>
           </DialogTrigger>
-          <AssetInsert onDialogChange={onDialogChange} />
+          {isDialogOpen && <AssetInsert onDialogChange={onDialogChange} />}
         </Dialog>
       </div>
 

@@ -53,7 +53,7 @@ export default function Employees() {
           <DialogTrigger asChild>
             <Button className="ml-auto">Add Employee</Button>
           </DialogTrigger>
-          <EmployeeInsert onDialogChange={onDialogChange} />
+          {isDialogOpen && <EmployeeInsert onDialogChange={onDialogChange} />}
         </Dialog>
       </div>
 
