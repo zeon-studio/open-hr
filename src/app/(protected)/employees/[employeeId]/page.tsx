@@ -3,6 +3,7 @@
 import Avatar from "@/components/avatar";
 import { Facebook, Linkedin, Twitter } from "@/components/icons";
 import { getDuration } from "@/lib/date-converter";
+import { profileCompletion } from "@/lib/profile-completion";
 import { cn } from "@/lib/shadcn";
 import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
@@ -36,7 +37,7 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Achievement from "./_components/achievement-details";
 import Assets from "./_components/asset-details";
 import Courses from "./_components/course-details";
@@ -140,6 +141,38 @@ export default function EmployeeSingle() {
   const { data, isLoading } = useGetEmployeeQuery(employeeId);
   const { data: jobData } = useGetEmployeeJobQuery(employeeId);
   const [activeTab, setTab] = useState(tabs[0]);
+  const [employeeWithPhotoSource, setEmployeeWithPhotoSource] = useState(
+    data?.result
+  );
+
+  // Check for gravatar and update photo_source
+  useEffect(() => {
+    if (data?.result && !data.result.photo_source) {
+      const checkPhotoSource = async () => {
+        try {
+          const response = await fetch("/api/employees/check-photo-source", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: data.result.work_email,
+              hasUploadedImage: !!data.result.image,
+            }),
+          });
+          const result = await response.json();
+          setEmployeeWithPhotoSource({
+            ...data.result,
+            photo_source: result.photo_source,
+          });
+        } catch (error) {
+          console.error("Error checking photo source:", error);
+          setEmployeeWithPhotoSource(data.result);
+        }
+      };
+      checkPhotoSource();
+    } else {
+      setEmployeeWithPhotoSource(data?.result);
+    }
+  }, [data?.result]);
 
   if (!isLoading && !data?.result) {
     return notFound();
@@ -148,9 +181,9 @@ export default function EmployeeSingle() {
   const user =
     session?.user.id !== data?.result.id
       ? {
-          email: data?.result.work_email ?? data?.result.personal_email,
-          name: data?.result.name,
-        }
+        email: data?.result.work_email ?? data?.result.personal_email,
+        name: data?.result.name,
+      }
       : session?.user;
 
   // hide tabs from former
@@ -175,6 +208,8 @@ export default function EmployeeSingle() {
   );
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
+
+  const completion = profileCompletion(employeeWithPhotoSource);
 
   const handleMouseDown = (tab: (typeof tabs)[0]) => {
     const urlSearchParams = new URLSearchParams(searchParams?.toString());
@@ -240,7 +275,7 @@ export default function EmployeeSingle() {
                             "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:ring-0! cursor-pointer p-1.5",
 
                             tab.value === activeTab.value &&
-                              "bg-[#F3F4F6] text-text-dark"
+                            "bg-[#F3F4F6] text-text-dark"
                           )}
                           variant={"ghost"}
                           onMouseDown={(e) => {
@@ -285,6 +320,48 @@ export default function EmployeeSingle() {
 
         <div className="gap-5 px-4 pb-4 mt-6 lg:mt-8 xl:mt-16 flex">
           <div className="space-y-5 xl:basis-[210px] hidden xl:block xl:pl-8">
+            <div
+              className="xl:max-w-[210px]"
+              aria-label={`Profile ${completion.percent}% complete`}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-semibold text-text-dark">
+                  Profile completion
+                </span>
+                <span className="text-xs font-semibold text-text-dark">
+                  {completion.percent}%
+                </span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-light overflow-hidden">
+                <div
+                  className={cn(
+                    "h-full rounded-full transition-all",
+                    completion.percent >= 80
+                      ? "bg-success"
+                      : completion.percent >= 50
+                        ? "bg-warning"
+                        : "bg-destructive"
+                  )}
+                  style={{ width: `${completion.percent}%` }}
+                />
+              </div>
+              <p className="text-[10px] text-text-light mt-1">
+                {completion.filled} of {completion.total} fields filled
+              </p>
+              {completion.missing.length > 0 && (
+                <details className="mt-2 text-[11px] text-text-light group">
+                  <summary className="cursor-pointer select-none hover:text-text-dark transition-colors">
+                    View {completion.missing.length} missing field
+                    {completion.missing.length === 1 ? "" : "s"}
+                  </summary>
+                  <ul className="mt-1.5 pl-4 list-disc space-y-0.5">
+                    {completion.missing.map((label) => (
+                      <li key={label}>{label}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
             <div className="xl:max-w-[210px]">
               <h6 className="text-base font-semibold mb-4">Vitals</h6>
               <ul className="list-none space-y-4">
@@ -384,25 +461,25 @@ export default function EmployeeSingle() {
                 <ul className="list-none space-y-4">
                   {(jobData?.result?.permanent_date ||
                     jobData?.result?.joining_date) && (
-                    <li className="flex space-x-2 text-text-light">
-                      <Calendar className="size-4 stroke-current" />
-                      <div className="space-y-1.5">
-                        <span className="text-xs block font-semibold">
-                          {format(
-                            new Date(
-                              jobData?.result?.permanent_date
-                                ? jobData?.result?.permanent_date
-                                : jobData?.result?.joining_date
-                            ),
-                            "MMM d, yyyy"
-                          )}
-                        </span>
-                        <span className="text-xs block">
-                          {formattedDuration}
-                        </span>
-                      </div>
-                    </li>
-                  )}
+                      <li className="flex space-x-2 text-text-light">
+                        <Calendar className="size-4 stroke-current" />
+                        <div className="space-y-1.5">
+                          <span className="text-xs block font-semibold">
+                            {format(
+                              new Date(
+                                jobData?.result?.permanent_date
+                                  ? jobData?.result?.permanent_date
+                                  : jobData?.result?.joining_date
+                              ),
+                              "MMM d, yyyy"
+                            )}
+                          </span>
+                          <span className="text-xs block">
+                            {formattedDuration}
+                          </span>
+                        </div>
+                      </li>
+                    )}
                 </ul>
               </div>
             )}
@@ -410,47 +487,47 @@ export default function EmployeeSingle() {
             {(data?.result.linkedin ||
               data?.result.twitter ||
               data?.result.facebook) && (
-              <div>
-                <h6 className="text-base font-semibold mb-4 text-text-dark">
-                  Social
-                </h6>
-                <ul className="flex space-x-2">
-                  {data?.result.linkedin && (
-                    <li>
-                      <Link
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        href={data.result.linkedin}
-                      >
-                        <Linkedin className="size-7" />
-                      </Link>
-                    </li>
-                  )}
-                  {data?.result.twitter && (
-                    <li className="flex items-center justify-center">
-                      <Link
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        href={data.result.twitter}
-                      >
-                        <Twitter className="size-7" />
-                      </Link>
-                    </li>
-                  )}
-                  {data?.result.facebook && (
-                    <li>
-                      <Link
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        href={data.result.facebook}
-                      >
-                        <Facebook className="size-7" />
-                      </Link>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            )}
+                <div>
+                  <h6 className="text-base font-semibold mb-4 text-text-dark">
+                    Social
+                  </h6>
+                  <ul className="flex space-x-2">
+                    {data?.result.linkedin && (
+                      <li>
+                        <Link
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          href={data.result.linkedin}
+                        >
+                          <Linkedin className="size-7" />
+                        </Link>
+                      </li>
+                    )}
+                    {data?.result.twitter && (
+                      <li className="flex items-center justify-center">
+                        <Link
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          href={data.result.twitter}
+                        >
+                          <Twitter className="size-7" />
+                        </Link>
+                      </li>
+                    )}
+                    {data?.result.facebook && (
+                      <li>
+                        <Link
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          href={data.result.facebook}
+                        >
+                          <Facebook className="size-7" />
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
           </div>
           <div className="xl:pl-6 flex-1">
             {tabs.map((tab, index) => (
