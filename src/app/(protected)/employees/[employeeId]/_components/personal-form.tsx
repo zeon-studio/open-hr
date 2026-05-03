@@ -108,7 +108,7 @@ export default function PersonalForm({
             e.preventDefault();
             onSubmit(data);
           }}
-          className="row gap-y-4"
+          className="row gap-y-6"
         >
           <div className="lg:col-6">
             <FieldLabel icon={User}>Full Name:</FieldLabel>
