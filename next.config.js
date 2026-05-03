@@ -25,6 +25,11 @@ const nextConfig = {
         hostname: "t1.gstatic.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.gravatar.com",
+        pathname: "/avatar/**",
+      },
     ],
   },
   reactStrictMode: true,

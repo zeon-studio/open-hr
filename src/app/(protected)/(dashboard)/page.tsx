@@ -5,7 +5,7 @@ import ClearCache from "@/helpers/clear-cache";
 import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Gravatar from "react-gravatar";
+import Gravatar from "@/components/gravatar";
 import PendingTasks from "./_components/pending-tasks";
 import UpcomingEvents from "./_components/upcoming-events";
 import UpcomingHolidays from "./_components/upcoming-holidays";
