@@ -13,7 +13,7 @@ import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Gravatar from "react-gravatar";
+import Gravatar from "@/components/gravatar";
 import ConfirmationPopup from "../components/confirmation-popup";
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {

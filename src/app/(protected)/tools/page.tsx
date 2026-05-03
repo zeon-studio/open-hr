@@ -58,7 +58,7 @@ const Tool = () => {
           <DialogTrigger asChild>
             <Button className="ml-auto">Add New Platform</Button>
           </DialogTrigger>
-          <ToolInsert onDialogChange={onDialogChange} />
+          {isDialogOpen && <ToolInsert onDialogChange={onDialogChange} />}
         </Dialog>
       </div>
 

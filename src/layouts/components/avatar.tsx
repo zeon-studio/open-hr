@@ -1,7 +1,7 @@
 import { cn } from "@/lib/shadcn";
 import Image from "next/image";
 import { ComponentProps } from "react";
-import Gravatar from "react-gravatar";
+import Gravatar from "@/components/gravatar";
 
 type ImageProps = Omit<ComponentProps<typeof Image>, "src">;
 

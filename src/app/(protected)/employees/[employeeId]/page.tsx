@@ -288,63 +288,80 @@ export default function EmployeeSingle() {
             <div className="xl:max-w-[210px]">
               <h6 className="text-base font-semibold mb-4">Vitals</h6>
               <ul className="list-none space-y-4">
-                <li className="flex space-x-2 text-text-light">
-                  <Building className="size-4 stroke-current" />
-                  <div className="space-y-1.5">
-                    <span className="text-xs block font-semibold text-text-light">
-                      Present Address
-                    </span>
-                    <span className="text-xs block text-text-light">
-                      {data?.result.present_address}
-                    </span>
-                  </div>
-                </li>
+                {data?.result.present_address && (
+                  <li className="flex space-x-2 text-text-light">
+                    <Building className="size-4 stroke-current" />
+                    <div className="space-y-1.5">
+                      <span className="text-xs block font-semibold text-text-light">
+                        Present Address
+                      </span>
+                      <span className="text-xs block text-text-light">
+                        {data.result.present_address}
+                      </span>
+                    </div>
+                  </li>
+                )}
 
-                <li className="flex space-x-2 text-text-light">
-                  <Phone className="size-4 flex-none stroke-current" />
-                  <Link
-                    href={`tel:${data?.result.phone}`}
-                    className="flex space-x-2 text-xs"
-                  >
-                    {data?.result.phone}
-                  </Link>
-                </li>
+                {data?.result.phone && (
+                  <li className="flex space-x-2 text-text-light">
+                    <Phone className="size-4 flex-none stroke-current" />
+                    <Link
+                      href={`tel:${data.result.phone}`}
+                      className="flex space-x-2 text-xs"
+                    >
+                      {data.result.phone}
+                    </Link>
+                  </li>
+                )}
 
-                <li className="flex space-x-2 text-text-light">
-                  <Mail className="size-4 flex-none text-current" />
-                  <Link
-                    href={`mailto:${data?.result.work_email}`}
-                    className="flex space-x-2 text-xs"
-                  >
-                    {data?.result.work_email}
-                  </Link>
-                </li>
+                {data?.result.work_email && (
+                  <li className="flex space-x-2 text-text-light">
+                    <Mail className="size-4 flex-none text-current" />
+                    <Link
+                      href={`mailto:${data.result.work_email}`}
+                      className="flex space-x-2 text-xs"
+                    >
+                      {data.result.work_email}
+                    </Link>
+                  </li>
+                )}
 
-                <li className="flex space-x-2 text-text-light">
-                  <MessageCircle className="size-4 flex-none text-current" />
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    href={
-                      communication_platform_url + data?.result.communication_id
-                    }
-                    className="flex space-x-2 text-xs"
-                  >
-                    {communication_platform}
-                  </Link>
-                </li>
+                {communication_platform_url &&
+                  communication_platform &&
+                  data?.result.communication_id && (
+                    <li className="flex space-x-2 text-text-light">
+                      <MessageCircle className="size-4 flex-none text-current" />
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={
+                          communication_platform_url +
+                          data.result.communication_id
+                        }
+                        className="flex space-x-2 text-xs"
+                      >
+                        {communication_platform}
+                      </Link>
+                    </li>
+                  )}
 
-                <li className="flex space-x-2 text-text-light">
-                  <UserRoundCog className="size-4 stroke-current" />
-                  <div className="space-y-1.5">
-                    <span className="text-xs block font-semibold capitalize">
-                      {data?.result?.designation}
-                    </span>
-                    <span className="text-xs block capitalize">
-                      {jobData?.result?.job_type?.replace("_", " ")}
-                    </span>
-                  </div>
-                </li>
+                {(data?.result?.designation || jobData?.result?.job_type) && (
+                  <li className="flex space-x-2 text-text-light">
+                    <UserRoundCog className="size-4 stroke-current" />
+                    <div className="space-y-1.5">
+                      {data?.result?.designation && (
+                        <span className="text-xs block font-semibold capitalize">
+                          {data.result.designation}
+                        </span>
+                      )}
+                      {jobData?.result?.job_type && (
+                        <span className="text-xs block capitalize">
+                          {jobData.result.job_type.replace("_", " ")}
+                        </span>
+                      )}
+                    </div>
+                  </li>
+                )}
 
                 <li className="flex space-x-2 text-text-light">
                   <Hash className="size-4 stroke-current" />

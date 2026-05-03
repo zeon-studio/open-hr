@@ -66,6 +66,27 @@ interface PersonalFormProps {
   popoverContainer?: HTMLElement | null;
 }
 
+// Read-only display for a field value. Empty values render as a muted
+// "Not provided" instead of leaking the input placeholder.
+function ReadOnlyValue({
+  value,
+  className,
+}: {
+  value?: string | number | null;
+  className?: string;
+}) {
+  const isEmpty = value === null || value === undefined || value === "";
+  return (
+    <p className={cn("text-sm py-2", className)}>
+      {isEmpty ? (
+        <span className="text-muted-foreground italic">Not provided</span>
+      ) : (
+        value
+      )}
+    </p>
+  );
+}
+
 export default function PersonalForm({
   data,
   isUpdating,
@@ -163,9 +184,7 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={Cake}>Date of Birth:</FieldLabel>
             {isReadOnly ? (
-              <p className="text-sm">
-                {data.dob ? dateFormat(data.dob) : "Not Available"}
-              </p>
+              <ReadOnlyValue value={data.dob ? dateFormat(data.dob) : null} />
             ) : (
               <Popover>
                 <PopoverTrigger asChild>
@@ -216,9 +235,7 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={UserRound}>Gender:</FieldLabel>
             {isReadOnly ? (
-              <p className="text-sm capitalize">
-                {data.gender || "Not Available"}
-              </p>
+              <ReadOnlyValue value={data.gender} className="capitalize" />
             ) : (
               <Select
                 name="gender"
@@ -285,9 +302,7 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={Droplet}>Blood Group:</FieldLabel>
             {isReadOnly ? (
-              <p className="text-sm uppercase">
-                {data.blood_group || "Not Available"}
-              </p>
+              <ReadOnlyValue value={data.blood_group} className="uppercase" />
             ) : (
               <Select
                 onValueChange={(value) =>
@@ -329,9 +344,7 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={HandHeart}>Blood Donor:</FieldLabel>
             {isReadOnly ? (
-              <p className="text-sm capitalize">
-                {data.blood_donor ? "Yes" : "No"}
-              </p>
+              <ReadOnlyValue value={data.blood_donor ? "Yes" : "No"} />
             ) : (
               <Select
                 onValueChange={(value) =>
@@ -362,9 +375,10 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={Heart}>Marital Status:</FieldLabel>
             {isReadOnly ? (
-              <p className="text-sm capitalize">
-                {data.marital_status || "Not Available"}
-              </p>
+              <ReadOnlyValue
+                value={data.marital_status}
+                className="capitalize"
+              />
             ) : (
               <Select
                 onValueChange={(value) =>
@@ -537,11 +551,35 @@ export default function PersonalForm({
                     [name]: value,
                   });
                 }}
-                value={data.note || ""}
-                name="note"
-                rows={5}
-                readOnly={isReadOnly}
+                type="text"
+                value={data.personality || ""}
+                name="personality"
+                placeholder="Personality Type"
               />
+            )}
+          </div>
+          {(userRole === "admin" || userRole === "moderator") && (
+            <div className="lg:col-12">
+              <Label>Note:</Label>
+              {isReadOnly ? (
+                <ReadOnlyValue
+                  value={data.note}
+                  className="whitespace-pre-wrap"
+                />
+              ) : (
+                <Textarea
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    handleChange({
+                      ...data,
+                      [name]: value,
+                    });
+                  }}
+                  value={data.note || ""}
+                  name="note"
+                  rows={5}
+                />
+              )}
             </div>
           )}
         </form>

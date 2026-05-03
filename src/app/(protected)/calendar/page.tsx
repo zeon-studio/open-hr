@@ -111,7 +111,9 @@ const CalendarPage = () => {
                     Add Calendar Year
                   </Button>
                 </DialogTrigger>
-                <CalendarInsert onDialogChange={onDialogChange} />
+                {isDialogOpen && (
+                  <CalendarInsert onDialogChange={onDialogChange} />
+                )}
               </Dialog>
               <CalendarInsertSheet />
             </div>
