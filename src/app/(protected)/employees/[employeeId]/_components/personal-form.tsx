@@ -16,7 +16,46 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Textarea } from "@/ui/textarea";
-import { CalendarIcon } from "lucide-react";
+import {
+  AtSign,
+  Briefcase,
+  Cake,
+  CalendarIcon,
+  Droplet,
+  Globe,
+  HandHeart,
+  Hash,
+  Heart,
+  Home,
+  IdCard,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Receipt,
+  Sparkles,
+  StickyNote,
+  User,
+  UserRound,
+  type LucideIcon,
+} from "lucide-react";
+import type { ReactNode } from "react";
+
+// Label decorated with a leading lucide icon for visual scanning.
+function FieldLabel({
+  icon: Icon,
+  children,
+}: {
+  icon: LucideIcon;
+  children: ReactNode;
+}) {
+  return (
+    <Label className="flex items-center gap-1.5 mb-1.5">
+      <Icon className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+      <span>{children}</span>
+    </Label>
+  );
+}
 
 interface PersonalFormProps {
   data: TEmployee;
@@ -73,89 +112,77 @@ export default function PersonalForm({
           className="row gap-y-4"
         >
           <div className="lg:col-6">
-            <Label>Full Name:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.name} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="text"
-                value={data.name || ""}
-                name="name"
-                placeholder="Full Name"
-              />
-            )}
+            <FieldLabel icon={User}>Full Name:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="text"
+              value={data.name || ""}
+              name="name"
+              placeholder="Full Name"
+              readOnly={isReadOnly}
+            />
           </div>
 
           <div className="lg:col-6">
-            <Label>Mobile Phone:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.phone} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="text"
-                value={data.phone || ""}
-                name="phone"
-                placeholder="Phone Number"
-              />
-            )}
+            <FieldLabel icon={Phone}>Mobile Phone:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="text"
+              value={data.phone || ""}
+              name="phone"
+              placeholder="Phone Number"
+              readOnly={isReadOnly}
+            />
           </div>
           <div className="lg:col-6">
-            <Label>Work Email:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.work_email} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="email"
-                value={data.work_email || ""}
-                name="work_email"
-                placeholder="Work Email"
-              />
-            )}
+            <FieldLabel icon={Mail}>Work Email:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="email"
+              value={data.work_email || ""}
+              name="work_email"
+              placeholder="Work Email"
+              readOnly={isReadOnly}
+            />
           </div>
           <div className="lg:col-6">
-            <Label>Personal Email:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.personal_email} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="email"
-                value={data.personal_email || ""}
-                name="personal_email"
-                placeholder="Personal Email"
-              />
-            )}
+            <FieldLabel icon={AtSign}>Personal Email:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="email"
+              value={data.personal_email || ""}
+              name="personal_email"
+              placeholder="Personal Email"
+              readOnly={isReadOnly}
+            />
           </div>
 
           <div className="lg:col-6">
-            <Label>Date of Birth:</Label>
+            <FieldLabel icon={Cake}>Date of Birth:</FieldLabel>
             {isReadOnly ? (
               <ReadOnlyValue value={data.dob ? dateFormat(data.dob) : null} />
             ) : (
@@ -206,7 +233,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Gender:</Label>
+            <FieldLabel icon={UserRound}>Gender:</FieldLabel>
             {isReadOnly ? (
               <ReadOnlyValue value={data.gender} className="capitalize" />
             ) : (
@@ -237,49 +264,43 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Present Address:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.present_address} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="text"
-                value={data.present_address || ""}
-                name="present_address"
-                placeholder="Present Address"
-              />
-            )}
+            <FieldLabel icon={MapPin}>Present Address:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="text"
+              value={data.present_address || ""}
+              name="present_address"
+              placeholder="Present Address"
+              readOnly={isReadOnly}
+            />
           </div>
 
           <div className="lg:col-6">
-            <Label>Permanent Address:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.permanent_address} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="text"
-                value={data.permanent_address || ""}
-                name="permanent_address"
-                placeholder="Permanent Address"
-              />
-            )}
+            <FieldLabel icon={Home}>Permanent Address:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="text"
+              value={data.permanent_address || ""}
+              name="permanent_address"
+              placeholder="Permanent Address"
+              readOnly={isReadOnly}
+            />
           </div>
 
           <div className="lg:col-6">
-            <Label>Blood Group:</Label>
+            <FieldLabel icon={Droplet}>Blood Group:</FieldLabel>
             {isReadOnly ? (
               <ReadOnlyValue value={data.blood_group} className="uppercase" />
             ) : (
@@ -321,7 +342,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Blood Donor:</Label>
+            <FieldLabel icon={HandHeart}>Blood Donor:</FieldLabel>
             {isReadOnly ? (
               <ReadOnlyValue value={data.blood_donor ? "Yes" : "No"} />
             ) : (
@@ -352,7 +373,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>Marital Status:</Label>
+            <FieldLabel icon={Heart}>Marital Status:</FieldLabel>
             {isReadOnly ? (
               <ReadOnlyValue
                 value={data.marital_status}
@@ -390,50 +411,44 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <Label>TIN:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.tin} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="text"
-                value={data.tin || ""}
-                name="tin"
-                placeholder="TIN"
-              />
-            )}
+            <FieldLabel icon={Receipt}>TIN:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="text"
+              value={data.tin || ""}
+              name="tin"
+              placeholder="Tin"
+              readOnly={isReadOnly}
+            />
           </div>
           <div className="lg:col-6">
-            <Label>NID:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.nid} />
-            ) : (
-              <Input
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="text"
-                value={data.nid || ""}
-                name="nid"
-                placeholder="NID"
-              />
-            )}
+            <FieldLabel icon={IdCard}>NID:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="text"
+              value={data.nid || ""}
+              name="nid"
+              placeholder="NID"
+              readOnly={isReadOnly}
+            />
           </div>
 
           {!isReadOnly && (
             <>
               <div className="lg:col-6">
-                <Label>Facebook Profile:</Label>
+                <FieldLabel icon={Globe}>Facebook Profile:</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -451,7 +466,7 @@ export default function PersonalForm({
               </div>
 
               <div className="lg:col-6">
-                <Label>Twitter(X) Profile:</Label>
+                <FieldLabel icon={Hash}>Twitter(X) Profile:</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -469,7 +484,7 @@ export default function PersonalForm({
               </div>
 
               <div className="lg:col-6">
-                <Label>Linkedin Profile:</Label>
+                <FieldLabel icon={Briefcase}>Linkedin Profile:</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -487,7 +502,9 @@ export default function PersonalForm({
               </div>
 
               <div className="lg:col-6">
-                <Label>{communication_platform} User ID:</Label>
+                <FieldLabel icon={MessageCircle}>
+                  {communication_platform} User ID:
+                </FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -507,11 +524,26 @@ export default function PersonalForm({
           )}
 
           <div className="lg:col-6">
-            <Label>Personality:</Label>
-            {isReadOnly ? (
-              <ReadOnlyValue value={data.personality} />
-            ) : (
-              <Input
+            <FieldLabel icon={Sparkles}>Personality:</FieldLabel>
+            <Input
+              onChange={(e) => {
+                const { name, value } = e.target;
+                handleChange({
+                  ...data,
+                  [name]: value,
+                });
+              }}
+              type="text"
+              value={data.personality || ""}
+              name="personality"
+              placeholder="Personality Type"
+              readOnly={isReadOnly}
+            />
+          </div>
+          {(userRole === "admin" || userRole === "moderator") && (
+            <div className="lg:col-12">
+              <FieldLabel icon={StickyNote}>Note:</FieldLabel>
+              <Textarea
                 onChange={(e) => {
                   const { name, value } = e.target;
                   handleChange({
