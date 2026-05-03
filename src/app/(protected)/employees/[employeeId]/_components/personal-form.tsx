@@ -34,10 +34,9 @@ import {
   Phone,
   Receipt,
   Sparkles,
-  StickyNote,
   User,
   UserRound,
-  type LucideIcon,
+  type LucideIcon
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -539,24 +538,6 @@ export default function PersonalForm({
               placeholder="Personality Type"
               readOnly={isReadOnly}
             />
-          </div>
-          {(userRole === "admin" || userRole === "moderator") && (
-            <div className="lg:col-12">
-              <FieldLabel icon={StickyNote}>Note:</FieldLabel>
-              <Textarea
-                onChange={(e) => {
-                  const { name, value } = e.target;
-                  handleChange({
-                    ...data,
-                    [name]: value,
-                  });
-                }}
-                type="text"
-                value={data.personality || ""}
-                name="personality"
-                placeholder="Personality Type"
-              />
-            )}
           </div>
           {(userRole === "admin" || userRole === "moderator") && (
             <div className="lg:col-12">
