@@ -58,7 +58,7 @@ const Course = () => {
           <DialogTrigger asChild>
             <Button className="ml-auto">Add New Platform</Button>
           </DialogTrigger>
-          <CourseInsert onDialogChange={onDialogChange} />
+          {isDialogOpen && <CourseInsert onDialogChange={onDialogChange} />}
         </Dialog>
       </div>
 

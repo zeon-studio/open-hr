@@ -2,6 +2,7 @@ export type TEmployee = {
   id: string;
   name: string;
   image: string;
+  photo_source?: "upload" | "gravatar" | null;
   work_email: string;
   password: string;
   personal_email: string;

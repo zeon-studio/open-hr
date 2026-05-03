@@ -23,18 +23,22 @@ export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (response: TEmployeeJobState<TEmployeeJob>) => {
-        response.result.promotions = response.result.promotions.sort((a, b) => {
-          return (
-            new Date(b.promotion_date).getTime() -
-            new Date(a.promotion_date).getTime()
-          );
-        });
+        if (!response.result) return response;
 
-        response.result.prev_jobs = response.result.prev_jobs.sort((a, b) => {
-          return (
-            new Date(b.end_date).getTime() - new Date(a.end_date).getTime()
+        if (response.result.promotions) {
+          response.result.promotions = response.result.promotions.sort(
+            (a, b) =>
+              new Date(b.promotion_date).getTime() -
+              new Date(a.promotion_date).getTime()
           );
-        });
+        }
+
+        if (response.result.prev_jobs) {
+          response.result.prev_jobs = response.result.prev_jobs.sort(
+            (a, b) =>
+              new Date(b.end_date).getTime() - new Date(a.end_date).getTime()
+          );
+        }
         return response;
       },
       providesTags: ["employee-jobs"],
