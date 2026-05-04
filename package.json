@@ -32,10 +32,11 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.4.2",
+    "exceljs": "^4.4.0",
     "input-otp": "^1.4.2",
     "jotai": "^2.19.1",
     "lucide-react": "^1.8.0",
-    "marked": "^18.0.0",
+    "marked": "^18.0.2",
     "next": "^16.2.3",
     "next-auth": "^5.0.0-beta.30",
     "react": "19.2.5",
@@ -51,8 +52,7 @@
     "tailwindcss": "4.2.2",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "6.0.2",
-    "vaul": "^1.1.2",
-    "xlsx": "^0.18.5"
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.11",
