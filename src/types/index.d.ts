@@ -4,6 +4,7 @@ export type TPagination = {
   search?: string;
   year?: string;
   employee_id?: string;
+  status?: string;
 };
 
 export type TError = {

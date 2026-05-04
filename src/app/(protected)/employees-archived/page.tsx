@@ -2,12 +2,10 @@
 
 import Pagination from "@/components/pagination";
 import SearchBox from "@/components/search-box";
-import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { useGetEmployeesQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
 import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
   Table,
   TableBody,
@@ -19,63 +17,39 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import EmployeeInsert from "./_components/employee-insert";
-import EmployeePage from "./_components/employee-page";
+import EmployeePage from "../employees/_components/employee-page";
 
-export default function Employees() {
+export default function ArchivedEmployees() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const { limit } = useAppSelector((state) => state.filter);
   const page = searchParams?.get("page");
   const search = searchParams?.get("search");
 
-  // get current (non-archived) employees from cache or api
   const { data } = useGetEmployeesQuery({
     page: page ? Number(page) : 1,
     limit: limit,
     search: search ? search : "",
-    status: "active,pending",
-  });
-
-  // probe for any archived employees so we can conditionally show the button
-  const { data: archivedProbe } = useGetEmployeesQuery({
-    page: 1,
-    limit: 1,
-    search: "",
     status: "archived",
   });
-  const hasArchived = (archivedProbe?.meta?.total ?? 0) > 0;
 
   const { result: employees, meta } = data || {};
   const { localData } = useLocalCacheHook(
     {
       data: employees!,
     },
-    "local-employees"
+    "local-employees-archived"
   );
-  const { isDialogOpen, onDialogChange } = useDialog();
 
   return (
     <section className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-h4 hidden sm:block mr-2">Employees</h2>
+        <h2 className="text-h4 hidden sm:block mr-2">Archived Employees</h2>
         <SearchBox />
-        <div className="ml-auto flex gap-2">
-          {hasArchived && (
-            <Button asChild variant="outline">
-              <Link href="/employees-archived">Archived Employee</Link>
-            </Button>
-          )}
-          <Dialog
-            modal={true}
-            open={isDialogOpen}
-            onOpenChange={onDialogChange}
-          >
-            <DialogTrigger asChild>
-              <Button>Add Employee</Button>
-            </DialogTrigger>
-            <EmployeeInsert onDialogChange={onDialogChange} />
-          </Dialog>
+        <div className="ml-auto">
+          <Button asChild variant="outline">
+            <Link href="/employees">Back to Employees</Link>
+          </Button>
         </div>
       </div>
 
@@ -97,8 +71,8 @@ export default function Employees() {
           {!employees?.length && (
             <TableRow>
               <TableCell colSpan={session?.user?.role === "admin" ? 6 : 5}>
-                <div className="loader">
-                  <div className="loader-line" />
+                <div className="text-center py-8 text-muted-foreground text-sm">
+                  No archived employees.
                 </div>
               </TableCell>
             </TableRow>
