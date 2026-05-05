@@ -63,6 +63,7 @@ export default function Gravatar({
       className={className}
       style={style}
       unoptimized
+      loading="eager"
     />
   );
 }

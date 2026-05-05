@@ -111,7 +111,7 @@ export default function PersonalForm({
           className="row gap-y-6"
         >
           <div className="lg:col-6">
-            <FieldLabel icon={User}>Full Name:</FieldLabel>
+            <FieldLabel icon={User}>Full Name</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -125,11 +125,12 @@ export default function PersonalForm({
               name="name"
               placeholder="Full Name"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={Phone}>Mobile Phone:</FieldLabel>
+            <FieldLabel icon={Phone}>Mobile Phone</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -143,10 +144,11 @@ export default function PersonalForm({
               name="phone"
               placeholder="Phone Number"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
           <div className="lg:col-6">
-            <FieldLabel icon={Mail}>Work Email:</FieldLabel>
+            <FieldLabel icon={Mail}>Work Email</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -160,10 +162,11 @@ export default function PersonalForm({
               name="work_email"
               placeholder="Work Email"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
           <div className="lg:col-6">
-            <FieldLabel icon={AtSign}>Personal Email:</FieldLabel>
+            <FieldLabel icon={AtSign}>Personal Email</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -177,20 +180,21 @@ export default function PersonalForm({
               name="personal_email"
               placeholder="Personal Email"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={Cake}>Date of Birth:</FieldLabel>
+            <FieldLabel icon={Cake}>Date of Birth</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.dob ? dateFormat(data.dob) : null} />
+              <ReadOnlyValue value={data.dob ? dateFormat(data.dob) : null} className="pl-6!" />
             ) : (
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant={"input"}
                     className={cn(
-                      "w-full flex justify-between",
+                      "w-full flex justify-between !pl-6",
                       isReadOnly && "disabled:pl-0 disabled:border-none"
                     )}
                     disabled={isReadOnly}
@@ -232,9 +236,9 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={UserRound}>Gender:</FieldLabel>
+            <FieldLabel icon={UserRound}>Gender</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.gender} className="capitalize" />
+              <ReadOnlyValue value={data.gender} className="capitalize !pl-6" />
             ) : (
               <Select
                 name="gender"
@@ -245,8 +249,7 @@ export default function PersonalForm({
                     gender: value as TEmployee["gender"],
                   })
                 }
-              >
-                <SelectTrigger>
+              >\n                <SelectTrigger className="pl-6!">
                   <SelectValue placeholder="Select Gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -263,7 +266,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={MapPin}>Present Address:</FieldLabel>
+            <FieldLabel icon={MapPin}>Present Address</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -277,11 +280,12 @@ export default function PersonalForm({
               name="present_address"
               placeholder="Present Address"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={Home}>Permanent Address:</FieldLabel>
+            <FieldLabel icon={Home}>Permanent Address</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -295,13 +299,14 @@ export default function PersonalForm({
               name="permanent_address"
               placeholder="Permanent Address"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={Droplet}>Blood Group:</FieldLabel>
+            <FieldLabel icon={Droplet}>Blood Group</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.blood_group} className="uppercase" />
+              <ReadOnlyValue value={data.blood_group} className="uppercase !pl-6" />
             ) : (
               <Select
                 onValueChange={(value) =>
@@ -321,7 +326,7 @@ export default function PersonalForm({
                 name="blood_group"
                 value={data.blood_group}
               >
-                <SelectTrigger>
+                <SelectTrigger className="pl-6!">
                   <SelectValue placeholder="Blood" />
                 </SelectTrigger>
                 <SelectContent>
@@ -341,9 +346,9 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={HandHeart}>Blood Donor:</FieldLabel>
+            <FieldLabel icon={HandHeart}>Blood Donor</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.blood_donor ? "Yes" : "No"} />
+              <ReadOnlyValue value={data.blood_donor ? "Yes" : "No"} className="pl-6!" />
             ) : (
               <Select
                 onValueChange={(value) =>
@@ -355,7 +360,7 @@ export default function PersonalForm({
                 name="blood_donor"
                 value={data.blood_donor ? "true" : "false"}
               >
-                <SelectTrigger>
+                <SelectTrigger className="pl-6!">
                   <SelectValue placeholder="Blood Donor" />
                 </SelectTrigger>
                 <SelectContent>
@@ -372,11 +377,11 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={Heart}>Marital Status:</FieldLabel>
+            <FieldLabel icon={Heart}>Marital Status</FieldLabel>
             {isReadOnly ? (
               <ReadOnlyValue
                 value={data.marital_status}
-                className="capitalize"
+                className="capitalize !pl-6"
               />
             ) : (
               <Select
@@ -393,7 +398,7 @@ export default function PersonalForm({
                 name="marital_status"
                 value={data.marital_status}
               >
-                <SelectTrigger>
+                <SelectTrigger className="pl-6!">
                   <SelectValue placeholder="Marital Status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -410,7 +415,7 @@ export default function PersonalForm({
           </div>
 
           <div className="lg:col-6">
-            <FieldLabel icon={Receipt}>TIN:</FieldLabel>
+            <FieldLabel icon={Receipt}>TIN</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -424,10 +429,11 @@ export default function PersonalForm({
               name="tin"
               placeholder="Tin"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
           <div className="lg:col-6">
-            <FieldLabel icon={IdCard}>NID:</FieldLabel>
+            <FieldLabel icon={IdCard}>NID</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -441,13 +447,14 @@ export default function PersonalForm({
               name="nid"
               placeholder="NID"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
 
           {!isReadOnly && (
             <>
               <div className="lg:col-6">
-                <FieldLabel icon={Globe}>Facebook Profile:</FieldLabel>
+                <FieldLabel icon={Globe}>Facebook Profile</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -461,11 +468,12 @@ export default function PersonalForm({
                   name="facebook"
                   placeholder="Facebook Profile"
                   readOnly={isReadOnly}
+                  className="pl-6!"
                 />
               </div>
 
               <div className="lg:col-6">
-                <FieldLabel icon={Hash}>Twitter(X) Profile:</FieldLabel>
+                <FieldLabel icon={Hash}>Twitter(X) Profile</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -479,11 +487,12 @@ export default function PersonalForm({
                   name="twitter"
                   placeholder="X profile"
                   readOnly={isReadOnly}
+                  className="pl-6!"
                 />
               </div>
 
               <div className="lg:col-6">
-                <FieldLabel icon={Briefcase}>Linkedin Profile:</FieldLabel>
+                <FieldLabel icon={Briefcase}>Linkedin Profile</FieldLabel>
                 <Input
                   onChange={(e) => {
                     const { name, value } = e.target;
@@ -497,12 +506,13 @@ export default function PersonalForm({
                   name="linkedin"
                   placeholder="Linkedin Profile"
                   readOnly={isReadOnly}
+                  className="pl-6!"
                 />
               </div>
 
               <div className="lg:col-6">
                 <FieldLabel icon={MessageCircle}>
-                  {communication_platform} User ID:
+                  {communication_platform} User ID
                 </FieldLabel>
                 <Input
                   onChange={(e) => {
@@ -517,13 +527,14 @@ export default function PersonalForm({
                   name="communication_id"
                   placeholder={`${communication_platform} Username`}
                   readOnly={isReadOnly}
+                  className="pl-6!"
                 />
               </div>
             </>
           )}
 
           <div className="lg:col-6">
-            <FieldLabel icon={Sparkles}>Personality:</FieldLabel>
+            <FieldLabel icon={Sparkles}>Personality</FieldLabel>
             <Input
               onChange={(e) => {
                 const { name, value } = e.target;
@@ -537,11 +548,12 @@ export default function PersonalForm({
               name="personality"
               placeholder="Personality Type"
               readOnly={isReadOnly}
+              className="pl-6!"
             />
           </div>
           {(userRole === "admin" || userRole === "moderator") && (
             <div className="lg:col-12">
-              <Label>Note:</Label>
+              <Label>Note</Label>
               {isReadOnly ? (
                 <ReadOnlyValue
                   value={data.note}
@@ -559,6 +571,7 @@ export default function PersonalForm({
                   value={data.note || ""}
                   name="note"
                   rows={5}
+                  className="pl-6!"
                 />
               )}
             </div>
