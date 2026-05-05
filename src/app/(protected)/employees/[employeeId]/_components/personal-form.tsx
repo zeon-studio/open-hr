@@ -249,7 +249,8 @@ export default function PersonalForm({
                     gender: value as TEmployee["gender"],
                   })
                 }
-              >\n                <SelectTrigger className="pl-6!">
+              >
+                <SelectTrigger className="pl-6!">
                   <SelectValue placeholder="Select Gender" />
                 </SelectTrigger>
                 <SelectContent>
