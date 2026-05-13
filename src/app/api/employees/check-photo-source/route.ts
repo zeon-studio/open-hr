@@ -1,4 +1,4 @@
-import { hasGravatarByEmail } from "@/shared/utils";
+import { hasGravatarByEmail } from "@/lib";
 import { NextResponse } from "next/server";
 
 /**

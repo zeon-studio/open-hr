@@ -1,1 +1,1 @@
-export * from "@/shared/lib/app-context";
+export * from "@/lib/app-context";

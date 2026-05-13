@@ -3,7 +3,7 @@ import {
   useUpdateEmployeeContactMutation,
   type TEmployeeContact,
 } from "@/features/employee";
-import EditFrom from "@/partials/edit-from";
+import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Card, CardContent } from "@/ui/card";
 import { Input } from "@/ui/input";

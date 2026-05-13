@@ -2,7 +2,7 @@
 
 import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/useDialog";
-import { employeeInfoById } from "@/shared/utils";
+import { employeeInfoById } from "@/lib";
 import { TLeaveYear } from "@/types/domain/leave";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";

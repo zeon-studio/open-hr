@@ -6,7 +6,7 @@ import {
 } from "@/features/employee";
 import { useSettings } from "@/hooks/use-settings";
 import useAxios from "@/hooks/useAxios";
-import { MAX_SIZE } from "@/shared/constants";
+import { MAX_SIZE } from "@/constants";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

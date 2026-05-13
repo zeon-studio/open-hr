@@ -2,12 +2,8 @@ import {
   useGetEmployeeQuery,
   useUpdateEmployeeMutation,
   useUpdateEmployeePasswordMutation,
-} from "@/features/employee";
-import {
   useGetEmployeeBankQuery,
   useUpdateEmployeeBankMutation,
-} from "@/features/employee";
-import {
   useGetEmployeeEducationQuery,
   useUpdateEmployeeEducationMutation,
 } from "@/features/employee";

@@ -1,18 +1,21 @@
-import { TPagination } from "@/types";
-import { useEffect } from "react";
-import { TEmployee, TEmployeeCreate, TEmployeeState } from "./types";
 import {
   apiRequest,
   createMutationHook,
   createQueryHook,
-} from "@/shared/lib/api-client";
+  type ApiRequestArgs,
+  type QueryOptions,
+} from "@/lib/api-client";
+import { TPagination } from "@/types";
+import { useEffect } from "react";
+import { TEmployee, TEmployeeCreate, TEmployeeState } from "./types";
+
 export {
   apiRequest,
   createMutationHook,
   createQueryHook,
   type ApiRequestArgs,
   type QueryOptions,
-} from "@/shared/lib/api-client";
+};
 
 const employeeAuthHeader = (token?: string) =>
   token

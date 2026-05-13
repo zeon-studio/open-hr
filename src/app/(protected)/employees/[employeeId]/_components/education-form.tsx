@@ -1,6 +1,6 @@
 import options from "@/config/options.json";
 import { type TEmployeeEducation } from "@/features/employee";
-import EditForm from "@/partials/edit-from";
+import EditForm from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";

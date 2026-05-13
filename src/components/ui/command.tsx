@@ -4,7 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-} from "@/layouts/components/ui/dialog";
+} from "@/ui/dialog";
 import { cn } from "@/lib/shadcn";
 import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";

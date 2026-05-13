@@ -28,16 +28,28 @@
     ],
     "paths": {
       "@/ui/*": [
-        "./src/layouts/components/ui/*"
+        "./src/components/ui/*"
       ],
       "@/components/*": [
-        "./src/layouts/components/*"
+        "./src/components/common/*"
       ],
-      "@/partials/*": [
-        "./src/layouts/partials/*"
+      "@/layouts/*": [
+        "./src/components/layouts/*"
       ],
-      "@/helpers/*": [
-        "./src/layouts/helpers/*"
+      "@/hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ],
+      "@/types/*": [
+        "./src/types/*"
+      ],
+      "@/constants/*": [
+        "./src/constants/*"
+      ],
+      "@/services/*": [
+        "./src/services/*"
       ],
       "@/assets/*": [
         "./public/*"

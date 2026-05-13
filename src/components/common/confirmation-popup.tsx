@@ -7,7 +7,7 @@ import {
 import { Input } from "@/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/ui/button";
 
 const ConfirmationPopup = ({
   handleConfirmation,

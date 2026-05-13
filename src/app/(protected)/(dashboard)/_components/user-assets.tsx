@@ -1,5 +1,5 @@
 import { useGetAssetsByUserQuery } from "@/features/asset";
-import { dateFormat } from "@/shared/utils";
+import { dateFormat } from "@/lib";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Package } from "lucide-react";
 import Image from "next/image";

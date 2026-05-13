@@ -1,4 +1,4 @@
-import { formatDate } from "@/lib/dateConverter";
+import { dateFormat } from "@/lib";
 
 export function otpSenderTemplate(otp: string): string {
   return `<div style="text-align:center;font-family:Arial,sans-serif;color:#333;">
@@ -20,7 +20,7 @@ export function invitationTemplate(
   return `<div style="text-align:center;font-family:Arial,sans-serif;color:#333;">
     <h1 style="color:#007bff;">Welcome to ${appName}!</h1>
     <p>We are excited to welcome you as a ${designation}.</p>
-    <p>Your joining date is ${formatDate(joining_date)}.</p>
+    <p>Your joining date is ${dateFormat(joining_date)}.</p>
     <a href="${appUrl}/onboard?token=${invite_token}" style="color:#007bff;">Click here</a> to join.
   </div>`;
 }

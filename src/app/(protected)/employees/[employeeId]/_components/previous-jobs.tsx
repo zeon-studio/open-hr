@@ -4,7 +4,7 @@ import {
   type TPrevJob,
 } from "@/features/employee";
 import { useDialog } from "@/hooks/useDialog";
-import { dateFormat, formatDateWithTime, getDuration } from "@/shared/utils";
+import { dateFormat, formatDateWithTime, getDuration } from "@/lib";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";

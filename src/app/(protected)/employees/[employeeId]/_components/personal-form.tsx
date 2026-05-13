@@ -1,7 +1,7 @@
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/shared/utils";
+import { dateFormat, formatDateWithTime } from "@/lib";
 import { cn } from "@/lib/shadcn";
-import EditForm from "@/partials/edit-from";
+import EditForm from "@/layouts/edit-from";
 import { TEmployee } from "@/types/domain/employee";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";

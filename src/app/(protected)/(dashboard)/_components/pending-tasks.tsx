@@ -7,10 +7,10 @@ import {
   useUpdateOnboardingTaskStatusMutation,
   type TOnboardingTask,
 } from "@/features/employee";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { dateFormat } from "@/shared/utils";
-import { employeeInfoById } from "@/shared/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Button } from "@/ui/button";
+import { dateFormat } from "@/lib";
+import { employeeInfoById } from "@/lib";
 import { BadgeInfo, CheckCircle, CircleDashed } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";

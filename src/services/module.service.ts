@@ -61,7 +61,7 @@ export const getByIdOrField = async (
   return null;
 };
 
-export const createDocument = async (model: Model<any>, payload: unknown) => {
+export const createDocument = async (model: Model<any>, payload: any) => {
   const created = await model.create(payload);
   return created;
 };

@@ -1,4 +1,4 @@
-import { dateFormat } from "@/shared/utils";
+import { dateFormat } from "@/lib";
 import { TEvent } from "@/types/domain/calendar";
 import {
   Table,

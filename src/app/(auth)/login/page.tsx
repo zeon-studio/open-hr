@@ -1,8 +1,8 @@
 "use client";
 
 import googleIcon from "@/assets/images/google.svg";
-import { Button } from "@/layouts/components/ui/button";
-import { Separator } from "@/layouts/components/ui/separator";
+import { Button } from "@/ui/button";
+import { Separator } from "@/ui/separator";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import LoginForm from "./_components/login-form";

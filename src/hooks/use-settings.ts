@@ -1,4 +1,4 @@
-import { useAppState } from "@/shared/lib/app-context";
+import { useAppState } from "@/lib/app-context";
 
 export const useSettings = () => {
   const { state } = useAppState();

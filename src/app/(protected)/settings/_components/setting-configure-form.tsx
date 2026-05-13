@@ -1,4 +1,4 @@
-import EditFrom from "@/partials/edit-from";
+import EditFrom from "@/layouts/edit-from";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
 import { useState } from "react";

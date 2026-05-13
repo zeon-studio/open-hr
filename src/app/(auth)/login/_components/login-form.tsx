@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, buttonVariants } from "@/layouts/components/ui/button";
+import { Button, buttonVariants } from "@/ui/button";
 import { cn } from "@/lib/shadcn";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";

@@ -14,7 +14,7 @@ import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import ConfirmationPopup from "../components/confirmation-popup";
+import ConfirmationPopup from "@/components/confirmation-popup";
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const pathname = usePathname();

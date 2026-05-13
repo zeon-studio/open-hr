@@ -3,7 +3,7 @@ import { Employee } from "@/models/employee.model";
 import {
   issueInviteTokenService,
   verifyInviteToken,
-} from "@/modules/services/authentication.service";
+} from "@/services/authentication.service";
 import bcrypt from "bcrypt";
 
 export const getEmployeesService = async (query: URLSearchParams) => {

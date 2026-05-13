@@ -8,7 +8,7 @@ import {
   useGetPayrollBasicsQuery,
   type TCreateMonthlySalary,
 } from "@/features/payroll";
-import { dateFormat, formatDateWithTime } from "@/shared/utils";
+import { dateFormat, formatDateWithTime } from "@/lib";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";

@@ -1,5 +1,5 @@
 import { modules } from "@/config/modules";
-import ConfirmationPopup from "@/layouts/components/confirmation-popup";
+import ConfirmationPopup from "@/components/confirmation-popup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";

@@ -1,5 +1,5 @@
 import useAxios from "@/hooks/useAxios";
-import { BUCKET_URL } from "@/shared/constants";
+import { BUCKET_URL } from "@/constants";
 import { cn } from "@/lib/shadcn";
 import {
   FileInput,
@@ -10,7 +10,7 @@ import { CloudUpload, Loader2, Paperclip, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/ui/button";
 
 const FileManager = ({
   enable,

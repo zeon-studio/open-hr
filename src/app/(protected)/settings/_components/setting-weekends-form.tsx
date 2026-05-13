@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import EditFrom from "@/partials/edit-from";
+import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
 import MultiSelect from "@/ui/multi-select";

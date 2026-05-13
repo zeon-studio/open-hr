@@ -1,4 +1,4 @@
-import EditFrom from "@/layouts/partials/edit-from";
+import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
 import {

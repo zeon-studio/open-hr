@@ -26,7 +26,7 @@ import {
   updatePasswordService,
   verifyOtpService,
   verifyUserService,
-} from "@/modules/services/authentication.service";
+} from "@/services/authentication.service";
 import {
   createEmployeeService,
   deleteEmployeeService,
@@ -37,14 +37,14 @@ import {
   getEmployeesService,
   patchEmployeePasswordService,
   patchEmployeeService,
-} from "@/modules/services/employee.service";
+} from "@/services/employee.service";
 import {
   createDocument,
   deleteByFields,
   getByIdOrField,
   listDocuments,
   upsertByField,
-} from "@/modules/services/module.service";
+} from "@/services/module.service";
 import { NextRequest } from "next/server";
 
 const modelMap: Record<string, any> = {

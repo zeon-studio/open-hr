@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/layouts/components/ui/button";
+import { Button } from "@/ui/button";
 import { clientApi } from "@/platform/network";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

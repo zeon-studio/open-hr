@@ -1,4 +1,4 @@
-import { dateFormat, dayCount, formatDateWithTime } from "@/shared/utils";
+import { dateFormat, dayCount, formatDateWithTime } from "@/lib";
 import { TCalendar, TEvent } from "@/types/domain/calendar";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";

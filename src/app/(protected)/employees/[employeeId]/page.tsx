@@ -5,7 +5,7 @@ import { Facebook, Linkedin, Twitter } from "@/components/icons";
 import { useGetEmployeeQuery } from "@/features/employee";
 import { useGetEmployeeJobQuery } from "@/features/employee";
 import { useSettings } from "@/hooks/use-settings";
-import { getDuration, profileCompletion } from "@/shared/utils";
+import { getDuration, profileCompletion } from "@/lib";
 import { cn } from "@/lib/shadcn";
 import { Button } from "@/ui/button";
 import {

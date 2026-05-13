@@ -4,8 +4,8 @@ import Loader from "@/components/loader";
 import { useGetEmployeesBasicsQuery } from "@/features/employee";
 import { useAppState } from "@/lib/app-state";
 import { useSettings } from "@/hooks/use-settings";
-import Header from "@/partials/header";
-import Sidebar from "@/partials/sidebar";
+import Header from "@/layouts/header";
+import Sidebar from "@/layouts/sidebar";
 import { useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 

@@ -1,1 +1,1 @@
-export * from "@/shared/utils/pagination-helper";
+export * from "@/lib/pagination-helper";

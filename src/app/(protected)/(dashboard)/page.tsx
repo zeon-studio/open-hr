@@ -2,7 +2,7 @@
 
 import Gravatar from "@/components/gravatar";
 import Loader from "@/components/loader";
-import ClearCache from "@/helpers/clear-cache";
+import ClearCache from "@/lib/helpers/clear-cache";
 import { useSettings } from "@/hooks/use-settings";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
