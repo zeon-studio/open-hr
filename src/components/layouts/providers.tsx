@@ -1,5 +1,5 @@
 "use client";
-import { AppStateProvider } from "@/lib/app-state";
+import { AppStateProvider } from "@/lib/app-context";
 import { ReactNode } from "react";
 
 const Providers = ({ children }: { children: ReactNode }) => {

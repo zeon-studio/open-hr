@@ -1,5 +1,6 @@
-import { employeeGroupByDepartment, employeeInfoById } from "@/lib";
+import { TSetting } from "@/features/settings";
 import EditFrom from "@/layouts/edit-from";
+import { employeeGroupByDepartment, employeeInfoById } from "@/lib";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -15,8 +16,6 @@ import {
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
-import { TSetting } from "../_types/setting";
 
 interface SettingOffboardingTasksFormProps {
   data: TSetting;
@@ -41,12 +40,17 @@ export default function SettingOffboardingTasksForm({
               e.preventDefault();
               setIsActionUpdating(true);
               try {
-                const actionResult = await updateSettingSectionsAction({
-                  offboarding_tasks: data.offboarding_tasks,
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    offboarding_tasks: data.offboarding_tasks,
+                  }),
                 });
 
-                if (!actionResult.ok) {
-                  throw new Error(actionResult.error);
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
                 }
 
                 toast("Setting update complete");

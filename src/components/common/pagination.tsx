@@ -1,7 +1,7 @@
 "use client";
 
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";
-import useQuerySelector from "@/hooks/useQuerySelector";
+import useQuerySelector from "@/hooks/use-query-selector";
 import {
   ChevronLeft,
   ChevronRight,

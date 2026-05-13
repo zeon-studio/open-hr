@@ -1,12 +1,11 @@
-import { modules } from "@/config/modules";
 import ConfirmationPopup from "@/components/confirmation-popup";
+import { modules } from "@/config/modules";
+import { TModuleItem, TSetting } from "@/features/settings";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { updateSettingModuleAction } from "../_actions/update-setting-module";
-import { TModuleItem, TSetting } from "../_types/setting";
 
 const SettingModuleForm = ({ data }: { data: TSetting }) => {
   // Initialize enabled states from data.modules using useMemo
@@ -29,14 +28,24 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
   const handleModuleToggle = async (identifier: string) => {
     const newState = !enabledModules[identifier];
 
+    const updatedModules = modules.map((m) => ({
+      name: m.identifier,
+      enable:
+        m.identifier === identifier
+          ? newState
+          : (enabledModules[m.identifier] ?? false),
+    }));
+
     try {
-      const actionResult = await updateSettingModuleAction({
-        name: identifier,
-        enable: newState,
+      const res = await fetch("/api/setting/update-module", {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ modules: updatedModules }),
       });
 
-      if (!actionResult.ok) {
-        throw new Error(actionResult.error);
+      if (!res.ok) {
+        throw new Error("Failed to update module setting");
       }
 
       setEnabledModules((prev) => ({

@@ -1,5 +1,5 @@
-import { connectMongoose } from "@/platform/db";
 import { Employee } from "@/models/employee.model";
+import { connectMongoose } from "@/platform/db/mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import NextAuth from "next-auth";

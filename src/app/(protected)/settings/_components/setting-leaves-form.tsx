@@ -1,4 +1,5 @@
 import options from "@/config/options.json";
+import { TSetting } from "@/features/settings";
 import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
@@ -13,8 +14,6 @@ import {
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
-import { TSetting } from "../_types/setting";
 
 interface SettingLeavesFormProps {
   data: TSetting;
@@ -37,14 +36,19 @@ export default function SettingLeavesForm({ data }: SettingLeavesFormProps) {
               e.preventDefault();
               setIsActionUpdating(true);
               try {
-                const actionResult = await updateSettingSectionsAction({
-                  max_leave_per_day: data.max_leave_per_day,
-                  leave_threshold_days: data.leave_threshold_days,
-                  leaves: data.leaves,
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    max_leave_per_day: data.max_leave_per_day,
+                    leave_threshold_days: data.leave_threshold_days,
+                    leaves: data.leaves,
+                  }),
                 });
 
-                if (!actionResult.ok) {
-                  throw new Error(actionResult.error);
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
                 }
 
                 toast("Setting update complete");

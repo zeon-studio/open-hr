@@ -1,5 +1,8 @@
 import variables from "@/config/variables";
-import { invitationTemplate, otpSenderTemplate } from "@/lib/mailTemplate";
+import {
+  invitationTemplate,
+  otpSenderTemplate,
+} from "@/server/mail/mail-template";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({

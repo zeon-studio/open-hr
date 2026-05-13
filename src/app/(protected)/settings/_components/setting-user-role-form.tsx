@@ -1,3 +1,4 @@
+import { TEmployee, useEmployeeRoleData } from "@/features/settings";
 import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
@@ -11,9 +12,6 @@ import {
 import { Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { updateUserRolesAction } from "../_actions/update-user-roles";
-import { useEmployeeRoleData } from "../_hooks/use-employee-role-data";
-import { TEmployee } from "../_types/employee";
 
 const SettingUserRoleForm = () => {
   const { adminAndMods, employees } = useEmployeeRoleData();
@@ -41,17 +39,22 @@ const SettingUserRoleForm = () => {
         })),
       ];
 
-      const result = await updateUserRolesAction({
-        updates: updates
-          .filter((item) => Boolean(item.id))
-          .map((item) => ({
-            id: item.id,
-            role: item.role as "user" | "moderator" | "admin",
-          })),
+      const res = await fetch("/api/employee/roles", {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          updates: updates
+            .filter((item) => Boolean(item.id))
+            .map((item) => ({
+              id: item.id,
+              role: item.role as "user" | "moderator" | "admin",
+            })),
+        }),
       });
 
-      if (!result.ok) {
-        throw new Error(result.error);
+      if (!res.ok) {
+        throw new Error("Failed to update roles");
       }
 
       toast("Role update complete");

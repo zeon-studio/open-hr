@@ -2,7 +2,7 @@
 
 import Loader from "@/components/loader";
 import { useGetEmployeesBasicsQuery } from "@/features/employee";
-import { useAppState } from "@/lib/app-state";
+import { useAppState } from "@/lib/app-context";
 import { useSettings } from "@/hooks/use-settings";
 import Header from "@/layouts/header";
 import Sidebar from "@/layouts/sidebar";

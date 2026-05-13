@@ -1,5 +1,6 @@
 "use client";
 
+import { useSettingsQuery } from "@/features/settings";
 import { Card, CardContent } from "@/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -12,7 +13,6 @@ import SettingOnboardingTasksForm from "./_components/setting-onboarding-tasks-f
 import SettingPayrollForm from "./_components/setting-payroll-form";
 import SettingUserRoleForm from "./_components/setting-user-role-form";
 import SettingWeekendsForm from "./_components/setting-weekends-form";
-import { useSettingsQuery } from "./_hooks/use-settings-query";
 
 const Setting = () => {
   const { data, isLoading } = useSettingsQuery();

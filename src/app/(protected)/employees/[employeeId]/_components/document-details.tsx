@@ -1,12 +1,12 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import FileManager from "@/components/file-manager";
+import { MAX_SIZE } from "@/constants";
 import {
   useDeleteEmployeeDocumentMutation,
   useGetEmployeeDocumentQuery,
 } from "@/features/employee";
+import useAxios from "@/hooks/use-axios";
 import { useSettings } from "@/hooks/use-settings";
-import useAxios from "@/hooks/useAxios";
-import { MAX_SIZE } from "@/constants";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

@@ -3,9 +3,8 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
 import { useDeletePayrollMutation, type TPayroll } from "@/features/payroll";
-import { useDialog } from "@/hooks/useDialog";
-import { dateFormat } from "@/lib";
-import { employeeInfoById } from "@/lib";
+import { useDialog } from "@/hooks/use-dialog";
+import { dateFormat, employeeInfoById } from "@/lib";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";
 import {

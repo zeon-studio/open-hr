@@ -46,8 +46,23 @@
       "@/constants/*": [
         "./src/constants/*"
       ],
+      "@/models/*": [
+        "./src/server/models/*"
+      ],
       "@/services/*": [
-        "./src/services/*"
+        "./src/server/services/*"
+      ],
+      "@/server/models/*": [
+        "./src/server/models/*"
+      ],
+      "@/server/services/*": [
+        "./src/server/services/*"
+      ],
+      "@/server/utils/*": [
+        "./src/server/utils/*"
+      ],
+      "@/server/mail/*": [
+        "./src/server/mail/*"
       ],
       "@/assets/*": [
         "./public/*"

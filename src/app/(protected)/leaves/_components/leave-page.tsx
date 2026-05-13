@@ -1,7 +1,7 @@
 "use client";
 
 import UserInfo from "@/components/user-info";
-import { useDialog } from "@/hooks/useDialog";
+import { useDialog } from "@/hooks/use-dialog";
 import { employeeInfoById } from "@/lib";
 import { TLeaveYear } from "@/types/domain/leave";
 import { Button } from "@/ui/button";

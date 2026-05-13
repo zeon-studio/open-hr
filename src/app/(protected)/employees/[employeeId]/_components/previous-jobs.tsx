@@ -3,7 +3,7 @@ import {
   type TEmployeeJob,
   type TPrevJob,
 } from "@/features/employee";
-import { useDialog } from "@/hooks/useDialog";
+import { useDialog } from "@/hooks/use-dialog";
 import { dateFormat, formatDateWithTime, getDuration } from "@/lib";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { TEmployee } from "../_types/employee";
+import { TEmployee, TSettingState } from "./types";
 
-type QueryState = {
+type EmployeeRoleQueryState = {
   adminAndMods: TEmployee[];
   employees: TEmployee[];
   isLoading: boolean;
@@ -9,7 +9,7 @@ type QueryState = {
 };
 
 export const useEmployeeRoleData = () => {
-  const [state, setState] = useState<QueryState>({
+  const [state, setState] = useState<EmployeeRoleQueryState>({
     adminAndMods: [],
     employees: [],
     isLoading: true,
@@ -54,6 +54,63 @@ export const useEmployeeRoleData = () => {
           setState({
             adminAndMods: [],
             employees: [],
+            isLoading: false,
+            isError: true,
+          });
+        }
+      }
+    };
+
+    run();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  return state;
+};
+
+type SettingsQueryState = {
+  data?: TSettingState;
+  isLoading: boolean;
+  isError: boolean;
+};
+
+export const useSettingsQuery = () => {
+  const [state, setState] = useState<SettingsQueryState>({
+    data: undefined,
+    isLoading: true,
+    isError: false,
+  });
+
+  useEffect(() => {
+    let mounted = true;
+
+    const run = async () => {
+      try {
+        const response = await fetch("/api/setting", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load settings");
+        }
+
+        const payload = (await response.json()) as TSettingState;
+
+        if (mounted) {
+          setState({
+            data: payload,
+            isLoading: false,
+            isError: false,
+          });
+        }
+      } catch {
+        if (mounted) {
+          setState({
+            data: undefined,
             isLoading: false,
             isError: true,
           });

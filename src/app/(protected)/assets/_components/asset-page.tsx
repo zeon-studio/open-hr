@@ -3,9 +3,8 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
 import { useDeleteAssetMutation, type TAsset } from "@/features/asset";
-import { useDialog } from "@/hooks/useDialog";
-import { dateFormat } from "@/lib";
-import { employeeInfoById } from "@/lib";
+import { useDialog } from "@/hooks/use-dialog";
+import { dateFormat, employeeInfoById } from "@/lib";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {

@@ -1,9 +1,9 @@
 "use client";
 
 import { useGetCalendarQuery } from "@/features/calendar";
+import { useDialog } from "@/hooks/use-dialog";
+import useLocalCacheHook from "@/hooks/use-local-cache";
 import { useSettings } from "@/hooks/use-settings";
-import { useDialog } from "@/hooks/useDialog";
-import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { TCalendar, TEvent } from "@/types/domain/calendar";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

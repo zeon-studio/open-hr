@@ -3,7 +3,7 @@ import {
   useUpdateCalendarMutation,
   type TCalendar,
 } from "@/features/calendar";
-import { useDialog } from "@/hooks/useDialog";
+import { useDialog } from "@/hooks/use-dialog";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
 import { Label } from "@/ui/label";

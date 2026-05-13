@@ -1,5 +1,5 @@
 import Logo from "@/components/logo";
-import { useDialog } from "@/hooks/useDialog";
+import { useDialog } from "@/hooks/use-dialog";
 import { Button } from "@/ui/button";
 import {
   Sheet,

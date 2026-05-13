@@ -1,10 +1,9 @@
+import { TSetting } from "@/features/settings";
 import EditFrom from "@/layouts/edit-from";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
-import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
-import { TSetting } from "../_types/setting";
 
 interface SettingPayrollFormProps {
   data: TSetting;
@@ -27,12 +26,15 @@ export default function SettingPayrollForm({ data }: SettingPayrollFormProps) {
               e.preventDefault();
               setIsActionUpdating(true);
               try {
-                const actionResult = await updateSettingSectionsAction({
-                  payroll: data.payroll,
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ payroll: data.payroll }),
                 });
 
-                if (!actionResult.ok) {
-                  throw new Error(actionResult.error);
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
                 }
 
                 toast("Setting update complete");

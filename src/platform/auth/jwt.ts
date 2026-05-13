@@ -6,7 +6,7 @@ const parseExpiryToMs = (exp?: string): number => {
   const m = String(exp)
     .trim()
     .toLowerCase()
-    .match(/^(\\d+)([smhd])$/);
+    .match(/^(\d+)([smhd])$/);
 
   if (!m) {
     const n = Number(exp);

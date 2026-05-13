@@ -1,6 +1,6 @@
 "use client";
 import Logo from "@/components/logo";
-import { useAppState } from "@/lib/app-state";
+import { useAppState } from "@/lib/app-context";
 import { useSettings } from "@/hooks/use-settings";
 import { useEffect } from "react";
 

@@ -2,7 +2,7 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import { useDeleteToolMutation, type TTool } from "@/features/tool";
-import { useDialog } from "@/hooks/useDialog";
+import { useDialog } from "@/hooks/use-dialog";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {

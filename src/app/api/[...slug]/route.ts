@@ -1,7 +1,4 @@
 import { ENUM_ROLE } from "@/enums/roles";
-import { withApiAuth } from "@/platform/auth";
-import { apiError, apiSuccess } from "@/lib/apiResponse";
-import { connectMongoose } from "@/platform/db";
 import {
   Asset,
   Calendar,
@@ -20,6 +17,9 @@ import {
   Setting,
   Tool,
 } from "@/models/module.model";
+import { withApiAuth } from "@/platform/auth/api-auth";
+import { connectMongoose } from "@/platform/db/mongoose";
+import { apiError, apiSuccess } from "@/server/utils/api-response";
 import {
   issueInviteTokenService,
   resetPasswordService,
@@ -202,6 +202,19 @@ const handleEmployee = async (request: NextRequest, rest: string[]) => {
     const body = await parseBody(request);
     const data = await patchEmployeeService(rest[1], { role: body.role });
     return apiSuccess(data, "data updated successfully");
+  }
+
+  if (method === "PATCH" && rest[0] === "roles") {
+    const authResult = await requireRoles(ENUM_ROLE.ADMIN);
+    if (authResult.error) return authResult.error;
+    const body = await parseBody(request);
+    const updates = (body.updates || []) as Array<{ id: string; role: string }>;
+    await Promise.all(
+      updates
+        .filter((item) => Boolean(item.id))
+        .map(({ id, role }) => patchEmployeeService(id, { role })),
+    );
+    return apiSuccess(true, "roles updated successfully");
   }
 
   if (method === "DELETE" && rest.length === 1) {

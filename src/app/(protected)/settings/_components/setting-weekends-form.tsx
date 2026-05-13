@@ -1,4 +1,5 @@
 import options from "@/config/options.json";
+import { TSetting } from "@/features/settings";
 import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
@@ -13,8 +14,6 @@ import {
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
-import { TSetting } from "../_types/setting";
 
 interface SettingWeekendsFormProps {
   data: TSetting;
@@ -39,13 +38,18 @@ export default function SettingWeekendsForm({
               e.preventDefault();
               setIsActionUpdating(true);
               try {
-                const actionResult = await updateSettingSectionsAction({
-                  weekends: data.weekends,
-                  conditional_weekends: data.conditional_weekends,
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    weekends: data.weekends,
+                    conditional_weekends: data.conditional_weekends,
+                  }),
                 });
 
-                if (!actionResult.ok) {
-                  throw new Error(actionResult.error);
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
                 }
 
                 toast("Setting update complete");

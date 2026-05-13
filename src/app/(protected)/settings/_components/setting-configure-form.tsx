@@ -1,10 +1,9 @@
+import { TSetting } from "@/features/settings";
 import EditFrom from "@/layouts/edit-from";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
-import { updateSettingConfigureAction } from "../_actions/update-setting-configure";
-import { TSetting } from "../_types/setting";
 
 interface SettingConfigureFormProps {
   data: TSetting;
@@ -31,22 +30,27 @@ export default function SettingConfigureForm({
               setIsActionUpdating(true);
 
               try {
-                const actionResult = await updateSettingConfigureAction({
-                  app_name: data.app_name || "",
-                  app_url: data.app_url || "",
-                  favicon_url: data.favicon_url || "",
-                  logo_url: data.logo_url || "",
-                  logo_width: Number(data.logo_width) || 0,
-                  logo_height: Number(data.logo_height) || 0,
-                  company_name: data.company_name || "",
-                  company_website: data.company_website || "",
-                  communication_platform: data.communication_platform || "",
-                  communication_platform_url:
-                    data.communication_platform_url || "",
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    app_name: data.app_name || "",
+                    app_url: data.app_url || "",
+                    favicon_url: data.favicon_url || "",
+                    logo_url: data.logo_url || "",
+                    logo_width: Number(data.logo_width) || 0,
+                    logo_height: Number(data.logo_height) || 0,
+                    company_name: data.company_name || "",
+                    company_website: data.company_website || "",
+                    communication_platform: data.communication_platform || "",
+                    communication_platform_url:
+                      data.communication_platform_url || "",
+                  }),
                 });
 
-                if (!actionResult.ok) {
-                  throw new Error(actionResult.error);
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
                 }
 
                 toast("Setting update complete");

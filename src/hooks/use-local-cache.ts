@@ -12,7 +12,7 @@ interface Data<T> {
 // the write effect every render. Depend on `data.data` (the inner array)
 // instead — RTK Query keeps the same array reference across renders for
 // cached data, so the effect now fires only when the data actually changes.
-const useLocalCacheHook = <T>(data: Data<T>, name: string) => {
+const useLocalCache = <T>(data: Data<T>, name: string) => {
   const [localData, setLocalData] = useState<T[]>([]);
 
   useEffect(() => {
@@ -34,9 +34,7 @@ const useLocalCacheHook = <T>(data: Data<T>, name: string) => {
     }
   }, [data.data, name]);
 
-  return {
-    localData: localData,
-  };
+  return { localData };
 };
 
-export default useLocalCacheHook;
+export default useLocalCache;

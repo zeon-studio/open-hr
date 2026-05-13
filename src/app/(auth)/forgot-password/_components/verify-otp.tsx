@@ -1,9 +1,9 @@
 "use client";
 
-import { Label } from "@/ui/label";
-import { clientApi } from "@/platform/network";
+import { clientApi } from "@/platform/network/client-api";
 import { Button } from "@/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";
+import { Label } from "@/ui/label";
 import PasswordInput from "@/ui/password-input";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
