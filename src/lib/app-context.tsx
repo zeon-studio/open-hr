@@ -172,25 +172,6 @@ export const initialSettingState: TSetting = {
 
 const LOCAL_SETTING_KEY = "local-settings";
 
-const getInitialSettingState = (): TSetting => {
-  if (typeof window === "undefined") {
-    return initialSettingState;
-  }
-
-  try {
-    const localValue = localStorage.getItem(LOCAL_SETTING_KEY);
-    if (!localValue) {
-      return initialSettingState;
-    }
-
-    return {
-      ...initialSettingState,
-      ...(JSON.parse(localValue) as TSetting),
-    };
-  } catch {
-    return initialSettingState;
-  }
-};
 
 const persistSetting = (setting: TSetting) => {
   if (typeof window === "undefined") {
@@ -221,7 +202,7 @@ export const AppStateProvider = ({
 }) => {
   const [filter, setFilter] = useState<FilterState>(initialFilterState);
   const [custom, setCustom] = useState<CustomState>(initialCustomState);
-  const [setting, setSettingState] = useState<TSetting>(getInitialSettingState);
+  const [setting, setSettingState] = useState<TSetting>(initialSettingState);
 
   const filterRef = useRef(filter);
   const customRef = useRef(custom);
@@ -238,6 +219,22 @@ export const AppStateProvider = ({
   useEffect(() => {
     settingRef.current = setting;
   }, [setting]);
+
+  // Load settings from localStorage after initial mount to avoid hydration mismatch
+  useEffect(() => {
+    try {
+      const localValue = localStorage.getItem(LOCAL_SETTING_KEY);
+      if (localValue) {
+        const parsed = JSON.parse(localValue) as TSetting;
+        setSettingState((prev) => ({
+          ...prev,
+          ...parsed,
+        }));
+      }
+    } catch {
+      // Ignore localStorage read failures.
+    }
+  }, []);
 
   const getState = useCallback(
     () => ({
