@@ -1,20 +1,14 @@
 import { modules } from "@/config/modules";
 import ConfirmationPopup from "@/layouts/components/confirmation-popup";
-import { useUpdateSettingModuleStatusMutation } from "@/redux/features/settingApiSlice/settingSlice";
-import {
-  TModuleItem,
-  TSetting,
-} from "@/redux/features/settingApiSlice/settingType";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import { useEffect, useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { updateSettingModuleAction } from "../_actions/update-setting-module";
+import { TModuleItem, TSetting } from "../_types/setting";
 
 const SettingModuleForm = ({ data }: { data: TSetting }) => {
-  const [updateModuleStatus, { isSuccess, isError, error }] =
-    useUpdateSettingModuleStatusMutation();
-
   // Initialize enabled states from data.modules using useMemo
   const initialModuleStates = useMemo(() => {
     return data.modules.reduce(
@@ -22,39 +16,36 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
         acc[module.name] = module.enable;
         return acc;
       },
-      {} as Record<string, boolean>
+      {} as Record<string, boolean>,
     );
   }, [data.modules]);
 
-  const [enabledModules, setEnabledModules] = useState<Record<string, boolean>>(
-    initialModuleStates
-  );
+  const [enabledModules, setEnabledModules] =
+    useState<Record<string, boolean>>(initialModuleStates);
   const [selectedModule, setSelectedModule] = useState<TModuleItem | null>(
-    null
+    null,
   );
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast("Module update complete");
-    } else if (isError) {
-      toast("Something went wrong");
-      console.log(error);
-    }
-  }, [isSuccess, isError, error]);
 
   const handleModuleToggle = async (identifier: string) => {
     const newState = !enabledModules[identifier];
+
     try {
-      await updateModuleStatus({
+      const actionResult = await updateSettingModuleAction({
         name: identifier,
         enable: newState,
       });
+
+      if (!actionResult.ok) {
+        throw new Error(actionResult.error);
+      }
+
       setEnabledModules((prev) => ({
         ...prev,
         [identifier]: newState,
       }));
-    } catch (error) {
-      console.log(error);
+      toast("Module update complete");
+    } catch {
+      toast("Something went wrong");
     }
   };
 

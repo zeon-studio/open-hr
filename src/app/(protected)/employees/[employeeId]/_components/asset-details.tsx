@@ -1,4 +1,4 @@
-import { useGetAssetsByUserQuery } from "@/redux/features/assetApiSlice/assetSlice";
+import { useGetAssetsByUserQuery } from "@/features/asset";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";

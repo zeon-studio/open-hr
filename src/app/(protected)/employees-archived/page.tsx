@@ -2,9 +2,9 @@
 
 import Pagination from "@/components/pagination";
 import SearchBox from "@/components/search-box";
+import { useGetEmployeesQuery, type TEmployee } from "@/features/employee";
+import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetEmployeesQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import {
   Table,
@@ -22,7 +22,7 @@ import EmployeePage from "../employees/_components/employee-page";
 export default function ArchivedEmployees() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
-  const { limit } = useAppSelector((state) => state.filter);
+  const { limit } = usePaginationFilter();
   const page = searchParams?.get("page");
   const search = searchParams?.get("search");
 
@@ -38,7 +38,7 @@ export default function ArchivedEmployees() {
     {
       data: employees!,
     },
-    "local-employees-archived"
+    "local-employees-archived",
   );
 
   return (
@@ -81,7 +81,7 @@ export default function ArchivedEmployees() {
           {employees?.length ? (
             <EmployeePage employees={employees} />
           ) : (
-            <EmployeePage employees={localData} />
+            <EmployeePage employees={(localData as TEmployee[]) || []} />
           )}
         </TableBody>
       </Table>

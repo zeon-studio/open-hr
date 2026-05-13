@@ -1,5 +1,4 @@
-import { useUpdateCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
-import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+import { useUpdateCourseMutation, type TCourse } from "@/features/course";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

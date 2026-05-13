@@ -1,5 +1,4 @@
 "use client";
-import { useAppDispatch } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import {
   Card,
@@ -18,7 +17,6 @@ import { toast } from "sonner";
 
 const Account = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState({
@@ -31,7 +29,6 @@ const Account = () => {
     const res: any = await signIn("credentials", {
       email: user.email,
       password: user.password,
-      dispatch: dispatch,
       redirect: false,
     });
 

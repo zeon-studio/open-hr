@@ -1,11 +1,11 @@
 "use client";
 
+import Gravatar from "@/components/gravatar";
 import Loader from "@/components/loader";
 import ClearCache from "@/helpers/clear-cache";
-import { useAppSelector } from "@/redux/hook";
+import { useSettings } from "@/hooks/use-settings";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Gravatar from "@/components/gravatar";
 import PendingTasks from "./_components/pending-tasks";
 import UpcomingEvents from "./_components/upcoming-events";
 import UpcomingHolidays from "./_components/upcoming-holidays";
@@ -73,7 +73,7 @@ const Dashboard = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   // check module enabled or not
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  const { modules } = useSettings();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsMounted(true), 0);

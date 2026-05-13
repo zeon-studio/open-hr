@@ -1,13 +1,10 @@
 import options from "@/config/options.json";
+import { type TCourse, type TCourseItem } from "@/features/course";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
 } from "@/lib/employee-info";
-import {
-  TCourse,
-  TCourseItem,
-} from "@/redux/features/courseApiSlice/courseType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -41,7 +38,7 @@ const CourseForm = ({
 }) => {
   const _popoverContainer = popoverContainer || undefined;
   const [courseItems, setCourseItems] = useState<TCourseItem[]>(
-    courseData.courses || []
+    courseData.courses || [],
   );
 
   // set course items
@@ -345,7 +342,7 @@ const CourseForm = ({
                     value: user,
                   }))}
                   options={employeeGroupByDepartment().flatMap(
-                    (group) => group.options
+                    (group) => group.options,
                   )}
                   placeholder="Select users"
                   hidePlaceholderWhenSelected={true}

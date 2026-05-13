@@ -2,16 +2,16 @@ import {
   useGetEmployeeQuery,
   useUpdateEmployeeMutation,
   useUpdateEmployeePasswordMutation,
-} from "@/redux/features/employeeApiSlice/employeeSlice";
+} from "@/features/employee";
 import {
   useGetEmployeeBankQuery,
   useUpdateEmployeeBankMutation,
-} from "@/redux/features/employeeBankApiSlice/employeeBankSlice";
+} from "@/features/employee/bank";
 import {
   useGetEmployeeEducationQuery,
   useUpdateEmployeeEducationMutation,
-} from "@/redux/features/employeeEducationApiSlice/employeeEducationSlice";
-import { useAppSelector } from "@/redux/hook";
+} from "@/features/employee/education";
+import { useSettings } from "@/hooks/use-settings";
 import { Card, CardContent } from "@/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -24,9 +24,7 @@ import PasswordForm from "./password-form";
 import PersonalForm from "./personal-form";
 
 export default function PersonalInfo() {
-  const { modules, communication_platform } = useAppSelector(
-    (state) => state["setting-slice"]
-  );
+  const { modules, communication_platform } = useSettings();
   // session
   const { data: session } = useSession();
   const userRole = session?.user.role;

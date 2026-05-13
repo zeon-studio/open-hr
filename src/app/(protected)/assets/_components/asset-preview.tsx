@@ -1,6 +1,6 @@
+import { type TAsset } from "@/features/asset";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 

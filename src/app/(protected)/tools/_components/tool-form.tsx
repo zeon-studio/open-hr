@@ -4,7 +4,7 @@ import {
   employeeGroupByDepartment,
   employeeInfoById,
 } from "@/lib/employee-info";
-import { TOrganization, TTool } from "@/redux/features/toolApiSlice/toolType";
+import { TOrganization, TTool } from "@/types/domain/tool";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -38,7 +38,7 @@ const ToolForm = ({
 }) => {
   const _popoverContainer = popoverContainer || undefined;
   const [toolItems, setToolItems] = useState<TOrganization[]>(
-    toolData.organizations || []
+    toolData.organizations || [],
   );
 
   // set tool items
@@ -397,7 +397,7 @@ const ToolForm = ({
                     value: user,
                   }))}
                   options={employeeGroupByDepartment().flatMap(
-                    (group) => group.options
+                    (group) => group.options,
                   )}
                   placeholder="Select users"
                   hidePlaceholderWhenSelected={true}

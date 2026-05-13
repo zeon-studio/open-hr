@@ -1,6 +1,6 @@
+import { type TPayroll } from "@/features/payroll";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
-import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 

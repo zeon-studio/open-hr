@@ -1,10 +1,10 @@
 import options from "@/config/options.json";
+import { type TAsset, type TAssetLog } from "@/features/asset";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import {
   employeeGroupByDepartment,
   employeeInfoById,
 } from "@/lib/employee-info";
-import { TAsset, TAssetLog } from "@/redux/features/assetApiSlice/assetType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -152,7 +152,7 @@ const AssetForm = ({
               : []
           }
           options={employeeGroupByDepartment().flatMap(
-            (group) => group.options
+            (group) => group.options,
           )}
           placeholder="Select user"
           hidePlaceholderWhenSelected={true}

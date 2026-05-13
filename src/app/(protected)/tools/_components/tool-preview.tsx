@@ -1,6 +1,6 @@
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
-import { TTool } from "@/redux/features/toolApiSlice/toolType";
+import { TTool } from "@/types/domain/tool";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 

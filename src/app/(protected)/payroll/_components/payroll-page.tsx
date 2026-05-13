@@ -2,11 +2,10 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
+import { useDeletePayrollMutation, type TPayroll } from "@/features/payroll";
 import { useDialog } from "@/hooks/useDialog";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
-import { useDeletePayrollMutation } from "@/redux/features/payrollApiSlice/payrollSlice";
-import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";
 import {

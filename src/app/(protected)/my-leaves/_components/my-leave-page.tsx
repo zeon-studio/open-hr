@@ -1,6 +1,6 @@
 "use client";
 
-import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { TLeaveYear } from "@/types/domain/leave";
 import { TableCell, TableRow } from "@/ui/table";
 
 interface MyLeavePageProps {

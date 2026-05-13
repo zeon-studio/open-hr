@@ -1,4 +1,4 @@
-import { useGetPayrollQuery } from "@/redux/features/payrollApiSlice/payrollSlice";
+import { useGetPayrollQuery } from "@/features/payroll";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";

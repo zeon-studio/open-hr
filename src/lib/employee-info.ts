@@ -1,4 +1,4 @@
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { TEmployee } from "@/types/domain/employee";
 
 const STORAGE_KEY = "local-employees-basics";
 

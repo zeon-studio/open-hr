@@ -3,7 +3,7 @@
 import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/useDialog";
 import { employeeInfoById } from "@/lib/employee-info";
-import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { TLeaveYear } from "@/types/domain/leave";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";
 import {

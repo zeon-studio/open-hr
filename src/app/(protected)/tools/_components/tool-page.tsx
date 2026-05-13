@@ -1,9 +1,8 @@
 "use client";
 
 import ConfirmationPopup from "@/components/confirmation-popup";
+import { useDeleteToolMutation, type TTool } from "@/features/tool";
 import { useDialog } from "@/hooks/useDialog";
-import { useDeleteToolMutation } from "@/redux/features/toolApiSlice/toolSlice";
-import { TTool } from "@/redux/features/toolApiSlice/toolType";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {

@@ -3,7 +3,6 @@ import {
   employeeInfoById,
 } from "@/lib/employee-info";
 import EditFrom from "@/partials/edit-from";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -17,21 +16,23 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
+import { TSetting } from "../_types/setting";
 
 interface SettingOffboardingTasksFormProps {
-  isUpdating: boolean;
   data: TSetting;
-  handleSubmit: (data: TSetting) => void;
 }
 
 export default function SettingOffboardingTasksForm({
-  isUpdating,
   data,
-  handleSubmit,
 }: SettingOffboardingTasksFormProps) {
+  const [isActionUpdating, setIsActionUpdating] = useState(false);
+
   return (
     <EditFrom<TSetting>
-      isUpdating={isUpdating}
+      isUpdating={isActionUpdating}
       data={data}
       title="Offboarding Tasks"
     >
@@ -39,9 +40,24 @@ export default function SettingOffboardingTasksForm({
         return (
           <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleSubmit(data);
+              setIsActionUpdating(true);
+              try {
+                const actionResult = await updateSettingSectionsAction({
+                  offboarding_tasks: data.offboarding_tasks,
+                });
+
+                if (!actionResult.ok) {
+                  throw new Error(actionResult.error);
+                }
+
+                toast("Setting update complete");
+              } catch {
+                toast("Something went wrong");
+              } finally {
+                setIsActionUpdating(false);
+              }
             }}
           >
             {data.offboarding_tasks.map((task, index) => (
@@ -59,7 +75,7 @@ export default function SettingOffboardingTasksForm({
                         handleChange({
                           ...data,
                           offboarding_tasks: data.offboarding_tasks.filter(
-                            (_, i) => i !== index
+                            (_, i) => i !== index,
                           ),
                         });
                       }}
@@ -78,7 +94,7 @@ export default function SettingOffboardingTasksForm({
                           ...data,
                           offboarding_tasks: data.offboarding_tasks.map(
                             (task, i) =>
-                              i === index ? { ...task, [name]: value } : task
+                              i === index ? { ...task, [name]: value } : task,
                           ),
                         });
                       }}
@@ -109,7 +125,7 @@ export default function SettingOffboardingTasksForm({
                                       assigned_to:
                                         value === "none" ? "" : value,
                                     }
-                                  : task
+                                  : task,
                             ),
                           })
                         }
@@ -130,7 +146,7 @@ export default function SettingOffboardingTasksForm({
                                   >
                                     {option.label}
                                   </SelectItem>
-                                )
+                                ),
                               )}
                             </SelectGroup>
                           ))}

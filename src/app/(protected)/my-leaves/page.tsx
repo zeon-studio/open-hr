@@ -1,7 +1,7 @@
 "use client";
 
-import { useGetLeaveQuery } from "@/redux/features/leaveApiSlice/leaveSlice";
-import { useAppSelector } from "@/redux/hook";
+import { useGetLeaveQuery } from "@/features/leave";
+import { useSettings } from "@/hooks/use-settings";
 import {
   Table,
   TableBody,
@@ -18,13 +18,11 @@ const Leave = () => {
   const { data: session } = useSession();
   const { data: employeeData } = useGetLeaveQuery(session?.user?.id!);
   const employeeLeaveYears = [...(employeeData?.result?.years || [])].sort(
-    (a, b) => b.year - a.year
+    (a, b) => b.year - a.year,
   );
 
   // check module & leave settings enabled or not
-  const { modules, leaves: leaveSetting } = useAppSelector(
-    (state) => state["setting-slice"]
-  );
+  const { modules, leaves: leaveSetting } = useSettings();
   if (!modules.find((mod) => mod.name === "leave")?.enable) {
     return notFound();
   }
@@ -34,7 +32,7 @@ const Leave = () => {
   const sickEnabled = leaveSetting.some((item) => item.name === "sick");
   const earnedEnabled = leaveSetting.some((item) => item.name === "earned");
   const withoutPayEnabled = leaveSetting.some(
-    (item) => item.name === "without_pay"
+    (item) => item.name === "without_pay",
   );
 
   return (

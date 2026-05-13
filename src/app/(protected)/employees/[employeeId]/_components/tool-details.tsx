@@ -1,4 +1,4 @@
-import { useGetToolsByUserQuery } from "@/redux/features/toolApiSlice/toolSlice";
+import { useGetToolsByUserQuery } from "@/features/tool";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";

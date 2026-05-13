@@ -2,11 +2,10 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
+import { useDeleteAssetMutation, type TAsset } from "@/features/asset";
 import { useDialog } from "@/hooks/useDialog";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
-import { useDeleteAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {

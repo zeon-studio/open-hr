@@ -1,9 +1,9 @@
-import { useDialog } from "@/hooks/useDialog";
 import {
   useGetCalendarsQuery,
   useUpdateCalendarMutation,
-} from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
+  type TCalendar,
+} from "@/features/calendar";
+import { useDialog } from "@/hooks/useDialog";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
 import { Label } from "@/ui/label";
@@ -39,7 +39,7 @@ const CalendarUpdate = () => {
           createdAt: new Date(),
         }
       );
-    }
+    },
   );
 
   useEffect(() => {

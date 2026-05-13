@@ -1,12 +1,12 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import FileManager from "@/components/file-manager";
-import useAxios from "@/hooks/useAxios";
-import { MAX_SIZE } from "@/lib/constant";
 import {
   useDeleteEmployeeDocumentMutation,
   useGetEmployeeDocumentQuery,
-} from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
-import { useAppSelector } from "@/redux/hook";
+} from "@/features/employee/document";
+import { useSettings } from "@/hooks/use-settings";
+import useAxios from "@/hooks/useAxios";
+import { MAX_SIZE } from "@/lib/constant";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
@@ -22,8 +22,7 @@ import { useParams } from "next/navigation";
 import UploadDialog from "./upload-dialog";
 
 export default function Document() {
-  const { company_name } =
-    useAppSelector((state) => state["setting-slice"]) || {};
+  const { company_name } = useSettings() || {};
 
   const { data: session } = useSession();
   const axios = useAxios({

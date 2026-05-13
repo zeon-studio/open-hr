@@ -1,28 +1,46 @@
 import EditFrom from "@/partials/edit-from";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
+import { useState } from "react";
+import { toast } from "sonner";
+import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
+import { TSetting } from "../_types/setting";
 
 interface SettingPayrollFormProps {
-  isUpdating: boolean;
   data: TSetting;
-  handleSubmit: (data: TSetting) => void;
 }
 
-export default function SettingPayrollForm({
-  isUpdating,
-  data,
-  handleSubmit,
-}: SettingPayrollFormProps) {
+export default function SettingPayrollForm({ data }: SettingPayrollFormProps) {
+  const [isActionUpdating, setIsActionUpdating] = useState(false);
+
   return (
-    <EditFrom<TSetting> isUpdating={isUpdating} data={data} title="Payroll">
+    <EditFrom<TSetting>
+      isUpdating={isActionUpdating}
+      data={data}
+      title="Payroll"
+    >
       {({ handleChange, isReadOnly, data, formRef }) => {
         return (
           <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleSubmit(data);
+              setIsActionUpdating(true);
+              try {
+                const actionResult = await updateSettingSectionsAction({
+                  payroll: data.payroll,
+                });
+
+                if (!actionResult.ok) {
+                  throw new Error(actionResult.error);
+                }
+
+                toast("Setting update complete");
+              } catch {
+                toast("Something went wrong");
+              } finally {
+                setIsActionUpdating(false);
+              }
             }}
             className="row gap-y-4"
           >

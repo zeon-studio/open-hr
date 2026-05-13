@@ -1,16 +1,16 @@
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
 import {
   useGetPendingOffboardingTaskQuery,
   useUpdateOffboardingTaskStatusMutation,
-} from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
+} from "@/features/employee/offboarding";
 import {
   useGetPendingOnboardingTaskQuery,
   useUpdateOnboardingTaskStatusMutation,
-} from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
-import { TOnboardingTask } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingType";
-import { Button } from "@/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+  type TOnboardingTask,
+} from "@/features/employee/onboarding";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { BadgeInfo, CheckCircle, CircleDashed } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";
@@ -38,7 +38,7 @@ const PendingTasks = () => {
   const handleCompleteTask = async (
     employeeId: string,
     taskName: string,
-    type: string
+    type: string,
   ) => {
     try {
       if (type === "offboarding") {
@@ -66,7 +66,7 @@ const PendingTasks = () => {
           Pending Tasks
         </CardTitle>
       </CardHeader>
-      <CardContent className="lg:h-[300px] scroll-box">
+      <CardContent className="lg:h-75 scroll-box">
         {mergeTasks?.length === 0 ? (
           <p className="text-text-light">No pending tasks</p>
         ) : (
@@ -78,7 +78,7 @@ const PendingTasks = () => {
                   createdAt: Date;
                   type: string;
                 },
-                index: number
+                index: number,
               ) => (
                 <li
                   className="flex items-start justify-between flex-wrap lg:flex-nowrap"
@@ -106,7 +106,7 @@ const PendingTasks = () => {
                       handleCompleteTask(
                         task.employee_id,
                         task.task_name!,
-                        task.type
+                        task.type,
                       )
                     }
                     className="ml-2"
@@ -115,7 +115,7 @@ const PendingTasks = () => {
                     Complete
                   </Button>
                 </li>
-              )
+              ),
             )}
           </ul>
         )}

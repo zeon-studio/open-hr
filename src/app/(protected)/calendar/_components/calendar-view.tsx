@@ -1,4 +1,4 @@
-import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
+import { TEvent } from "@/types/domain/calendar";
 import {
   CalendarBody,
   CalendarDate,

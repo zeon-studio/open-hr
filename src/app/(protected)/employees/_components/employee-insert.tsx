@@ -1,8 +1,10 @@
 import options from "@/config/options.json";
+import {
+  useAddEmployeeMutation,
+  type TEmployeeCreate,
+} from "@/features/employee";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { employeeGroupByDepartment } from "@/lib/employee-info";
-import { useAddEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployeeCreate } from "@/redux/features/employeeApiSlice/employeeType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -211,7 +213,7 @@ const EmployeeInsert = ({
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
-                      )
+                      ),
                     )}
                   </SelectGroup>
                 ))}

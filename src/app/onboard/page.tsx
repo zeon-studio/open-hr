@@ -2,10 +2,12 @@
 
 import { Confetti } from "@/components/icons";
 import Loader from "@/components/loader";
+import {
+  useGetEmployeeDetailsByTokenQuery,
+  type TEmployee,
+} from "@/features/employee";
+import { useSettings } from "@/hooks/use-settings";
 import { checkCompletion } from "@/lib/check-completion";
-import { useGetEmployeeDetailsByTokenQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
-import { useAppSelector } from "@/redux/hook";
 import { buttonVariants } from "@/ui/button";
 import {
   Card,
@@ -25,9 +27,7 @@ function OnBoarding() {
   const { status, data: session } = useSession();
   const [employeeId, setEmployeeId] = useState<string>("");
 
-  const { company_name, logo_url } = useAppSelector(
-    (state) => state["setting-slice"],
-  );
+  const { company_name, logo_url } = useSettings();
   const params = useSearchParams();
   const token = params?.get("token") as string;
   const { steppers, currentStep, handleStepChange, completedSteps } =

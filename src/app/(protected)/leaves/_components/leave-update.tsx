@@ -1,5 +1,4 @@
-import { useUpdateLeaveMutation } from "@/redux/features/leaveApiSlice/leaveSlice";
-import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { useUpdateLeaveMutation, type TLeaveYear } from "@/features/leave";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

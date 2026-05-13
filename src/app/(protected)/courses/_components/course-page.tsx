@@ -3,9 +3,8 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import CopyText from "@/components/copy-text";
 import ImageFallback from "@/components/image-fallback";
+import { useDeleteCourseMutation, type TCourse } from "@/features/course";
 import { useDialog } from "@/hooks/useDialog";
-import { useDeleteCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
-import { TCourse } from "@/redux/features/courseApiSlice/courseType";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {

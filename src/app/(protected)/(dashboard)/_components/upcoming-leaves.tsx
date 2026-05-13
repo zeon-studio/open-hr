@@ -1,7 +1,7 @@
 import UserInfo from "@/components/user-info";
+import { useGetUpcomingLeaveRequestsQuery } from "@/features/leave-request";
 import { dateFormat } from "@/lib/date-converter";
 import { employeeInfoById } from "@/lib/employee-info";
-import { useGetUpcomingLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { UserRoundMinus } from "lucide-react";
 import { useMemo } from "react";
@@ -62,7 +62,7 @@ const UpcomingLeaves = () => {
           Who&apos;s Out
         </CardTitle>
       </CardHeader>
-      <CardContent className="lg:h-[300px] scroll-box">
+      <CardContent className="lg:h-75 scroll-box">
         <div className="mb-6">
           <h4 className="text-base font-medium mb-3">Today</h4>
           {todaysLeave?.length === 0 ? (

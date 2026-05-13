@@ -1,11 +1,11 @@
 "use client";
 
 import Loader from "@/components/loader";
+import { useGetEmployeesBasicsQuery } from "@/features/employee";
 import { useAppState } from "@/lib/app-state";
+import { useSettings } from "@/hooks/use-settings";
 import Header from "@/partials/header";
 import Sidebar from "@/partials/sidebar";
-import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 
@@ -44,8 +44,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   }, [setSetting]);
 
   const { status } = useSession();
-  const { app_name, company_website, favicon_url } =
-    useAppSelector((state) => state["setting-slice"]) || {};
+  const { app_name, company_website, favicon_url } = useSettings() || {};
 
   // Only show loader for session loading, not for mounting
   if (status === "loading") {

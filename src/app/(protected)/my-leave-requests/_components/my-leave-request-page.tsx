@@ -1,9 +1,11 @@
 "use client";
 
 import ConfirmationPopup from "@/components/confirmation-popup";
+import {
+  useDeleteLeaveRequestMutation,
+  type TLeaveRequest,
+} from "@/features/leave-request";
 import { dateFormat } from "@/lib/date-converter";
-import { useDeleteLeaveRequestMutation } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
-import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

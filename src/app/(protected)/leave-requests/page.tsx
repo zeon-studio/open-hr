@@ -1,9 +1,10 @@
 "use client";
 
 import Pagination from "@/components/pagination";
+import { useGetLeaveRequestsQuery } from "@/features/leave-request";
+import { usePaginationFilter } from "@/hooks/use-pagination-filter";
+import { useSettings } from "@/hooks/use-settings";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetLeaveRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
-import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import {
   Table,
@@ -19,7 +20,7 @@ import LeaveRequestPage from "./_components/leave-request-page";
 
 const LeaveRequest = () => {
   const searchParams = useSearchParams();
-  const { limit } = useAppSelector((state) => state.filter);
+  const { limit } = usePaginationFilter();
   const page = searchParams?.get("page");
   const search = searchParams?.get("search");
 
@@ -37,11 +38,11 @@ const LeaveRequest = () => {
     {
       data: leaveRequests!,
     },
-    "local-leave-requests"
+    "local-leave-requests",
   );
 
   // check module enabled or not
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  const { modules } = useSettings();
   if (!modules.find((mod) => mod.name === "leave")?.enable) {
     return notFound();
   }

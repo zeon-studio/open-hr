@@ -1,12 +1,13 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import {
   useAddNewLeaveYearMutation,
   useGetLeavesQuery,
-} from "@/redux/features/leaveApiSlice/leaveSlice";
-import { useAppSelector } from "@/redux/hook";
+} from "@/features/leave";
+import { usePaginationFilter } from "@/hooks/use-pagination-filter";
+import { useSettings } from "@/hooks/use-settings";
+import useLocalCacheHook from "@/hooks/useLocalCacheHook";
 import { Label } from "@/ui/label";
 import {
   Select,
@@ -29,7 +30,7 @@ import LeavePage from "./_components/leave-page";
 
 const Leave = () => {
   const searchParams = useSearchParams();
-  const { limit } = useAppSelector((state) => state.filter);
+  const { limit } = usePaginationFilter();
   const page = searchParams?.get("page");
   const year = searchParams?.get("year");
   const currentYear = new Date().getFullYear();
@@ -62,9 +63,7 @@ const Leave = () => {
   );
 
   // check module enabled or not
-  const { modules, leaves: leaveSetting } = useAppSelector(
-    (state) => state["setting-slice"],
-  );
+  const { modules, leaves: leaveSetting } = useSettings();
 
   // leave type enabled or not
   const casualEnabled = leaveSetting.some((item) => item.name === "casual");

@@ -1,13 +1,10 @@
 "use client";
 
+import { useGetCalendarQuery } from "@/features/calendar";
+import { useSettings } from "@/hooks/use-settings";
 import { useDialog } from "@/hooks/useDialog";
 import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetCalendarQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
-import {
-  TCalendar,
-  TEvent,
-} from "@/redux/features/calendarApiSlice/calendarType";
-import { useAppSelector } from "@/redux/hook";
+import { TCalendar, TEvent } from "@/types/domain/calendar";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import { format } from "date-fns";
@@ -50,7 +47,7 @@ const getHolydaysAndEvents = (calendar: TCalendar | undefined): TEvent[] => {
 const renderCalendarList = (
   calendar: TCalendar | undefined,
   type: "holidays" | "events" | "weekends",
-  title: string
+  title: string,
 ) => {
   const items = calendar?.[type] ?? [];
   if (items.length > 0) {
@@ -78,7 +75,7 @@ const CalendarPage = () => {
     {
       data: calendar ? [calendar] : [],
     },
-    "local-calendar"
+    "local-calendar",
   );
 
   const yearlyData = getHolydaysAndEvents(calendar! || localData[0]!);
@@ -86,7 +83,7 @@ const CalendarPage = () => {
   const { isDialogOpen, onDialogChange } = useDialog();
 
   // check module enabled or not
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  const { modules } = useSettings();
   if (!modules.find((mod) => mod.name === "calendar")?.enable) {
     return notFound();
   }

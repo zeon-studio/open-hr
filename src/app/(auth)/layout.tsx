@@ -1,7 +1,7 @@
 "use client";
 import Logo from "@/components/logo";
 import { useAppState } from "@/lib/app-state";
-import { useAppSelector } from "@/redux/hook";
+import { useSettings } from "@/hooks/use-settings";
 import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -36,8 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     };
   }, [setSetting]);
 
-  const { app_name, company_website, favicon_url } =
-    useAppSelector((state) => state["setting-slice"]) || {};
+  const { app_name, company_website, favicon_url } = useSettings() || {};
 
   return (
     <>

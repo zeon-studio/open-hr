@@ -1,6 +1,5 @@
 import options from "@/config/options.json";
 import EditFrom from "@/partials/edit-from";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -12,27 +11,48 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
+import { TSetting } from "../_types/setting";
 
 interface SettingLeavesFormProps {
-  isUpdating: boolean;
   data: TSetting;
-  handleSubmit: (data: TSetting) => void;
 }
 
-export default function SettingLeavesForm({
-  isUpdating,
-  data,
-  handleSubmit,
-}: SettingLeavesFormProps) {
+export default function SettingLeavesForm({ data }: SettingLeavesFormProps) {
+  const [isActionUpdating, setIsActionUpdating] = useState(false);
+
   return (
-    <EditFrom<TSetting> isUpdating={isUpdating} data={data} title="Leaves">
+    <EditFrom<TSetting>
+      isUpdating={isActionUpdating}
+      data={data}
+      title="Leaves"
+    >
       {({ handleChange, isReadOnly, data, formRef }) => {
         return (
           <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleSubmit(data);
+              setIsActionUpdating(true);
+              try {
+                const actionResult = await updateSettingSectionsAction({
+                  max_leave_per_day: data.max_leave_per_day,
+                  leave_threshold_days: data.leave_threshold_days,
+                  leaves: data.leaves,
+                });
+
+                if (!actionResult.ok) {
+                  throw new Error(actionResult.error);
+                }
+
+                toast("Setting update complete");
+              } catch {
+                toast("Something went wrong");
+              } finally {
+                setIsActionUpdating(false);
+              }
             }}
             className="row"
           >
@@ -113,7 +133,7 @@ export default function SettingLeavesForm({
                                         | "sick"
                                         | "without_pay",
                                     }
-                                  : leave
+                                  : leave,
                               ),
                             })
                           }
@@ -141,7 +161,7 @@ export default function SettingLeavesForm({
                             leaves: data.leaves.map((leave, i) =>
                               i === index
                                 ? { ...leave, [name]: Number(value) }
-                                : leave
+                                : leave,
                             ),
                           });
                         }}

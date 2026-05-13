@@ -1,4 +1,4 @@
-import type { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import type { TEmployee } from "@/types/domain/employee";
 import { hasGravatarByEmail } from "./gravatar";
 
 // Fields that count toward the profile completion percentage. Equal weight per field.

@@ -1,7 +1,7 @@
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import Gravatar from "@/components/gravatar";
+import { TEmployee } from "@/features/employee";
 import Link from "next/link";
 import { JSX } from "react";
-import Gravatar from "@/components/gravatar";
 
 const UserInfo = ({
   user,

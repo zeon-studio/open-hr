@@ -1,7 +1,8 @@
+import Gravatar from "@/components/gravatar";
 import Logo from "@/components/logo";
 import { menu } from "@/config/menu";
+import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/shadcn";
-import { useAppSelector } from "@/redux/hook";
 import {
   Accordion,
   AccordionContent,
@@ -13,17 +14,16 @@ import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Gravatar from "@/components/gravatar";
 import ConfirmationPopup from "../components/confirmation-popup";
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  const { modules } = useSettings();
 
   const filterMenuByRole = menu.filter((item) =>
-    item.access?.includes(session?.user?.role!)
+    item.access?.includes(session?.user?.role!),
   );
 
   // only show menu if module is enabled
@@ -56,7 +56,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
           {filterMenuByModule.map((item) => {
             if (item && "children" in item && item.children) {
               const isActive = item.children.some(
-                (child) => pathname === child.path
+                (child) => pathname === child.path,
               );
 
               return (
@@ -85,7 +85,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                               className={cn(
                                 "rounded text-black text-sm font-medium block px-2 py-2.5",
                                 child.path === pathname &&
-                                  "bg-primary text-primary-foreground"
+                                  "bg-primary text-primary-foreground",
                               )}
                             >
                               <child.icon className="inline h-5 mr-2 mb-0.5" />
@@ -107,7 +107,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                     className={cn(
                       "rounded text-black text-sm font-medium block px-2 py-2.5",
                       item.path === pathname &&
-                        "bg-primary text-primary-foreground"
+                        "bg-primary text-primary-foreground",
                     )}
                   >
                     {item.icon && (

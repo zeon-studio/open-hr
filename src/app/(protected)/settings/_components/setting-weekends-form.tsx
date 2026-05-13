@@ -1,6 +1,5 @@
 import options from "@/config/options.json";
 import EditFrom from "@/partials/edit-from";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
 import MultiSelect from "@/ui/multi-select";
@@ -12,27 +11,49 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { updateSettingSectionsAction } from "../_actions/update-setting-sections";
+import { TSetting } from "../_types/setting";
 
 interface SettingWeekendsFormProps {
-  isUpdating: boolean;
   data: TSetting;
-  handleSubmit: (data: TSetting) => void;
 }
 
 export default function SettingWeekendsForm({
-  isUpdating,
   data,
-  handleSubmit,
 }: SettingWeekendsFormProps) {
+  const [isActionUpdating, setIsActionUpdating] = useState(false);
+
   return (
-    <EditFrom<TSetting> isUpdating={isUpdating} data={data} title="Weekends">
+    <EditFrom<TSetting>
+      isUpdating={isActionUpdating}
+      data={data}
+      title="Weekends"
+    >
       {({ handleChange, isReadOnly, data, formRef }) => {
         return (
           <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleSubmit(data);
+              setIsActionUpdating(true);
+              try {
+                const actionResult = await updateSettingSectionsAction({
+                  weekends: data.weekends,
+                  conditional_weekends: data.conditional_weekends,
+                });
+
+                if (!actionResult.ok) {
+                  throw new Error(actionResult.error);
+                }
+
+                toast("Setting update complete");
+              } catch {
+                toast("Something went wrong");
+              } finally {
+                setIsActionUpdating(false);
+              }
             }}
             className="row gap-y-12"
           >
@@ -81,7 +102,7 @@ export default function SettingWeekendsForm({
                             ...data,
                             conditional_weekends:
                               data.conditional_weekends.filter(
-                                (_, i) => i !== index
+                                (_, i) => i !== index,
                               ),
                           });
                         }}
@@ -110,7 +131,7 @@ export default function SettingWeekendsForm({
                                         ...weekend,
                                         name: value,
                                       }
-                                    : weekend
+                                    : weekend,
                                 ),
                             });
                           }}
@@ -152,10 +173,10 @@ export default function SettingWeekendsForm({
                                     ? {
                                         ...weekend,
                                         pattern: value.map((v) =>
-                                          Number(v.value)
+                                          Number(v.value),
                                         ),
                                       }
-                                    : weekend
+                                    : weekend,
                                 ),
                             });
                           }}

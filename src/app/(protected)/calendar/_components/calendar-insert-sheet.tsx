@@ -1,10 +1,9 @@
+import { useAddCalendarMutation, type TCalSheet } from "@/features/calendar";
 import { useDialog } from "@/hooks/useDialog";
 import {
   readSheetData,
   transformCalSheetData,
 } from "@/lib/sheet-data-converter";
-import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TCalSheet } from "@/redux/features/calendarApiSlice/calendarType";
 import { Button, buttonVariants } from "@/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
 import { Input } from "@/ui/input";

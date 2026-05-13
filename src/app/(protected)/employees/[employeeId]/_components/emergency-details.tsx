@@ -1,9 +1,9 @@
-import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeContactQuery,
   useUpdateEmployeeContactMutation,
-} from "@/redux/features/employeeContactApiSlice/employeeContactSlice";
-import { TEmployeeContact } from "@/redux/features/employeeContactApiSlice/employeeContactType";
+  type TEmployeeContact,
+} from "@/features/employee/contact";
+import EditFrom from "@/partials/edit-from";
 import { Button } from "@/ui/button";
 import { Card, CardContent } from "@/ui/card";
 import { Input } from "@/ui/input";
@@ -127,7 +127,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: data.contacts.filter(
-                          (contact, i) => i !== index
+                          (contact, i) => i !== index,
                         ),
                       });
                     }}
@@ -145,7 +145,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: contacts.map((contact, i) =>
-                          i === index ? { ...contact, [name]: value } : contact
+                          i === index ? { ...contact, [name]: value } : contact,
                         ),
                       });
                     }}
@@ -164,7 +164,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: contacts.map((contact, i) =>
-                          i === index ? { ...contact, [name]: value } : contact
+                          i === index ? { ...contact, [name]: value } : contact,
                         ),
                       });
                     }}
@@ -183,7 +183,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: contacts.map((contact, i) =>
-                          i === index ? { ...contact, [name]: value } : contact
+                          i === index ? { ...contact, [name]: value } : contact,
                         ),
                       });
                     }}

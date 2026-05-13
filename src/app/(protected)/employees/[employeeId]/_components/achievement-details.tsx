@@ -1,14 +1,12 @@
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import EditFrom from "@/partials/edit-from";
 import {
   useGetEmployeeAchievementQuery,
   useUpdateEmployeeAchievementMutation,
-} from "@/redux/features/employeeAchievementApiSlice/employeeAchievementSlice";
-import {
-  TAchievement,
-  TEmployeeAchievement,
-} from "@/redux/features/employeeAchievementApiSlice/employeeAchievementType";
+  type TAchievement,
+  type TEmployeeAchievement,
+} from "@/features/employee/achievement";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
+import EditFrom from "@/partials/edit-from";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Card, CardContent } from "@/ui/card";
@@ -148,7 +146,7 @@ function AchievementForm({
                       handleChange({
                         ...data,
                         achievements: data.achievements.filter(
-                          (achievement, i) => i !== index
+                          (achievement, i) => i !== index,
                         ),
                       });
                     }}
@@ -179,7 +177,7 @@ function AchievementForm({
                                 };
                               }
                               return achievement;
-                            }
+                            },
                           ),
                         });
                       }}
@@ -248,7 +246,7 @@ function AchievementForm({
                                     };
                                   }
                                   return achievement;
-                                }
+                                },
                               ),
                             });
                           }}

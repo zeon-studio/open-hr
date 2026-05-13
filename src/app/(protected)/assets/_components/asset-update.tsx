@@ -1,5 +1,4 @@
-import { useUpdateAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { useUpdateAssetMutation, type TAsset } from "@/features/asset";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

@@ -2,9 +2,8 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
+import { useDeleteEmployeeMutation, type TEmployee } from "@/features/employee";
 import { employeeInfoById } from "@/lib/employee-info";
-import { useDeleteEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/ui/dialog";

@@ -1,5 +1,4 @@
-import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
+import { useAddCalendarMutation, type TCalendar } from "@/features/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

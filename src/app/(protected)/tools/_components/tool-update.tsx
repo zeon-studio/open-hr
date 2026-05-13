@@ -1,5 +1,4 @@
-import { useUpdateToolMutation } from "@/redux/features/toolApiSlice/toolSlice";
-import { TTool } from "@/redux/features/toolApiSlice/toolType";
+import { useUpdateToolMutation, type TTool } from "@/features/tool";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

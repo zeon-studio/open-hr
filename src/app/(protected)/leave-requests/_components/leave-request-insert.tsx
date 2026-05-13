@@ -1,5 +1,7 @@
-import { useAddLeaveRequestMutation } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
-import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
+import {
+  useAddLeaveRequestMutation,
+  type TLeaveRequest,
+} from "@/features/leave-request";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";

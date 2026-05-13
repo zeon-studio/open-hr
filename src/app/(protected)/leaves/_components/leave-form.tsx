@@ -1,4 +1,4 @@
-import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { TLeaveYear } from "@/types/domain/leave";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";

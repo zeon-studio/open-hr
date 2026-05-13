@@ -1,10 +1,10 @@
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { employeeGroupByDepartment } from "@/lib/employee-info";
-import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
 import {
   TEmployeeJob,
   TPromotion,
-} from "@/redux/features/employeeJobApiSlice/employeeJobType";
+  useUpdateEmployeeJobMutation,
+} from "@/features/employee/job";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
+import { employeeGroupByDepartment } from "@/lib/employee-info";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -35,7 +35,7 @@ const EmployeeJobForm = ({
   const [loader, setLoader] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
-    null
+    null,
   );
   const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
     dialogContentRef.current = node;
@@ -49,7 +49,7 @@ const EmployeeJobForm = ({
       permanent_date: employeeJob.permanent_date,
       promotions: employeeJob.promotions,
       note: employeeJob.note,
-    }
+    },
   );
 
   const [updateEmployeeJob, { isSuccess, isError, error }] =
@@ -76,7 +76,7 @@ const EmployeeJobForm = ({
   }, [isSuccess, isError]);
 
   const [employeeJobPromotions, setEmployeeJobLogs] = useState<TPromotion[]>(
-    employeeJobData.promotions || []
+    employeeJobData.promotions || [],
   );
 
   // set employeeJob promotions
@@ -230,7 +230,7 @@ const EmployeeJobForm = ({
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
-                      )
+                      ),
                     )}
                   </SelectGroup>
                 ))}

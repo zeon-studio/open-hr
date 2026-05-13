@@ -1,7 +1,7 @@
 "use client";
 
+import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import useQuerySelector from "@/hooks/useQuerySelector";
-import { useAppSelector } from "@/redux/hook";
 import {
   ChevronLeft,
   ChevronRight,
@@ -18,7 +18,7 @@ const Pagination = ({
   total: number;
   className?: string;
 }) => {
-  const { limit } = useAppSelector((state) => state.filter);
+  const { limit } = usePaginationFilter();
   // Total number of items in your list
   const totalPages = Math.ceil(total / limit);
   const searchParams = useSearchParams();
@@ -36,7 +36,10 @@ const Pagination = ({
   };
 
   // Reset input when page changes (happens after navigation)
-  if (inputPage !== page && !document.activeElement?.matches('input[name="page"]')) {
+  if (
+    inputPage !== page &&
+    !document.activeElement?.matches('input[name="page"]')
+  ) {
     setInputPage(page);
   }
 
@@ -48,8 +51,9 @@ const Pagination = ({
       <div>
         <ul className="flex space-x-2">
           <li
-            className={`border border-border rounded-sm bg-white ${page === 1 ? "text-text-light" : "text-primary"
-              }`}
+            className={`border border-border rounded-sm bg-white ${
+              page === 1 ? "text-text-light" : "text-primary"
+            }`}
             onClick={() => onSelect("1", "page")}
           >
             <button className="block p-2" disabled={page === 1}>
@@ -58,8 +62,9 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border border-border rounded-sm bg-white ${page === 1 ? "text-text-light" : "text-primary"
-              }`}
+            className={`border border-border rounded-sm bg-white ${
+              page === 1 ? "text-text-light" : "text-primary"
+            }`}
             onClick={() => onSelect(`${page - 1}`, "page")}
           >
             <button className="block p-2" disabled={page === 1}>
@@ -80,8 +85,9 @@ const Pagination = ({
             </form>{" "}
           </li>
           <li
-            className={`border border-border rounded-sm bg-white  ${page === totalPages ? "text-text-light" : "text-primary"
-              }`}
+            className={`border border-border rounded-sm bg-white  ${
+              page === totalPages ? "text-text-light" : "text-primary"
+            }`}
             onClick={() => onSelect(`${page + 1}`, "page")}
           >
             <button className="block p-2" disabled={page === totalPages}>
@@ -90,8 +96,9 @@ const Pagination = ({
           </li>
 
           <li
-            className={`border border-border rounded-sm bg-white  ${page === totalPages ? "text-text-light" : "text-primary"
-              }`}
+            className={`border border-border rounded-sm bg-white  ${
+              page === totalPages ? "text-text-light" : "text-primary"
+            }`}
             onClick={() => onSelect(`${totalPages}`, "page")}
           >
             <button className="block p-2" disabled={page === totalPages}>

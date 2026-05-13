@@ -1,4 +1,4 @@
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { TEmployee } from "@/types/domain/employee";
 
 export function checkCompletion(data: TEmployee) {
   if (!data) {

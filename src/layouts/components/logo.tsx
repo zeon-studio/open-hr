@@ -1,7 +1,7 @@
 "use client";
 
+import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/shadcn";
-import { useAppSelector } from "@/redux/hook";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -11,7 +11,7 @@ const Logo = ({ src, className }: { src?: string; className?: string }) => {
     logo_width,
     logo_height,
     app_name: logo_text,
-  } = useAppSelector((state) => state["setting-slice"]);
+  } = useSettings();
   const logoPath = logo ? logo : src;
 
   const [mounted, setMounted] = useState(false);

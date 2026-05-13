@@ -1,7 +1,4 @@
-import {
-  TCalendar,
-  TCalSheet,
-} from "@/redux/features/calendarApiSlice/calendarType";
+import { TCalendar, TCalSheet } from "@/types/domain/calendar";
 import ExcelJS from "exceljs";
 import { dayCount } from "./date-converter";
 
@@ -80,7 +77,7 @@ export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
       } catch (error) {
         console.log(error);
         alert(
-          "File reading failed. Please check the file format and try again."
+          "File reading failed. Please check the file format and try again.",
         );
         reject(error);
       }
@@ -121,6 +118,6 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
 
       return acc;
     },
-    { year: sheetData.year, holidays: [], events: [] } as unknown as TCalendar
+    { year: sheetData.year, holidays: [], events: [] } as unknown as TCalendar,
   );
 };

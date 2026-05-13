@@ -1,12 +1,12 @@
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { useUpdatePayrollMutation } from "@/redux/features/payrollApiSlice/payrollSlice";
 import {
-  TBonus,
-  TIncrement,
-  TPayroll,
-  TSalary,
-} from "@/redux/features/payrollApiSlice/payrollType";
+  useUpdatePayrollMutation,
+  type TBonus,
+  type TIncrement,
+  type TPayroll,
+  type TSalary,
+} from "@/features/payroll";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -45,7 +45,7 @@ const PayrollUpdate = ({
   const [salary, setSalary] = useState<TSalary[]>(payrollData.salary);
   const [bonus, setBonus] = useState<TBonus[]>(payrollData.bonus);
   const [increments, setIncrements] = useState<TIncrement[]>(
-    payrollData.increments
+    payrollData.increments,
   );
 
   const [updatePayroll, { isSuccess, isError }] = useUpdatePayrollMutation();
