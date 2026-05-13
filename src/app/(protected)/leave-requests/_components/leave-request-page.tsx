@@ -6,8 +6,8 @@ import {
   useUpdateLeaveRequestMutation,
   type TLeaveRequest,
 } from "@/features/leave-request";
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+import { dateFormat } from "@/shared/utils";
+import { employeeInfoById } from "@/shared/utils";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

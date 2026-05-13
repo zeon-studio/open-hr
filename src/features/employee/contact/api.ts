@@ -2,7 +2,7 @@ import {
   apiRequest,
   createMutationHook,
   createQueryHook,
-} from "@/features/employee/api";
+} from "@/features/employee";
 import { TPagination } from "@/types";
 
 export type TContact = {

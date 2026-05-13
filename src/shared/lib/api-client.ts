@@ -1,7 +1,7 @@
-import Axios from "@/lib/axios";
+import { Axios } from "@/platform/network";
 import { TError } from "@/types";
 import type { AxiosRequestConfig } from "axios";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type ApiRequestArgs = {
   url: string;
@@ -77,10 +77,15 @@ export const createQueryHook = <TData, TArg = undefined>(
     });
 
     const serializedArg = useMemo(() => JSON.stringify(arg ?? null), [arg]);
+    const dataRef = useRef<TData | undefined>(state.data);
+
+    useEffect(() => {
+      dataRef.current = state.data;
+    }, [state.data]);
 
     const fetchData = useCallback(async () => {
       if (skip) {
-        return state.data;
+        return dataRef.current;
       }
 
       setState((prev) => ({
@@ -114,7 +119,7 @@ export const createQueryHook = <TData, TArg = undefined>(
         }));
         throw error;
       }
-    }, [skip, serializedArg, request]);
+    }, [skip, serializedArg]);
 
     useEffect(() => {
       if (skip) {
@@ -129,9 +134,7 @@ export const createQueryHook = <TData, TArg = undefined>(
       fetchData().catch(() => undefined);
     }, [fetchData, skip]);
 
-    const refetch = useCallback(async () => {
-      return fetchData();
-    }, [fetchData]);
+    const refetch = useCallback(async () => fetchData(), [fetchData]);
 
     return {
       ...state,
@@ -156,49 +159,46 @@ export const createMutationHook = <TData, TArg = unknown>(
       error: undefined,
     });
 
-    const trigger = useCallback(
-      (arg: TArg): TriggerResult<TData> => {
-        setState((prev) => ({
-          ...prev,
-          isLoading: true,
-          isSuccess: false,
-          isError: false,
-          error: undefined,
-        }));
+    const trigger = useCallback((arg: TArg): TriggerResult<TData> => {
+      setState((prev) => ({
+        ...prev,
+        isLoading: true,
+        isSuccess: false,
+        isError: false,
+        error: undefined,
+      }));
 
-        const execution = request(arg)
-          .then((data) => {
-            setState({
-              data,
-              isLoading: false,
-              isSuccess: true,
-              isError: false,
-              error: undefined,
-            });
-            options?.onSuccess?.(data, arg);
-            return data;
-          })
-          .catch((error) => {
-            setState((prev) => ({
-              ...prev,
-              isLoading: false,
-              isSuccess: false,
-              isError: true,
-              error,
-            }));
-            options?.onError?.(error, arg);
-            throw error;
+      const execution = request(arg)
+        .then((data) => {
+          setState({
+            data,
+            isLoading: false,
+            isSuccess: true,
+            isError: false,
+            error: undefined,
           });
+          options?.onSuccess?.(data, arg);
+          return data;
+        })
+        .catch((error) => {
+          setState((prev) => ({
+            ...prev,
+            isLoading: false,
+            isSuccess: false,
+            isError: true,
+            error,
+          }));
+          options?.onError?.(error, arg);
+          throw error;
+        });
 
-        const wrapped = execution
-          .then((data) => ({ data }))
-          .catch((error) => ({ error })) as TriggerResult<TData>;
+      const wrapped = execution
+        .then((data) => ({ data }))
+        .catch((error) => ({ error })) as TriggerResult<TData>;
 
-        wrapped.unwrap = () => execution;
-        return wrapped;
-      },
-      [options, request],
-    );
+      wrapped.unwrap = () => execution;
+      return wrapped;
+    }, []);
 
     return [trigger, state] as const;
   };

@@ -1,7 +1,7 @@
 import UserInfo from "@/components/user-info";
 import { useGetUpcomingLeaveRequestsQuery } from "@/features/leave-request";
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+import { dateFormat } from "@/shared/utils";
+import { employeeInfoById } from "@/shared/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { UserRoundMinus } from "lucide-react";
 import { useMemo } from "react";

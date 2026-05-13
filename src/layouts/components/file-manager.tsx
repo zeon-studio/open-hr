@@ -1,5 +1,5 @@
 import useAxios from "@/hooks/useAxios";
-import { BUCKET_URL } from "@/lib/constant";
+import { BUCKET_URL } from "@/shared/constants";
 import { cn } from "@/lib/shadcn";
 import {
   FileInput,

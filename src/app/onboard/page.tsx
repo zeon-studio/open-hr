@@ -7,7 +7,7 @@ import {
   type TEmployee,
 } from "@/features/employee";
 import { useSettings } from "@/hooks/use-settings";
-import { checkCompletion } from "@/lib/check-completion";
+import { checkCompletion } from "@/shared/utils";
 import { buttonVariants } from "@/ui/button";
 import {
   Card,

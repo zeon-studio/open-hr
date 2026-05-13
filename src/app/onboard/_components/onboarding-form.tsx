@@ -1,6 +1,7 @@
+import { dateFormat, formatDateWithTime } from "@/shared/utils";
 import options from "@/config/options.json";
 import { type TEmployee, useUpdateEmployeeMutation } from "@/features/employee";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/shared/utils";
 import { cn } from "@/lib/shadcn";
 import { ErrorResponse } from "@/types";
 import { Button } from "@/ui/button";

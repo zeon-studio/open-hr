@@ -1,9 +1,6 @@
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import {
-  employeeGroupByDepartment,
-  employeeInfoById,
-} from "@/lib/employee-info";
+import { dateFormat, formatDateWithTime } from "@/shared/utils";
+import { employeeGroupByDepartment, employeeInfoById } from "@/shared/utils";
 import { TOrganization, TTool } from "@/types/domain/tool";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";

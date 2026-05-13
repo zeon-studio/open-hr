@@ -2,9 +2,8 @@ import {
   useAddEmployeeOffboardingMutation,
   useGetEmployeeOffboardingQuery,
   type TEmployeeOffboardingCreate,
-} from "@/features/employee/offboarding";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+} from "@/features/employee";
+import { employeeInfoById } from "@/shared/utils";
 import { cn } from "@/lib/shadcn";
 import { ErrorResponse } from "@/types";
 import { Badge } from "@/ui/badge";

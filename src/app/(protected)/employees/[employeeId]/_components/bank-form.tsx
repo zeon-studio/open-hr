@@ -1,4 +1,4 @@
-import { type TEmployeeBank } from "@/features/employee/bank";
+import { type TEmployeeBank } from "@/features/employee";
 import EditForm from "@/partials/edit-from";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";

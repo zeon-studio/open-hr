@@ -1,7 +1,7 @@
 import { ENUM_ROLE } from "@/enums/roles";
-import { withApiAuth } from "@/lib/apiAuth";
+import { withApiAuth } from "@/platform/auth";
 import { apiError, apiSuccess } from "@/lib/apiResponse";
-import { connectMongoose } from "@/lib/mongoose";
+import { connectMongoose } from "@/platform/db";
 import {
   Asset,
   Calendar,

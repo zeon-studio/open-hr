@@ -55,7 +55,6 @@ export const getByIdOrField = async (
 ) => {
   for (const field of fields) {
     const query = field === "_id" ? { _id: value } : { [field]: value };
-    // eslint-disable-next-line no-await-in-loop
     const found = await model.findOne(query);
     if (found) return found;
   }

@@ -1,7 +1,4 @@
-import {
-  employeeGroupByDepartment,
-  employeeInfoById,
-} from "@/lib/employee-info";
+import { employeeGroupByDepartment, employeeInfoById } from "@/shared/utils";
 import EditFrom from "@/partials/edit-from";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";

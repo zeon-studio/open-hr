@@ -3,10 +3,10 @@ import FileManager from "@/components/file-manager";
 import {
   useDeleteEmployeeDocumentMutation,
   useGetEmployeeDocumentQuery,
-} from "@/features/employee/document";
+} from "@/features/employee";
 import { useSettings } from "@/hooks/use-settings";
 import useAxios from "@/hooks/useAxios";
-import { MAX_SIZE } from "@/lib/constant";
+import { MAX_SIZE } from "@/shared/constants";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

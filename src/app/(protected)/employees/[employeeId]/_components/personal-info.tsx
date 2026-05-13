@@ -6,11 +6,11 @@ import {
 import {
   useGetEmployeeBankQuery,
   useUpdateEmployeeBankMutation,
-} from "@/features/employee/bank";
+} from "@/features/employee";
 import {
   useGetEmployeeEducationQuery,
   useUpdateEmployeeEducationMutation,
-} from "@/features/employee/education";
+} from "@/features/employee";
 import { useSettings } from "@/hooks/use-settings";
 import { Card, CardContent } from "@/ui/card";
 import { Loader2 } from "lucide-react";

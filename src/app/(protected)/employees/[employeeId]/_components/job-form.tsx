@@ -2,9 +2,8 @@ import {
   TEmployeeJob,
   TPromotion,
   useUpdateEmployeeJobMutation,
-} from "@/features/employee/job";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { employeeGroupByDepartment } from "@/lib/employee-info";
+} from "@/features/employee";
+import { employeeGroupByDepartment } from "@/shared/utils";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";

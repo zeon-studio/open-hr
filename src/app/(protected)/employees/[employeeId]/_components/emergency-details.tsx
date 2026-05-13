@@ -2,7 +2,7 @@ import {
   useGetEmployeeContactQuery,
   useUpdateEmployeeContactMutation,
   type TEmployeeContact,
-} from "@/features/employee/contact";
+} from "@/features/employee";
 import EditFrom from "@/partials/edit-from";
 import { Button } from "@/ui/button";
 import { Card, CardContent } from "@/ui/card";

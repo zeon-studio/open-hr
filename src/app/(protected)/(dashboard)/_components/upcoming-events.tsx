@@ -2,7 +2,7 @@ import {
   useGetUpcomingHolidaysAndEventsQuery,
   type TEvent,
 } from "@/features/calendar";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat } from "@/shared/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { CalendarCheck } from "lucide-react";
 

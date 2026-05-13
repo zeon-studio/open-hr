@@ -1,8 +1,8 @@
 import FileManager from "@/components/file-manager";
-import { useAddEmployeeDocumentMutation } from "@/features/employee/document";
+import { useAddEmployeeDocumentMutation } from "@/features/employee";
 import { useSettings } from "@/hooks/use-settings";
 import { useDialog } from "@/hooks/useDialog";
-import { MAX_SIZE } from "@/lib/constant";
+import { MAX_SIZE } from "@/shared/constants";
 import { cn } from "@/lib/shadcn";
 import { ErrorResponse } from "@/types";
 import { Button, ButtonProps } from "@/ui/button";

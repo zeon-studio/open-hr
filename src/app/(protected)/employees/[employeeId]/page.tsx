@@ -3,10 +3,9 @@
 import Avatar from "@/components/avatar";
 import { Facebook, Linkedin, Twitter } from "@/components/icons";
 import { useGetEmployeeQuery } from "@/features/employee";
-import { useGetEmployeeJobQuery } from "@/features/employee/job";
+import { useGetEmployeeJobQuery } from "@/features/employee";
 import { useSettings } from "@/hooks/use-settings";
-import { getDuration } from "@/lib/date-converter";
-import { profileCompletion } from "@/lib/profile-completion";
+import { getDuration, profileCompletion } from "@/shared/utils";
 import { cn } from "@/lib/shadcn";
 import { Button } from "@/ui/button";
 import {

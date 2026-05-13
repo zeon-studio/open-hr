@@ -1,7 +1,7 @@
 "use client";
 
 import { Label } from "@/layouts/components/ui/label";
-import { clientApi } from "@/lib/clientApi";
+import { clientApi } from "@/platform/network";
 import { Button } from "@/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";
 import PasswordInput from "@/ui/password-input";

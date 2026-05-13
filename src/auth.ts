@@ -1,4 +1,4 @@
-import { connectMongoose } from "@/lib/mongoose";
+import { connectMongoose } from "@/platform/db";
 import { Employee } from "@/models/employee.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

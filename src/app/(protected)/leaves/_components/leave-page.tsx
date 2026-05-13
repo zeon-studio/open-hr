@@ -2,7 +2,7 @@
 
 import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/useDialog";
-import { employeeInfoById } from "@/lib/employee-info";
+import { employeeInfoById } from "@/shared/utils";
 import { TLeaveYear } from "@/types/domain/leave";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";
@@ -96,7 +96,7 @@ const LeaveModal = ({
         <TableRow>
           <TableCell>
             <UserInfo
-              className="min-w-[150px]"
+              className="min-w-37.5"
               user={employeeInfoById(item.employee_id!)}
             />
           </TableCell>

@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/shared/utils";
 import { cn } from "@/lib/shadcn";
 import EditForm from "@/partials/edit-from";
 import { TEmployee } from "@/types/domain/employee";
@@ -197,7 +197,7 @@ export default function PersonalForm({
                   <Button
                     variant={"input"}
                     className={cn(
-                      "w-full flex justify-between !pl-6",
+                      "w-full flex justify-between pl-6!",
                       isReadOnly && "disabled:pl-0 disabled:border-none",
                     )}
                     disabled={isReadOnly}
@@ -241,7 +241,7 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={UserRound}>Gender</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.gender} className="capitalize !pl-6" />
+              <ReadOnlyValue value={data.gender} className="capitalize pl-6!" />
             ) : (
               <Select
                 name="gender"
@@ -312,7 +312,7 @@ export default function PersonalForm({
             {isReadOnly ? (
               <ReadOnlyValue
                 value={data.blood_group}
-                className="uppercase !pl-6"
+                className="uppercase pl-6!"
               />
             ) : (
               <Select
@@ -391,7 +391,7 @@ export default function PersonalForm({
             {isReadOnly ? (
               <ReadOnlyValue
                 value={data.marital_status}
-                className="capitalize !pl-6"
+                className="capitalize pl-6!"
               />
             ) : (
               <Select
