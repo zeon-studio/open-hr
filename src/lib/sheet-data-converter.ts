@@ -1,4 +1,4 @@
-import { TCalendar, TCalSheet } from "@/types/domain/calendar";
+import { TCalendar, TCalSheet } from "@/types/calendar";
 import ExcelJS from "exceljs";
 import { dayCount } from "./date-converter";
 

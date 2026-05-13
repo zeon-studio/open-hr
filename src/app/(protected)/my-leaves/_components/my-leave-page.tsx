@@ -1,6 +1,6 @@
 "use client";
 
-import { TLeaveYear } from "@/types/domain/leave";
+import { TLeaveYear } from "@/types/leave";
 import { TableCell, TableRow } from "@/ui/table";
 
 interface MyLeavePageProps {

@@ -1,7 +1,11 @@
 import options from "@/config/options.json";
-import { type TAsset, type TAssetLog } from "@/features/asset";
-import { dateFormat, formatDateWithTime } from "@/lib";
-import { employeeGroupByDepartment, employeeInfoById } from "@/lib";
+import {
+  dateFormat,
+  employeeGroupByDepartment,
+  employeeInfoById,
+  formatDateWithTime,
+} from "@/lib";
+import type { TAsset, TAssetLog } from "@/types/asset";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";

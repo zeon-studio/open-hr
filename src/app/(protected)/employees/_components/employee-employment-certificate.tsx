@@ -1,4 +1,4 @@
-import { TEmployee } from "@/types/domain/employee";
+import { TEmployee } from "@/types/employee";
 
 function formatDepartment(department?: string) {
   if (!department) return "N/A";

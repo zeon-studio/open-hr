@@ -1,4 +1,4 @@
-import { TEmployee } from "@/types/domain/employee";
+import { TEmployee } from "@/types/employee";
 
 export function checkCompletion(data: TEmployee) {
   if (!data) {

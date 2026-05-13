@@ -1,6 +1,5 @@
-import { dateFormat } from "@/lib";
-import { employeeInfoById } from "@/lib";
-import { TTool } from "@/types/domain/tool";
+import { dateFormat, employeeInfoById } from "@/lib";
+import { TTool } from "@/types/tool";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 

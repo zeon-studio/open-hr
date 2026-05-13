@@ -1,6 +1,5 @@
-import { type TAsset } from "@/features/asset";
-import { dateFormat } from "@/lib";
-import { employeeInfoById } from "@/lib";
+import { dateFormat, employeeInfoById } from "@/lib";
+import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 

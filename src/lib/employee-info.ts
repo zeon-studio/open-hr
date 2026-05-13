@@ -1,4 +1,4 @@
-import { TEmployee } from "@/types/domain/employee";
+import { TEmployee } from "@/types/employee";
 
 const STORAGE_KEY = "local-employees-basics";
 

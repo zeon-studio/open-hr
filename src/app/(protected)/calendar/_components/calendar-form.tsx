@@ -1,5 +1,5 @@
 import { dateFormat, dayCount, formatDateWithTime } from "@/lib";
-import { TCalendar, TEvent } from "@/types/domain/calendar";
+import { TCalendar, TEvent } from "@/types/calendar";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";

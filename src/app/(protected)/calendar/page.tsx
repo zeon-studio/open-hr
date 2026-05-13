@@ -4,7 +4,7 @@ import { useGetCalendarQuery } from "@/features/calendar";
 import { useDialog } from "@/hooks/use-dialog";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { useSettings } from "@/hooks/use-settings";
-import { TCalendar, TEvent } from "@/types/domain/calendar";
+import { TCalendar, TEvent } from "@/types/calendar";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import { format } from "date-fns";

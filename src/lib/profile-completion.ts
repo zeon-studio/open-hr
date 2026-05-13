@@ -1,4 +1,4 @@
-import type { TEmployee } from "@/types/domain/employee";
+import type { TEmployee } from "@/types/employee";
 import { hasGravatarByEmail } from "./gravatar";
 
 const SCORED_FIELDS: { key: keyof TEmployee; label: string }[] = [

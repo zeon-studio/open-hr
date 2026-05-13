@@ -1,4 +1,5 @@
-import { useUpdateAssetMutation, type TAsset } from "@/features/asset";
+import { useUpdateAssetMutation } from "@/features/asset";
+import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

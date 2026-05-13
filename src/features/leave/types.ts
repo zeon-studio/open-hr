@@ -1,1 +1,1 @@
-export type { TLeave, TLeaveState, TLeaveYear } from "@/types/domain/leave";
+export type { TLeave, TLeaveState, TLeaveYear } from "@/types/leave";

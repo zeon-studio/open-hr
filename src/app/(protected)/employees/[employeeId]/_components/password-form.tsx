@@ -1,5 +1,5 @@
 import EditForm from "@/layouts/edit-from";
-import { TEmployeePasswordUpdate } from "@/types/domain/employee";
+import { TEmployeePasswordUpdate } from "@/types/employee";
 import { Label } from "@/ui/label";
 import PasswordInput from "@/ui/password-input";
 

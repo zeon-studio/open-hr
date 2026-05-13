@@ -4,4 +4,4 @@ export type {
   TCalendarState,
   TCalSheet,
   TEvent,
-} from "@/types/domain/calendar";
+} from "@/types/calendar";

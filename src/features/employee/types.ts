@@ -3,4 +3,4 @@ export type {
   TEmployeeCreate,
   TEmployeePasswordUpdate,
   TEmployeeState,
-} from "@/types/domain/employee";
+} from "@/types/employee";

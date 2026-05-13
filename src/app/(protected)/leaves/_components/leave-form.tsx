@@ -1,4 +1,4 @@
-import { TLeaveYear } from "@/types/domain/leave";
+import { TLeaveYear } from "@/types/leave";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";

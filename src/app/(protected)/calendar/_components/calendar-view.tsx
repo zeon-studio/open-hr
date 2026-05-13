@@ -1,4 +1,4 @@
-import { TEvent } from "@/types/domain/calendar";
+import { TEvent } from "@/types/calendar";
 import {
   CalendarBody,
   CalendarDate,
