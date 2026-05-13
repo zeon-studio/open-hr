@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@/layouts/components/ui/button";
-import { useResendOTPMutation } from "@/redux/features/authenticationApiSlice/authenticationSlice";
-import { useEffect, useState, useRef } from "react";
+import { clientApi } from "@/lib/clientApi";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 export function Timer({ email }: { email: string }) {
-  const [resendOTP, { isLoading }] = useResendOTPMutation();
+  const [isLoading, setIsLoading] = useState(false);
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(59);
 
@@ -57,7 +58,21 @@ export function Timer({ email }: { email: string }) {
             setMinutes(1);
             minutesRef.current = 1;
             setSeconds(59);
-            resendOTP({ email });
+            setIsLoading(true);
+            clientApi("/authentication/resend-otp", {
+              method: "POST",
+              body: JSON.stringify({ email }),
+            })
+              .catch((error) => {
+                toast.error(
+                  error instanceof Error
+                    ? error.message
+                    : "Failed to resend OTP",
+                );
+              })
+              .finally(() => {
+                setIsLoading(false);
+              });
           }}
           className="ml-auto text-right"
           disabled={minutes !== 0 || seconds !== 0 || isLoading}

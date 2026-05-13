@@ -1,57 +1,48 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import { TEmployeeContact, TEmployeeContactState } from "./employeeContactType";
 
-const employeeContactApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["employee-contacts"],
-});
-
-export const employeeContactApi = employeeContactApiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getEmployeeContacts: builder.query<TEmployeeContactState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/employee-contact?page=${page}&limit=${limit}&search=${search}`,
-        method: "GET",
-      }),
-      providesTags: ["employee-contacts"],
-      keepUnusedDataFor: 30 * 60,
-    }),
-
-    getEmployeeContact: builder.query<
-      TEmployeeContactState<TEmployeeContact>,
-      string
-    >({
-      query: (id) => ({
-        url: `/employee-contact/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["employee-contacts"],
-    }),
-
-    updateEmployeeContact: builder.mutation({
-      query: (data) => {
-        return {
-          url: `/employee-contact/${data.employee_id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["employee-contacts"],
-    }),
-
-    deleteEmployeeContact: builder.mutation({
-      query: (id) => ({
-        url: `/employee-contact/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["employee-contacts"],
-    }),
+export const useGetEmployeeContactsQuery = createQueryHook<
+  TEmployeeContactState,
+  TPagination
+>(({ page, limit, search }) =>
+  apiRequest<TEmployeeContactState>({
+    url: `/employee-contact?page=${page}&limit=${limit}&search=${search}`,
+    method: "GET",
   }),
-});
+);
 
-export const {
-  useGetEmployeeContactsQuery,
-  useGetEmployeeContactQuery,
-  useUpdateEmployeeContactMutation,
-  useDeleteEmployeeContactMutation,
-} = employeeContactApi;
+export const useGetEmployeeContactQuery = createQueryHook<
+  TEmployeeContactState<TEmployeeContact>,
+  string
+>((id) =>
+  apiRequest<TEmployeeContactState<TEmployeeContact>>({
+    url: `/employee-contact/${id}`,
+    method: "GET",
+  }),
+);
+
+export const useUpdateEmployeeContactMutation = createMutationHook<
+  unknown,
+  any
+>((data) =>
+  apiRequest({
+    url: `/employee-contact/${data.employee_id}`,
+    method: "PATCH",
+    body: data,
+  }),
+);
+
+export const useDeleteEmployeeContactMutation = createMutationHook<
+  unknown,
+  string
+>((id) =>
+  apiRequest({
+    url: `/employee-contact/${id}`,
+    method: "DELETE",
+  }),
+);

@@ -62,6 +62,7 @@ const ToolModal = ({
   const [deleteTool] = useDeleteToolMutation();
 
   const handleToolDelete = () => {
+    if (!item._id) return;
     deleteTool(item._id);
     toast("Tool deleted complete");
   };

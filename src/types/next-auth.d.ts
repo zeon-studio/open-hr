@@ -9,7 +9,6 @@ declare module "next-auth" {
     name: string;
     email: string;
     image: string;
-    accessToken: string;
     role: "user" | "moderator" | "admin" | "former";
   }
 }
@@ -20,7 +19,6 @@ declare module "@auth/core/jwt" {
     name: string;
     email: string;
     image: string;
-    accessToken: string;
     role: "user" | "moderator" | "admin" | "former";
   }
 }

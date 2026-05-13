@@ -1,35 +1,41 @@
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
-
-// Define a type for the slice state
 export type Filter = {
   page: number;
   limit: number;
   search: string | number | boolean;
 };
 
-const initialState: Filter = {
+export const FILTER_SLICE_NAME = "filter";
+export const UPDATE_PAGE = `${FILTER_SLICE_NAME}/updatePage`;
+export const SEARCH_FILTER = `${FILTER_SLICE_NAME}/search`;
+
+export const initialState: Filter = {
   page: 1,
   limit: 100,
   search: "",
 };
 
-export const filterSlice = createSlice({
-  name: "filter",
-  // `createSlice` will infer the state type from the `initialState` argument
-  initialState,
-  reducers: {
-    updatePage: (state, action: PayloadAction<number>) => {
-      state.page = action.payload;
-    },
-    search: (state, action: PayloadAction<string | number | boolean>) => {
-      state.search = action.payload;
-    },
-  },
+export type UpdatePageAction = {
+  type: typeof UPDATE_PAGE;
+  payload: number;
+};
+
+export type SearchFilterAction = {
+  type: typeof SEARCH_FILTER;
+  payload: string | number | boolean;
+};
+
+export const updatePage = (payload: number): UpdatePageAction => ({
+  type: UPDATE_PAGE,
+  payload,
 });
 
-export const { updatePage, search } = filterSlice.actions;
+export const search = (
+  payload: string | number | boolean,
+): SearchFilterAction => ({
+  type: SEARCH_FILTER,
+  payload,
+});
 
-// Other code such as selectors can use the imported `RootState` type
+const filterReducer = (state: Filter = initialState): Filter => state;
 
-export default filterSlice.reducer;
+export default filterReducer;

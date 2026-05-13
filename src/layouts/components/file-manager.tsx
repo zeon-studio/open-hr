@@ -100,14 +100,14 @@ const FileManager = ({
           className={cn(
             "relative bg-slate-100 border border-border rounded p-8",
             !enable && "opacity-50 cursor-not-allowed outline",
-            files?.length && "bg-transparent p-0 border-transparent"
+            files?.length && "bg-transparent p-0 border-transparent",
           )}
         >
           <FileInput>
             <div
               className={cn(
                 "flex items-center justify-center flex-col pt-3 pb-4 w-full",
-                files?.length && "hidden"
+                files?.length && "hidden",
               )}
             >
               <CloudUpload className="text-text-light" />
@@ -167,15 +167,13 @@ const FileManager = ({
         <div className="flex items-center justify-center flex-col w-full">
           {/* preview only if it's an image and permission is public-read */}
           {permission === "public-read" &&
-            (location.split(".").pop() === "jpg" ||
-              location.split(".").pop() === "png" ||
-              location.split(".").pop() === "jpeg" ||
-              location.split(".").pop() === "gif" ||
-              location.split(".").pop() === "avif" ||
-              location.split(".").pop() === "webp") ? (
-            <div
-              className={cn("max-h-[400px] overflow-auto rounded", className)}
-            >
+          (location.split(".").pop() === "jpg" ||
+            location.split(".").pop() === "png" ||
+            location.split(".").pop() === "jpeg" ||
+            location.split(".").pop() === "gif" ||
+            location.split(".").pop() === "avif" ||
+            location.split(".").pop() === "webp") ? (
+            <div className={cn("max-h-100 overflow-auto rounded", className)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`${BUCKET_URL}/${location}`}

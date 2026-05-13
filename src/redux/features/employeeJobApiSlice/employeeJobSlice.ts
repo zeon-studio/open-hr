@@ -1,86 +1,86 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import { TEmployeeJob, TEmployeeJobState } from "./employeeJobType";
 
-const employeeJobApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["employee-jobs"],
-});
+const normalizeEmployeeJob = (
+  response: TEmployeeJobState<TEmployeeJob>,
+): TEmployeeJobState<TEmployeeJob> => {
+  if (!response.result) {
+    return response;
+  }
 
-export const employeeJobApi = employeeJobApiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getEmployeeJobs: builder.query<TEmployeeJobState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/employee-job?page=${page}&limit=${limit}&search=${search}`,
-        method: "GET",
-      }),
-      providesTags: ["employee-jobs"],
-      keepUnusedDataFor: 30 * 60,
-    }),
+  const result = { ...response.result };
 
-    getEmployeeJob: builder.query<TEmployeeJobState<TEmployeeJob>, string>({
-      query: (id) => ({
-        url: `/employee-job/${id}`,
-        method: "GET",
-      }),
-      transformResponse: (response: TEmployeeJobState<TEmployeeJob>) => {
-        if (!response.result) return response;
+  if (result.promotions) {
+    result.promotions = [...result.promotions].sort(
+      (a, b) =>
+        new Date(b.promotion_date).getTime() -
+        new Date(a.promotion_date).getTime(),
+    );
+  }
 
-        if (response.result.promotions) {
-          response.result.promotions = response.result.promotions.sort(
-            (a, b) =>
-              new Date(b.promotion_date).getTime() -
-              new Date(a.promotion_date).getTime()
-          );
-        }
+  if (result.prev_jobs) {
+    result.prev_jobs = [...result.prev_jobs].sort(
+      (a, b) => new Date(b.end_date).getTime() - new Date(a.end_date).getTime(),
+    );
+  }
 
-        if (response.result.prev_jobs) {
-          response.result.prev_jobs = response.result.prev_jobs.sort(
-            (a, b) =>
-              new Date(b.end_date).getTime() - new Date(a.end_date).getTime()
-          );
-        }
-        return response;
-      },
-      providesTags: ["employee-jobs"],
-    }),
+  return {
+    ...response,
+    result,
+  };
+};
 
-    addEmployeeJob: builder.mutation<TEmployeeJobState, TEmployeeJob>({
-      query: (data) => ({
-        url: `/employee-job`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["employee-jobs"],
-    }),
-
-    updateEmployeeJob: builder.mutation<
-      TEmployeeJobState,
-      Partial<TEmployeeJob>
-    >({
-      query: (data) => {
-        return {
-          url: `/employee-job/${data.employee_id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["employee-jobs"],
-    }),
-
-    deleteEmployeeJob: builder.mutation({
-      query: (id) => ({
-        url: `/employee-job/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["employee-jobs"],
-    }),
+export const useGetEmployeeJobsQuery = createQueryHook<
+  TEmployeeJobState,
+  TPagination
+>(({ page, limit, search }) =>
+  apiRequest<TEmployeeJobState>({
+    url: `/employee-job?page=${page}&limit=${limit}&search=${search}`,
+    method: "GET",
   }),
-});
+);
 
-export const {
-  useGetEmployeeJobsQuery,
-  useGetEmployeeJobQuery,
-  useAddEmployeeJobMutation,
-  useUpdateEmployeeJobMutation,
-  useDeleteEmployeeJobMutation,
-} = employeeJobApi;
+export const useGetEmployeeJobQuery = createQueryHook<
+  TEmployeeJobState<TEmployeeJob>,
+  string
+>((id) =>
+  apiRequest<TEmployeeJobState<TEmployeeJob>>({
+    url: `/employee-job/${id}`,
+    method: "GET",
+  }).then(normalizeEmployeeJob),
+);
+
+export const useAddEmployeeJobMutation = createMutationHook<
+  TEmployeeJobState,
+  TEmployeeJob
+>((data) =>
+  apiRequest<TEmployeeJobState>({
+    url: `/employee-job`,
+    method: "POST",
+    body: data,
+  }),
+);
+
+export const useUpdateEmployeeJobMutation = createMutationHook<
+  TEmployeeJobState,
+  Partial<TEmployeeJob>
+>((data) =>
+  apiRequest<TEmployeeJobState>({
+    url: `/employee-job/${data.employee_id}`,
+    method: "PATCH",
+    body: data,
+  }),
+);
+
+export const useDeleteEmployeeJobMutation = createMutationHook<unknown, string>(
+  (id) =>
+    apiRequest({
+      url: `/employee-job/${id}`,
+      method: "DELETE",
+    }),
+);

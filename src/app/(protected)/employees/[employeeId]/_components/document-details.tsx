@@ -67,7 +67,7 @@ export default function Document() {
                     key={index}
                     className="col-span-1 rounded bg-light p-3 border-border border flex flex-col"
                   >
-                    <div className="w-full bg-border rounded mx-auto mb-4 items-center h-[160px] p-1.5 flex justify-center">
+                    <div className="w-full bg-border rounded mx-auto mb-4 items-center h-40 p-1.5 flex justify-center">
                       <FileManager
                         setFile={() => {}}
                         enable={false}
@@ -75,7 +75,7 @@ export default function Document() {
                         folder={`${company_name.replace(/\s/g, "-").toLowerCase()}`}
                         maxSize={MAX_SIZE}
                         permission="public-read"
-                        className="h-[150px]"
+                        className="h-37.5"
                       />
                     </div>
                     <div className="flex justify-between mt-auto">
@@ -117,10 +117,10 @@ export default function Document() {
                                 <ConfirmationPopup
                                   handleConfirmation={async () => {
                                     const encodedKey = encodeURIComponent(
-                                      document.file
+                                      document.file,
                                     );
                                     const res = await axios.delete(
-                                      `bucket/delete/${encodedKey}`
+                                      `bucket/delete/${encodedKey}`,
                                     );
                                     if (res.status !== 200) {
                                       return;

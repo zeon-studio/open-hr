@@ -1,90 +1,72 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import {
   TAllOnboardingTaskState,
   TEmployeeOnboarding,
   TEmployeeOnboardingState,
 } from "./employeeOnboardingType";
 
-const employeeOnboardingApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["employee-onboardings"],
-});
+export const useGetEmployeeOnboardingsQuery = createQueryHook<
+  TEmployeeOnboardingState,
+  TPagination
+>(({ page, limit, search }) =>
+  apiRequest<TEmployeeOnboardingState>({
+    url: `/employee-onboarding?page=${page}&limit=${limit}&search=${search}`,
+    method: "GET",
+  }),
+);
 
-export const employeeOnboardingApi =
-  employeeOnboardingApiWithTag.injectEndpoints({
-    endpoints: (builder) => ({
-      getEmployeeOnboardings: builder.query<
-        TEmployeeOnboardingState,
-        TPagination
-      >({
-        query: ({ page, limit, search }) => ({
-          url: `/employee-onboarding?page=${page}&limit=${limit}&search=${search}`,
-          method: "GET",
-        }),
-        providesTags: ["employee-onboardings"],
-        keepUnusedDataFor: 30 * 60,
-      }),
+export const useGetEmployeeOnboardingQuery = createQueryHook<
+  TEmployeeOnboardingState<TEmployeeOnboarding>,
+  string
+>((id) =>
+  apiRequest<TEmployeeOnboardingState<TEmployeeOnboarding>>({
+    url: `/employee-onboarding/${id}`,
+    method: "GET",
+  }),
+);
 
-      getEmployeeOnboarding: builder.query<
-        TEmployeeOnboardingState<TEmployeeOnboarding>,
-        string
-      >({
-        query: (id) => ({
-          url: `/employee-onboarding/${id}`,
-          method: "GET",
-        }),
-        providesTags: ["employee-onboardings"],
-      }),
+export const useGetPendingOnboardingTaskQuery = createQueryHook<
+  TAllOnboardingTaskState,
+  undefined
+>(() =>
+  apiRequest<TAllOnboardingTaskState>({
+    url: `/employee-onboarding/pending-task`,
+    method: "GET",
+  }),
+);
 
-      getPendingOnboardingTask: builder.query<
-        TAllOnboardingTaskState,
-        undefined
-      >({
-        query: () => ({
-          url: `/employee-onboarding/pending-task`,
-          method: "GET",
-        }),
-        providesTags: ["employee-onboardings"],
-        keepUnusedDataFor: 30 * 60,
-      }),
+export const useAddEmployeeOnboardingMutation = createMutationHook<
+  TEmployeeOnboardingState,
+  TEmployeeOnboarding
+>((data) =>
+  apiRequest<TEmployeeOnboardingState>({
+    url: `/employee-onboarding`,
+    method: "POST",
+    body: data,
+  }),
+);
 
-      addEmployeeOnboarding: builder.mutation<
-        TEmployeeOnboardingState,
-        TEmployeeOnboarding
-      >({
-        query: (data) => ({
-          url: `/employee-onboarding`,
-          method: "POST",
-          body: data,
-        }),
-        invalidatesTags: ["employee-onboardings"],
-      }),
+export const useUpdateOnboardingTaskStatusMutation = createMutationHook<
+  unknown,
+  { employee_id: string; task_name: string }
+>((data) =>
+  apiRequest({
+    url: `/employee-onboarding/task/${data.employee_id}/${data.task_name}`,
+    method: "PATCH",
+  }),
+);
 
-      updateOnboardingTaskStatus: builder.mutation({
-        query: (data) => {
-          return {
-            url: `/employee-onboarding/task/${data.employee_id}/${data.task_name}`,
-            method: "PATCH",
-          };
-        },
-        invalidatesTags: ["employee-onboardings"],
-      }),
-
-      deleteEmployeeOnboarding: builder.mutation({
-        query: (id) => ({
-          url: `/employee-onboarding/${id}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: ["employee-onboardings"],
-      }),
-    }),
-  });
-
-export const {
-  useGetEmployeeOnboardingsQuery,
-  useGetEmployeeOnboardingQuery,
-  useAddEmployeeOnboardingMutation,
-  useGetPendingOnboardingTaskQuery,
-  useUpdateOnboardingTaskStatusMutation,
-  useDeleteEmployeeOnboardingMutation,
-} = employeeOnboardingApi;
+export const useDeleteEmployeeOnboardingMutation = createMutationHook<
+  unknown,
+  string
+>((id) =>
+  apiRequest({
+    url: `/employee-onboarding/${id}`,
+    method: "DELETE",
+  }),
+);

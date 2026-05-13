@@ -1,84 +1,62 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import {
   TEmployeeDocument,
   TEmployeeDocumentState,
 } from "./employeeDocumentType";
 
-const employeeDocumentApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["employee-documents"],
-});
-
-export const employeeDocumentApi = employeeDocumentApiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getEmployeeDocuments: builder.query<TEmployeeDocumentState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/employee-document?page=${page}&limit=${limit}&search=${search}`,
-        method: "GET",
-      }),
-      providesTags: ["employee-documents"],
-      keepUnusedDataFor: 30 * 60,
-    }),
-
-    getEmployeeDocument: builder.query<
-      TEmployeeDocumentState<TEmployeeDocument>,
-      string
-    >({
-      query: (id) => ({
-        url: `/employee-document/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["employee-documents"],
-    }),
-
-    addEmployeeDocument: builder.mutation<
-      TEmployeeDocumentState,
-      TEmployeeDocument
-    >({
-      query: (data) => {
-        return {
-          url: `/employee-document/${data.employee_id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["employee-documents"],
-    }),
-
-    updateEmployeeDocument: builder.mutation<
-      TEmployeeDocumentState,
-      TEmployeeDocument
-    >({
-      query: (data) => {
-        return {
-          url: `/employee-document/${data.employee_id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["employee-documents"],
-    }),
-
-    deleteEmployeeDocument: builder.mutation<
-      TEmployeeDocumentState,
-      {
-        employeeId: string;
-        documentId: string;
-      }
-    >({
-      query: ({ employeeId, documentId }) => ({
-        url: `/employee-document/${employeeId}/${documentId}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["employee-documents"],
-    }),
+export const useGetEmployeeDocumentsQuery = createQueryHook<
+  TEmployeeDocumentState,
+  TPagination
+>(({ page, limit, search }) =>
+  apiRequest<TEmployeeDocumentState>({
+    url: `/employee-document?page=${page}&limit=${limit}&search=${search}`,
+    method: "GET",
   }),
-});
+);
 
-export const {
-  useGetEmployeeDocumentsQuery,
-  useGetEmployeeDocumentQuery,
-  useAddEmployeeDocumentMutation,
-  useUpdateEmployeeDocumentMutation,
-  useDeleteEmployeeDocumentMutation,
-} = employeeDocumentApi;
+export const useGetEmployeeDocumentQuery = createQueryHook<
+  TEmployeeDocumentState<TEmployeeDocument>,
+  string
+>((id) =>
+  apiRequest<TEmployeeDocumentState<TEmployeeDocument>>({
+    url: `/employee-document/${id}`,
+    method: "GET",
+  }),
+);
+
+export const useAddEmployeeDocumentMutation = createMutationHook<
+  TEmployeeDocumentState,
+  TEmployeeDocument
+>((data) =>
+  apiRequest<TEmployeeDocumentState>({
+    url: `/employee-document/${data.employee_id}`,
+    method: "PATCH",
+    body: data,
+  }),
+);
+
+export const useUpdateEmployeeDocumentMutation = createMutationHook<
+  TEmployeeDocumentState,
+  TEmployeeDocument
+>((data) =>
+  apiRequest<TEmployeeDocumentState>({
+    url: `/employee-document/${data.employee_id}`,
+    method: "PATCH",
+    body: data,
+  }),
+);
+
+export const useDeleteEmployeeDocumentMutation = createMutationHook<
+  TEmployeeDocumentState,
+  { employeeId: string; documentId: string }
+>(({ employeeId, documentId }) =>
+  apiRequest<TEmployeeDocumentState>({
+    url: `/employee-document/${employeeId}/${documentId}`,
+    method: "DELETE",
+  }),
+);

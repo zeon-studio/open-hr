@@ -100,14 +100,14 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
               dangerouslySetInnerHTML={{ __html: printContent || "" }}
             />
           </div>,
-          typeof window !== "undefined" ? document.body : ({} as HTMLElement)
+          typeof window !== "undefined" ? document.body : ({} as HTMLElement),
         )}
 
       {/* employees map */}
       {employees?.map((employee, index) => {
         return (
           <TableRow key={`employee-${index}`}>
-            <TableCell className="min-w-[200px]">
+            <TableCell className="min-w-50">
               <UserInfo user={employeeInfoById(employee.id)} />
             </TableCell>
             <TableCell className="capitalize">
@@ -180,7 +180,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
                                 className="mt-4"
                                 onClick={() =>
                                   handlePrint(
-                                    getAppointmentLetterHtml(employee)
+                                    getAppointmentLetterHtml(employee),
                                   )
                                 }
                               >
@@ -213,7 +213,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
                                 className="mt-4"
                                 onClick={() =>
                                   handlePrint(
-                                    getEmploymentCertificateHtml(employee)
+                                    getEmploymentCertificateHtml(employee),
                                   )
                                 }
                               >

@@ -1,64 +1,59 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import { TEmployeeBank, TEmployeeBankState } from "./employeeBankType";
 
-const employeeBankApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["employee-banks"],
-});
-
-export const employeeBankApi = employeeBankApiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getEmployeeBanks: builder.query<TEmployeeBankState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/employee-bank?page=${page}&limit=${limit}&search=${search}`,
-        method: "GET",
-      }),
-      providesTags: ["employee-banks"],
-      keepUnusedDataFor: 30 * 60,
-    }),
-
-    getEmployeeBank: builder.query<TEmployeeBankState<TEmployeeBank>, string>({
-      query: (id) => ({
-        url: `/employee-bank/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["employee-banks"],
-    }),
-
-    addEmployeeBank: builder.mutation<TEmployeeBankState, TEmployeeBank>({
-      query: (data) => ({
-        url: `/employee-bank`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["employee-banks"],
-    }),
-
-    updateEmployeeBank: builder.mutation<TEmployeeBankState, TEmployeeBank>({
-      query: (data) => {
-        return {
-          url: `/employee-bank/${data.employee_id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["employee-banks"],
-    }),
-
-    deleteEmployeeBank: builder.mutation({
-      query: (id) => ({
-        url: `/employee-bank/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["employee-banks"],
-    }),
+export const useGetEmployeeBanksQuery = createQueryHook<
+  TEmployeeBankState,
+  TPagination
+>(({ page, limit, search }) =>
+  apiRequest<TEmployeeBankState>({
+    url: `/employee-bank?page=${page}&limit=${limit}&search=${search}`,
+    method: "GET",
   }),
-});
+);
 
-export const {
-  useGetEmployeeBanksQuery,
-  useGetEmployeeBankQuery,
-  useAddEmployeeBankMutation,
-  useUpdateEmployeeBankMutation,
-  useDeleteEmployeeBankMutation,
-} = employeeBankApi;
+export const useGetEmployeeBankQuery = createQueryHook<
+  TEmployeeBankState<TEmployeeBank>,
+  string
+>((id) =>
+  apiRequest<TEmployeeBankState<TEmployeeBank>>({
+    url: `/employee-bank/${id}`,
+    method: "GET",
+  }),
+);
+
+export const useAddEmployeeBankMutation = createMutationHook<
+  TEmployeeBankState,
+  TEmployeeBank
+>((data) =>
+  apiRequest<TEmployeeBankState>({
+    url: `/employee-bank`,
+    method: "POST",
+    body: data,
+  }),
+);
+
+export const useUpdateEmployeeBankMutation = createMutationHook<
+  TEmployeeBankState,
+  TEmployeeBank
+>((data) =>
+  apiRequest<TEmployeeBankState>({
+    url: `/employee-bank/${data.employee_id}`,
+    method: "PATCH",
+    body: data,
+  }),
+);
+
+export const useDeleteEmployeeBankMutation = createMutationHook<
+  unknown,
+  string
+>((id) =>
+  apiRequest({
+    url: `/employee-bank/${id}`,
+    method: "DELETE",
+  }),
+);

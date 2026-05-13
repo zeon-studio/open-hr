@@ -1,22 +1,47 @@
 "use client";
 
 import Loader from "@/components/loader";
+import { useAppState } from "@/lib/app-state";
 import Header from "@/partials/header";
 import Sidebar from "@/partials/sidebar";
 import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { settingApi } from "@/redux/features/settingApiSlice/settingSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAppSelector } from "@/redux/hook";
 import { useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   useGetEmployeesBasicsQuery(undefined);
-  const dispatch = useAppDispatch();
+  const { setSetting } = useAppState();
 
   // Initialize settings on first render
   useEffect(() => {
-    dispatch(settingApi.endpoints.getSetting.initiate(undefined));
-  }, [dispatch]);
+    let mounted = true;
+
+    const loadSetting = async () => {
+      try {
+        const response = await fetch("/api/setting", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data = await response.json();
+        if (mounted && data?.result) {
+          setSetting(data.result);
+        }
+      } catch {
+        // Ignore setting bootstrap failures in protected pages.
+      }
+    };
+
+    loadSetting();
+    return () => {
+      mounted = false;
+    };
+  }, [setSetting]);
 
   const { status } = useSession();
   const { app_name, company_website, favicon_url } =
@@ -38,7 +63,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         }
       />
       <div className="flex">
-        <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none lg:w-[220px] bg-background min-h-screen h-screen sticky left-0 top-0">
+        <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none lg:w-55 bg-background min-h-screen h-screen sticky left-0 top-0">
           <Sidebar />
         </aside>
 

@@ -1,65 +1,47 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import { TLeave, TLeaveState } from "./leaveType";
 
-const leaveApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["leaves"],
-});
-
-export const leaveApi = leaveApiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getLeaves: builder.query<TLeaveState, TPagination>({
-      query: ({ page, limit, year }) => ({
-        url: `/leave?page=${page}&limit=${limit}&year=${year}`,
-        method: "GET",
-      }),
-      providesTags: ["leaves"],
-      keepUnusedDataFor: 30 * 60,
+export const useGetLeavesQuery = createQueryHook<TLeaveState, TPagination>(
+  ({ page, limit, year }) =>
+    apiRequest<TLeaveState>({
+      url: `/leave?page=${page}&limit=${limit}&year=${year}`,
+      method: "GET",
     }),
+);
 
-    getLeave: builder.query<TLeaveState<TLeave>, string>({
-      query: (id) => ({
-        url: `/leave/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["leaves"],
+export const useGetLeaveQuery = createQueryHook<TLeaveState<TLeave>, string>(
+  (id) =>
+    apiRequest<TLeaveState<TLeave>>({
+      url: `/leave/${id}`,
+      method: "GET",
     }),
+);
 
-    addNewLeaveYear: builder.mutation({
-      query: (year) => {
-        return {
-          url: `/leave/update-year/${year}`,
-          method: "PATCH",
-        };
-      },
-      invalidatesTags: ["leaves"],
+export const useAddNewLeaveYearMutation = createMutationHook<unknown, string>(
+  (year) =>
+    apiRequest({
+      url: `/leave/update-year/${year}`,
+      method: "PATCH",
     }),
+);
 
-    updateLeave: builder.mutation({
-      query: (data) => {
-        return {
-          url: `/leave/${data.employee_id}/${data.year}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["leaves"],
-    }),
-
-    deleteLeave: builder.mutation({
-      query: (id) => ({
-        url: `/leave/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["leaves"],
-    }),
+export const useUpdateLeaveMutation = createMutationHook<unknown, any>((data) =>
+  apiRequest({
+    url: `/leave/${data.employee_id}/${data.year}`,
+    method: "PATCH",
+    body: data,
   }),
-});
+);
 
-export const {
-  useGetLeavesQuery,
-  useGetLeaveQuery,
-  useAddNewLeaveYearMutation,
-  useUpdateLeaveMutation,
-  useDeleteLeaveMutation,
-} = leaveApi;
+export const useDeleteLeaveMutation = createMutationHook<unknown, string>(
+  (id) =>
+    apiRequest({
+      url: `/leave/${id}`,
+      method: "DELETE",
+    }),
+);

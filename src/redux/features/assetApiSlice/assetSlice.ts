@@ -1,73 +1,56 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import { TAllAssetsState, TAsset, TAssetState } from "./assetType";
 
-const assetApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["assets"],
-});
-
-export const assetApi = assetApiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getAssets: builder.query<TAssetState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/asset?page=${page}&limit=${limit}&search=${search}`,
-        method: "GET",
-      }),
-      providesTags: ["assets"],
-      keepUnusedDataFor: 30 * 60,
+export const useGetAssetsQuery = createQueryHook<TAssetState, TPagination>(
+  ({ page, limit, search }) =>
+    apiRequest<TAssetState>({
+      url: `/asset?page=${page}&limit=${limit}&search=${search}`,
+      method: "GET",
     }),
+);
 
-    getAsset: builder.query<TAssetState<TAsset>, string>({
-      query: (id) => ({
-        url: `/asset/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["assets"],
+export const useGetAssetQuery = createQueryHook<TAssetState<TAsset>, string>(
+  (id) =>
+    apiRequest<TAssetState<TAsset>>({
+      url: `/asset/${id}`,
+      method: "GET",
     }),
+);
 
-    getAssetsByUser: builder.query<TAllAssetsState, string>({
-      query: (id) => ({
-        url: `/asset/user/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["assets"],
+export const useGetAssetsByUserQuery = createQueryHook<TAllAssetsState, string>(
+  (id) =>
+    apiRequest<TAllAssetsState>({
+      url: `/asset/user/${id}`,
+      method: "GET",
     }),
+);
 
-    addAsset: builder.mutation<TAssetState, TAsset>({
-      query: (data) => ({
-        url: `/asset`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["assets"],
+export const useAddAssetMutation = createMutationHook<TAssetState, TAsset>(
+  (data) =>
+    apiRequest<TAssetState>({
+      url: `/asset`,
+      method: "POST",
+      body: data,
     }),
+);
 
-    updateAsset: builder.mutation({
-      query: (data) => {
-        return {
-          url: `/asset/${data.asset_id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["assets"],
-    }),
-
-    deleteAsset: builder.mutation({
-      query: (id) => ({
-        url: `/asset/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["assets"],
-    }),
+export const useUpdateAssetMutation = createMutationHook<unknown, any>((data) =>
+  apiRequest({
+    url: `/asset/${data.asset_id}`,
+    method: "PATCH",
+    body: data,
   }),
-});
+);
 
-export const {
-  useGetAssetsQuery,
-  useGetAssetQuery,
-  useGetAssetsByUserQuery,
-  useAddAssetMutation,
-  useUpdateAssetMutation,
-  useDeleteAssetMutation,
-} = assetApi;
+export const useDeleteAssetMutation = createMutationHook<unknown, string>(
+  (id) =>
+    apiRequest({
+      url: `/asset/${id}`,
+      method: "DELETE",
+    }),
+);

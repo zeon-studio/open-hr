@@ -1,24 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
-
 type TCustomSlice = {
   id: string;
 };
 
-const initialState: TCustomSlice = {
+export const CUSTOM_SLICE_NAME = "custom";
+export const FILTER_EMPLOYEE = `${CUSTOM_SLICE_NAME}/filterEmployee`;
+
+export const initialState: TCustomSlice = {
   id: "",
 };
 
-export const customSlice = createSlice({
-  name: "counter",
-  initialState,
-  reducers: {
-    filterEmployee: (state, action) => {
-      state.id = action.payload;
-    },
-  },
+export type FilterEmployeeAction = {
+  type: typeof FILTER_EMPLOYEE;
+  payload: string;
+};
+
+export const filterEmployee = (payload: string): FilterEmployeeAction => ({
+  type: FILTER_EMPLOYEE,
+  payload,
 });
 
-// Action creators are generated for each case reducer function
-export const { filterEmployee } = customSlice.actions;
+const customReducer = (state: TCustomSlice = initialState): TCustomSlice =>
+  state;
 
-export default customSlice.reducer;
+export default customReducer;

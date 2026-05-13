@@ -1,14 +1,40 @@
 "use client";
 import Logo from "@/components/logo";
-import { settingApi } from "@/redux/features/settingApiSlice/settingSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAppState } from "@/lib/app-state";
+import { useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const dispatch = useAppDispatch();
+  const { setSetting } = useAppState();
+
   useEffect(() => {
-    dispatch(settingApi.endpoints.getSetting.initiate(undefined));
-  }, [dispatch]);
+    let mounted = true;
+
+    const loadSetting = async () => {
+      try {
+        const response = await fetch("/api/setting", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data = await response.json();
+        if (mounted && data?.result) {
+          setSetting(data.result);
+        }
+      } catch {
+        // Ignore setting bootstrap failures in auth pages.
+      }
+    };
+
+    loadSetting();
+    return () => {
+      mounted = false;
+    };
+  }, [setSetting]);
 
   const { app_name, company_website, favicon_url } =
     useAppSelector((state) => state["setting-slice"]) || {};

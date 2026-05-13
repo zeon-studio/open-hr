@@ -18,6 +18,7 @@ const MyLeaveRequestPage = ({
   const [deleteLeaveRequest] = useDeleteLeaveRequestMutation();
 
   const handleLeaveRequestDelete = async (item: TLeaveRequest) => {
+    if (!item._id) return;
     deleteLeaveRequest(item._id);
     toast(`Leave request deleted`);
   };

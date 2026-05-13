@@ -3,15 +3,11 @@ import { useMemo } from "react";
 
 const useAxios = (session: any) => {
   const axiosInstance = useMemo(() => {
-    const BackendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
     return axios.create({
-      baseURL: BackendURL,
-      headers: {
-        authorization: `Bearer ${session?.data?.user.accessToken}`,
-      },
+      baseURL: "/api",
+      withCredentials: true,
     });
-  }, [session]);
+  }, [session?.data?.user?.id]);
 
   return axiosInstance;
 };

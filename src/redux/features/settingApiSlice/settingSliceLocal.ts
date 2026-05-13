@@ -1,7 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TSettingState } from "./settingType";
 
-const initialState: TSettingState["result"] = {
+export const SETTING_SLICE_NAME = "setting-slice" as const;
+export const UPDATE_SETTING = `${SETTING_SLICE_NAME}/updateSetting`;
+
+export const initialState: TSettingState["result"] = {
   app_name: "",
   app_url: "",
   favicon_url: "",
@@ -28,31 +30,18 @@ const initialState: TSettingState["result"] = {
   offboarding_tasks: [],
 };
 
-export const settingSlice = createSlice({
-  name: "setting-slice",
-  initialState:
-    typeof window !== "undefined"
-      ? localStorage.getItem("local-settings")
-        ? (JSON.parse(
-            localStorage.getItem("local-settings") as string
-          ) as TSettingState["result"])
-        : initialState
-      : initialState,
-  reducers: {
-    updateSetting: (state, action: PayloadAction<TSettingState["result"]>) => {
-      localStorage.setItem(
-        "local-settings",
-        JSON.stringify({
-          ...state,
-          ...action.payload,
-        })
-      );
-      return {
-        ...state,
-        ...action.payload,
-      };
-    },
-  },
+export type UpdateSettingAction = {
+  type: typeof UPDATE_SETTING;
+  payload: Partial<TSettingState["result"]>;
+};
+
+export const updateSetting = (
+  payload: Partial<TSettingState["result"]>,
+): UpdateSettingAction => ({
+  type: UPDATE_SETTING,
+  payload,
 });
 
-export const { updateSetting } = settingSlice.actions;
+export const settingSlice = {
+  name: SETTING_SLICE_NAME,
+};

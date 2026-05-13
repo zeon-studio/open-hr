@@ -64,6 +64,7 @@ const AssetModal = ({
   const [deleteAsset] = useDeleteAssetMutation();
 
   const handleAssetDelete = () => {
+    if (!item.asset_id) return;
     deleteAsset(item.asset_id);
     toast("Asset deleted complete");
   };

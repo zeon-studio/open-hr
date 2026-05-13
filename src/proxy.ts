@@ -11,7 +11,7 @@ const publicUrl = [
 
 export async function proxy(request: NextRequest) {
   const { user } = (await auth()) || {};
-  const isAuth = !!user?.accessToken;
+  const isAuth = !!user?.id;
 
   const url = new URL(request.url);
   const pathname = url.pathname as string;
@@ -32,7 +32,7 @@ export async function proxy(request: NextRequest) {
     }
 
     return NextResponse.redirect(
-      new URL(`/login?from=${encodeURIComponent(from)}`, request.url)
+      new URL(`/login?from=${encodeURIComponent(from)}`, request.url),
     );
   }
 

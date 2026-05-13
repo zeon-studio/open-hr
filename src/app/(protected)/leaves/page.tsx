@@ -36,13 +36,13 @@ const Leave = () => {
 
   const getYears = (start_year: number, end_year: number) =>
     Array.from({ length: end_year - start_year + 1 }, (_, i) =>
-      (start_year + i).toString()
+      (start_year + i).toString(),
     );
 
   // add new year data
   const [addNewYearLeave] = useAddNewLeaveYearMutation();
   useEffect(() => {
-    addNewYearLeave(currentYear);
+    addNewYearLeave(String(currentYear));
   }, [addNewYearLeave, currentYear]);
 
   // get all Data
@@ -58,12 +58,12 @@ const Leave = () => {
     {
       data: leaves!,
     },
-    "local-leaves"
+    "local-leaves",
   );
 
   // check module enabled or not
   const { modules, leaves: leaveSetting } = useAppSelector(
-    (state) => state["setting-slice"]
+    (state) => state["setting-slice"],
   );
 
   // leave type enabled or not
@@ -71,7 +71,7 @@ const Leave = () => {
   const sickEnabled = leaveSetting.some((item) => item.name === "sick");
   const earnedEnabled = leaveSetting.some((item) => item.name === "earned");
   const withoutPayEnabled = leaveSetting.some(
-    (item) => item.name === "without_pay"
+    (item) => item.name === "without_pay",
   );
 
   // check module enabled or not
@@ -91,7 +91,7 @@ const Leave = () => {
             }}
             defaultValue={year || String(new Date().getFullYear())}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-45">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>

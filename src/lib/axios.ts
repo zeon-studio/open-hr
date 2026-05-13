@@ -1,14 +1,9 @@
 import axios from "axios";
 import { signOut } from "next-auth/react";
 
-const TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
-const BackendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
 const Axios = axios.create({
-  baseURL: BackendURL,
-  headers: {
-    authorization_token: `Bearer ${TOKEN}`,
-  },
+  baseURL: "/api",
+  withCredentials: true,
 });
 
 // Global response interceptor to auto sign-out on token problems
@@ -30,7 +25,7 @@ Axios.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default Axios;

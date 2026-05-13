@@ -63,6 +63,7 @@ const PayrollModal = ({
   const [deletePayroll] = useDeletePayrollMutation();
 
   const handlePayrollDelete = () => {
+    if (!item.employee_id) return;
     deletePayroll(item.employee_id);
     toast("Payroll deleted complete");
   };

@@ -1,83 +1,75 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import { TCreateMonthlySalary, TPayroll, TPayrollState } from "./payrollType";
 
-const payrollApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["payroll"],
-});
+const authHeader = (token?: string) =>
+  token
+    ? {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    : {};
 
-export const payrollApi = payrollApiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getPayrolls: builder.query<TPayrollState, TPagination>({
-      query: ({ page, limit, search }) => ({
-        url: `/payroll?page=${page}&limit=${limit}&search=${search}`,
-        method: "GET",
-      }),
-      providesTags: ["payroll"],
-      keepUnusedDataFor: 30 * 60,
+export const useGetPayrollsQuery = createQueryHook<TPayrollState, TPagination>(
+  ({ page, limit, search }) =>
+    apiRequest<TPayrollState>({
+      url: `/payroll?page=${page}&limit=${limit}&search=${search}`,
+      method: "GET",
     }),
+);
 
-    getPayrollBasics: builder.query<TPayrollState, undefined>({
-      query: () => ({
-        url: `/payroll/basics`,
-        method: "GET",
-      }),
-      providesTags: ["payroll"],
-      keepUnusedDataFor: 30 * 60,
-    }),
-
-    getPayroll: builder.query<TPayrollState<TPayroll>, string>({
-      query: (id) => ({
-        url: `/payroll/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["payroll"],
-    }),
-
-    addMonthlyPayroll: builder.mutation<TPayrollState, TCreateMonthlySalary>({
-      query: (data) => ({
-        url: `/payroll`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["payroll"],
-    }),
-
-    updatePayroll: builder.mutation<
-      TPayrollState<TPayroll>,
-      TPayroll & { token?: string }
-    >({
-      query: (data) => {
-        return {
-          url: `/payroll/${data.employee_id}`,
-          method: "PATCH",
-          body: data,
-
-          ...(data?.token && {
-            headers: {
-              authorization: `Bearer ${data.token}`,
-            },
-          }),
-        };
-      },
-      invalidatesTags: ["payroll"],
-    }),
-
-    deletePayroll: builder.mutation({
-      query: (id) => ({
-        url: `/payroll/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["payroll"],
-    }),
+export const useGetPayrollBasicsQuery = createQueryHook<
+  TPayrollState,
+  undefined
+>(() =>
+  apiRequest<TPayrollState>({
+    url: `/payroll/basics`,
+    method: "GET",
   }),
-});
+);
 
-export const {
-  useGetPayrollsQuery,
-  useGetPayrollBasicsQuery,
-  useGetPayrollQuery,
-  useAddMonthlyPayrollMutation,
-  useUpdatePayrollMutation,
-  useDeletePayrollMutation,
-} = payrollApi;
+export const useGetPayrollQuery = createQueryHook<
+  TPayrollState<TPayroll>,
+  string
+>((id) =>
+  apiRequest<TPayrollState<TPayroll>>({
+    url: `/payroll/${id}`,
+    method: "GET",
+  }),
+);
+
+export const useAddMonthlyPayrollMutation = createMutationHook<
+  TPayrollState,
+  TCreateMonthlySalary
+>((data) =>
+  apiRequest<TPayrollState>({
+    url: `/payroll`,
+    method: "POST",
+    body: data,
+  }),
+);
+
+export const useUpdatePayrollMutation = createMutationHook<
+  TPayrollState<TPayroll>,
+  TPayroll & { token?: string }
+>((data) =>
+  apiRequest<TPayrollState<TPayroll>>({
+    url: `/payroll/${data.employee_id}`,
+    method: "PATCH",
+    body: data,
+    ...authHeader(data.token),
+  }),
+);
+
+export const useDeletePayrollMutation = createMutationHook<unknown, string>(
+  (id) =>
+    apiRequest({
+      url: `/payroll/${id}`,
+      method: "DELETE",
+    }),
+);

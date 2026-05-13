@@ -1,40 +1,11 @@
 import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
-import { store } from "@/redux/store";
 
 const STORAGE_KEY = "local-employees-basics";
 
-// Track the last `result` reference we synced to localStorage so we only
-// JSON.stringify and write when the underlying data actually changes.
-// Without this, every consumer call (often inside .map() loops on lists)
-// stringified and rewrote the entire roster — N writes per render.
-let lastWrittenRef: unknown = undefined;
-
 const getEmployeesData = (): Partial<TEmployee>[] => {
-  const employees = store.getState().api.queries[
-    "getEmployeesBasics(undefined)"
-  ] as {
-    data: {
-      result: Partial<TEmployee>[];
-    };
-  };
-
-  // localStorage is unavailable during SSR; return whatever the in-memory
-  // store has (empty array on first server pass).
+  // localStorage is unavailable during SSR.
   if (typeof window === "undefined") {
-    return employees?.data?.result ?? [];
-  }
-
-  const result = employees?.data?.result;
-  if (result) {
-    if (result !== lastWrittenRef) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(result));
-        lastWrittenRef = result;
-      } catch {
-        // quota exceeded or private mode — stay in memory
-      }
-    }
-    return result;
+    return [];
   }
 
   try {
@@ -48,7 +19,7 @@ const getEmployeesData = (): Partial<TEmployee>[] => {
 export const employeeInfoById = (id: string) => {
   const employees = getEmployeesData();
   const employee: Partial<TEmployee> | undefined = employees?.find(
-    (employee: Partial<TEmployee>) => employee.id === id
+    (employee: Partial<TEmployee>) => employee.id === id,
   );
 
   // @ts-ignore
@@ -66,7 +37,7 @@ export const employeeInfoById = (id: string) => {
 export const employeeGroupByDepartment = () => {
   const employees = getEmployeesData() || [];
   const filterFormerEmployees = employees.filter(
-    (employee: Partial<TEmployee>) => employee.role !== "former"
+    (employee: Partial<TEmployee>) => employee.role !== "former",
   );
 
   const result = filterFormerEmployees.reduce(
@@ -89,7 +60,7 @@ export const employeeGroupByDepartment = () => {
       }
       return acc;
     },
-    []
+    [],
   );
 
   const extraFields = [

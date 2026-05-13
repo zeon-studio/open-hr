@@ -1,11 +1,7 @@
 "use client";
 
 import { Label } from "@/layouts/components/ui/label";
-import {
-  useResetPasswordMutation,
-  useVerifyOTPMutation,
-} from "@/redux/features/authenticationApiSlice/authenticationSlice";
-import { ErrorResponse } from "@/types";
+import { clientApi } from "@/lib/clientApi";
 import { Button } from "@/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";
 import PasswordInput from "@/ui/password-input";
@@ -21,19 +17,25 @@ export default function Verify({ email }: { email: string }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [otp, setOtp] = useState("");
-  const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
-  const [resetPassword, { isLoading: isResetPasswordLoading }] =
-    useResetPasswordMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isResetPasswordLoading, setIsResetPasswordLoading] = useState(false);
+
   const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      await verifyOTP({ email, otp }).unwrap();
+      await clientApi("/authentication/verify-otp", {
+        method: "POST",
+        body: JSON.stringify({ email, otp }),
+      });
       setShowVerify(true);
     } catch (error) {
-      const errorMessage =
-        (error as ErrorResponse).data.message || "Something went wrong";
-      toast.error(errorMessage);
+      toast.error(
+        error instanceof Error ? error.message : "OTP verification failed",
+      );
       setShowVerify(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,17 +57,23 @@ export default function Verify({ email }: { email: string }) {
     if (!validatePassword()) {
       return;
     }
+    setIsResetPasswordLoading(true);
     try {
-      await resetPassword({ email, password, reset_token: otp }).unwrap();
+      await clientApi("/authentication/recovery-password", {
+        method: "PATCH",
+        body: JSON.stringify({ email, password, reset_token: otp }),
+      });
       toast.success("Password reset successfully");
       signIn("credentials", {
         email,
         password,
       });
     } catch (error) {
-      const errorMessage =
-        (error as ErrorResponse).data.message || "Something went wrong";
-      toast.error(errorMessage);
+      toast.error(
+        error instanceof Error ? error.message : "Password reset failed",
+      );
+    } finally {
+      setIsResetPasswordLoading(false);
     }
   };
 

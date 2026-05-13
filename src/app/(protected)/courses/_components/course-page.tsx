@@ -63,6 +63,7 @@ const CourseModal = ({
   const [deleteCourse] = useDeleteCourseMutation();
 
   const handleCourseDelete = () => {
+    if (!item._id) return;
     deleteCourse(item._id);
     toast("Course deleted complete");
   };

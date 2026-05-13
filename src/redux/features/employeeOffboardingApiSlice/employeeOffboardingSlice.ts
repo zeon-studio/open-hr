@@ -1,5 +1,9 @@
 import { TPagination } from "@/types";
-import { apiSlice } from "../apiSlice/apiSlice";
+import {
+  apiRequest,
+  createMutationHook,
+  createQueryHook,
+} from "../apiSlice/apiSlice";
 import {
   TAllOffboardingTaskState,
   TEmployeeOffboarding,
@@ -7,86 +11,63 @@ import {
   TEmployeeOffboardingState,
 } from "./employeeOffboardingType";
 
-const employeeOffboardingApiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["employee-offboardings"],
-});
+export const useGetEmployeeOffboardingsQuery = createQueryHook<
+  TEmployeeOffboardingState,
+  TPagination
+>(({ page, limit, search }) =>
+  apiRequest<TEmployeeOffboardingState>({
+    url: `/employee-offboarding?page=${page}&limit=${limit}&search=${search}`,
+    method: "GET",
+  }),
+);
 
-export const employeeOffboardingApi =
-  employeeOffboardingApiWithTag.injectEndpoints({
-    endpoints: (builder) => ({
-      getEmployeeOffboardings: builder.query<
-        TEmployeeOffboardingState,
-        TPagination
-      >({
-        query: ({ page, limit, search }) => ({
-          url: `/employee-offboarding?page=${page}&limit=${limit}&search=${search}`,
-          method: "GET",
-        }),
-        providesTags: ["employee-offboardings"],
-        keepUnusedDataFor: 30 * 60,
-      }),
+export const useGetEmployeeOffboardingQuery = createQueryHook<
+  TEmployeeOffboardingState<TEmployeeOffboarding>,
+  string
+>((id) =>
+  apiRequest<TEmployeeOffboardingState<TEmployeeOffboarding>>({
+    url: `/employee-offboarding/${id}`,
+    method: "GET",
+  }),
+);
 
-      getEmployeeOffboarding: builder.query<
-        TEmployeeOffboardingState<TEmployeeOffboarding>,
-        string
-      >({
-        query: (id) => ({
-          url: `/employee-offboarding/${id}`,
-          method: "GET",
-        }),
-        providesTags: ["employee-offboardings"],
-      }),
+export const useGetPendingOffboardingTaskQuery = createQueryHook<
+  TAllOffboardingTaskState,
+  undefined
+>(() =>
+  apiRequest<TAllOffboardingTaskState>({
+    url: `/employee-offboarding/pending-task`,
+    method: "GET",
+  }),
+);
 
-      getPendingOffboardingTask: builder.query<
-        TAllOffboardingTaskState,
-        undefined
-      >({
-        query: () => ({
-          url: `/employee-offboarding/pending-task`,
-          method: "GET",
-        }),
-        providesTags: ["employee-offboardings"],
-        keepUnusedDataFor: 30 * 60,
-      }),
+export const useAddEmployeeOffboardingMutation = createMutationHook<
+  TEmployeeOffboardingState,
+  TEmployeeOffboardingCreate
+>((data) =>
+  apiRequest<TEmployeeOffboardingState>({
+    url: `/employee-offboarding`,
+    method: "POST",
+    body: data,
+  }),
+);
 
-      addEmployeeOffboarding: builder.mutation<
-        TEmployeeOffboardingState,
-        TEmployeeOffboardingCreate
-      >({
-        query: (data) => ({
-          url: `/employee-offboarding`,
-          method: "POST",
-          body: data,
-        }),
+export const useUpdateOffboardingTaskStatusMutation = createMutationHook<
+  unknown,
+  { employee_id: string; task_name: string }
+>((data) =>
+  apiRequest({
+    url: `/employee-offboarding/task/${data.employee_id}/${data.task_name}`,
+    method: "PATCH",
+  }),
+);
 
-        invalidatesTags: ["employee-offboardings"],
-      }),
-
-      updateOffboardingTaskStatus: builder.mutation({
-        query: (data) => {
-          return {
-            url: `/employee-offboarding/task/${data.employee_id}/${data.task_name}`,
-            method: "PATCH",
-          };
-        },
-        invalidatesTags: ["employee-offboardings"],
-      }),
-
-      deleteEmployeeOffboarding: builder.mutation({
-        query: (id) => ({
-          url: `/employee-offboarding/${id}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: ["employee-offboardings"],
-      }),
-    }),
-  });
-
-export const {
-  useGetEmployeeOffboardingsQuery,
-  useGetEmployeeOffboardingQuery,
-  useGetPendingOffboardingTaskQuery,
-  useAddEmployeeOffboardingMutation,
-  useUpdateOffboardingTaskStatusMutation,
-  useDeleteEmployeeOffboardingMutation,
-} = employeeOffboardingApi;
+export const useDeleteEmployeeOffboardingMutation = createMutationHook<
+  unknown,
+  string
+>((id) =>
+  apiRequest({
+    url: `/employee-offboarding/${id}`,
+    method: "DELETE",
+  }),
+);
