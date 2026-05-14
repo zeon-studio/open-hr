@@ -1,11 +1,12 @@
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { dateFormat } from "@/lib/date-converter"
+import { useEmployeeMap } from "@/hooks/use-employee-map";
+import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 
 const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
+  const employeeMap = useEmployeeMap();
   return (
     <DialogContent
       ref={dialogContentRef}
@@ -31,7 +32,7 @@ const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
         <div className="lg:col-6 mb-4">
           <div className="font-medium mb-1">User</div>
           <div className="p-2 bg-light rounded">
-            {assetData.user ? employeeInfoById(assetData.user).name : "N/A"}
+            {assetData.user ? employeeMap.get(assetData.user)?.name : "N/A"}
           </div>
         </div>
         <div className="lg:col-6 mb-4">

@@ -2,10 +2,11 @@
 
 import Pagination from "@/components/pagination";
 import SearchBox from "@/components/search-box";
-import { useDialog } from "@/hooks/useDialog";
-import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetAssetsQuery } from "@/redux/features/assetApiSlice/assetSlice";
-import { useAppSelector } from "@/redux/hook";
+import { useGetAssetsQuery } from "@/features/asset/api";
+import { useDialog } from "@/hooks/use-dialog";
+import useLocalCacheHook from "@/hooks/use-local-cache";
+import { usePaginationFilter } from "@/hooks/use-pagination-filter";
+import { useSettings } from "@/hooks/use-settings";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
@@ -23,7 +24,7 @@ import AssetPage from "./_components/asset-page";
 const Asset = () => {
   const searchParams = useSearchParams();
   const { isDialogOpen, onDialogChange } = useDialog();
-  const { limit } = useAppSelector((state) => state.filter);
+  const { limit } = usePaginationFilter();
   const page = searchParams?.get("page");
   const search = searchParams?.get("search");
 
@@ -40,11 +41,11 @@ const Asset = () => {
     {
       data: assets!,
     },
-    "local-assets"
+    "local-assets",
   );
 
   // check module enabled or not
-  const { modules } = useAppSelector((state) => state["setting-slice"]);
+  const { modules } = useSettings();
   if (!modules.find((mod) => mod.name === "asset")?.enable) {
     return notFound();
   }

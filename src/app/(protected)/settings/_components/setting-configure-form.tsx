@@ -1,28 +1,64 @@
-import EditFrom from "@/partials/edit-from";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
+import { TSetting } from "@/features/settings/types";
+import EditFrom from "@/layouts/edit-from";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface SettingConfigureFormProps {
-  isUpdating: boolean;
   data: TSetting;
-  handleSubmit: (data: TSetting) => void;
 }
 
 export default function SettingConfigureForm({
-  isUpdating,
   data,
-  handleSubmit,
 }: SettingConfigureFormProps) {
+  const [isActionUpdating, setIsActionUpdating] = useState(false);
+
   return (
-    <EditFrom<TSetting> isUpdating={isUpdating} data={data} title="Settings">
+    <EditFrom<TSetting>
+      isUpdating={isActionUpdating}
+      data={data}
+      title="Settings"
+    >
       {({ handleChange, isReadOnly, data, formRef }) => {
         return (
           <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleSubmit(data);
+
+              setIsActionUpdating(true);
+
+              try {
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    app_name: data.app_name || "",
+                    app_url: data.app_url || "",
+                    favicon_url: data.favicon_url || "",
+                    logo_url: data.logo_url || "",
+                    logo_width: Number(data.logo_width) || 0,
+                    logo_height: Number(data.logo_height) || 0,
+                    company_name: data.company_name || "",
+                    company_website: data.company_website || "",
+                    communication_platform: data.communication_platform || "",
+                    communication_platform_url:
+                      data.communication_platform_url || "",
+                  }),
+                });
+
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
+                }
+
+                toast("Setting update complete");
+              } catch {
+                toast("Something went wrong");
+              } finally {
+                setIsActionUpdating(false);
+              }
             }}
             className="row gap-y-4"
           >

@@ -1,8 +1,5 @@
 import { dateFormat, dayCount, formatDateWithTime } from "@/lib/date-converter";
-import {
-  TCalendar,
-  TEvent,
-} from "@/redux/features/calendarApiSlice/calendarType";
+import { TCalendar, TEvent } from "@/types/calendar";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -29,11 +26,11 @@ const CalendarForm = ({
 }) => {
   const _popoverContainer = popoverContainer || undefined;
   const [holidayItems, setHolidayItems] = useState<TEvent[]>(
-    calendarData.holidays || []
+    calendarData.holidays || [],
   );
 
   const [eventItems, setEventItems] = useState<TEvent[]>(
-    calendarData.events || []
+    calendarData.events || [],
   );
 
   // set holiday items

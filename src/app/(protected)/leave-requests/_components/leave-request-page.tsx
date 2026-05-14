@@ -2,10 +2,10 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
+import { useUpdateLeaveRequestMutation } from "@/features/leave-request/api"
+import { type TLeaveRequest } from "@/features/leave-request/types";
 import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
-import { useUpdateLeaveRequestMutation } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
-import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
@@ -44,6 +44,7 @@ const LeaveRequestModal = ({
   role: string;
 }) => {
   const [updateLeaveRequest] = useUpdateLeaveRequestMutation();
+  const employeeMap = useEmployeeMap();
 
   const handleLeaveRequestApprove = async (item: TLeaveRequest) => {
     updateLeaveRequest({
@@ -65,8 +66,8 @@ const LeaveRequestModal = ({
 
   return (
     <TableRow key={item._id}>
-      <TableCell className="min-w-[200px]">
-        <UserInfo user={employeeInfoById(item.employee_id)} />
+      <TableCell className="min-w-50">
+        <UserInfo user={employeeMap.get(item.employee_id)} />
       </TableCell>
       <TableCell>{item.leave_type}</TableCell>
       <TableCell className="whitespace-nowrap">

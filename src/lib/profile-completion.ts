@@ -1,8 +1,6 @@
-import type { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import type { TEmployee } from "@/types/employee";
 import { hasGravatarByEmail } from "./gravatar";
 
-// Fields that count toward the profile completion percentage. Equal weight per field.
-// The label is shown to the user when listing missing fields.
 const SCORED_FIELDS: { key: keyof TEmployee; label: string }[] = [
   { key: "name", label: "Full Name" },
   { key: "image", label: "Profile Photo" },
@@ -44,7 +42,6 @@ export function profileCompletion(employee?: Partial<TEmployee> | null): {
   const missing: string[] = [];
   let filled = 0;
   for (const { key, label } of SCORED_FIELDS) {
-    // Special handling for image field - check if uploaded or has gravatar
     if (key === "image") {
       const hasUploadedImage = isFilled(employee[key]);
       const hasGravatarPhoto = employee.photo_source === "gravatar";
@@ -67,9 +64,6 @@ export function profileCompletion(employee?: Partial<TEmployee> | null): {
   };
 }
 
-/**
- * Async version of profileCompletion that checks Gravatar if needed
- */
 export async function profileCompletionAsync(
   employee?: Partial<TEmployee> | null,
 ): Promise<{
@@ -92,13 +86,11 @@ export async function profileCompletionAsync(
   let filled = 0;
 
   for (const { key, label } of SCORED_FIELDS) {
-    // Special handling for image field - check if uploaded or has gravatar
     if (key === "image") {
       const hasUploadedImage = isFilled(employee[key]);
       if (hasUploadedImage) {
         filled += 1;
       } else {
-        // Check if gravatar exists for the user's work email
         const hasGravatar =
           employee.work_email &&
           (await hasGravatarByEmail(employee.work_email));

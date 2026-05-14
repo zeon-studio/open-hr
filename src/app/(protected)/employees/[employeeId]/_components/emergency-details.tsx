@@ -1,9 +1,5 @@
-import EditFrom from "@/partials/edit-from";
-import {
-  useGetEmployeeContactQuery,
-  useUpdateEmployeeContactMutation,
-} from "@/redux/features/employeeContactApiSlice/employeeContactSlice";
-import { TEmployeeContact } from "@/redux/features/employeeContactApiSlice/employeeContactType";
+import { useGetEmployeeContactQuery, useUpdateEmployeeContactMutation, type TEmployeeContact } from "@/features/employee/contact/api";
+import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Card, CardContent } from "@/ui/card";
 import { Input } from "@/ui/input";
@@ -24,7 +20,7 @@ export default function Emergency() {
   }
   const [
     addContact,
-    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError },
+    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError, error: addError },
   ] = useUpdateEmployeeContactMutation();
   const { data, isLoading } = useGetEmployeeContactQuery(employeeId);
 
@@ -32,7 +28,7 @@ export default function Emergency() {
     if (isAddSuccess) {
       toast("Emergency contact details updated successfully");
     } else if (isAddError) {
-      toast("Failed to update emergency contact details");
+      toast((addError as any)?.data?.message || "Failed to update emergency contact details");
     }
   }, [isAddSuccess, isAddError]);
 
@@ -127,7 +123,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: data.contacts.filter(
-                          (contact, i) => i !== index
+                          (contact, i) => i !== index,
                         ),
                       });
                     }}
@@ -145,7 +141,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: contacts.map((contact, i) =>
-                          i === index ? { ...contact, [name]: value } : contact
+                          i === index ? { ...contact, [name]: value } : contact,
                         ),
                       });
                     }}
@@ -164,7 +160,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: contacts.map((contact, i) =>
-                          i === index ? { ...contact, [name]: value } : contact
+                          i === index ? { ...contact, [name]: value } : contact,
                         ),
                       });
                     }}
@@ -183,7 +179,7 @@ function EmergencyForm({
                       handleChange({
                         ...data,
                         contacts: contacts.map((contact, i) =>
-                          i === index ? { ...contact, [name]: value } : contact
+                          i === index ? { ...contact, [name]: value } : contact,
                         ),
                       });
                     }}

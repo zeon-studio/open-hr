@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es6",
     "lib": [
       "dom",
@@ -26,24 +25,16 @@
       }
     ],
     "paths": {
-      "@/ui/*": [
-        "./src/layouts/components/ui/*"
-      ],
-      "@/components/*": [
-        "./src/layouts/components/*"
-      ],
-      "@/partials/*": [
-        "./src/layouts/partials/*"
-      ],
-      "@/helpers/*": [
-        "./src/layouts/helpers/*"
-      ],
-      "@/assets/*": [
-        "./public/*"
-      ],
-      "@/*": [
-        "./src/*"
-      ]
+      "@/ui/*": ["./src/components/ui/*"],
+      "@/components/*": ["./src/components/common/*"],
+      "@/layouts/*": ["./src/components/layouts/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/server/*": ["./src/server/*"],
+      "@/assets/*": ["./public/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": [

@@ -1,5 +1,4 @@
-import { useAddToolMutation } from "@/redux/features/toolApiSlice/toolSlice";
-import { TTool } from "@/redux/features/toolApiSlice/toolType";
+import { useAddToolMutation, type TTool } from "@/features/tool/api";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -10,7 +9,7 @@ const ToolInsert = ({
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
-  const [addTool, { isSuccess, isError }] = useAddToolMutation();
+  const [addTool, { isSuccess, isError, error }] = useAddToolMutation();
   const [loader, setLoader] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [toolData, setToolData] = useState<TTool>({
@@ -66,7 +65,7 @@ const ToolInsert = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

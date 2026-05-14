@@ -1,28 +1,48 @@
-import EditFrom from "@/partials/edit-from";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
+import { TSetting } from "@/features/settings/types";
+import EditFrom from "@/layouts/edit-from";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface SettingPayrollFormProps {
-  isUpdating: boolean;
   data: TSetting;
-  handleSubmit: (data: TSetting) => void;
 }
 
-export default function SettingPayrollForm({
-  isUpdating,
-  data,
-  handleSubmit,
-}: SettingPayrollFormProps) {
+export default function SettingPayrollForm({ data }: SettingPayrollFormProps) {
+  const [isActionUpdating, setIsActionUpdating] = useState(false);
+
   return (
-    <EditFrom<TSetting> isUpdating={isUpdating} data={data} title="Payroll">
+    <EditFrom<TSetting>
+      isUpdating={isActionUpdating}
+      data={data}
+      title="Payroll"
+    >
       {({ handleChange, isReadOnly, data, formRef }) => {
         return (
           <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleSubmit(data);
+              setIsActionUpdating(true);
+              try {
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ payroll: data.payroll }),
+                });
+
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
+                }
+
+                toast("Setting update complete");
+              } catch {
+                toast("Something went wrong");
+              } finally {
+                setIsActionUpdating(false);
+              }
             }}
             className="row gap-y-4"
           >

@@ -3,9 +3,8 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import CopyText from "@/components/copy-text";
 import ImageFallback from "@/components/image-fallback";
-import { useDialog } from "@/hooks/useDialog";
-import { useDeleteCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
-import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+import { useDeleteCourseMutation, type TCourse } from "@/features/course/api";
+import { useDialog } from "@/hooks/use-dialog";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
@@ -63,6 +62,7 @@ const CourseModal = ({
   const [deleteCourse] = useDeleteCourseMutation();
 
   const handleCourseDelete = () => {
+    if (!item._id) return;
     deleteCourse(item._id);
     toast("Course deleted complete");
   };

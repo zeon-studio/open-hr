@@ -1,8 +1,8 @@
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
+import { useEmployeeGroupByDepartment } from "@/hooks/use-employee-map";
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { employeeGroupByDepartment } from "@/lib/employee-info";
-import { useAddEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployeeCreate } from "@/redux/features/employeeApiSlice/employeeType";
+import { useAddEmployeeMutation } from "@/features/employee/api"
+import { type TEmployeeCreate } from "@/types/employee";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -37,6 +37,7 @@ const EmployeeInsert = ({
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
+  const employeeGroups = useEmployeeGroupByDepartment();
   const [loader, setLoader] = useState(false);
   const [employeeData, setEmployeeData] =
     useState<TEmployeeCreate>(initialEmployeeData);
@@ -65,7 +66,7 @@ const EmployeeInsert = ({
       toast("Employee added successfully");
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -203,7 +204,7 @@ const EmployeeInsert = ({
                 <SelectValue placeholder="Select User" />
               </SelectTrigger>
               <SelectContent>
-                {employeeGroupByDepartment().map((group) => (
+                {employeeGroups.map((group) => (
                   <SelectGroup key={group.label}>
                     <SelectLabel>{group.label}</SelectLabel>
                     {group.options.map(
@@ -211,7 +212,7 @@ const EmployeeInsert = ({
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
-                      )
+                      ),
                     )}
                   </SelectGroup>
                 ))}

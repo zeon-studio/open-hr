@@ -1,5 +1,4 @@
-import { useUpdateCourseMutation } from "@/redux/features/courseApiSlice/courseSlice";
-import { TCourse } from "@/redux/features/courseApiSlice/courseType";
+import { useUpdateCourseMutation, type TCourse } from "@/features/course/api";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -40,7 +39,7 @@ const CourseUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

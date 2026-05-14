@@ -1,5 +1,5 @@
-import { useAddAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { useAddAssetMutation } from "@/features/asset/api";
+import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -10,7 +10,7 @@ const AssetInsert = ({
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
-  const [addAsset, { isSuccess, isError }] = useAddAssetMutation();
+  const [addAsset, { isSuccess, isError, error }] = useAddAssetMutation();
   const [loader, setLoader] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [assetData, setAssetData] = useState<TAsset>({
@@ -56,7 +56,7 @@ const AssetInsert = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

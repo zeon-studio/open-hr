@@ -1,26 +1,26 @@
 "use client";
 
 import Loader from "@/components/loader";
-import Header from "@/partials/header";
-import Sidebar from "@/partials/sidebar";
-import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { settingApi } from "@/redux/features/settingApiSlice/settingSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useSettingsQuery } from "@/features/settings/api";
+import { useAppState } from "@/lib/app-context";
+import { useSettings } from "@/hooks/use-settings";
+import Header from "@/layouts/header";
+import Sidebar from "@/layouts/sidebar";
 import { useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  useGetEmployeesBasicsQuery(undefined);
-  const dispatch = useAppDispatch();
+  const { setSetting } = useAppState();
+  const { data: settingData } = useSettingsQuery(undefined);
 
-  // Initialize settings on first render
   useEffect(() => {
-    dispatch(settingApi.endpoints.getSetting.initiate(undefined));
-  }, [dispatch]);
+    if (settingData?.result) {
+      setSetting(settingData.result);
+    }
+  }, [settingData, setSetting]);
 
   const { status } = useSession();
-  const { app_name, company_website, favicon_url } =
-    useAppSelector((state) => state["setting-slice"]) || {};
+  const { app_name, company_website, favicon_url } = useSettings() || {};
 
   // Only show loader for session loading, not for mounting
   if (status === "loading") {
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         }
       />
       <div className="flex">
-        <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none lg:w-[220px] bg-background min-h-screen h-screen sticky left-0 top-0">
+        <aside className="w-0 overflow-hidden lg:block transition-[width] flex-none lg:w-55 bg-background min-h-screen h-screen sticky left-0 top-0">
           <Sidebar />
         </aside>
 

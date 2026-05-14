@@ -1,5 +1,5 @@
-import { useUpdateLeaveMutation } from "@/redux/features/leaveApiSlice/leaveSlice";
-import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { useUpdateLeaveMutation } from "@/features/leave/api"
+import { type TLeaveYear } from "@/types/leave";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -39,7 +39,7 @@ const LeaveUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,15 +1,7 @@
-import {
-  TCalendar,
-  TCalSheet,
-} from "@/redux/features/calendarApiSlice/calendarType";
+import { TCalendar, TCalSheet } from "@/types/calendar";
 import ExcelJS from "exceljs";
 import { dayCount } from "./date-converter";
 
-// read calendar sheet data
-//
-// Replaces the previous `xlsx` (SheetJS community 0.18.5) parser, which is
-// no longer maintained on npm and has known prototype-pollution and ReDoS
-// CVEs. ExcelJS is actively maintained and yields the same calendar rows.
 export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
   return new Promise((resolve, reject) => {
     if (!file) {
@@ -36,14 +28,12 @@ export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
           throw new Error("Workbook contained no sheets");
         }
 
-        // Header row → column-name array
         const headerRow = worksheet.getRow(1);
         const headers: string[] = [];
         headerRow.eachCell({ includeEmpty: false }, (cell, colNumber) => {
           headers[colNumber - 1] = String(cell.value ?? "").trim();
         });
 
-        // Data rows → object[] keyed by header
         const data: TCalendar[] = [];
         worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
           if (rowNumber === 1) return;
@@ -52,7 +42,6 @@ export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
             const key = headers[colNumber - 1];
             if (!key) return;
             const value = cell.value;
-            // Coerce to the same string-y shape XLSX produced with raw:false
             if (value instanceof Date) {
               obj[key] = value.toISOString().split("T")[0];
             } else if (
@@ -80,7 +69,7 @@ export const readSheetData = (file: Blob): Promise<TCalendar[]> => {
       } catch (error) {
         console.log(error);
         alert(
-          "File reading failed. Please check the file format and try again."
+          "File reading failed. Please check the file format and try again.",
         );
         reject(error);
       }
@@ -121,6 +110,6 @@ export const transformCalSheetData = (sheetData: TCalSheet) => {
 
       return acc;
     },
-    { year: sheetData.year, holidays: [], events: [] } as unknown as TCalendar
+    { year: sheetData.year, holidays: [], events: [] } as unknown as TCalendar,
   );
 };

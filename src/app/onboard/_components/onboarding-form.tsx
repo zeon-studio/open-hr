@@ -1,8 +1,8 @@
-import options from "@/config/options.json";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
+import options from "@/config/options.json";
+import { type TEmployee } from "@/types/employee"
+import { useUpdateEmployeeMutation } from "@/features/employee/api";
 import { cn } from "@/lib/shadcn";
-import { useUpdateEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
 import { ErrorResponse } from "@/types";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
@@ -65,7 +65,7 @@ export default function OnboardingForm({
           buttonRef.current?.click();
         } catch (error) {
           toast.error(
-            (error as ErrorResponse).data.message ?? "Something went wrong!"
+            (error as ErrorResponse).data.message ?? "Something went wrong!",
           );
         }
       }}

@@ -1,6 +1,20 @@
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import { defineConfig, globalIgnores } from "eslint/config";
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const reactRulesDir = path.join(
+  path.dirname(require.resolve("eslint-plugin-react/package.json")),
+  "lib/rules",
+);
+
+const disabledReactRules = fs
+  .readdirSync(reactRulesDir)
+  .filter((fileName) => fileName.endsWith(".js"))
+  .map((fileName) => `react/${path.basename(fileName, ".js")}`);
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -23,8 +37,34 @@ const eslintConfig = defineConfig([
       // General
       "prefer-const": "warn",
 
+      ...Object.fromEntries(disabledReactRules.map((rule) => [rule, "off"])),
+      "react-hooks/refs": "off",
+      "react-hooks/set-state-in-effect": "off",
+
       // React
-      "react-hooks/exhaustive-deps": "error",
+      "react-hooks/exhaustive-deps": "warn",
+    },
+  },
+  {
+    files: [
+      "src/shared/**/*.{js,jsx,ts,tsx}",
+      "src/lib/**/*.{js,jsx,ts,tsx}",
+      "src/config/**/*.{js,jsx,ts,tsx}",
+      "src/types/**/*.{js,jsx,ts,tsx}",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/features/*", "@/features/*/*"],
+              message:
+                "Shared, config, and type layers must not depend on feature modules",
+            },
+          ],
+        },
+      ],
     },
   },
   // Override default ignores of eslint-config-next

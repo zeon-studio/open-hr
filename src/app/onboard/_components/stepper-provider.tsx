@@ -33,7 +33,7 @@ const StepperProvider = ({ children }: { children: React.ReactNode }) => {
     const nextStep = stepId ?? currentStep + 1;
     const ids = steppers.map((step) => step.id);
     const nextIncompleteStep = ids.find(
-      (id) => !completedSteps.includes(id) && id !== currentStep
+      (id) => !completedSteps.includes(id) && id !== currentStep,
     );
 
     setCurrentStep(nextIncompleteStep ?? nextStep);
@@ -54,9 +54,7 @@ const StepperProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// HOC Wrapper
 const withStepperProvider = (Component: React.ComponentType) => {
-  // eslint-disable-next-line react/display-name
   return (props: any) => (
     <StepperProvider>
       <Component {...props} />

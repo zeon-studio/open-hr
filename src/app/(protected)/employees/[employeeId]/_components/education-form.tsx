@@ -1,6 +1,6 @@
 import options from "@/config/options.json";
-import EditForm from "@/partials/edit-from";
-import { TEmployeeEducation } from "@/redux/features/employeeEducationApiSlice/employeeEducationType";
+import { type TEmployeeEducation } from "@/features/employee/education/api";
+import EditForm from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -94,7 +94,7 @@ function EducationFormFields({
                       handleChange({
                         ...data,
                         educations: data.educations.filter(
-                          (education, i) => i !== index
+                          (education, i) => i !== index,
                         ),
                       });
                     }}
@@ -252,7 +252,7 @@ function EducationFormFields({
                             <SelectItem key={value} value={value}>
                               {label}
                             </SelectItem>
-                          )
+                          ),
                         )}
                       </SelectContent>
                     </Select>

@@ -1,8 +1,8 @@
 import options from "@/config/options.json";
+import EditForm from "@/layouts/edit-from";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
-import EditForm from "@/partials/edit-from";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { TEmployee } from "@/types/employee";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -36,7 +36,7 @@ import {
   Sparkles,
   User,
   UserRound,
-  type LucideIcon
+  type LucideIcon,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -187,15 +187,18 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={Cake}>Date of Birth</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.dob ? dateFormat(data.dob) : null} className="pl-6!" />
+              <ReadOnlyValue
+                value={data.dob ? dateFormat(data.dob) : null}
+                className="pl-6!"
+              />
             ) : (
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant={"input"}
                     className={cn(
-                      "w-full flex justify-between !pl-6",
-                      isReadOnly && "disabled:pl-0 disabled:border-none"
+                      "w-full flex justify-between pl-6!",
+                      isReadOnly && "disabled:pl-0 disabled:border-none",
                     )}
                     disabled={isReadOnly}
                   >
@@ -204,7 +207,7 @@ export default function PersonalForm({
                       <span
                         className={cn(
                           "bg-light mb-2 mt-2 h-5 block w-px",
-                          isReadOnly && "hidden"
+                          isReadOnly && "hidden",
                         )}
                       ></span>
                       <span
@@ -238,7 +241,7 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={UserRound}>Gender</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.gender} className="capitalize !pl-6" />
+              <ReadOnlyValue value={data.gender} className="capitalize pl-6!" />
             ) : (
               <Select
                 name="gender"
@@ -307,7 +310,10 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={Droplet}>Blood Group</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.blood_group} className="uppercase !pl-6" />
+              <ReadOnlyValue
+                value={data.blood_group}
+                className="uppercase pl-6!"
+              />
             ) : (
               <Select
                 onValueChange={(value) =>
@@ -349,7 +355,10 @@ export default function PersonalForm({
           <div className="lg:col-6">
             <FieldLabel icon={HandHeart}>Blood Donor</FieldLabel>
             {isReadOnly ? (
-              <ReadOnlyValue value={data.blood_donor ? "Yes" : "No"} className="pl-6!" />
+              <ReadOnlyValue
+                value={data.blood_donor ? "Yes" : "No"}
+                className="pl-6!"
+              />
             ) : (
               <Select
                 onValueChange={(value) =>
@@ -382,7 +391,7 @@ export default function PersonalForm({
             {isReadOnly ? (
               <ReadOnlyValue
                 value={data.marital_status}
-                className="capitalize !pl-6"
+                className="capitalize pl-6!"
               />
             ) : (
               <Select

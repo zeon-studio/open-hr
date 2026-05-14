@@ -1,5 +1,5 @@
-import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
+import { useAddCalendarMutation } from "@/features/calendar/api"
+import { type TCalendar } from "@/types/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -59,7 +59,7 @@ const CalendarInsert = ({
       toast("Calendar added complete");
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

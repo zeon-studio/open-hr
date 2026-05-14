@@ -1,6 +1,6 @@
+import { useGetUpcomingHolidaysAndEventsQuery } from "@/features/calendar/api"
+import { type TEvent } from "@/types/calendar";
 import { dateFormat } from "@/lib/date-converter";
-import { useGetUpcomingHolidaysAndEventsQuery } from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Calendar1 } from "lucide-react";
 
@@ -16,7 +16,7 @@ const UpcomingHolidays = () => {
           Upcoming Holidays
         </CardTitle>
       </CardHeader>
-      <CardContent className="lg:h-[300px] scroll-box">
+      <CardContent className="lg:h-75 scroll-box">
         {data?.result?.holidays?.length === 0 ? (
           <p className="text-text-light">No upcoming holidays</p>
         ) : (

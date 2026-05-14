@@ -1,14 +1,6 @@
-import { useDialog } from "@/hooks/useDialog";
-import {
-  dateFormat,
-  formatDateWithTime,
-  getDuration,
-} from "@/lib/date-converter";
-import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import {
-  TEmployeeJob,
-  TPrevJob,
-} from "@/redux/features/employeeJobApiSlice/employeeJobType";
+import { useUpdateEmployeeJobMutation, type TEmployeeJob, type TPrevJob } from "@/features/employee/job/api";
+import { useDialog } from "@/hooks/use-dialog";
+import { dateFormat, formatDateWithTime, getDuration } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
@@ -57,7 +49,7 @@ export default function PreviousJobs({
   const [updatePrev, { isLoading: isPrevJobLoading }] =
     useUpdateEmployeeJobMutation();
   const [prevJobData, setPrevJobData] = useState<TPrevJob[]>(
-    prev_jobs?.length ? prev_jobs : [initialPrevJobData]
+    prev_jobs?.length ? prev_jobs : [initialPrevJobData],
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,7 +76,7 @@ export default function PreviousJobs({
         } else {
           return prevJob;
         }
-      })
+      }),
     );
   };
 
@@ -112,7 +104,7 @@ export default function PreviousJobs({
 
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
-    null
+    null,
   );
   const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
     dialogContentRef.current = node;
@@ -182,7 +174,7 @@ export default function PreviousJobs({
                                   ...job,
                                   company_name: e.target.value,
                                 },
-                                index
+                                index,
                               );
                             }}
                             required
@@ -200,7 +192,7 @@ export default function PreviousJobs({
                                   ...job,
                                   company_website: e.target.value,
                                 },
-                                index
+                                index,
                               )
                             }
                             required
@@ -218,7 +210,7 @@ export default function PreviousJobs({
                                   ...job,
                                   designation: e.target.value,
                                 },
-                                index
+                                index,
                               )
                             }
                             required
@@ -235,7 +227,7 @@ export default function PreviousJobs({
                                   ...job,
                                   job_type: value as any,
                                 },
-                                index
+                                index,
                               );
                             }}
                           >
@@ -296,7 +288,7 @@ export default function PreviousJobs({
                                       ...job,
                                       start_date: formatDateWithTime(date!),
                                     },
-                                    index
+                                    index,
                                   )
                                 }
                               />
@@ -343,7 +335,7 @@ export default function PreviousJobs({
                                       ...job,
                                       end_date: formatDateWithTime(date!),
                                     },
-                                    index
+                                    index,
                                   );
                                 }}
                               />
@@ -395,7 +387,7 @@ export default function PreviousJobs({
             prev_jobs.map((job, index) => {
               const employmentDuration = getDuration(
                 job.start_date,
-                job.end_date
+                job.end_date,
               );
               const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
 

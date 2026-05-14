@@ -24,24 +24,19 @@ export const dateFormat = (
   date: Date | string,
   timeZoneOffset: number = 6,
   showTime: boolean = false,
-  showWeekday: boolean = false // new option
+  showWeekday: boolean = false,
 ): string => {
   if (!date) return "";
 
-  // Convert date string to Date object if needed
   const dateObj = typeof date === "string" ? new Date(date) : date;
-
-  // Adjust for timezone offset
   const adjustedDate = new Date(
-    dateObj.getTime() + timeZoneOffset * 60 * 60 * 1000
+    dateObj.getTime() + timeZoneOffset * 60 * 60 * 1000,
   )?.toISOString();
 
-  // Extract day, month, and year
   const day = adjustedDate.slice(8, 10);
   const month = monthNames[Number(adjustedDate.slice(5, 7)) - 1];
   const year = adjustedDate.slice(0, 4);
 
-  // Optionally extract weekday
   let weekday = "";
   if (showWeekday) {
     const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -49,7 +44,6 @@ export const dateFormat = (
     weekday = weekdayNames[dateForWeekday.getDay()];
   }
 
-  // Construct formatted date string
   let formattedDate = showWeekday
     ? `${weekday}, ${day} ${month}, ${year}`
     : `${day} ${month}, ${year}`;
@@ -73,7 +67,7 @@ export const dateDistance = (date: string) => {
 
 export function getDuration(
   startDate: string | Date,
-  endDate: string | Date
+  endDate: string | Date,
 ): Duration {
   const duration = intervalToDuration({
     start: new Date(startDate),
@@ -86,7 +80,6 @@ export const dayCount = (startDate: string | Date, endDate: string | Date) => {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  // Normalize time to 00:00:00
   start.setHours(0, 0, 0, 0);
   end.setHours(0, 0, 0, 0);
 
@@ -97,6 +90,22 @@ export const formatDateWithTime = (date: Date): Date => {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  // Create new date with time set to midnight UTC
   return new Date(Date.UTC(year, month, day, 0, 0, 0));
+};
+
+export const localDate = (date: Date): Date => {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+};
+
+export const isOneYearPassed = (prevDate: Date, currentDate: Date): boolean => {
+  const oneYearLater = new Date(prevDate);
+  oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+  return (
+    oneYearLater.getFullYear() < currentDate.getFullYear() ||
+    (oneYearLater.getFullYear() === currentDate.getFullYear() &&
+      oneYearLater.getMonth() < currentDate.getMonth()) ||
+    (oneYearLater.getFullYear() === currentDate.getFullYear() &&
+      oneYearLater.getMonth() === currentDate.getMonth() &&
+      oneYearLater.getDate() <= currentDate.getDate())
+  );
 };

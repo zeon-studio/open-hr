@@ -1,5 +1,5 @@
 import CopyText from "@/components/copy-text";
-import { useGetToolsByUserQuery } from "@/redux/features/toolApiSlice/toolSlice";
+import { useGetToolsByUserQuery } from "@/features/tool/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { BookKey, ExternalLink } from "lucide-react";
 import Image from "next/image";

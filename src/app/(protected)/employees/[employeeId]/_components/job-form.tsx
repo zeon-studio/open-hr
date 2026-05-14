@@ -1,10 +1,6 @@
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { employeeGroupByDepartment } from "@/lib/employee-info";
-import { useUpdateEmployeeJobMutation } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import {
-  TEmployeeJob,
-  TPromotion,
-} from "@/redux/features/employeeJobApiSlice/employeeJobType";
+import { TEmployeeJob, TPromotion, useUpdateEmployeeJobMutation } from "@/features/employee/job/api";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
+import { useEmployeeGroupByDepartment } from "@/hooks/use-employee-map";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -32,10 +28,11 @@ const EmployeeJobForm = ({
   employeeJob: Partial<TEmployeeJob>;
   onDialogChange: (open: boolean) => void;
 }) => {
+  const employeeGroups = useEmployeeGroupByDepartment();
   const [loader, setLoader] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
-    null
+    null,
   );
   const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
     dialogContentRef.current = node;
@@ -49,7 +46,7 @@ const EmployeeJobForm = ({
       permanent_date: employeeJob.permanent_date,
       promotions: employeeJob.promotions,
       note: employeeJob.note,
-    }
+    },
   );
 
   const [updateEmployeeJob, { isSuccess, isError, error }] =
@@ -69,14 +66,14 @@ const EmployeeJobForm = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);
 
   const [employeeJobPromotions, setEmployeeJobLogs] = useState<TPromotion[]>(
-    employeeJobData.promotions || []
+    employeeJobData.promotions || [],
   );
 
   // set employeeJob promotions
@@ -222,7 +219,7 @@ const EmployeeJobForm = ({
                 <SelectValue placeholder="Select User" />
               </SelectTrigger>
               <SelectContent>
-                {employeeGroupByDepartment().map((group) => (
+                {employeeGroups.map((group) => (
                   <SelectGroup key={group.label}>
                     <SelectLabel>{group.label}</SelectLabel>
                     {group.options.map(
@@ -230,7 +227,7 @@ const EmployeeJobForm = ({
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
-                      )
+                      ),
                     )}
                   </SelectGroup>
                 ))}

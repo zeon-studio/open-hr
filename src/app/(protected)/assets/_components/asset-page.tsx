@@ -2,11 +2,11 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
-import { useDialog } from "@/hooks/useDialog";
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
-import { useDeleteAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { useDeleteAssetMutation } from "@/features/asset/api";
+import { useDialog } from "@/hooks/use-dialog";
+import { dateFormat } from "@/lib/date-converter"
+import { useEmployeeMap } from "@/hooks/use-employee-map";
+import type { TAsset } from "@/types/asset";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
@@ -52,6 +52,7 @@ const AssetModal = ({
   setAssetId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
+  const employeeMap = useEmployeeMap();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -64,6 +65,7 @@ const AssetModal = ({
   const [deleteAsset] = useDeleteAssetMutation();
 
   const handleAssetDelete = () => {
+    if (!item.asset_id) return;
     deleteAsset(item.asset_id);
     toast("Asset deleted complete");
   };
@@ -119,7 +121,7 @@ const AssetModal = ({
             </Dialog>
           </TableCell>
           <TableCell>
-            <UserInfo user={employeeInfoById(item.user)} />
+            <UserInfo user={employeeMap.get(item.user)} />
           </TableCell>
           <TableCell>{item.asset_id}</TableCell>
           <TableCell>

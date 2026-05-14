@@ -1,7 +1,7 @@
-import { useDialog } from "@/hooks/useDialog";
+import { useGetEmployeeJobQuery } from "@/features/employee/job/api";
+import { useDialog } from "@/hooks/use-dialog";
+import { useSettings } from "@/hooks/use-settings";
 import { dateFormat, getDuration } from "@/lib/date-converter";
-import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
@@ -14,9 +14,7 @@ import PreviousJobs from "./previous-jobs";
 
 export default function JobDetails() {
   const { data: session } = useSession();
-  const { company_name, company_website } = useAppSelector(
-    (state) => state["setting-slice"]
-  );
+  const { company_name, company_website } = useSettings();
   const userRole = session?.user.role;
 
   const params = useParams<{ employeeId: string }>();
@@ -44,7 +42,7 @@ export default function JobDetails() {
     data?.result?.joining_date!,
     data?.result?.resignation_date
       ? data?.result?.resignation_date
-      : new Date().toISOString()
+      : new Date().toISOString(),
   );
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
@@ -57,7 +55,7 @@ export default function JobDetails() {
   const renderPromotion = (
     promotion: Promotion,
     index: number,
-    promotions: Promotion[]
+    promotions: Promotion[],
   ) => {
     const endDate =
       index === 0

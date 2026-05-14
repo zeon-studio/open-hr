@@ -2,11 +2,10 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
-import { useDialog } from "@/hooks/useDialog";
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
-import { useDeletePayrollMutation } from "@/redux/features/payrollApiSlice/payrollSlice";
-import { TPayroll } from "@/redux/features/payrollApiSlice/payrollType";
+import { useDeletePayrollMutation, type TPayroll } from "@/features/payroll/api";
+import { useDialog } from "@/hooks/use-dialog";
+import { dateFormat } from "@/lib/date-converter"
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";
 import {
@@ -50,6 +49,7 @@ const PayrollModal = ({
   payrollId: string;
   setPayrollId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const employeeMap = useEmployeeMap();
   const { isDialogOpen, onDialogChange } = useDialog();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -63,6 +63,7 @@ const PayrollModal = ({
   const [deletePayroll] = useDeletePayrollMutation();
 
   const handlePayrollDelete = () => {
+    if (!item.employee_id) return;
     deletePayroll(item.employee_id);
     toast("Payroll deleted complete");
   };
@@ -98,7 +99,7 @@ const PayrollModal = ({
       >
         <TableRow>
           <TableCell>
-            <UserInfo user={employeeInfoById(item.employee_id)} />
+            <UserInfo user={employeeMap.get(item.employee_id)} />
           </TableCell>
           <TableCell>{item.gross_salary} BDT</TableCell>
           <TableCell>

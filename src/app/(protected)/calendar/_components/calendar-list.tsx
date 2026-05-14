@@ -1,5 +1,5 @@
 import { dateFormat } from "@/lib/date-converter";
-import { TEvent } from "@/redux/features/calendarApiSlice/calendarType";
+import { TEvent } from "@/types/calendar";
 import {
   Table,
   TableBody,

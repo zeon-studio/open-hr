@@ -1,9 +1,6 @@
-import { useDialog } from "@/hooks/useDialog";
-import {
-  useGetCalendarsQuery,
-  useUpdateCalendarMutation,
-} from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TCalendar } from "@/redux/features/calendarApiSlice/calendarType";
+import { useGetCalendarsQuery, useUpdateCalendarMutation } from "@/features/calendar/api"
+import { type TCalendar } from "@/types/calendar";
+import { useDialog } from "@/hooks/use-dialog";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
 import { Label } from "@/ui/label";
@@ -32,18 +29,18 @@ const CalendarUpdate = () => {
   const [updatedCalendarData, setUpdatedCalendarData] = useState<TCalendar>(
     () => {
       return (
-        calendars?.find((cal) => cal.year === year) ?? {
+        calendars?.find((cal: TCalendar) => cal.year === year) ?? {
           year: year,
           holidays: [],
           events: [],
           createdAt: new Date(),
         }
       );
-    }
+    },
   );
 
   useEffect(() => {
-    const yearData = calendars?.find((cal) => cal.year === year);
+    const yearData = calendars?.find((cal: TCalendar) => cal.year === year);
     if (yearData) {
       setUpdatedCalendarData(yearData);
     }
@@ -76,7 +73,7 @@ const CalendarUpdate = () => {
       toast("Calendar update complete");
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,7 +102,7 @@ const CalendarUpdate = () => {
                 <SelectValue placeholder="Select Year" />
               </SelectTrigger>
               <SelectContent>
-                {calendars?.map((cal) => (
+                {calendars?.map((cal: TCalendar) => (
                   <SelectItem key={cal.year} value={cal.year.toString()}>
                     {cal.year}
                   </SelectItem>

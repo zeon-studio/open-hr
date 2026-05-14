@@ -1,10 +1,7 @@
-import { useDialog } from "@/hooks/useDialog";
-import {
-  readSheetData,
-  transformCalSheetData,
-} from "@/lib/sheet-data-converter";
-import { useAddCalendarMutation } from "@/redux/features/calendarApiSlice/calendarSlice";
-import { TCalSheet } from "@/redux/features/calendarApiSlice/calendarType";
+import { useAddCalendarMutation } from "@/features/calendar/api"
+import { type TCalSheet } from "@/types/calendar";
+import { useDialog } from "@/hooks/use-dialog";
+import { readSheetData, transformCalSheetData } from "@/lib/sheet-data-converter";
 import { Button, buttonVariants } from "@/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
 import { Input } from "@/ui/input";
@@ -47,7 +44,7 @@ const CalendarInsertSheet = () => {
       toast("Calendar added complete");
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

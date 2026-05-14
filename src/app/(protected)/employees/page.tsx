@@ -2,10 +2,11 @@
 
 import Pagination from "@/components/pagination";
 import SearchBox from "@/components/search-box";
-import { useDialog } from "@/hooks/useDialog";
-import useLocalCacheHook from "@/hooks/useLocalCacheHook";
-import { useGetEmployeesQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { useAppSelector } from "@/redux/hook";
+import { useGetEmployeesQuery } from "@/features/employee/api"
+import { type TEmployee } from "@/types/employee";
+import { useDialog } from "@/hooks/use-dialog";
+import useLocalCacheHook from "@/hooks/use-local-cache";
+import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
 import {
@@ -25,7 +26,7 @@ import EmployeePage from "./_components/employee-page";
 export default function Employees() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
-  const { limit } = useAppSelector((state) => state.filter);
+  const { limit } = usePaginationFilter();
   const page = searchParams?.get("page");
   const search = searchParams?.get("search");
 
@@ -51,7 +52,7 @@ export default function Employees() {
     {
       data: employees!,
     },
-    "local-employees"
+    "local-employees",
   );
   const { isDialogOpen, onDialogChange } = useDialog();
 
@@ -107,7 +108,7 @@ export default function Employees() {
           {employees?.length ? (
             <EmployeePage employees={employees} />
           ) : (
-            <EmployeePage employees={localData} />
+            <EmployeePage employees={(localData as TEmployee[]) || []} />
           )}
         </TableBody>
       </Table>

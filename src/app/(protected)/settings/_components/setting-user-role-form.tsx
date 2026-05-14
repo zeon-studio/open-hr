@@ -1,10 +1,6 @@
-import EditFrom from "@/layouts/partials/edit-from";
-import {
-  useGetAdminAndModsQuery,
-  useGetEmployeesBasicsQuery,
-  useUpdateEmployeeRoleMutation,
-} from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { TEmployee } from "@/types/employee"
+import { useEmployeeRoleData } from "@/features/settings/api";
+import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
 import {
@@ -15,49 +11,56 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Trash2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const SettingUserRoleForm = () => {
-  const { data: adminAndModsData } = useGetAdminAndModsQuery(undefined);
-  const { result: adminAndMods } = adminAndModsData || {};
-  const { data: employeesData } = useGetEmployeesBasicsQuery(undefined);
-  const { result: employees } = employeesData || {};
+  const { adminAndMods, employees } = useEmployeeRoleData();
 
   const [loader, setLoader] = useState(false);
   const [removedUsers, setRemovedUsers] = useState<Partial<TEmployee>[]>([]);
-  const [updateUserRole, { isSuccess, isError, error }] =
-    useUpdateEmployeeRoleMutation();
 
   const initialData = useMemo(() => {
-    return adminAndMods ? adminAndMods.map(({ id, name, role }) => ({ id, name, role })) : [];
+    return adminAndMods
+      ? adminAndMods.map(({ id, name, role }) => ({ id, name, role }))
+      : [];
   }, [adminAndMods]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast("Role update complete");
-    } else if (isError) {
-      toast("Something went wrong");
-      console.log(error);
-    }
-  }, [isSuccess, isError, error]);
 
   const handleSubmit = async (data: Partial<TEmployee>[]) => {
     setLoader(true);
     try {
-      const payload = [
+      const updates = [
         ...data.map(({ id, role }) => ({
-          id,
+          id: id || "",
           role: role as TEmployee["role"],
         })),
         ...removedUsers.map(({ id }) => ({
-          id,
+          id: id || "",
           role: "user" as TEmployee["role"],
         })),
       ];
-      await Promise.all(payload.map(updateUserRole));
-    } catch (error) {
-      console.log(error);
+
+      const res = await fetch("/api/employee/roles", {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          updates: updates
+            .filter((item) => Boolean(item.id))
+            .map((item) => ({
+              id: item.id,
+              role: item.role as "user" | "moderator" | "admin",
+            })),
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update roles");
+      }
+
+      toast("Role update complete");
+    } catch {
+      toast("Something went wrong");
     } finally {
       setLoader(false);
     }
@@ -119,18 +122,18 @@ const SettingUserRoleForm = () => {
                         value={item.name || ""}
                         onValueChange={(value) => {
                           const selectedEmployee = employees?.find(
-                            (employee) => employee.name === value
+                            (employee) => employee.name === value,
                           );
                           handleChange(
                             data.map((userRole, i) =>
                               i === index
                                 ? {
-                                  ...userRole,
-                                  id: selectedEmployee?.id || "",
-                                  name: value,
-                                }
-                                : userRole
-                            )
+                                    ...userRole,
+                                    id: selectedEmployee?.id || "",
+                                    name: value,
+                                  }
+                                : userRole,
+                            ),
                           );
                         }}
                       >
@@ -144,8 +147,8 @@ const SettingUserRoleForm = () => {
                                 !data.some(
                                   (userRole, i) =>
                                     userRole.name === employee.name &&
-                                    i !== index
-                                )
+                                    i !== index,
+                                ),
                             )
                             .map((employee) => (
                               <SelectItem
@@ -171,14 +174,14 @@ const SettingUserRoleForm = () => {
                             data.map((userRole, i) =>
                               i === index
                                 ? {
-                                  ...userRole,
-                                  role: value as
-                                    | "user"
-                                    | "moderator"
-                                    | "admin",
-                                }
-                                : userRole
-                            )
+                                    ...userRole,
+                                    role: value as
+                                      | "user"
+                                      | "moderator"
+                                      | "admin",
+                                  }
+                                : userRole,
+                            ),
                           )
                         }
                       >

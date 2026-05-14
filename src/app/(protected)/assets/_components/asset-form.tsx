@@ -1,10 +1,7 @@
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import {
-  employeeGroupByDepartment,
-  employeeInfoById,
-} from "@/lib/employee-info";
-import { TAsset, TAssetLog } from "@/redux/features/assetApiSlice/assetType";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
+import { useEmployeeGroupByDepartment, useEmployeeMap } from "@/hooks/use-employee-map";
+import type { TAsset, TAssetLog } from "@/types/asset";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -36,6 +33,8 @@ const AssetForm = ({
   formType: string;
   popoverContainer?: HTMLElement | null;
 }) => {
+  const employeeMap = useEmployeeMap();
+  const employeeGroups = useEmployeeGroupByDepartment();
   const _popoverContainer = popoverContainer || undefined;
   const [assetLogs, setAssetLogs] = useState<TAssetLog[]>(assetData.logs || []);
 
@@ -145,14 +144,14 @@ const AssetForm = ({
             assetData.user
               ? [
                   {
-                    label: employeeInfoById(assetData.user)?.name || "Unknown",
+                    label: employeeMap.get(assetData.user!)?.name || "Unknown",
                     value: assetData.user,
                   },
                 ]
               : []
           }
-          options={employeeGroupByDepartment().flatMap(
-            (group) => group.options
+          options={employeeGroups.flatMap(
+            (group) => group.options,
           )}
           placeholder="Select user"
           hidePlaceholderWhenSelected={true}

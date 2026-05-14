@@ -1,5 +1,5 @@
-import { useUpdateAssetMutation } from "@/redux/features/assetApiSlice/assetSlice";
-import { TAsset } from "@/redux/features/assetApiSlice/assetType";
+import { useUpdateAssetMutation } from "@/features/asset/api";
+import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -44,7 +44,7 @@ const AssetUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

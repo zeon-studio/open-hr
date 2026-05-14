@@ -1,10 +1,7 @@
 import options from "@/config/options.json";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import {
-  employeeGroupByDepartment,
-  employeeInfoById,
-} from "@/lib/employee-info";
-import { TOrganization, TTool } from "@/redux/features/toolApiSlice/toolType";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
+import { useEmployeeGroupByDepartment, useEmployeeMap } from "@/hooks/use-employee-map";
+import { TOrganization, TTool } from "@/types/tool";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -36,9 +33,11 @@ const ToolForm = ({
   formType: string;
   popoverContainer?: HTMLElement | null;
 }) => {
+  const employeeMap = useEmployeeMap();
+  const employeeGroups = useEmployeeGroupByDepartment();
   const _popoverContainer = popoverContainer || undefined;
   const [toolItems, setToolItems] = useState<TOrganization[]>(
-    toolData.organizations || []
+    toolData.organizations || [],
   );
 
   // set tool items
@@ -393,11 +392,11 @@ const ToolForm = ({
                 </Label>
                 <MultiSelect
                   value={item.users.map((user) => ({
-                    label: employeeInfoById(user).name || "Unknown",
+                    label: employeeMap.get(user)?.name || "Unknown",
                     value: user,
                   }))}
-                  options={employeeGroupByDepartment().flatMap(
-                    (group) => group.options
+                  options={employeeGroups.flatMap(
+                    (group) => group.options,
                   )}
                   placeholder="Select users"
                   hidePlaceholderWhenSelected={true}

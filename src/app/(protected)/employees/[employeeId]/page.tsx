@@ -2,12 +2,12 @@
 
 import Avatar from "@/components/avatar";
 import { Facebook, Linkedin, Twitter } from "@/components/icons";
+import { useGetEmployeeQuery } from "@/features/employee/api";
+import { useGetEmployeeJobQuery } from "@/features/employee/job/api";
+import { useSettings } from "@/hooks/use-settings";
 import { getDuration } from "@/lib/date-converter";
 import { profileCompletion } from "@/lib/profile-completion";
 import { cn } from "@/lib/shadcn";
-import { useGetEmployeeQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { useGetEmployeeJobQuery } from "@/redux/features/employeeJobApiSlice/employeeJobSlice";
-import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import {
   DropdownMenu,
@@ -121,7 +121,7 @@ const tabs = [
 
 export default function EmployeeSingle() {
   const { modules, communication_platform, communication_platform_url } =
-    useAppSelector((state) => state["setting-slice"]);
+    useSettings();
 
   // only show tab if module is enabled
   const filterTabByModule = tabs.filter((tab) => {
@@ -142,7 +142,7 @@ export default function EmployeeSingle() {
   const { data: jobData } = useGetEmployeeJobQuery(employeeId);
   const [activeTab, setTab] = useState(tabs[0]);
   const [employeeWithPhotoSource, setEmployeeWithPhotoSource] = useState(
-    data?.result
+    data?.result,
   );
 
   // Check for gravatar and update photo_source
@@ -181,9 +181,9 @@ export default function EmployeeSingle() {
   const user =
     session?.user.id !== data?.result.id
       ? {
-        email: data?.result.work_email ?? data?.result.personal_email,
-        name: data?.result.name,
-      }
+          email: data?.result.work_email ?? data?.result.personal_email,
+          name: data?.result.name,
+        }
       : session?.user;
 
   // hide tabs from former
@@ -204,7 +204,7 @@ export default function EmployeeSingle() {
 
   const employmentDuration = getDuration(
     jobData?.result?.joining_date!,
-    new Date().toISOString()
+    new Date().toISOString(),
   );
 
   const formattedDuration = `${employmentDuration.years || 0}y - ${employmentDuration.months || 0}m - ${employmentDuration.days || 0}d`;
@@ -221,9 +221,9 @@ export default function EmployeeSingle() {
     <div className="bg-light">
       <Tabs value={searchParams?.get("tab") || activeTab.value}>
         <div className="flex p-4 xl:p-0 xl:pl-8 pb-0 rounded max-xl:gap-x-6 mt-5 relative after:bg-primary after:absolute after:-top-5 lg:after:-top-6 after:left-0 after:size-full after:rounded after:-z-10 z-20 gap-x-8">
-          <div className="shrink-0 xl:basis-[210px] size-[100px] lg:size-[210px]">
+          <div className="shrink-0 xl:basis-52.5 size-25 lg:size-52.5">
             <Avatar
-              className="rounded-md w-[100px] lg:w-[210px]"
+              className="rounded-md w-25 lg:w-52.5"
               width={210}
               height={210}
               email={user?.email!}
@@ -231,7 +231,7 @@ export default function EmployeeSingle() {
             />
           </div>
 
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between min-w-0 flex-1">
             <div>
               <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5 lg:mb-2.5">
                 {data?.result.name}
@@ -275,7 +275,7 @@ export default function EmployeeSingle() {
                             "h-auto w-full justify-start focus-visible:ring-offset-0 ring-offset-0 xl:hidden focus-visible:border-none focus-visible:outline-none focus-visible:ring-0! cursor-pointer p-1.5",
 
                             tab.value === activeTab.value &&
-                            "bg-[#F3F4F6] text-text-dark"
+                              "bg-[#F3F4F6] text-text-dark",
                           )}
                           variant={"ghost"}
                           onMouseDown={(e) => {
@@ -291,13 +291,13 @@ export default function EmployeeSingle() {
                 </DropdownMenu>
               </div>
 
-              <TabsList className="hidden xl:flex h-auto 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6 max-w-[750px] 2xl:max-w-full overflow-x-auto rounded-none">
+              <TabsList className="hidden xl:flex h-auto 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full p-0! -mt-6 overflow-x-auto rounded-none scroll-hide">
                 {filteredTabs.map((tab, index) => (
                   <TabsTrigger
                     value={tab.value}
                     key={index}
                     asChild
-                    className="data-[state=active]:bg-light flex-1"
+                    className="data-[state=active]:bg-light shrink-0 whitespace-nowrap"
                     onMouseDown={(e) => {
                       e.preventDefault();
                       handleMouseDown(tab);
@@ -319,9 +319,9 @@ export default function EmployeeSingle() {
         </div>
 
         <div className="gap-5 px-4 pb-4 mt-6 lg:mt-8 xl:mt-16 flex">
-          <div className="space-y-5 xl:basis-[210px] hidden xl:block xl:pl-8">
+          <div className="space-y-5 xl:basis-52.5 hidden xl:block xl:pl-8">
             <div
-              className="xl:max-w-[210px]"
+              className="xl:max-w-52.5"
               aria-label={`Profile ${completion.percent}% complete`}
             >
               <div className="flex items-center justify-between mb-1.5">
@@ -340,7 +340,7 @@ export default function EmployeeSingle() {
                       ? "bg-success"
                       : completion.percent >= 50
                         ? "bg-warning"
-                        : "bg-destructive"
+                        : "bg-destructive",
                   )}
                   style={{ width: `${completion.percent}%` }}
                 />
@@ -362,7 +362,7 @@ export default function EmployeeSingle() {
                 </details>
               )}
             </div>
-            <div className="xl:max-w-[210px]">
+            <div className="xl:max-w-52.5">
               <h6 className="text-base font-semibold mb-4">Vitals</h6>
               <ul className="list-none space-y-4">
                 {data?.result.present_address && (
@@ -442,12 +442,7 @@ export default function EmployeeSingle() {
 
                 <li className="flex space-x-2 text-text-light">
                   <Hash className="size-4 stroke-current" />
-                  <div className="space-y-1.5">
-                    <span className="text-xs block font-semibold">
-                      Employee Id
-                    </span>
-                    <span className="text-xs block">{data?.result.id}</span>
-                  </div>
+                  <span className="text-xs block">{data?.result.id}</span>
                 </li>
               </ul>
               <Separator className="my-5" />
@@ -469,9 +464,9 @@ export default function EmployeeSingle() {
                             new Date(
                               jobData.result.permanent_date
                                 ? jobData.result.permanent_date
-                                : jobData.result.joining_date
+                                : jobData.result.joining_date,
                             ),
-                            "MMM d, yyyy"
+                            "MMM d, yyyy",
                           )}
                         </span>
                         <span className="text-xs block">
@@ -486,47 +481,47 @@ export default function EmployeeSingle() {
             {(data?.result.linkedin ||
               data?.result.twitter ||
               data?.result.facebook) && (
-                <div>
-                  <h6 className="text-base font-semibold mb-4 text-text-dark">
-                    Social
-                  </h6>
-                  <ul className="flex space-x-2">
-                    {data?.result.linkedin && (
-                      <li>
-                        <Link
-                          target="_blank"
-                          rel="noopener noreferrer nofollow"
-                          href={data.result.linkedin}
-                        >
-                          <Linkedin className="size-7" />
-                        </Link>
-                      </li>
-                    )}
-                    {data?.result.twitter && (
-                      <li className="flex items-center justify-center">
-                        <Link
-                          target="_blank"
-                          rel="noopener noreferrer nofollow"
-                          href={data.result.twitter}
-                        >
-                          <Twitter className="size-7" />
-                        </Link>
-                      </li>
-                    )}
-                    {data?.result.facebook && (
-                      <li>
-                        <Link
-                          target="_blank"
-                          rel="noopener noreferrer nofollow"
-                          href={data.result.facebook}
-                        >
-                          <Facebook className="size-7" />
-                        </Link>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              )}
+              <div>
+                <h6 className="text-base font-semibold mb-4 text-text-dark">
+                  Social
+                </h6>
+                <ul className="flex space-x-2">
+                  {data?.result.linkedin && (
+                    <li>
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={data.result.linkedin}
+                      >
+                        <Linkedin className="size-7" />
+                      </Link>
+                    </li>
+                  )}
+                  {data?.result.twitter && (
+                    <li className="flex items-center justify-center">
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={data.result.twitter}
+                      >
+                        <Twitter className="size-7" />
+                      </Link>
+                    </li>
+                  )}
+                  {data?.result.facebook && (
+                    <li>
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={data.result.facebook}
+                      >
+                        <Facebook className="size-7" />
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
           <div className="xl:pl-6 flex-1">
             {tabs.map((tab, index) => (

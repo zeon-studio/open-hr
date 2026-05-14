@@ -1,9 +1,6 @@
-import {
-  employeeGroupByDepartment,
-  employeeInfoById,
-} from "@/lib/employee-info";
-import EditFrom from "@/partials/edit-from";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
+import { TSetting } from "@/features/settings/types";
+import EditFrom from "@/layouts/edit-from";
+import { useEmployeeGroupByDepartment, useEmployeeMap } from "@/hooks/use-employee-map";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -17,21 +14,23 @@ import {
   SelectValue,
 } from "@/ui/select";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface SettingOffboardingTasksFormProps {
-  isUpdating: boolean;
   data: TSetting;
-  handleSubmit: (data: TSetting) => void;
 }
 
 export default function SettingOffboardingTasksForm({
-  isUpdating,
   data,
-  handleSubmit,
 }: SettingOffboardingTasksFormProps) {
+  const employeeMap = useEmployeeMap();
+  const employeeGroups = useEmployeeGroupByDepartment();
+  const [isActionUpdating, setIsActionUpdating] = useState(false);
+
   return (
     <EditFrom<TSetting>
-      isUpdating={isUpdating}
+      isUpdating={isActionUpdating}
       data={data}
       title="Offboarding Tasks"
     >
@@ -39,9 +38,29 @@ export default function SettingOffboardingTasksForm({
         return (
           <form
             ref={formRef}
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              handleSubmit(data);
+              setIsActionUpdating(true);
+              try {
+                const res = await fetch("/api/setting", {
+                  method: "PATCH",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    offboarding_tasks: data.offboarding_tasks,
+                  }),
+                });
+
+                if (!res.ok) {
+                  throw new Error("Failed to update settings");
+                }
+
+                toast("Setting update complete");
+              } catch {
+                toast("Something went wrong");
+              } finally {
+                setIsActionUpdating(false);
+              }
             }}
           >
             {data.offboarding_tasks.map((task, index) => (
@@ -59,7 +78,7 @@ export default function SettingOffboardingTasksForm({
                         handleChange({
                           ...data,
                           offboarding_tasks: data.offboarding_tasks.filter(
-                            (_, i) => i !== index
+                            (_, i) => i !== index,
                           ),
                         });
                       }}
@@ -78,7 +97,7 @@ export default function SettingOffboardingTasksForm({
                           ...data,
                           offboarding_tasks: data.offboarding_tasks.map(
                             (task, i) =>
-                              i === index ? { ...task, [name]: value } : task
+                              i === index ? { ...task, [name]: value } : task,
                           ),
                         });
                       }}
@@ -93,7 +112,7 @@ export default function SettingOffboardingTasksForm({
                     <Label>Assigned To:</Label>
                     {isReadOnly ? (
                       <p className="text-sm">
-                        {employeeInfoById(task.assigned_to).name || "N/A"}
+                        {employeeMap.get(task.assigned_to)?.name || "N/A"}
                       </p>
                     ) : (
                       <Select
@@ -109,7 +128,7 @@ export default function SettingOffboardingTasksForm({
                                       assigned_to:
                                         value === "none" ? "" : value,
                                     }
-                                  : task
+                                  : task,
                             ),
                           })
                         }
@@ -119,7 +138,7 @@ export default function SettingOffboardingTasksForm({
                           <SelectValue placeholder="Select User" />
                         </SelectTrigger>
                         <SelectContent>
-                          {employeeGroupByDepartment().map((group) => (
+                          {employeeGroups.map((group) => (
                             <SelectGroup key={group.label}>
                               <SelectLabel>{group.label}</SelectLabel>
                               {group.options.map(
@@ -130,7 +149,7 @@ export default function SettingOffboardingTasksForm({
                                   >
                                     {option.label}
                                   </SelectItem>
-                                )
+                                ),
                               )}
                             </SelectGroup>
                           ))}

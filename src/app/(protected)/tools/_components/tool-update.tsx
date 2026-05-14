@@ -1,5 +1,4 @@
-import { useUpdateToolMutation } from "@/redux/features/toolApiSlice/toolSlice";
-import { TTool } from "@/redux/features/toolApiSlice/toolType";
+import { useUpdateToolMutation, type TTool } from "@/features/tool/api";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -41,7 +40,7 @@ const ToolUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

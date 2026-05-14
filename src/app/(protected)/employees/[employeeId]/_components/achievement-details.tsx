@@ -1,14 +1,7 @@
 import options from "@/config/options.json";
+import { useGetEmployeeAchievementQuery, useUpdateEmployeeAchievementMutation, type TAchievement, type TEmployeeAchievement } from "@/features/employee/achievement/api";
+import EditFrom from "@/layouts/edit-from";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import EditFrom from "@/partials/edit-from";
-import {
-  useGetEmployeeAchievementQuery,
-  useUpdateEmployeeAchievementMutation,
-} from "@/redux/features/employeeAchievementApiSlice/employeeAchievementSlice";
-import {
-  TAchievement,
-  TEmployeeAchievement,
-} from "@/redux/features/employeeAchievementApiSlice/employeeAchievementType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Card, CardContent } from "@/ui/card";
@@ -38,7 +31,7 @@ export default function Achievement() {
   }
   const [
     addAchievement,
-    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError },
+    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError, error: addError },
   ] = useUpdateEmployeeAchievementMutation();
   const { data, isLoading } = useGetEmployeeAchievementQuery(employeeId);
 
@@ -46,7 +39,7 @@ export default function Achievement() {
     if (isAddSuccess) {
       toast("Achievement details updated successfully");
     } else if (isAddError) {
-      toast("Failed to update Achievement details");
+      toast((addError as any)?.data?.message || "Failed to update Achievement details");
     }
   }, [isAddSuccess, isAddError]);
 
@@ -148,7 +141,7 @@ function AchievementForm({
                       handleChange({
                         ...data,
                         achievements: data.achievements.filter(
-                          (achievement, i) => i !== index
+                          (achievement, i) => i !== index,
                         ),
                       });
                     }}
@@ -179,7 +172,7 @@ function AchievementForm({
                                 };
                               }
                               return achievement;
-                            }
+                            },
                           ),
                         });
                       }}
@@ -248,7 +241,7 @@ function AchievementForm({
                                     };
                                   }
                                   return achievement;
-                                }
+                                },
                               ),
                             });
                           }}

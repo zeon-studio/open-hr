@@ -1,12 +1,9 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import FileManager from "@/components/file-manager";
-import useAxios from "@/hooks/useAxios";
-import { MAX_SIZE } from "@/lib/constant";
-import {
-  useDeleteEmployeeDocumentMutation,
-  useGetEmployeeDocumentQuery,
-} from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
-import { useAppSelector } from "@/redux/hook";
+import { MAX_SIZE } from "@/constants";
+import { useDeleteEmployeeDocumentMutation, useGetEmployeeDocumentQuery } from "@/features/employee/document/api";
+import useAxios from "@/hooks/use-axios";
+import { useSettings } from "@/hooks/use-settings";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
@@ -22,8 +19,7 @@ import { useParams } from "next/navigation";
 import UploadDialog from "./upload-dialog";
 
 export default function Document() {
-  const { company_name } =
-    useAppSelector((state) => state["setting-slice"]) || {};
+  const { company_name } = useSettings() || {};
 
   const { data: session } = useSession();
   const axios = useAxios({
@@ -67,7 +63,7 @@ export default function Document() {
                     key={index}
                     className="col-span-1 rounded bg-light p-3 border-border border flex flex-col"
                   >
-                    <div className="w-full bg-border rounded mx-auto mb-4 items-center h-[160px] p-1.5 flex justify-center">
+                    <div className="w-full bg-border rounded mx-auto mb-4 items-center h-40 p-1.5 flex justify-center">
                       <FileManager
                         setFile={() => {}}
                         enable={false}
@@ -75,7 +71,7 @@ export default function Document() {
                         folder={`${company_name.replace(/\s/g, "-").toLowerCase()}`}
                         maxSize={MAX_SIZE}
                         permission="public-read"
-                        className="h-[150px]"
+                        className="h-37.5"
                       />
                     </div>
                     <div className="flex justify-between mt-auto">
@@ -117,10 +113,10 @@ export default function Document() {
                                 <ConfirmationPopup
                                   handleConfirmation={async () => {
                                     const encodedKey = encodeURIComponent(
-                                      document.file
+                                      document.file,
                                     );
                                     const res = await axios.delete(
-                                      `bucket/delete/${encodedKey}`
+                                      `bucket/delete/${encodedKey}`,
                                     );
                                     if (res.status !== 200) {
                                       return;

@@ -1,9 +1,9 @@
 import FileManager from "@/components/file-manager";
-import { useDialog } from "@/hooks/useDialog";
-import { MAX_SIZE } from "@/lib/constant";
+import { MAX_SIZE } from "@/constants";
+import { useAddEmployeeDocumentMutation } from "@/features/employee/document/api";
+import { useDialog } from "@/hooks/use-dialog";
+import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/shadcn";
-import { useAddEmployeeDocumentMutation } from "@/redux/features/employeeDocumentApiSlice/employeeDocumentSlice";
-import { useAppSelector } from "@/redux/hook";
 import { ErrorResponse } from "@/types";
 import { Button, ButtonProps } from "@/ui/button";
 import {
@@ -25,8 +25,7 @@ export default function UploadDialog({
   ...buttonProps
 }: ButtonProps & { file?: string; modalBodyClassName?: string }) {
   const { data: session } = useSession();
-  const { company_name } =
-    useAppSelector((state) => state["setting-slice"]) || {};
+  const { company_name } = useSettings() || {};
   const { isDialogOpen, onDialogChange } = useDialog();
   const params = useParams<{ employeeId: string }>();
   let employeeId = params?.employeeId ?? "";
@@ -81,7 +80,8 @@ export default function UploadDialog({
               toast.success("Document updated successfully!");
             } catch (error) {
               toast.error(
-                (error as ErrorResponse).data.message || "Something went wrong!"
+                (error as ErrorResponse).data.message ||
+                  "Something went wrong!",
               );
             }
           }}

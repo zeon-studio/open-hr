@@ -1,12 +1,7 @@
 import options from "@/config/options.json";
+import { useUpdatePayrollMutation, type TPayroll } from "@/features/payroll/api"
+import { type TBonus, type TIncrement, type TSalary } from "@/features/payroll/api";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { useUpdatePayrollMutation } from "@/redux/features/payrollApiSlice/payrollSlice";
-import {
-  TBonus,
-  TIncrement,
-  TPayroll,
-  TSalary,
-} from "@/redux/features/payrollApiSlice/payrollType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -45,10 +40,10 @@ const PayrollUpdate = ({
   const [salary, setSalary] = useState<TSalary[]>(payrollData.salary);
   const [bonus, setBonus] = useState<TBonus[]>(payrollData.bonus);
   const [increments, setIncrements] = useState<TIncrement[]>(
-    payrollData.increments
+    payrollData.increments,
   );
 
-  const [updatePayroll, { isSuccess, isError }] = useUpdatePayrollMutation();
+  const [updatePayroll, { isSuccess, isError, error }] = useUpdatePayrollMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -57,7 +52,7 @@ const PayrollUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

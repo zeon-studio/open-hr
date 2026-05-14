@@ -1,9 +1,9 @@
 "use client";
 
 import UserInfo from "@/components/user-info";
-import { useDialog } from "@/hooks/useDialog";
-import { employeeInfoById } from "@/lib/employee-info";
-import { TLeaveYear } from "@/redux/features/leaveApiSlice/leaveType";
+import { useDialog } from "@/hooks/use-dialog";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
+import { TLeaveYear } from "@/types/leave";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";
 import {
@@ -71,6 +71,7 @@ const LeaveModal = ({
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const employeeMap = useEmployeeMap();
 
   // Simulate fetching leave data
   const singleLeave = useMemo(() => {
@@ -96,8 +97,8 @@ const LeaveModal = ({
         <TableRow>
           <TableCell>
             <UserInfo
-              className="min-w-[150px]"
-              user={employeeInfoById(item.employee_id!)}
+              className="min-w-37.5"
+              user={employeeMap.get(item.employee_id!)}
             />
           </TableCell>
           {casualEnabled && (

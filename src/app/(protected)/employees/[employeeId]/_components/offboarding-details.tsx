@@ -1,11 +1,7 @@
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+import { useAddEmployeeOffboardingMutation, useGetEmployeeOffboardingQuery, type TEmployeeOffboardingCreate } from "@/features/employee/offboarding/api";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { cn } from "@/lib/shadcn";
-import {
-  useAddEmployeeOffboardingMutation,
-  useGetEmployeeOffboardingQuery,
-} from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
-import { TEmployeeOffboardingCreate } from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingType";
 import { ErrorResponse } from "@/types";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -29,6 +25,7 @@ import { toast } from "sonner";
 export default function Offboarding() {
   const { data: session } = useSession();
   const role = session?.user.role;
+  const employeeMap = useEmployeeMap();
   const params = useParams<{ employeeId: string }>();
   let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
@@ -46,7 +43,7 @@ export default function Offboarding() {
 
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
-    null
+    null,
   );
   const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
     dialogContentRef.current = node;
@@ -99,7 +96,7 @@ export default function Offboarding() {
                           Assign To:
                         </small>
                         <strong className="text-sm font-medium capitalize">
-                          {employeeInfoById(task.assigned_to).name}
+                          {employeeMap.get(task.assigned_to)?.name}
                         </strong>
                       </div>
                       <div>
@@ -149,7 +146,7 @@ export default function Offboarding() {
                                 offboardingData.resignation_date,
                             }).unwrap();
                             toast.success(
-                              "Off-boarding initiated successfully"
+                              "Off-boarding initiated successfully",
                             );
                           } catch (error) {
                             const errorMessage =
@@ -170,7 +167,7 @@ export default function Offboarding() {
                                 <Button
                                   variant={"input"}
                                   className={cn(
-                                    "w-full flex justify-between borer border-border"
+                                    "w-full flex justify-between borer border-border",
                                   )}
                                 >
                                   {offboardingData.resignation_date ? (
@@ -181,7 +178,7 @@ export default function Offboarding() {
                                   <span className="flex items-center">
                                     <span
                                       className={cn(
-                                        "bg-light mb-2 mt-2 h-5 block w-px"
+                                        "bg-light mb-2 mt-2 h-5 block w-px",
                                       )}
                                     ></span>
                                     <span className={cn("pl-2  block")}>
@@ -200,7 +197,7 @@ export default function Offboarding() {
                                   selected={
                                     offboardingData.resignation_date
                                       ? new Date(
-                                          offboardingData.resignation_date
+                                          offboardingData.resignation_date,
                                         )
                                       : new Date()
                                   }

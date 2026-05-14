@@ -1,8 +1,8 @@
 import options from "@/config/options.json";
+import { useGetUpcomingLeaveDatesRequestsQuery } from "@/features/leave-request/api"
+import { type TLeaveRequest } from "@/features/leave-request/types";
+import { useSettings } from "@/hooks/use-settings";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { useGetUpcomingLeaveDatesRequestsQuery } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
-import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
-import { useAppSelector } from "@/redux/hook";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Label } from "@/ui/label";
@@ -32,9 +32,7 @@ const LeaveRequestForm = ({
   loader: boolean;
   popoverContainer?: HTMLElement | null;
 }) => {
-  const { max_leave_per_day, leave_threshold_days } = useAppSelector(
-    (state) => state["setting-slice"]
-  );
+  const { max_leave_per_day, leave_threshold_days } = useSettings();
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: undefined,
@@ -98,7 +96,7 @@ const LeaveRequestForm = ({
 
   // Get duplicate dates from database
   const { data } = useGetUpcomingLeaveDatesRequestsQuery(
-    today.toISOString().slice(0, 10)
+    today.toISOString().slice(0, 10),
   );
 
   // updated getDuplicateDates function with proper typing
@@ -116,10 +114,10 @@ const LeaveRequestForm = ({
         dates
           .filter(
             (date: string) =>
-              dates.filter((d: string) => d === date).length >= duplicateNumber
+              dates.filter((d: string) => d === date).length >= duplicateNumber,
           )
-          .map((date: string) => new Date(date))
-      )
+          .map((date: string) => new Date(date)),
+      ),
     );
   };
 

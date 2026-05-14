@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
-import TwSizeIndicator from "@/helpers/tw-size-indicator";
-import Providers from "@/partials/providers";
+import TwSizeIndicator from "@/lib/helpers/tw-size-indicator";
+import Providers from "@/layouts/providers";
 import "@/styles/main.css";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";

@@ -1,11 +1,8 @@
 import options from "@/config/options.json";
+import { useGetEmployeesBasicsQueryBase } from "@/features/employee/api"
+import { type TEmployee } from "@/types/employee";
+import { useAddMonthlyPayrollMutation, useGetPayrollBasicsQuery, type TCreateMonthlySalary } from "@/features/payroll/api";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { useGetEmployeesBasicsQuery } from "@/redux/features/employeeApiSlice/employeeSlice";
-import {
-  useAddMonthlyPayrollMutation,
-  useGetPayrollBasicsQuery,
-} from "@/redux/features/payrollApiSlice/payrollSlice";
-import { TCreateMonthlySalary } from "@/redux/features/payrollApiSlice/payrollType";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -32,8 +29,8 @@ const PayrollInsert = ({
   const { data } = useGetPayrollBasicsQuery(undefined);
   const { result: employeesPayroll } = data || {};
 
-  const { data: employeesData } = useGetEmployeesBasicsQuery(undefined);
-  const { result: employees } = employeesData || {};
+  const { data: employeesData } = useGetEmployeesBasicsQueryBase(undefined);
+  const employees: TEmployee[] = employeesData?.result ?? [];
 
   const initialPayrollData: TCreateMonthlySalary = {
     salary_date: new Date(),
@@ -88,19 +85,19 @@ const PayrollInsert = ({
     setPayrollData((prev) => ({
       ...prev,
       employees: prev.employees.filter(
-        (employee) => employee.employee_id !== employee_id
+        (employee) => employee.employee_id !== employee_id,
       ),
     }));
     setShowBonusFields((prev) =>
       prev.filter(
-        (_, i) => payrollData.employees[i].employee_id !== employee_id
-      )
+        (_, i) => payrollData.employees[i].employee_id !== employee_id,
+      ),
     );
   };
 
   const handleShowBonusFields = (index: number) => {
     setShowBonusFields((prev) =>
-      prev.map((show, i) => (i === index ? true : show))
+      prev.map((show, i) => (i === index ? true : show)),
     );
   };
 
@@ -124,7 +121,7 @@ const PayrollInsert = ({
       toast("Payroll added successfully");
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -203,8 +200,8 @@ const PayrollInsert = ({
                     <Select
                       value={item.employee_id}
                       onValueChange={(value) => {
-                        const selectedEmployee = employees?.find(
-                          (employee) => employee.id === value
+                        const selectedEmployee = employees.find(
+                          (employee: TEmployee) => employee.id === value,
                         );
                         if (selectedEmployee) {
                           setPayrollData((prev) => ({
@@ -228,13 +225,13 @@ const PayrollInsert = ({
                       <SelectContent>
                         {employees
                           ?.filter(
-                            (employee) =>
+                            (employee: TEmployee) =>
                               !payrollData.employees.some(
                                 (payrollEmployee) =>
-                                  payrollEmployee.employee_id === employee.id
-                              ) || employee.id === item.employee_id
+                                  payrollEmployee.employee_id === employee.id,
+                              ) || employee.id === item.employee_id,
                           )
-                          .map((employee) => (
+                          .map((employee: TEmployee) => (
                             <SelectItem key={employee.id} value={employee.id}>
                               {employee.name}
                             </SelectItem>

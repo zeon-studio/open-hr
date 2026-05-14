@@ -2,9 +2,8 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
-import { employeeInfoById } from "@/lib/employee-info";
-import { useDeleteEmployeeMutation } from "@/redux/features/employeeApiSlice/employeeSlice";
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { useDeleteEmployeeMutation } from "@/features/employee/api"
+import { type TEmployee } from "@/types/employee";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/ui/dialog";
@@ -100,15 +99,15 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
               dangerouslySetInnerHTML={{ __html: printContent || "" }}
             />
           </div>,
-          typeof window !== "undefined" ? document.body : ({} as HTMLElement)
+          typeof window !== "undefined" ? document.body : ({} as HTMLElement),
         )}
 
       {/* employees map */}
       {employees?.map((employee, index) => {
         return (
           <TableRow key={`employee-${index}`}>
-            <TableCell className="min-w-[200px]">
-              <UserInfo user={employeeInfoById(employee.id)} />
+            <TableCell className="min-w-50">
+              <UserInfo user={employee} />
             </TableCell>
             <TableCell className="capitalize">
               {employee.department?.split("_").join(" ")}
@@ -180,7 +179,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
                                 className="mt-4"
                                 onClick={() =>
                                   handlePrint(
-                                    getAppointmentLetterHtml(employee)
+                                    getAppointmentLetterHtml(employee),
                                   )
                                 }
                               >
@@ -213,7 +212,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
                                 className="mt-4"
                                 onClick={() =>
                                   handlePrint(
-                                    getEmploymentCertificateHtml(employee)
+                                    getEmploymentCertificateHtml(employee),
                                   )
                                 }
                               >

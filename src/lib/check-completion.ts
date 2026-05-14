@@ -1,4 +1,4 @@
-import { TEmployee } from "@/redux/features/employeeApiSlice/employeeType";
+import { TEmployee } from "@/types/employee";
 
 export function checkCompletion(data: TEmployee) {
   if (!data) {
@@ -6,22 +6,18 @@ export function checkCompletion(data: TEmployee) {
   }
   const completedSteps = [];
 
-  // Step 1: Check if work_email exists
   if (data?.work_email) {
     completedSteps.push(1);
   }
 
-  // step 2: check password
   if (data?.password) {
     completedSteps.push(2);
   }
 
-  // Step 3: Check if communication_id exists
   if (data?.communication_id) {
     completedSteps.push(3);
   }
 
-  // Step 4: Check if all required fields exist
   const requiredFields: (keyof TEmployee)[] = [
     "name",
     "personal_email",
@@ -48,7 +44,6 @@ export function checkCompletion(data: TEmployee) {
     completedSteps.push(4);
   }
 
-  // Step 5: Check if all required fields exist
   if (data.personality) {
     completedSteps.push(5);
   }

@@ -1,5 +1,5 @@
-import { useAddLeaveRequestMutation } from "@/redux/features/leaveRequestApiSlice/leaveRequestSlice";
-import { TLeaveRequest } from "@/redux/features/leaveRequestApiSlice/leaveRequestType";
+import { useAddLeaveRequestMutation } from "@/features/leave-request/api"
+import { type TLeaveRequest } from "@/features/leave-request/types";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
@@ -12,7 +12,7 @@ const LeaveRequestInsert = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const { data } = useSession();
-  const [addLeaveRequest, { isSuccess, isError }] =
+  const [addLeaveRequest, { isSuccess, isError, error }] =
     useAddLeaveRequestMutation();
   const [loader, setLoader] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
@@ -51,7 +51,7 @@ const LeaveRequestInsert = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

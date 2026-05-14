@@ -1,6 +1,5 @@
 import { marked } from "marked";
 
-// humanize
 export const humanize = (content: string) => {
   return content
     .replace(/^[\s_]+|[\s_]+$/g, "")
@@ -10,7 +9,6 @@ export const humanize = (content: string) => {
     });
 };
 
-// titleify
 export const titleify = (content: string) => {
   const humanized = humanize(content);
   return humanized
@@ -20,7 +18,6 @@ export const titleify = (content: string) => {
     .join(" ");
 };
 
-// markdownify
 export const markdownify = (content: string) => {
   const markdownContent = marked.parse(content);
   return { __html: markdownContent };

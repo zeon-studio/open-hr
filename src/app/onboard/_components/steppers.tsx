@@ -1,12 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useSetEmployeeCommunicationIdMutation, useSetEmployeeEmailMutation, useSetEmployeePasswordMutation, useSetEmployeePersonalityMutation } from "@/features/employee/api";
+import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/shadcn";
-import {
-  useSetEmployeeCommunicationIdMutation,
-  useSetEmployeeEmailMutation,
-  useSetEmployeePasswordMutation,
-  useSetEmployeePersonalityMutation,
-} from "@/redux/features/employeeApiSlice/employeeSlice";
-import { useAppSelector } from "@/redux/hook";
 import { ErrorResponse } from "@/types";
 import { Button, buttonVariants } from "@/ui/button";
 import {
@@ -63,14 +58,14 @@ function StepperCard({
         className={cn(
           "pointer-bullet border-transparent relative mt-0",
           isActive && "completed pb-0",
-          isCompleted && "before:opacity-0 before:hidden"
+          isCompleted && "before:opacity-0 before:hidden",
         )}
       >
         <Check
           className={cn(
             "size-4 border border-success rounded-full hidden",
             isCompleted &&
-              "block p-0.5 absolute left-6 top-[22px] translate-y-1/2 text-success"
+              "block p-0.5 absolute left-6 top-5.5 translate-y-1/2 text-success",
           )}
         />
         <CardTitle className="mt-0! text-black text-base">{title}</CardTitle>
@@ -126,7 +121,7 @@ export const steppers = [
               } catch (error) {
                 toast.error(
                   (error as ErrorResponse).data.message ||
-                    "Something with wrong!"
+                    "Something with wrong!",
                 );
               }
             }}
@@ -185,7 +180,7 @@ export const steppers = [
               } catch (error) {
                 toast.error(
                   (error as ErrorResponse).data.message ||
-                    "Something with wrong!"
+                    "Something with wrong!",
                 );
               }
             }}
@@ -218,9 +213,7 @@ export const steppers = [
       const [updateCommunicationId, { isLoading }] =
         useSetEmployeeCommunicationIdMutation();
 
-      const { communication_platform } = useAppSelector(
-        (state) => state["setting-slice"]
-      );
+      const { communication_platform } = useSettings();
 
       return (
         <StepperCard
@@ -250,7 +243,7 @@ export const steppers = [
               } catch (error) {
                 toast.error(
                   (error as ErrorResponse).data.message ||
-                    "Something with wrong!"
+                    "Something with wrong!",
                 );
               }
             }}
@@ -285,7 +278,7 @@ export const steppers = [
           dialogContentRef.current = node;
           setPopoverContainer(node);
         },
-        []
+        [],
       );
       return (
         <StepperCard
@@ -380,7 +373,7 @@ export const steppers = [
               } catch (error) {
                 toast.error(
                   (error as ErrorResponse).data.message ||
-                    "Something with wrong!"
+                    "Something with wrong!",
                 );
               }
             }}

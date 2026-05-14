@@ -1,20 +1,14 @@
+import ConfirmationPopup from "@/components/confirmation-popup";
 import { modules } from "@/config/modules";
-import ConfirmationPopup from "@/layouts/components/confirmation-popup";
-import { useUpdateSettingModuleStatusMutation } from "@/redux/features/settingApiSlice/settingSlice";
-import {
-  TModuleItem,
-  TSetting,
-} from "@/redux/features/settingApiSlice/settingType";
+import { invalidateTags } from "@/lib/api-client";
+import { TModuleItem, TSetting } from "@/features/settings/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import { useEffect, useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const SettingModuleForm = ({ data }: { data: TSetting }) => {
-  const [updateModuleStatus, { isSuccess, isError, error }] =
-    useUpdateSettingModuleStatusMutation();
-
   // Initialize enabled states from data.modules using useMemo
   const initialModuleStates = useMemo(() => {
     return data.modules.reduce(
@@ -22,39 +16,47 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
         acc[module.name] = module.enable;
         return acc;
       },
-      {} as Record<string, boolean>
+      {} as Record<string, boolean>,
     );
   }, [data.modules]);
 
-  const [enabledModules, setEnabledModules] = useState<Record<string, boolean>>(
-    initialModuleStates
-  );
+  const [enabledModules, setEnabledModules] =
+    useState<Record<string, boolean>>(initialModuleStates);
   const [selectedModule, setSelectedModule] = useState<TModuleItem | null>(
-    null
+    null,
   );
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast("Module update complete");
-    } else if (isError) {
-      toast("Something went wrong");
-      console.log(error);
-    }
-  }, [isSuccess, isError, error]);
 
   const handleModuleToggle = async (identifier: string) => {
     const newState = !enabledModules[identifier];
+
+    const updatedModules = modules.map((m) => ({
+      name: m.identifier,
+      enable:
+        m.identifier === identifier
+          ? newState
+          : (enabledModules[m.identifier] ?? false),
+    }));
+
     try {
-      await updateModuleStatus({
-        name: identifier,
-        enable: newState,
+      const res = await fetch("/api/setting/update-module", {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ modules: updatedModules }),
       });
+
+      if (!res.ok) {
+        throw new Error("Failed to update module setting");
+      }
+
       setEnabledModules((prev) => ({
         ...prev,
         [identifier]: newState,
       }));
-    } catch (error) {
-      console.log(error);
+      invalidateTags(["setting"]);
+      toast("Module update complete");
+    } catch {
+      toast("Something went wrong");
     }
   };
 

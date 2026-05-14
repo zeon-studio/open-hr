@@ -1,10 +1,11 @@
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
-import { TTool } from "@/redux/features/toolApiSlice/toolType";
+import { dateFormat } from "@/lib/date-converter"
+import { useEmployeeMap } from "@/hooks/use-employee-map";
+import { TTool } from "@/types/tool";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 
 const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {
+  const employeeMap = useEmployeeMap();
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   return (
     <DialogContent
@@ -71,7 +72,7 @@ const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {
                   <div className="font-medium mb-1">Users</div>
                   <div className="p-2 bg-light rounded">
                     {item.users
-                      .map((userId) => employeeInfoById(userId).name)
+                      .map((userId) => employeeMap.get(userId)?.name)
                       .join(", ")}
                   </div>
                 </div>

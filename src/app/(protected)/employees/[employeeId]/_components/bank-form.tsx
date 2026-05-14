@@ -1,5 +1,5 @@
-import EditForm from "@/partials/edit-from";
-import { TEmployeeBank } from "@/redux/features/employeeBankApiSlice/employeeBankType";
+import { type TEmployeeBank } from "@/features/employee/bank/api";
+import EditForm from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";

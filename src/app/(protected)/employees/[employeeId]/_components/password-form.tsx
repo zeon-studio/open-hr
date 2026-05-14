@@ -1,5 +1,5 @@
-import EditForm from "@/partials/edit-from";
-import { TEmployeePasswordUpdate } from "@/redux/features/employeeApiSlice/employeeType";
+import EditForm from "@/layouts/edit-from";
+import { TEmployeePasswordUpdate } from "@/types/employee";
 import { Label } from "@/ui/label";
 import PasswordInput from "@/ui/password-input";
 

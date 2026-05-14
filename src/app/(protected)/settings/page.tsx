@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useGetSettingQuery,
-  useUpdateSettingMutation,
-} from "@/redux/features/settingApiSlice/settingSlice";
-import { TSetting } from "@/redux/features/settingApiSlice/settingType";
+import { useSettingsQuery } from "@/features/settings/api";
 import { Card, CardContent } from "@/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -19,9 +15,8 @@ import SettingUserRoleForm from "./_components/setting-user-role-form";
 import SettingWeekendsForm from "./_components/setting-weekends-form";
 
 const Setting = () => {
-  const { data, isLoading } = useGetSettingQuery(undefined);
+  const { data, isLoading } = useSettingsQuery(undefined);
   const { data: session } = useSession();
-  const [updateSetting, { isLoading: isUpdating }] = useUpdateSettingMutation();
 
   if (isLoading) {
     return (
@@ -39,58 +34,26 @@ const Setting = () => {
     notFound();
   }
 
-  const handleSubmit = (data: TSetting) => {
-    updateSetting(data);
-  };
-
   return (
     <section className="p-6">
       <div className="space-y-10">
         <SettingModuleForm data={data?.result!} />
-        <SettingConfigureForm
-          isUpdating={isUpdating}
-          data={data?.result!}
-          handleSubmit={handleSubmit}
-        />
-        <SettingWeekendsForm
-          isUpdating={isUpdating}
-          data={data?.result!}
-          handleSubmit={handleSubmit}
-        />
+        <SettingConfigureForm data={data?.result!} />
+        <SettingWeekendsForm data={data?.result!} />
 
         {data?.result.modules.find((mod) => mod.name === "payroll")?.enable && (
-          <SettingPayrollForm
-            isUpdating={isUpdating}
-            data={data?.result!}
-            handleSubmit={handleSubmit}
-          />
+          <SettingPayrollForm data={data?.result!} />
         )}
 
         {data?.result.modules.find((mod) => mod.name === "leave")?.enable && (
-          <SettingLeavesForm
-            isUpdating={isUpdating}
-            data={data?.result!}
-            handleSubmit={handleSubmit}
-          />
+          <SettingLeavesForm data={data?.result!} />
         )}
 
         {data?.result.modules.find((mod) => mod.name === "employee-lifecycle")
-          ?.enable && (
-          <SettingOnboardingTasksForm
-            isUpdating={isUpdating}
-            data={data?.result!}
-            handleSubmit={handleSubmit}
-          />
-        )}
+          ?.enable && <SettingOnboardingTasksForm data={data?.result!} />}
 
         {data?.result.modules.find((mod) => mod.name === "employee-lifecycle")
-          ?.enable && (
-          <SettingOffboardingTasksForm
-            isUpdating={isUpdating}
-            data={data?.result!}
-            handleSubmit={handleSubmit}
-          />
-        )}
+          ?.enable && <SettingOffboardingTasksForm data={data?.result!} />}
 
         <SettingUserRoleForm />
       </div>

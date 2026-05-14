@@ -1,16 +1,9 @@
-import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
-import {
-  useGetPendingOffboardingTaskQuery,
-  useUpdateOffboardingTaskStatusMutation,
-} from "@/redux/features/employeeOffboardingApiSlice/employeeOffboardingSlice";
-import {
-  useGetPendingOnboardingTaskQuery,
-  useUpdateOnboardingTaskStatusMutation,
-} from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingSlice";
-import { TOnboardingTask } from "@/redux/features/employeeOnboardingApiSlice/employeeOnboardingType";
-import { Button } from "@/ui/button";
+import { useGetPendingOffboardingTaskQuery, useUpdateOffboardingTaskStatusMutation } from "@/features/employee/offboarding/api";
+import { useGetPendingOnboardingTaskQuery, useUpdateOnboardingTaskStatusMutation, type TOnboardingTask } from "@/features/employee/onboarding/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Button } from "@/ui/button";
+import { dateFormat } from "@/lib/date-converter";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { BadgeInfo, CheckCircle, CircleDashed } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";
@@ -21,6 +14,7 @@ const PendingTasks = () => {
   const { data: onboardingTasks } = useGetPendingOnboardingTaskQuery(undefined);
   const [updateOffboardingTask] = useUpdateOffboardingTaskStatusMutation();
   const [updateOnboardingTask] = useUpdateOnboardingTaskStatusMutation();
+  const employeeMap = useEmployeeMap();
 
   const mergeTasks = useMemo(() => {
     return [
@@ -38,7 +32,7 @@ const PendingTasks = () => {
   const handleCompleteTask = async (
     employeeId: string,
     taskName: string,
-    type: string
+    type: string,
   ) => {
     try {
       if (type === "offboarding") {
@@ -66,7 +60,7 @@ const PendingTasks = () => {
           Pending Tasks
         </CardTitle>
       </CardHeader>
-      <CardContent className="lg:h-[300px] scroll-box">
+      <CardContent className="lg:h-75 scroll-box">
         {mergeTasks?.length === 0 ? (
           <p className="text-text-light">No pending tasks</p>
         ) : (
@@ -78,7 +72,7 @@ const PendingTasks = () => {
                   createdAt: Date;
                   type: string;
                 },
-                index: number
+                index: number,
               ) => (
                 <li
                   className="flex items-start justify-between flex-wrap lg:flex-nowrap"
@@ -89,10 +83,10 @@ const PendingTasks = () => {
                     <div className="flex-1">
                       <strong className="font-medium">{task.task_name}</strong>
                       <small className="block text-text-light">
-                        Employee: {employeeInfoById(task.employee_id)?.name}
+                        Employee: {employeeMap.get(task.employee_id)?.name}
                       </small>
                       <small className="block text-text-light">
-                        Assigned: {employeeInfoById(task.assigned_to)?.name}
+                        Assigned: {employeeMap.get(task.assigned_to)?.name}
                       </small>
                       <small className="block text-text-light">
                         Started: {dateFormat(task.createdAt)}
@@ -106,7 +100,7 @@ const PendingTasks = () => {
                       handleCompleteTask(
                         task.employee_id,
                         task.task_name!,
-                        task.type
+                        task.type,
                       )
                     }
                     className="ml-2"
@@ -115,7 +109,7 @@ const PendingTasks = () => {
                     Complete
                   </Button>
                 </li>
-              )
+              ),
             )}
           </ul>
         )}

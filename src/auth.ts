@@ -1,4 +1,7 @@
-import Axios from "@/lib/axios";
+import { Employee } from "@/server/models/employee.model";
+import { connectMongoose } from "@/server/db/mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
@@ -16,54 +19,67 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       type: "credentials",
       async authorize(credentials) {
-        let data;
-        let status;
+        await connectMongoose();
 
-        if (credentials.token) {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/token-login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: credentials.token,
-              }),
+        if (credentials?.token) {
+          try {
+            const decoded = jwt.verify(
+              String(credentials.token),
+              process.env.JWT_SECRET || process.env.NEXT_AUTH_SECRET || "",
+            ) as { id: string };
+            const user = await Employee.findOne({ id: decoded.id });
+            if (!user) {
+              return null;
             }
-          );
-          data = await res.json();
-          status = res.status;
-        } else {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/authentication/password-login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password,
-              }),
-            }
-          );
-          data = await res.json();
-          status = res.status;
+            return {
+              id: user.id,
+              name: user.name,
+              email: user.work_email,
+              image: user.image,
+              role: user.role,
+            };
+          } catch {
+            return null;
+          }
         }
 
-        if (data?.success === false) {
+        const user = await Employee.findOne({
+          work_email: String(credentials?.email || ""),
+        }).select("+password");
+
+        if (!user) {
           throw new InvalidCredentials({
-            message: data?.message || "Invalid credentials!",
-            errorMessage: data?.errorMessage || [],
+            message: "User not found",
+            errorMessage: [{ path: "email", message: "User not found" }],
           });
         }
-        if (status === 200) {
-          return {
-            ...data.result,
-            id: data.result.userId,
-          };
+
+        if (!user.password) {
+          throw new InvalidCredentials({
+            message: "Password not set for this user",
+            errorMessage: [{ path: "password", message: "Password not set" }],
+          });
         }
+
+        const validPassword = await bcrypt.compare(
+          String(credentials?.password || ""),
+          user.password,
+        );
+
+        if (!validPassword) {
+          throw new InvalidCredentials({
+            message: "Invalid credentials",
+            errorMessage: [{ path: "password", message: "Invalid password" }],
+          });
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.work_email,
+          image: user.image,
+          role: user.role,
+        };
       },
     }),
 
@@ -77,12 +93,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           response_type: "code",
         },
       },
-      // @ts-ignore
-      profile(profile) {
+      profile(profile: { name: string; email: string; picture: string }) {
         return {
+          id: "",
           name: profile.name,
           email: profile.email,
           image: profile.picture,
+          role: "user" as const,
         };
       },
     }),
@@ -104,27 +121,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return !!user;
       }
 
-      const res = await Axios.post("/authentication/oauth-login", {
-        email: user.email,
-      });
-
-      if (res.status === 200) {
-        user.id = res.data.result.userId;
-        user.name = res.data.result.name;
-        user.email = res.data.result.email;
-        user.image = res.data.result.image;
-        user.role = res.data.result.role;
-        user.accessToken = res.data.result.accessToken;
-        return true;
+      await connectMongoose();
+      const existingUser = await Employee.findOne({ work_email: user.email });
+      if (!existingUser) {
+        return false;
       }
-      return false;
+
+      user.id = existingUser.id;
+      user.name = existingUser.name;
+      user.email = existingUser.work_email;
+      user.image = existingUser.image;
+      user.role = existingUser.role;
+      return true;
     },
 
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update") {
         token.name = session.name;
         token.email = session.email;
-        token.accessToken = session.accessToken;
+        token.image = session.image;
         return token;
       }
 
@@ -134,7 +149,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.email = user.email!;
         token.image = user.image!;
         token.role = user.role!;
-        token.accessToken = user.accessToken;
         return token;
       }
 
@@ -143,14 +157,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async session({ session, token }) {
       if (token) {
-        const { accessToken, email, id, role, name, image } = token;
+        const { email, id, role, name, image } = token;
 
-        session.user.id = id;
-        session.user.name = name;
-        session.user.email = email!;
-        session.user.image = image;
-        session.user.role = role;
-        session.user.accessToken = accessToken;
+        session.user.id = id as string;
+        session.user.name = name as string;
+        session.user.email = email as string;
+        session.user.image = image as string;
+        session.user.role = role as "user" | "moderator" | "admin" | "former";
       }
 
       return session;
