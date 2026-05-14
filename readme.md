@@ -90,8 +90,7 @@ cp .env.example .env
 Required variables:
 
 - `NEXTAUTH_URL` — full app URL (e.g. `http://localhost:3000/`)
-- `NEXT_AUTH_SECRET` — random secret for NextAuth
-- `APP_URL` — same as NEXTAUTH_URL without trailing slash
+- `NEXTAUTH_SECRET` — random secret for NextAuth
 - `MONGO_URI` — MongoDB connection string
 - `JWT_SECRET` — random secret for JWT tokens
 - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — Google OAuth credentials
@@ -156,7 +155,7 @@ Deploy as a single Next.js application (Vercel recommended) with all required en
 For production:
 
 - Use managed MongoDB (Atlas recommended)
-- Use strong random secrets for `NEXT_AUTH_SECRET` and `JWT_SECRET`
+- Use strong random secrets for `NEXTAUTH_SECRET` and `JWT_SECRET`
 - Restrict OAuth callback URLs to your production domain
 - Configure storage/email/webhook credentials only when needed
 

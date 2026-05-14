@@ -22,7 +22,7 @@ pnpm dev
 
 See `.env.example` for all required variables. You need at minimum:
 - `MONGO_URI` — MongoDB connection string
-- `NEXT_AUTH_SECRET` — random secret for NextAuth
+- `NEXTAUTH_SECRET` — random secret for NextAuth
 - `JWT_SECRET` — random secret for JWT tokens
 
 ## Project Structure

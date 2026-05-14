@@ -49,7 +49,7 @@ const invitationRequest = async (
   joining_date: Date,
 ) => {
   const appName = process.env.APP_NAME || "Open HR";
-  const appUrl = process.env.APP_URL || process.env.NEXTAUTH_URL || "";
+  const appUrl = process.env.NEXTAUTH_URL || "";
 
   await sendMail(
     email,
