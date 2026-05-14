@@ -16,7 +16,7 @@ const UserInfo = ({
 }): JSX.Element => {
   return (
     <>
-      {user.id && (
+      {user?.id && (
         <div className={`flex relative items-center ${className}`}>
           <div className={`shrink-0`}>
             {user?.image ? (

@@ -1,5 +1,5 @@
 import { useGetEmployeeOnboardingQuery } from "@/features/employee/onboarding/api";
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { Badge } from "@/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Loader2 } from "lucide-react";
@@ -14,6 +14,7 @@ export default function Onboarding() {
     employeeId = session?.user.id as string;
   }
   const { isLoading, data } = useGetEmployeeOnboardingQuery(employeeId);
+  const employeeMap = useEmployeeMap();
 
   if (isLoading) {
     return (
@@ -69,7 +70,7 @@ export default function Onboarding() {
                           Assign To:
                         </small>
                         <strong className="text-sm font-medium capitalize">
-                          {employeeInfoById(task.assigned_to).name}
+                          {employeeMap.get(task.assigned_to)?.name}
                         </strong>
                       </div>
                       <div>

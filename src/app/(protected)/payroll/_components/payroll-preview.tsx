@@ -1,6 +1,6 @@
 import { type TPayroll } from "@/features/payroll/api";
 import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 
@@ -9,6 +9,7 @@ const PayrollPreview = ({
 }: {
   payrollData: Partial<TPayroll>;
 }) => {
+  const employeeMap = useEmployeeMap();
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -21,7 +22,7 @@ const PayrollPreview = ({
         <div className="lg:col-6 mb-4">
           <div className="font-medium mb-1">Employee</div>
           <div className="p-2 bg-light rounded">
-            {employeeInfoById(payrollData.employee_id!).name}
+            {employeeMap.get(payrollData.employee_id!)?.name}
           </div>
         </div>
         <div className="lg:col-6 mb-4">

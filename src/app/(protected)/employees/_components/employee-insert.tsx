@@ -1,5 +1,5 @@
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
-import { employeeGroupByDepartment } from "@/lib/employee-info";
+import { useEmployeeGroupByDepartment } from "@/hooks/use-employee-map";
 import options from "@/config/options.json";
 import { useAddEmployeeMutation } from "@/features/employee/api"
 import { type TEmployeeCreate } from "@/types/employee";
@@ -37,6 +37,7 @@ const EmployeeInsert = ({
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
+  const employeeGroups = useEmployeeGroupByDepartment();
   const [loader, setLoader] = useState(false);
   const [employeeData, setEmployeeData] =
     useState<TEmployeeCreate>(initialEmployeeData);
@@ -203,7 +204,7 @@ const EmployeeInsert = ({
                 <SelectValue placeholder="Select User" />
               </SelectTrigger>
               <SelectContent>
-                {employeeGroupByDepartment().map((group) => (
+                {employeeGroups.map((group) => (
                   <SelectGroup key={group.label}>
                     <SelectLabel>{group.label}</SelectLabel>
                     {group.options.map(

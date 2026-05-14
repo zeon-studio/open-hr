@@ -3,7 +3,7 @@ import { useGetPendingOnboardingTaskQuery, useUpdateOnboardingTaskStatusMutation
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Button } from "@/ui/button";
 import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { BadgeInfo, CheckCircle, CircleDashed } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";
@@ -14,6 +14,7 @@ const PendingTasks = () => {
   const { data: onboardingTasks } = useGetPendingOnboardingTaskQuery(undefined);
   const [updateOffboardingTask] = useUpdateOffboardingTaskStatusMutation();
   const [updateOnboardingTask] = useUpdateOnboardingTaskStatusMutation();
+  const employeeMap = useEmployeeMap();
 
   const mergeTasks = useMemo(() => {
     return [
@@ -82,10 +83,10 @@ const PendingTasks = () => {
                     <div className="flex-1">
                       <strong className="font-medium">{task.task_name}</strong>
                       <small className="block text-text-light">
-                        Employee: {employeeInfoById(task.employee_id)?.name}
+                        Employee: {employeeMap.get(task.employee_id)?.name}
                       </small>
                       <small className="block text-text-light">
-                        Assigned: {employeeInfoById(task.assigned_to)?.name}
+                        Assigned: {employeeMap.get(task.assigned_to)?.name}
                       </small>
                       <small className="block text-text-light">
                         Started: {dateFormat(task.createdAt)}

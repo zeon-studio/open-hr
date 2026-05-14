@@ -1,7 +1,7 @@
 import UserInfo from "@/components/user-info";
 import { useGetUpcomingLeaveRequestsQuery } from "@/features/leave-request/api";
 import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { UserRoundMinus } from "lucide-react";
 import { useMemo } from "react";
@@ -9,6 +9,7 @@ import { useMemo } from "react";
 const UpcomingLeaves = () => {
   const today = new Date().toISOString().slice(0, 10);
   const { data } = useGetUpcomingLeaveRequestsQuery(today);
+  const employeeMap = useEmployeeMap();
 
   // today leave
   const todaysLeave = useMemo(() => {
@@ -74,7 +75,7 @@ const UpcomingLeaves = () => {
               {todaysLeave?.map((leave: any) => (
                 <li key={leave.employee_id}>
                   <UserInfo
-                    user={employeeInfoById(leave.employee_id)!}
+                    user={employeeMap.get(leave.employee_id)}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
                   />
                 </li>
@@ -93,7 +94,7 @@ const UpcomingLeaves = () => {
               {tomorrowsLeave?.map((leave: any) => (
                 <li key={leave.employee_id}>
                   <UserInfo
-                    user={employeeInfoById(leave.employee_id)!}
+                    user={employeeMap.get(leave.employee_id)}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
                   />
                 </li>
@@ -112,7 +113,7 @@ const UpcomingLeaves = () => {
               {othersLeave?.map((leave: any) => (
                 <li key={leave.employee_id}>
                   <UserInfo
-                    user={employeeInfoById(leave.employee_id)!}
+                    user={employeeMap.get(leave.employee_id)}
                     description={`${dateFormat(leave.start_date)} - ${dateFormat(leave.end_date)}`}
                   />
                 </li>

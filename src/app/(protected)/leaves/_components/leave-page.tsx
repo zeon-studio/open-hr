@@ -2,7 +2,7 @@
 
 import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/use-dialog";
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { TLeaveYear } from "@/types/leave";
 import { Button } from "@/ui/button";
 import { Dialog } from "@/ui/dialog";
@@ -30,6 +30,7 @@ const LeavePage = ({
   earnedEnabled: boolean;
   withoutPayEnabled: boolean;
 }) => {
+  const employeeMap = useEmployeeMap();
   const [leaveId, setLeaveId] = useState<string>("");
 
   return (
@@ -97,7 +98,7 @@ const LeaveModal = ({
           <TableCell>
             <UserInfo
               className="min-w-37.5"
-              user={employeeInfoById(item.employee_id!)}
+              user={employeeMap.get(item.employee_id!)}
             />
           </TableCell>
           {casualEnabled && (

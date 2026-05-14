@@ -5,7 +5,7 @@ import UserInfo from "@/components/user-info";
 import { useDeleteAssetMutation } from "@/features/asset/api";
 import { useDialog } from "@/hooks/use-dialog";
 import { dateFormat } from "@/lib/date-converter"
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import type { TAsset } from "@/types/asset";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";
@@ -52,6 +52,7 @@ const AssetModal = ({
   setAssetId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
+  const employeeMap = useEmployeeMap();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -120,7 +121,7 @@ const AssetModal = ({
             </Dialog>
           </TableCell>
           <TableCell>
-            <UserInfo user={employeeInfoById(item.user)} />
+            <UserInfo user={employeeMap.get(item.user)} />
           </TableCell>
           <TableCell>{item.asset_id}</TableCell>
           <TableCell>

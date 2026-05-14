@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { useGetEmployeesBasicsQuery } from "@/features/employee/api"
+import { useGetEmployeesBasicsQueryBase } from "@/features/employee/api"
 import { type TEmployee } from "@/types/employee";
 import { useAddMonthlyPayrollMutation, useGetPayrollBasicsQuery, type TCreateMonthlySalary } from "@/features/payroll/api";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
@@ -29,7 +29,7 @@ const PayrollInsert = ({
   const { data } = useGetPayrollBasicsQuery(undefined);
   const { result: employeesPayroll } = data || {};
 
-  const { data: employeesData } = useGetEmployeesBasicsQuery(undefined);
+  const { data: employeesData } = useGetEmployeesBasicsQueryBase(undefined);
   const employees: TEmployee[] = employeesData?.result ?? [];
 
   const initialPayrollData: TCreateMonthlySalary = {

@@ -4,7 +4,6 @@ import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
 import { useDeleteEmployeeMutation } from "@/features/employee/api"
 import { type TEmployee } from "@/types/employee";
-import { employeeInfoById } from "@/lib/employee-info";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/ui/dialog";
@@ -108,7 +107,7 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
         return (
           <TableRow key={`employee-${index}`}>
             <TableCell className="min-w-50">
-              <UserInfo user={employeeInfoById(employee.id)} />
+              <UserInfo user={employee} />
             </TableCell>
             <TableCell className="capitalize">
               {employee.department?.split("_").join(" ")}

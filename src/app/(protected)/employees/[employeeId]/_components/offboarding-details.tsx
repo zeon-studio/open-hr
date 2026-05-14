@@ -1,6 +1,6 @@
 import { useAddEmployeeOffboardingMutation, useGetEmployeeOffboardingQuery, type TEmployeeOffboardingCreate } from "@/features/employee/offboarding/api";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { cn } from "@/lib/shadcn";
 import { ErrorResponse } from "@/types";
 import { Badge } from "@/ui/badge";
@@ -25,6 +25,7 @@ import { toast } from "sonner";
 export default function Offboarding() {
   const { data: session } = useSession();
   const role = session?.user.role;
+  const employeeMap = useEmployeeMap();
   const params = useParams<{ employeeId: string }>();
   let employeeId = params?.employeeId ?? "";
   if (!employeeId) {
@@ -95,7 +96,7 @@ export default function Offboarding() {
                           Assign To:
                         </small>
                         <strong className="text-sm font-medium capitalize">
-                          {employeeInfoById(task.assigned_to).name}
+                          {employeeMap.get(task.assigned_to)?.name}
                         </strong>
                       </div>
                       <div>

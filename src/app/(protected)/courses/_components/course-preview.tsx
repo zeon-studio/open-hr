@@ -1,10 +1,11 @@
 import { type TCourse } from "@/features/course/api";
 import { dateFormat } from "@/lib/date-converter";
-import { employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 
 const CoursePreview = ({ courseData }: { courseData: Partial<TCourse> }) => {
+  const employeeMap = useEmployeeMap();
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   return (
     <DialogContent
@@ -62,7 +63,7 @@ const CoursePreview = ({ courseData }: { courseData: Partial<TCourse> }) => {
                   <div className="font-medium mb-1">Users</div>
                   <div className="p-2 bg-light rounded">
                     {item.users
-                      .map((userId) => employeeInfoById(userId).name)
+                      .map((userId) => employeeMap.get(userId)?.name)
                       .join(", ")}
                   </div>
                 </div>

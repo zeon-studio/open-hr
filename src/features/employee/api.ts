@@ -1,6 +1,5 @@
 import { apiRequest, createMutationHook, createQueryHook } from "@/lib/api-client";
 import { TPagination } from "@/types";
-import { useEffect } from "react";
 import { TEmployee, TEmployeeCreate, TEmployeeState } from "@/types/employee";
 
 
@@ -43,7 +42,7 @@ export const useGetEmployeeDetailsByTokenQuery = createQueryHook<
   }),
 );
 
-const useGetEmployeesBasicsQueryBase = createQueryHook<
+export const useGetEmployeesBasicsQueryBase = createQueryHook<
   TEmployeeState,
   undefined
 >(() =>
@@ -52,32 +51,6 @@ const useGetEmployeesBasicsQueryBase = createQueryHook<
     method: "GET",
   }),
 );
-
-export const useGetEmployeesBasicsQuery = (
-  arg: undefined,
-  options?: { skip?: boolean },
-) => {
-  const query = useGetEmployeesBasicsQueryBase(arg, options);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    if (query.data?.result) {
-      try {
-        localStorage.setItem(
-          "local-employees-basics",
-          JSON.stringify(query.data.result),
-        );
-      } catch {
-        // Ignore storage write failures.
-      }
-    }
-  }, [query.data]);
-
-  return query;
-};
 
 export const useGetEmployeeQuery = createQueryHook<
   TEmployeeState<TEmployee>,

@@ -1,7 +1,7 @@
 import options from "@/config/options.json";
 import { type TCourse, type TCourseItem } from "@/features/course/api";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { employeeGroupByDepartment, employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeGroupByDepartment, useEmployeeMap } from "@/hooks/use-employee-map";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";
@@ -33,6 +33,8 @@ const CourseForm = ({
   formType: string;
   popoverContainer?: HTMLElement | null;
 }) => {
+  const employeeMap = useEmployeeMap();
+  const employeeGroups = useEmployeeGroupByDepartment();
   const _popoverContainer = popoverContainer || undefined;
   const [courseItems, setCourseItems] = useState<TCourseItem[]>(
     courseData.courses || [],
@@ -335,10 +337,10 @@ const CourseForm = ({
                 </Label>
                 <MultiSelect
                   value={item.users.map((user) => ({
-                    label: employeeInfoById(user).name || "Unknown",
+                    label: employeeMap.get(user)?.name || "Unknown",
                     value: user,
                   }))}
-                  options={employeeGroupByDepartment().flatMap(
+                  options={employeeGroups.flatMap(
                     (group) => group.options,
                   )}
                   placeholder="Select users"

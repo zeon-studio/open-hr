@@ -479,7 +479,7 @@ const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                           return (
                             <CommandItem
                               key={option.value}
-                              value={option.value}
+                              value={option.label}
                               disabled={option.disable}
                               onMouseDown={(e) => {
                                 e.preventDefault();

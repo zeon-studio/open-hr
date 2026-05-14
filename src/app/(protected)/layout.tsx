@@ -1,7 +1,6 @@
 "use client";
 
 import Loader from "@/components/loader";
-import { useGetEmployeesBasicsQuery } from "@/features/employee/api";
 import { useAppState } from "@/lib/app-context";
 import { useSettings } from "@/hooks/use-settings";
 import Header from "@/layouts/header";
@@ -10,7 +9,6 @@ import { useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  useGetEmployeesBasicsQuery(undefined);
   const { setSetting } = useAppState();
 
   // Initialize settings on first render

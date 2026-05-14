@@ -1,6 +1,6 @@
 import { TEmployeeJob, TPromotion, useUpdateEmployeeJobMutation } from "@/features/employee/job/api";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
-import { employeeGroupByDepartment } from "@/lib/employee-info";
+import { useEmployeeGroupByDepartment } from "@/hooks/use-employee-map";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
@@ -28,6 +28,7 @@ const EmployeeJobForm = ({
   employeeJob: Partial<TEmployeeJob>;
   onDialogChange: (open: boolean) => void;
 }) => {
+  const employeeGroups = useEmployeeGroupByDepartment();
   const [loader, setLoader] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
@@ -218,7 +219,7 @@ const EmployeeJobForm = ({
                 <SelectValue placeholder="Select User" />
               </SelectTrigger>
               <SelectContent>
-                {employeeGroupByDepartment().map((group) => (
+                {employeeGroups.map((group) => (
                   <SelectGroup key={group.label}>
                     <SelectLabel>{group.label}</SelectLabel>
                     {group.options.map(

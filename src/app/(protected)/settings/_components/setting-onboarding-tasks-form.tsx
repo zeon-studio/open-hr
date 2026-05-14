@@ -1,6 +1,6 @@
 import { TSetting } from "@/features/settings/types";
 import EditFrom from "@/layouts/edit-from";
-import { employeeGroupByDepartment, employeeInfoById } from "@/lib/employee-info";
+import { useEmployeeGroupByDepartment, useEmployeeMap } from "@/hooks/use-employee-map";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -24,6 +24,8 @@ interface SettingOnboardingTasksFormProps {
 export default function SettingOnboardingTasksForm({
   data,
 }: SettingOnboardingTasksFormProps) {
+  const employeeMap = useEmployeeMap();
+  const employeeGroups = useEmployeeGroupByDepartment();
   const [isActionUpdating, setIsActionUpdating] = useState(false);
 
   return (
@@ -110,7 +112,7 @@ export default function SettingOnboardingTasksForm({
                     <Label>Assigned To:</Label>
                     {isReadOnly ? (
                       <p className="text-sm">
-                        {employeeInfoById(task.assigned_to).name || "N/A"}
+                        {employeeMap.get(task.assigned_to)?.name || "N/A"}
                       </p>
                     ) : (
                       <Select
@@ -136,7 +138,7 @@ export default function SettingOnboardingTasksForm({
                           <SelectValue placeholder="Select User" />
                         </SelectTrigger>
                         <SelectContent>
-                          {employeeGroupByDepartment().map((group) => (
+                          {employeeGroups.map((group) => (
                             <SelectGroup key={group.label}>
                               <SelectLabel>{group.label}</SelectLabel>
                               {group.options.map(
