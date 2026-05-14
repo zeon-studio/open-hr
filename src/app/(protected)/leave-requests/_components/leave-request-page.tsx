@@ -2,12 +2,10 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
-import {
-  useUpdateLeaveRequestMutation,
-  type TLeaveRequest,
-} from "@/features/leave-request";
-import { dateFormat } from "@/lib";
-import { employeeInfoById } from "@/lib";
+import { useUpdateLeaveRequestMutation } from "@/features/leave-request/api"
+import { type TLeaveRequest } from "@/features/leave-request/types";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

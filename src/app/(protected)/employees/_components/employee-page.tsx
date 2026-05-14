@@ -2,8 +2,9 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
-import { useDeleteEmployeeMutation, type TEmployee } from "@/features/employee";
-import { employeeInfoById } from "@/lib";
+import { useDeleteEmployeeMutation } from "@/features/employee/api"
+import { type TEmployee } from "@/types/employee";
+import { employeeInfoById } from "@/lib/employee-info";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/ui/dialog";

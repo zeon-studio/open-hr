@@ -1,10 +1,7 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import FileManager from "@/components/file-manager";
 import { MAX_SIZE } from "@/constants";
-import {
-  useDeleteEmployeeDocumentMutation,
-  useGetEmployeeDocumentQuery,
-} from "@/features/employee";
+import { useDeleteEmployeeDocumentMutation, useGetEmployeeDocumentQuery } from "@/features/employee/document/api";
 import useAxios from "@/hooks/use-axios";
 import { useSettings } from "@/hooks/use-settings";
 import { Button } from "@/ui/button";

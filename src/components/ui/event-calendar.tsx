@@ -8,6 +8,7 @@ import { atom, useAtom } from "jotai";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import {
   createContext,
+  Fragment,
   memo,
   type ReactNode,
   useCallback,
@@ -21,7 +22,7 @@ export type CalendarState = {
 };
 
 const monthAtom = atom<CalendarState["month"]>(
-  new Date().getMonth() as CalendarState["month"]
+  new Date().getMonth() as CalendarState["month"],
 );
 const yearAtom = atom<CalendarState["year"]>(new Date().getFullYear());
 
@@ -73,15 +74,15 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
 
   const currentMonthDate = useMemo(
     () => new Date(year, month, 1),
-    [year, month]
+    [year, month],
   );
   const daysInMonth = useMemo(
     () => getDaysInMonth(currentMonthDate),
-    [currentMonthDate]
+    [currentMonthDate],
   );
   const firstDay = useMemo(
     () => (getDay(currentMonthDate) - startDay + 7) % 7,
-    [currentMonthDate, startDay]
+    [currentMonthDate, startDay],
   );
 
   const prevMonthData = useMemo(() => {
@@ -90,7 +91,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     const prevMonthDays = getDaysInMonth(new Date(prevMonthYear, prevMonth, 1));
     const prevMonthDaysArray = Array.from(
       { length: prevMonthDays },
-      (_, i) => i + 1
+      (_, i) => i + 1,
     );
     return { prevMonthDays, prevMonthDaysArray };
   }, [month, year]);
@@ -101,7 +102,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
     const nextMonthDays = getDaysInMonth(new Date(nextMonthYear, nextMonth, 1));
     const nextMonthDaysArray = Array.from(
       { length: nextMonthDays },
-      (_, i) => i + 1
+      (_, i) => i + 1,
     );
     return { nextMonthDaysArray };
   }, [month, year]);
@@ -152,15 +153,17 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
       <div
         className={cn(
           "relative flex h-full w-full flex-col gap-1 p-0 text-base",
-          isToday && "bg-accent/5 text-accent"
+          isToday && "bg-accent/5 text-accent",
         )}
         key={day}
       >
         <div className="pl-2 pt-2 font-medium">{day}</div>
         <div className="flex flex-col px-2 pb-2">
-          {eventsForDay.map((feature) => children({ feature }))}
+          {eventsForDay.map((feature) => (
+            <Fragment key={feature.id}>{children({ feature })}</Fragment>
+          ))}
         </div>
-      </div>
+      </div>,
     );
   }
 
@@ -175,7 +178,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   }
 
   return (
-    <div className="grid flex-grow grid-cols-7 overflow-hidden">
+    <div className="grid grow grid-cols-7 overflow-hidden">
       {days.map((day, index) => {
         const row = Math.floor(index / 7);
         const col = index % 7;
@@ -185,7 +188,7 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
               "relative sm:min-h-26 overflow-hidden text-lg font-medium bg-white",
               "border-b border-r border-border",
               col === 0 && "border-l border-border",
-              row === 0 && "border-t border-border"
+              row === 0 && "border-t border-border",
             )}
             key={index}
           >
@@ -210,7 +213,7 @@ export const CalendarDatePagination = ({
 
   const monthLabel = useMemo(() => {
     return new Intl.DateTimeFormat(locale, { month: "long" }).format(
-      new Date(year, month, 1)
+      new Date(year, month, 1),
     );
   }, [locale, year, month]);
 
@@ -236,7 +239,7 @@ export const CalendarDatePagination = ({
     <div
       className={cn(
         "flex items-center w-full sm:max-w-[150px] md:max-w-[250px] justify-between ml-auto truncate rounded border border-border bg-white",
-        className
+        className,
       )}
     >
       <Button
@@ -282,7 +285,7 @@ export const CalendarHeader = ({ className }: CalendarHeaderProps) => {
     const baseDate = new Date(2024, 0, startDay);
     for (let i = 0; i < 7; i++) {
       weekdays.push(
-        new Intl.DateTimeFormat(locale, { weekday: "short" }).format(baseDate)
+        new Intl.DateTimeFormat(locale, { weekday: "short" }).format(baseDate),
       );
       baseDate.setDate(baseDate.getDate() + 1);
     }
@@ -292,8 +295,8 @@ export const CalendarHeader = ({ className }: CalendarHeaderProps) => {
   return (
     <div
       className={cn(
-        "grid flex-grow grid-cols-7 rounded-t-lg overflow-hidden",
-        className
+        "grid grow grid-cols-7 rounded-t-lg overflow-hidden",
+        className,
       )}
     >
       {daysData.map((day, idx) => (
@@ -301,7 +304,7 @@ export const CalendarHeader = ({ className }: CalendarHeaderProps) => {
           className={cn(
             "p-3 text-center text-white text-base font-medium bg-dark border-b border-r border-border",
             idx === 0 && "rounded-tl-lg",
-            idx === 6 && "rounded-tr-lg border-r-0"
+            idx === 6 && "rounded-tr-lg border-r-0",
           )}
           key={day}
         >
@@ -327,7 +330,7 @@ export const CalendarItem = memo(
           : feature.status.id === "weekend"
             ? "sm:bg-warning/10 bg-warning border-l-4 border-warning"
             : "sm:bg-success/10 bg-success border-l-4 border-success",
-        className
+        className,
       )}
     >
       <span
@@ -337,13 +340,13 @@ export const CalendarItem = memo(
             ? "text-destructive"
             : feature.status.id === "weekend"
               ? "text-warning"
-              : "text-success"
+              : "text-success",
         )}
       >
         {feature.name}
       </span>
     </div>
-  )
+  ),
 );
 
 CalendarItem.displayName = "CalendarItem";

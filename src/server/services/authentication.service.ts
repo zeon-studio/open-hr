@@ -1,6 +1,6 @@
 import variables from "@/config/variables";
-import { Authentication } from "@/models/authentication.model";
-import { Employee } from "@/models/employee.model";
+import { Authentication } from "@/server/models/authentication.model";
+import { Employee } from "@/server/models/employee.model";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import nodemailer from "nodemailer";

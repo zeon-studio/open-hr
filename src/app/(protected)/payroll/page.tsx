@@ -1,7 +1,7 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import { useGetPayrollsQuery } from "@/features/payroll";
+import { useGetPayrollsQuery } from "@/features/payroll/api";
 import { useDialog } from "@/hooks/use-dialog";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";

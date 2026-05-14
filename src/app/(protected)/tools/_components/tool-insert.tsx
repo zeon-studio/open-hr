@@ -1,4 +1,4 @@
-import { useAddToolMutation, type TTool } from "@/features/tool";
+import { useAddToolMutation, type TTool } from "@/features/tool/api";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

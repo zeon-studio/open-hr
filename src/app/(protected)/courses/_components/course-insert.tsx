@@ -1,4 +1,4 @@
-import { useAddCourseMutation, type TCourse } from "@/features/course";
+import { useAddCourseMutation, type TCourse } from "@/features/course/api";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

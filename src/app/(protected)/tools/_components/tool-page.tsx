@@ -1,7 +1,7 @@
 "use client";
 
 import ConfirmationPopup from "@/components/confirmation-popup";
-import { useDeleteToolMutation, type TTool } from "@/features/tool";
+import { useDeleteToolMutation, type TTool } from "@/features/tool/api";
 import { useDialog } from "@/hooks/use-dialog";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

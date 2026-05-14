@@ -1,12 +1,6 @@
-import {
-  useGetEmployeeQuery,
-  useUpdateEmployeeMutation,
-  useUpdateEmployeePasswordMutation,
-  useGetEmployeeBankQuery,
-  useUpdateEmployeeBankMutation,
-  useGetEmployeeEducationQuery,
-  useUpdateEmployeeEducationMutation,
-} from "@/features/employee";
+import { useGetEmployeeQuery, useUpdateEmployeeMutation, useUpdateEmployeePasswordMutation } from "@/features/employee/api"
+import { useGetEmployeeBankQuery, useUpdateEmployeeBankMutation } from "@/features/employee/bank/api"
+import { useGetEmployeeEducationQuery, useUpdateEmployeeEducationMutation } from "@/features/employee/education/api";
 import { useSettings } from "@/hooks/use-settings";
 import { Card, CardContent } from "@/ui/card";
 import { Loader2 } from "lucide-react";

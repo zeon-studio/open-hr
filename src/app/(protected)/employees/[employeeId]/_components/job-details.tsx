@@ -1,7 +1,7 @@
-import { useGetEmployeeJobQuery } from "@/features/employee";
+import { useGetEmployeeJobQuery } from "@/features/employee/job/api";
 import { useDialog } from "@/hooks/use-dialog";
 import { useSettings } from "@/hooks/use-settings";
-import { dateFormat, getDuration } from "@/lib";
+import { dateFormat, getDuration } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

@@ -1,6 +1,6 @@
-import { TSetting } from "@/features/settings";
+import { TSetting } from "@/features/settings/types";
 import EditFrom from "@/layouts/edit-from";
-import { employeeGroupByDepartment, employeeInfoById } from "@/lib";
+import { employeeGroupByDepartment, employeeInfoById } from "@/lib/employee-info";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";

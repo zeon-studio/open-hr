@@ -1,6 +1,7 @@
-import { useAddCalendarMutation, type TCalSheet } from "@/features/calendar";
+import { useAddCalendarMutation } from "@/features/calendar/api"
+import { type TCalSheet } from "@/types/calendar";
 import { useDialog } from "@/hooks/use-dialog";
-import { readSheetData, transformCalSheetData } from "@/lib";
+import { readSheetData, transformCalSheetData } from "@/lib/sheet-data-converter";
 import { Button, buttonVariants } from "@/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
 import { Input } from "@/ui/input";

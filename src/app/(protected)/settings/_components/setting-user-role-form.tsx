@@ -1,4 +1,5 @@
-import { TEmployee, useEmployeeRoleData } from "@/features/settings";
+import { TEmployee } from "@/types/employee"
+import { useEmployeeRoleData } from "@/features/settings/api";
 import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";

@@ -1,14 +1,8 @@
 import options from "@/config/options.json";
-import {
-  useGetEmployeesBasicsQuery,
-  type TEmployee,
-} from "@/features/employee";
-import {
-  useAddMonthlyPayrollMutation,
-  useGetPayrollBasicsQuery,
-  type TCreateMonthlySalary,
-} from "@/features/payroll";
-import { dateFormat, formatDateWithTime } from "@/lib";
+import { useGetEmployeesBasicsQuery } from "@/features/employee/api"
+import { type TEmployee } from "@/types/employee";
+import { useAddMonthlyPayrollMutation, useGetPayrollBasicsQuery, type TCreateMonthlySalary } from "@/features/payroll/api";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";

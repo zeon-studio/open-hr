@@ -1,10 +1,6 @@
-import {
-  useUpdateEmployeeJobMutation,
-  type TEmployeeJob,
-  type TPrevJob,
-} from "@/features/employee";
+import { useUpdateEmployeeJobMutation, type TEmployeeJob, type TPrevJob } from "@/features/employee/job/api";
 import { useDialog } from "@/hooks/use-dialog";
-import { dateFormat, formatDateWithTime, getDuration } from "@/lib";
+import { dateFormat, formatDateWithTime, getDuration } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";

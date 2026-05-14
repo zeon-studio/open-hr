@@ -1,6 +1,6 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import { modules } from "@/config/modules";
-import { TModuleItem, TSetting } from "@/features/settings";
+import { TModuleItem, TSetting } from "@/features/settings/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";

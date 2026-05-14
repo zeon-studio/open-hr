@@ -1,6 +1,6 @@
 "use client";
 
-import { clientApi } from "@/platform/network/client-api";
+import { clientApi } from "@/lib/client-api";
 import { Button } from "@/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";
 import { Label } from "@/ui/label";

@@ -1,4 +1,4 @@
-import { useGetAssetsByUserQuery } from "@/features/asset";
+import { useGetAssetsByUserQuery } from "@/features/asset/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
@@ -40,13 +40,13 @@ export default function Assets() {
                     className="row mx-0! space-y-3 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
                     key={asset.asset_id}
                   >
-                    <div className="flex items-center xl:space-x-3">
+                    <div className="flex! items-center gap-3">
                       <Image
                         src={`/images/assets/${asset.type}.png`}
                         alt={asset.name}
                         width={50}
                         height={50}
-                        className="hidden xl:block rounded-md border border-border mr-2 shrink-0"
+                        className="hidden xl:block rounded-md border border-border shrink-0"
                       />
 
                       <div>

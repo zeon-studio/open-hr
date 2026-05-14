@@ -1,6 +1,6 @@
-import { type TCourse } from "@/features/course";
-import { dateFormat } from "@/lib";
-import { employeeInfoById } from "@/lib";
+import { type TCourse } from "@/features/course/api";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";
 

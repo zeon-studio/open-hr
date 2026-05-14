@@ -1,7 +1,7 @@
 import options from "@/config/options.json";
-import { type TCourse, type TCourseItem } from "@/features/course";
-import { dateFormat, formatDateWithTime } from "@/lib";
-import { employeeGroupByDepartment, employeeInfoById } from "@/lib";
+import { type TCourse, type TCourseItem } from "@/features/course/api";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
+import { employeeGroupByDepartment, employeeInfoById } from "@/lib/employee-info";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Input } from "@/ui/input";

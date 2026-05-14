@@ -1,4 +1,5 @@
-import { useAddCalendarMutation, type TCalendar } from "@/features/calendar";
+import { useAddCalendarMutation } from "@/features/calendar/api"
+import { type TCalendar } from "@/types/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

@@ -1,7 +1,7 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import { useGetLeaveRequestsQuery } from "@/features/leave-request";
+import { useGetLeaveRequestsQuery } from "@/features/leave-request/api";
 import { useDialog } from "@/hooks/use-dialog";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";

@@ -2,12 +2,10 @@
 
 import { Confetti } from "@/components/icons";
 import Loader from "@/components/loader";
-import {
-  useGetEmployeeDetailsByTokenQuery,
-  type TEmployee,
-} from "@/features/employee";
+import { useGetEmployeeDetailsByTokenQuery } from "@/features/employee/api"
+import { type TEmployee } from "@/types/employee";
 import { useSettings } from "@/hooks/use-settings";
-import { checkCompletion } from "@/lib";
+import { checkCompletion } from "@/lib/check-completion";
 import { buttonVariants } from "@/ui/button";
 import {
   Card,

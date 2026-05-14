@@ -2,7 +2,8 @@
 
 import Pagination from "@/components/pagination";
 import SearchBox from "@/components/search-box";
-import { useGetEmployeesQuery, type TEmployee } from "@/features/employee";
+import { useGetEmployeesQuery } from "@/features/employee/api"
+import { type TEmployee } from "@/types/employee";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import { Button } from "@/ui/button";

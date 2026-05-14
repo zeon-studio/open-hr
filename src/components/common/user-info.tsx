@@ -1,5 +1,5 @@
 import Gravatar from "@/components/gravatar";
-import { TEmployee } from "@/features/employee";
+import { TEmployee } from "@/types/employee";
 import Link from "next/link";
 import { JSX } from "react";
 

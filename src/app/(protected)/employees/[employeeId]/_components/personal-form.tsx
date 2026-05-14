@@ -1,6 +1,6 @@
 import options from "@/config/options.json";
 import EditForm from "@/layouts/edit-from";
-import { dateFormat, formatDateWithTime } from "@/lib";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { cn } from "@/lib/shadcn";
 import { TEmployee } from "@/types/employee";
 import { Button } from "@/ui/button";

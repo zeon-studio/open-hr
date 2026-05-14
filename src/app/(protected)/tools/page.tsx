@@ -2,7 +2,7 @@
 
 import Pagination from "@/components/pagination";
 import SearchBox from "@/components/search-box";
-import { useGetToolsQuery } from "@/features/tool";
+import { useGetToolsQuery } from "@/features/tool/api";
 import { useDialog } from "@/hooks/use-dialog";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";

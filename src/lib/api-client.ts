@@ -1,4 +1,4 @@
-import Axios from "@/platform/network/axios";
+import Axios from "@/lib/axios";
 import { TError } from "@/types";
 import type { AxiosRequestConfig } from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

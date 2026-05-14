@@ -1,10 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {
-  useSetEmployeeCommunicationIdMutation,
-  useSetEmployeeEmailMutation,
-  useSetEmployeePasswordMutation,
-  useSetEmployeePersonalityMutation,
-} from "@/features/employee";
+import { useSetEmployeeCommunicationIdMutation, useSetEmployeeEmailMutation, useSetEmployeePasswordMutation, useSetEmployeePersonalityMutation } from "@/features/employee/api";
 import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/shadcn";
 import { ErrorResponse } from "@/types";

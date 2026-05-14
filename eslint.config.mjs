@@ -46,40 +46,6 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    files: ["src/app/**/*.{js,jsx,ts,tsx}", "src/layouts/**/*.{js,jsx,ts,tsx}"],
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["@/features/*/*"],
-              message:
-                "Import feature code through the feature entrypoint only: @/features/<feature>",
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ["src/features/**/*.{js,jsx,ts,tsx}"],
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["@/features/*/*"],
-              message:
-                "Use relative imports inside a feature, and public entrypoints for cross-feature usage",
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
     files: [
       "src/shared/**/*.{js,jsx,ts,tsx}",
       "src/lib/**/*.{js,jsx,ts,tsx}",

@@ -1,8 +1,4 @@
-import {
-  apiRequest,
-  createMutationHook,
-  createQueryHook,
-} from "@/features/employee";
+import { apiRequest, createMutationHook, createQueryHook } from "@/lib/api-client";
 import { TPagination } from "@/types";
 import type { TAllAssetsState, TAsset, TAssetState } from "@/types/asset";
 

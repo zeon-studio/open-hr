@@ -1,11 +1,9 @@
 "use client";
 
 import ConfirmationPopup from "@/components/confirmation-popup";
-import {
-  useDeleteLeaveRequestMutation,
-  type TLeaveRequest,
-} from "@/features/leave-request";
-import { dateFormat } from "@/lib";
+import { useDeleteLeaveRequestMutation } from "@/features/leave-request/api"
+import { type TLeaveRequest } from "@/features/leave-request/types";
+import { dateFormat } from "@/lib/date-converter";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

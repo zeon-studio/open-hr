@@ -1,5 +1,5 @@
 import ImageFallback from "@/components/image-fallback";
-import { useGetCoursesByUserQuery } from "@/features/course";
+import { useGetCoursesByUserQuery } from "@/features/course/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { ExternalLink, Loader2 } from "lucide-react";
@@ -41,14 +41,14 @@ export default function Courses() {
                     className="row mx-0! space-y-4 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
                     key={index}
                   >
-                    <div className="flex items-center">
+                    <div className="flex! items-center gap-3">
                       <ImageFallback
                         src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${course.website}&size=64`}
                         alt={course.name}
                         width={50}
                         height={50}
                         fallback="/images/fallback.jpg"
-                        className="rounded-md shrink-0 hidden xl:block mr-4"
+                        className="hidden xl:block rounded-md shrink-0"
                       />
                       <div>
                         <small className="text-xs text-muted-foreground block">

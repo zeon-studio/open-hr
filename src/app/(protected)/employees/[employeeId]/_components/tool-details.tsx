@@ -1,4 +1,4 @@
-import { useGetToolsByUserQuery } from "@/features/tool";
+import { useGetToolsByUserQuery } from "@/features/tool/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -40,13 +40,13 @@ export default function Tools() {
                     className="row mx-0! space-y-3 xl:space-y-0 xl:row-cols-3 items-center bg-light rounded py-3"
                     key={`tool-${index}`}
                   >
-                    <div className="flex items-center xl:space-x-3">
+                    <div className="flex! items-center gap-3">
                       <Image
                         src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${tool.website}&size=64`}
                         alt={tool.name}
                         width={50}
                         height={50}
-                        className="rounded-md shrink-0 hidden lg:block mr-4"
+                        className="hidden xl:block rounded-md shrink-0"
                       />
 
                       <div>

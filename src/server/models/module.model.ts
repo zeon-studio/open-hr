@@ -1,46 +1,41 @@
-import mongoose, { Schema, SchemaDefinition } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const createLooseModel = (name: string, indexedFields: string[] = []) => {
-  const schemaDefinition: SchemaDefinition = {};
-  indexedFields.forEach((field) => {
-    schemaDefinition[field] = { type: String, index: true };
-  });
+const createLooseModel = (name: string, indexedFields: string[] = []): Model<any> => {
+  const schema = new Schema({}, { timestamps: true, strict: false });
+  indexedFields.forEach((field) => schema.index({ [field]: 1 }));
 
-  const schema = new Schema(schemaDefinition, {
-    timestamps: true,
-    strict: false,
-  });
-
-  return mongoose.models[name] || mongoose.model(name, schema);
+  // Delete stale cached model so schema changes always take effect.
+  delete (mongoose.models as Record<string, unknown>)[name];
+  return mongoose.model(name, schema);
 };
 
-export const EmployeeAchievement = createLooseModel("EmployeeAchievement", [
+export const EmployeeAchievement = createLooseModel("employee_achievement", [
   "employee_id",
 ]);
-export const EmployeeBank = createLooseModel("EmployeeBank", ["employee_id"]);
-export const EmployeeContact = createLooseModel("EmployeeContact", [
+export const EmployeeBank = createLooseModel("employee_bank", ["employee_id"]);
+export const EmployeeContact = createLooseModel("employee_contact", [
   "employee_id",
 ]);
-export const EmployeeDocument = createLooseModel("EmployeeDocument", [
+export const EmployeeDocument = createLooseModel("employee_document", [
   "employee_id",
 ]);
-export const EmployeeEducation = createLooseModel("EmployeeEducation", [
+export const EmployeeEducation = createLooseModel("employee_education", [
   "employee_id",
 ]);
-export const EmployeeJob = createLooseModel("EmployeeJob", ["employee_id"]);
-export const EmployeeOffboarding = createLooseModel("EmployeeOffboarding", [
+export const EmployeeJob = createLooseModel("employee_job", ["employee_id"]);
+export const EmployeeOffboarding = createLooseModel("employee_offboarding", [
   "employee_id",
 ]);
-export const EmployeeOnboarding = createLooseModel("EmployeeOnboarding", [
+export const EmployeeOnboarding = createLooseModel("employee_onboarding", [
   "employee_id",
 ]);
-export const Leave = createLooseModel("Leave", ["employee_id"]);
-export const LeaveRequest = createLooseModel("LeaveRequest", ["employee_id"]);
-export const Payroll = createLooseModel("Payroll", ["employee_id"]);
-export const Asset = createLooseModel("Asset", ["asset_id", "employee_id"]);
-export const Calendar = createLooseModel("Calendar", ["year"]);
-export const Course = createLooseModel("Course", ["employee_id"]);
-export const Tool = createLooseModel("Tool", ["employee_id"]);
+export const Leave = createLooseModel("leave", ["employee_id"]);
+export const LeaveRequest = createLooseModel("leave_request", ["employee_id"]);
+export const Payroll = createLooseModel("payroll", ["employee_id"]);
+export const Asset = createLooseModel("asset", ["asset_id", "employee_id"]);
+export const Calendar = createLooseModel("calendar", ["year"]);
+export const Course = createLooseModel("course", ["employee_id"]);
+export const Tool = createLooseModel("tool", ["employee_id"]);
 
 const SettingSchema = new Schema(
   {

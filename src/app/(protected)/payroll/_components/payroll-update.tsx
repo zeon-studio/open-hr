@@ -1,12 +1,7 @@
 import options from "@/config/options.json";
-import {
-  useUpdatePayrollMutation,
-  type TBonus,
-  type TIncrement,
-  type TPayroll,
-  type TSalary,
-} from "@/features/payroll";
-import { dateFormat, formatDateWithTime } from "@/lib";
+import { useUpdatePayrollMutation, type TPayroll } from "@/features/payroll/api"
+import { type TBonus, type TIncrement, type TSalary } from "@/features/payroll/api";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";

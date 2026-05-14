@@ -1,16 +1,9 @@
-import {
-  useGetPendingOffboardingTaskQuery,
-  useUpdateOffboardingTaskStatusMutation,
-} from "@/features/employee";
-import {
-  useGetPendingOnboardingTaskQuery,
-  useUpdateOnboardingTaskStatusMutation,
-  type TOnboardingTask,
-} from "@/features/employee";
+import { useGetPendingOffboardingTaskQuery, useUpdateOffboardingTaskStatusMutation } from "@/features/employee/offboarding/api";
+import { useGetPendingOnboardingTaskQuery, useUpdateOnboardingTaskStatusMutation, type TOnboardingTask } from "@/features/employee/onboarding/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Button } from "@/ui/button";
-import { dateFormat } from "@/lib";
-import { employeeInfoById } from "@/lib";
+import { dateFormat } from "@/lib/date-converter";
+import { employeeInfoById } from "@/lib/employee-info";
 import { BadgeInfo, CheckCircle, CircleDashed } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";

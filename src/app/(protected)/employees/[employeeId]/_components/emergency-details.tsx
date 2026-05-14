@@ -1,8 +1,4 @@
-import {
-  useGetEmployeeContactQuery,
-  useUpdateEmployeeContactMutation,
-  type TEmployeeContact,
-} from "@/features/employee";
+import { useGetEmployeeContactQuery, useUpdateEmployeeContactMutation, type TEmployeeContact } from "@/features/employee/contact/api";
 import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Card, CardContent } from "@/ui/card";

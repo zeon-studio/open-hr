@@ -1,4 +1,5 @@
-import { useUpdateLeaveMutation, type TLeaveYear } from "@/features/leave";
+import { useUpdateLeaveMutation } from "@/features/leave/api"
+import { type TLeaveYear } from "@/types/leave";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

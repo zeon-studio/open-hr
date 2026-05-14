@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { type TEmployeeEducation } from "@/features/employee";
+import { type TEmployeeEducation } from "@/features/employee/education/api";
 import EditForm from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";

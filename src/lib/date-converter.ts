@@ -92,3 +92,20 @@ export const formatDateWithTime = (date: Date): Date => {
   const day = date.getDate();
   return new Date(Date.UTC(year, month, day, 0, 0, 0));
 };
+
+export const localDate = (date: Date): Date => {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+};
+
+export const isOneYearPassed = (prevDate: Date, currentDate: Date): boolean => {
+  const oneYearLater = new Date(prevDate);
+  oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+  return (
+    oneYearLater.getFullYear() < currentDate.getFullYear() ||
+    (oneYearLater.getFullYear() === currentDate.getFullYear() &&
+      oneYearLater.getMonth() < currentDate.getMonth()) ||
+    (oneYearLater.getFullYear() === currentDate.getFullYear() &&
+      oneYearLater.getMonth() === currentDate.getMonth() &&
+      oneYearLater.getDate() <= currentDate.getDate())
+  );
+};

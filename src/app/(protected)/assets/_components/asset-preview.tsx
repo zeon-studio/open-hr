@@ -1,4 +1,5 @@
-import { dateFormat, employeeInfoById } from "@/lib";
+import { dateFormat } from "@/lib/date-converter"
+import { employeeInfoById } from "@/lib/employee-info";
 import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useRef } from "react";

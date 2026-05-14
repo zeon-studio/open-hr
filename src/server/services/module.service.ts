@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 
 type ListOptions = {
   page?: number;
@@ -53,10 +53,17 @@ export const getByIdOrField = async (
   value: string,
   fields: string[] = ["_id"],
 ) => {
+  const numericValue = value !== "" && !isNaN(Number(value)) ? Number(value) : null;
+
   for (const field of fields) {
-    const query = field === "_id" ? { _id: value } : { [field]: value };
-    const found = await model.findOne(query);
-    if (found) return found;
+    if (field === "_id" && !mongoose.Types.ObjectId.isValid(value)) continue;
+    const castValue = field !== "_id" && numericValue !== null ? numericValue : value;
+    try {
+      const found = await model.findOne({ [field]: castValue });
+      if (found) return found;
+    } catch {
+      continue;
+    }
   }
   return null;
 };

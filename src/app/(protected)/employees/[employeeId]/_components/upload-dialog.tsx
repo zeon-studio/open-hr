@@ -1,6 +1,6 @@
 import FileManager from "@/components/file-manager";
 import { MAX_SIZE } from "@/constants";
-import { useAddEmployeeDocumentMutation } from "@/features/employee";
+import { useAddEmployeeDocumentMutation } from "@/features/employee/document/api";
 import { useDialog } from "@/hooks/use-dialog";
 import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/shadcn";

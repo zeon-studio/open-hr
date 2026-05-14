@@ -1,5 +1,5 @@
 import options from "@/config/options.json";
-import { TSetting } from "@/features/settings";
+import { TSetting } from "@/features/settings/types";
 import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";

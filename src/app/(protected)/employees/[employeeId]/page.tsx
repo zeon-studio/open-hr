@@ -2,10 +2,11 @@
 
 import Avatar from "@/components/avatar";
 import { Facebook, Linkedin, Twitter } from "@/components/icons";
-import { useGetEmployeeQuery } from "@/features/employee";
-import { useGetEmployeeJobQuery } from "@/features/employee";
+import { useGetEmployeeQuery } from "@/features/employee/api";
+import { useGetEmployeeJobQuery } from "@/features/employee/job/api";
 import { useSettings } from "@/hooks/use-settings";
-import { getDuration, profileCompletion } from "@/lib";
+import { getDuration } from "@/lib/date-converter";
+import { profileCompletion } from "@/lib/profile-completion";
 import { cn } from "@/lib/shadcn";
 import { Button } from "@/ui/button";
 import {
@@ -230,7 +231,7 @@ export default function EmployeeSingle() {
             />
           </div>
 
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between min-w-0 flex-1">
             <div>
               <h2 className="text-primary-foreground max-lg:text-h5 mb-0.5 lg:mb-2.5">
                 {data?.result.name}
@@ -290,13 +291,13 @@ export default function EmployeeSingle() {
                 </DropdownMenu>
               </div>
 
-              <TabsList className="hidden xl:flex h-auto 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full pb-0 self-end justify-self-end -mt-6 max-w-187.5 2xl:max-w-full overflow-x-auto rounded-none">
+              <TabsList className="hidden xl:flex h-auto 2xl:gap-x-4 space-x-0 space-y-0 bg-transparent border-none justify-start items-start shadow-none w-full p-0! -mt-6 overflow-x-auto rounded-none scroll-hide">
                 {filteredTabs.map((tab, index) => (
                   <TabsTrigger
                     value={tab.value}
                     key={index}
                     asChild
-                    className="data-[state=active]:bg-light flex-1"
+                    className="data-[state=active]:bg-light shrink-0 whitespace-nowrap"
                     onMouseDown={(e) => {
                       e.preventDefault();
                       handleMouseDown(tab);

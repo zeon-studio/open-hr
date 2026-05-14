@@ -1,9 +1,9 @@
 import { ENUM_ROLE } from "@/enums/roles";
-import { Employee } from "@/models/employee.model";
+import { Employee } from "@/server/models/employee.model";
 import {
   issueInviteTokenService,
   verifyInviteToken,
-} from "@/services/authentication.service";
+} from "@/server/services/authentication.service";
 import bcrypt from "bcrypt";
 
 export const getEmployeesService = async (query: URLSearchParams) => {

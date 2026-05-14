@@ -1,10 +1,6 @@
-import {
-  apiRequest,
-  createMutationHook,
-  createQueryHook,
-} from "@/features/employee";
+import { apiRequest, createMutationHook, createQueryHook } from "@/lib/api-client";
 import { TPagination } from "@/types";
-import { TLeave, TLeaveState } from "./types";
+import { TLeave, TLeaveState } from "@/types/leave";
 
 export const useGetLeavesQuery = createQueryHook<TLeaveState, TPagination>(
   ({ page, limit, year }) =>

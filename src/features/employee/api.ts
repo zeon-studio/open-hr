@@ -1,21 +1,8 @@
-import {
-  apiRequest,
-  createMutationHook,
-  createQueryHook,
-  type ApiRequestArgs,
-  type QueryOptions,
-} from "@/lib/api-client";
+import { apiRequest, createMutationHook, createQueryHook } from "@/lib/api-client";
 import { TPagination } from "@/types";
 import { useEffect } from "react";
-import { TEmployee, TEmployeeCreate, TEmployeeState } from "./types";
+import { TEmployee, TEmployeeCreate, TEmployeeState } from "@/types/employee";
 
-export {
-  apiRequest,
-  createMutationHook,
-  createQueryHook,
-  type ApiRequestArgs,
-  type QueryOptions,
-};
 
 const employeeAuthHeader = (token?: string) =>
   token

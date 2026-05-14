@@ -25,51 +25,16 @@
       }
     ],
     "paths": {
-      "@/ui/*": [
-        "./src/components/ui/*"
-      ],
-      "@/components/*": [
-        "./src/components/common/*"
-      ],
-      "@/layouts/*": [
-        "./src/components/layouts/*"
-      ],
-      "@/hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/types/*": [
-        "./src/types/*"
-      ],
-      "@/constants/*": [
-        "./src/constants/*"
-      ],
-      "@/models/*": [
-        "./src/server/models/*"
-      ],
-      "@/services/*": [
-        "./src/server/services/*"
-      ],
-      "@/server/models/*": [
-        "./src/server/models/*"
-      ],
-      "@/server/services/*": [
-        "./src/server/services/*"
-      ],
-      "@/server/utils/*": [
-        "./src/server/utils/*"
-      ],
-      "@/server/mail/*": [
-        "./src/server/mail/*"
-      ],
-      "@/assets/*": [
-        "./public/*"
-      ],
-      "@/*": [
-        "./src/*"
-      ]
+      "@/ui/*": ["./src/components/ui/*"],
+      "@/components/*": ["./src/components/common/*"],
+      "@/layouts/*": ["./src/components/layouts/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/server/*": ["./src/server/*"],
+      "@/assets/*": ["./public/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": [

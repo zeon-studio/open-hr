@@ -1,5 +1,5 @@
-import { Employee } from "@/models/employee.model";
-import { connectMongoose } from "@/platform/db/mongoose";
+import { Employee } from "@/server/models/employee.model";
+import { connectMongoose } from "@/server/db/mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import NextAuth from "next-auth";
@@ -93,12 +93,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           response_type: "code",
         },
       },
-      // @ts-ignore
-      profile(profile) {
+      profile(profile: { name: string; email: string; picture: string }) {
         return {
+          id: "",
           name: profile.name,
           email: profile.email,
           image: profile.picture,
+          role: "user" as const,
         };
       },
     }),

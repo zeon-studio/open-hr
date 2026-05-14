@@ -1,9 +1,5 @@
-import {
-  apiRequest,
-  createMutationHook,
-  createQueryHook,
-} from "@/features/employee";
-import { TAllCalendarEvents, TCalendar, TCalendarState } from "./types";
+import { apiRequest, createMutationHook, createQueryHook } from "@/lib/api-client";
+import { TAllCalendarEvents, TCalendar, TCalendarState } from "@/types/calendar";
 
 export const useGetCalendarsQuery = createQueryHook<TCalendarState, undefined>(
   () =>

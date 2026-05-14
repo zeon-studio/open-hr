@@ -1,10 +1,8 @@
 import options from "@/config/options.json";
-import {
-  useGetUpcomingLeaveDatesRequestsQuery,
-  type TLeaveRequest,
-} from "@/features/leave-request";
+import { useGetUpcomingLeaveDatesRequestsQuery } from "@/features/leave-request/api"
+import { type TLeaveRequest } from "@/features/leave-request/types";
 import { useSettings } from "@/hooks/use-settings";
-import { dateFormat, formatDateWithTime } from "@/lib";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { Label } from "@/ui/label";

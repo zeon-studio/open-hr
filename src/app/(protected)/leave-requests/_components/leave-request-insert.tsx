@@ -1,7 +1,5 @@
-import {
-  useAddLeaveRequestMutation,
-  type TLeaveRequest,
-} from "@/features/leave-request";
+import { useAddLeaveRequestMutation } from "@/features/leave-request/api"
+import { type TLeaveRequest } from "@/features/leave-request/types";
 import { DialogContent, DialogTitle } from "@/ui/dialog";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";

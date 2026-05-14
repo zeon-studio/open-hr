@@ -1,6 +1,10 @@
 import variables from "@/config/variables";
 import {
   invitationTemplate,
+  leaveRequestApprovedTemplate,
+  leaveRequestDiscordTemplate,
+  leaveRequestRejectedTemplate,
+  leaveRequestTemplate,
   otpSenderTemplate,
 } from "@/server/mail/mail-template";
 import nodemailer from "nodemailer";
@@ -60,7 +64,56 @@ const invitationRequest = async (
   );
 };
 
+const leaveRequest = async (
+  emails: string[],
+  name: string,
+  leaveType: string,
+  dayCount: number,
+  startDate: Date,
+  endDate: Date,
+  reason: string,
+) => {
+  const appUrl = variables.app_url || "";
+  const appName = process.env.APP_NAME || "Open HR";
+  await sendMail(
+    emails,
+    `Leave Request from ${name}`,
+    leaveRequestTemplate(appUrl, appName, name, leaveType, dayCount, startDate, endDate, reason),
+  );
+};
+
+const leaveRequestResponse = async (
+  email: string,
+  name: string,
+  leaveType: string,
+  dayCount: number,
+  startDate: Date,
+  endDate: Date,
+  reason: string,
+  status: string,
+) => {
+  const approved = status === "approved";
+  await sendMail(
+    email,
+    `Leave Request ${approved ? "Approved" : "Rejected"}`,
+    approved
+      ? leaveRequestApprovedTemplate(name, leaveType, dayCount, startDate, endDate, reason)
+      : leaveRequestRejectedTemplate(name, leaveType, dayCount, startDate, endDate, reason),
+  );
+};
+
+export const leaveRequestDiscord = (
+  name: string,
+  leaveType: string,
+  dayCount: number,
+  startDate: Date,
+  endDate: Date,
+  reason: string,
+) => leaveRequestDiscordTemplate(name, leaveType, dayCount, startDate, endDate, reason);
+
 export const mailSender = {
   otpSender,
   invitationRequest,
+  leaveRequest,
+  leaveRequestResponse,
 };

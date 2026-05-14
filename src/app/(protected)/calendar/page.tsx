@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetCalendarQuery } from "@/features/calendar";
+import { useGetCalendarQuery } from "@/features/calendar/api";
 import { useDialog } from "@/hooks/use-dialog";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { useSettings } from "@/hooks/use-settings";

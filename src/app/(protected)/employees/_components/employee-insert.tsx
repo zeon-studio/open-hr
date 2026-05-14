@@ -1,13 +1,8 @@
-import {
-  dateFormat,
-  employeeGroupByDepartment,
-  formatDateWithTime,
-} from "@/lib";
+import { dateFormat, formatDateWithTime } from "@/lib/date-converter"
+import { employeeGroupByDepartment } from "@/lib/employee-info";
 import options from "@/config/options.json";
-import {
-  useAddEmployeeMutation,
-  type TEmployeeCreate,
-} from "@/features/employee";
+import { useAddEmployeeMutation } from "@/features/employee/api"
+import { type TEmployeeCreate } from "@/types/employee";
 import { Button } from "@/ui/button";
 import { Calendar } from "@/ui/calendar";
 import { DialogContent, DialogTitle } from "@/ui/dialog";

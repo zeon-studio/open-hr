@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetLeaveQuery } from "@/features/leave";
+import { useGetLeaveQuery } from "@/features/leave/api";
 import { useSettings } from "@/hooks/use-settings";
 import {
   Table,

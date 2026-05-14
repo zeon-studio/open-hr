@@ -1,10 +1,8 @@
 "use client";
 
 import Pagination from "@/components/pagination";
-import {
-  useAddNewLeaveYearMutation,
-  useGetLeavesQuery,
-} from "@/features/leave";
+import { useAddNewLeaveYearMutation, useGetLeavesQuery } from "@/features/leave/api";
+import { type TLeaveYear } from "@/types/leave";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import { useSettings } from "@/hooks/use-settings";
@@ -152,7 +150,7 @@ const Leave = () => {
             />
           ) : (
             <LeavePage
-              leave={localData}
+              leave={localData as TLeaveYear[]}
               casualEnabled={casualEnabled}
               sickEnabled={sickEnabled}
               earnedEnabled={earnedEnabled}

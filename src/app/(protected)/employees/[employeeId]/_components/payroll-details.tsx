@@ -1,4 +1,4 @@
-import { useGetPayrollQuery } from "@/features/payroll";
+import { useGetPayrollQuery } from "@/features/payroll/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";

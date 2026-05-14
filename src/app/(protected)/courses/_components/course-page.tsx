@@ -3,7 +3,7 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import CopyText from "@/components/copy-text";
 import ImageFallback from "@/components/image-fallback";
-import { useDeleteCourseMutation, type TCourse } from "@/features/course";
+import { useDeleteCourseMutation, type TCourse } from "@/features/course/api";
 import { useDialog } from "@/hooks/use-dialog";
 import { Button } from "@/ui/button";
 import { Dialog, DialogTrigger } from "@/ui/dialog";

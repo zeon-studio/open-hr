@@ -1,4 +1,4 @@
-import { TSetting } from "@/features/settings";
+import { TSetting } from "@/features/settings/types";
 import EditFrom from "@/layouts/edit-from";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
