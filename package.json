@@ -4,6 +4,7 @@
   "author": "zeon.studio",
   "license": "MIT",
   "description": "HR Solution for small and medium enterprises",
+  "packageManager": "pnpm@11.1.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
