@@ -25,7 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           try {
             const decoded = jwt.verify(
               String(credentials.token),
-              process.env.JWT_SECRET || process.env.NEXT_AUTH_SECRET || "",
+              process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET || "",
             ) as { id: string };
             const user = await Employee.findOne({ id: decoded.id });
             if (!user) {
@@ -105,7 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   debug: false,
-  secret: process.env.NEXT_AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
