@@ -63,6 +63,7 @@ export const useGetPayrollsQuery = createQueryHook<TPayrollState, TPagination>(
       url: `/payroll?page=${page}&limit=${limit}&search=${search}`,
       method: "GET",
     }),
+  ["payroll"],
 );
 
 export const useGetPayrollBasicsQuery = createQueryHook<
@@ -73,6 +74,7 @@ export const useGetPayrollBasicsQuery = createQueryHook<
     url: `/payroll/basics`,
     method: "GET",
   }),
+  ["payroll"],
 );
 
 export const useGetPayrollQuery = createQueryHook<
@@ -83,6 +85,7 @@ export const useGetPayrollQuery = createQueryHook<
     url: `/payroll/${id}`,
     method: "GET",
   }),
+  ["payroll"],
 );
 
 export const useAddMonthlyPayrollMutation = createMutationHook<
@@ -94,6 +97,7 @@ export const useAddMonthlyPayrollMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["payroll"] },
 );
 
 export const useUpdatePayrollMutation = createMutationHook<
@@ -106,6 +110,7 @@ export const useUpdatePayrollMutation = createMutationHook<
     body: data,
     ...authHeader(data.token),
   }),
+  { invalidatesTags: ["payroll"] },
 );
 
 export const useDeletePayrollMutation = createMutationHook<unknown, string>(
@@ -114,4 +119,5 @@ export const useDeletePayrollMutation = createMutationHook<unknown, string>(
       url: `/payroll/${id}`,
       method: "DELETE",
     }),
+  { invalidatesTags: ["payroll"] },
 );

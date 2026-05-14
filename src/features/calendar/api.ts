@@ -7,6 +7,7 @@ export const useGetCalendarsQuery = createQueryHook<TCalendarState, undefined>(
       url: `/calendar`,
       method: "GET",
     }),
+  ["calendar"],
 );
 
 export const useGetCalendarQuery = createQueryHook<
@@ -17,6 +18,7 @@ export const useGetCalendarQuery = createQueryHook<
     url: `/calendar/${year}`,
     method: "GET",
   }),
+  ["calendar"],
 );
 
 export const useGetUpcomingHolidaysAndEventsQuery = createQueryHook<
@@ -27,6 +29,7 @@ export const useGetUpcomingHolidaysAndEventsQuery = createQueryHook<
     url: `/calendar/upcoming/${date}`,
     method: "GET",
   }),
+  ["calendar"],
 );
 
 export const useAddCalendarMutation = createMutationHook<
@@ -38,6 +41,7 @@ export const useAddCalendarMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["calendar"] },
 );
 
 export const useUpdateCalendarMutation = createMutationHook<unknown, any>(
@@ -47,6 +51,7 @@ export const useUpdateCalendarMutation = createMutationHook<unknown, any>(
       method: "PATCH",
       body: data,
     }),
+  { invalidatesTags: ["calendar"] },
 );
 
 export const useDeleteCalendarMutation = createMutationHook<unknown, string>(
@@ -55,4 +60,5 @@ export const useDeleteCalendarMutation = createMutationHook<unknown, string>(
       url: `/calendar/${id}`,
       method: "DELETE",
     }),
+  { invalidatesTags: ["calendar"] },
 );

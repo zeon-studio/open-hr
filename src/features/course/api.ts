@@ -46,6 +46,7 @@ export const useGetCoursesQuery = createQueryHook<TCourseState, TPagination>(
       url: `/course?page=${page}&limit=${limit}&search=${search}`,
       method: "GET",
     }),
+  ["course"],
 );
 
 export const useGetCourseQuery = createQueryHook<TCourseState<TCourse>, string>(
@@ -54,6 +55,7 @@ export const useGetCourseQuery = createQueryHook<TCourseState<TCourse>, string>(
       url: `/course/${id}`,
       method: "GET",
     }),
+  ["course"],
 );
 
 export const useGetCoursesByUserQuery = createQueryHook<
@@ -64,6 +66,7 @@ export const useGetCoursesByUserQuery = createQueryHook<
     url: `/course/user/${id}`,
     method: "GET",
   }),
+  ["course"],
 );
 
 export const useAddCourseMutation = createMutationHook<TCourseState, TCourse>(
@@ -73,6 +76,7 @@ export const useAddCourseMutation = createMutationHook<TCourseState, TCourse>(
       method: "POST",
       body: data,
     }),
+  { invalidatesTags: ["course"] },
 );
 
 export const useUpdateCourseMutation = createMutationHook<unknown, any>(
@@ -82,6 +86,7 @@ export const useUpdateCourseMutation = createMutationHook<unknown, any>(
       method: "PATCH",
       body: data,
     }),
+  { invalidatesTags: ["course"] },
 );
 
 export const useDeleteCourseMutation = createMutationHook<unknown, string>(
@@ -90,4 +95,5 @@ export const useDeleteCourseMutation = createMutationHook<unknown, string>(
       url: `/course/${id}`,
       method: "DELETE",
     }),
+  { invalidatesTags: ["course"] },
 );

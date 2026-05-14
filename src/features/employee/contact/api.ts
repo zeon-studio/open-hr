@@ -30,6 +30,7 @@ export const useGetEmployeeContactsQuery = createQueryHook<
     url: `/employee-contact?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-contact"],
 );
 
 export const useGetEmployeeContactQuery = createQueryHook<
@@ -40,6 +41,7 @@ export const useGetEmployeeContactQuery = createQueryHook<
     url: `/employee-contact/${id}`,
     method: "GET",
   }),
+  ["employee-contact"],
 );
 
 export const useUpdateEmployeeContactMutation = createMutationHook<
@@ -51,6 +53,7 @@ export const useUpdateEmployeeContactMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee-contact"] },
 );
 
 export const useDeleteEmployeeContactMutation = createMutationHook<
@@ -61,4 +64,5 @@ export const useDeleteEmployeeContactMutation = createMutationHook<
     url: `/employee-contact/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["employee-contact"] },
 );

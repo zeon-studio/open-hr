@@ -20,7 +20,7 @@ export default function Emergency() {
   }
   const [
     addContact,
-    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError },
+    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError, error: addError },
   ] = useUpdateEmployeeContactMutation();
   const { data, isLoading } = useGetEmployeeContactQuery(employeeId);
 
@@ -28,7 +28,7 @@ export default function Emergency() {
     if (isAddSuccess) {
       toast("Emergency contact details updated successfully");
     } else if (isAddError) {
-      toast("Failed to update emergency contact details");
+      toast((addError as any)?.data?.message || "Failed to update emergency contact details");
     }
   }, [isAddSuccess, isAddError]);
 

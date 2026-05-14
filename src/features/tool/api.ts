@@ -50,6 +50,7 @@ export const useGetToolsQuery = createQueryHook<TToolState, TPagination>(
       url: `/tool?page=${page}&limit=${limit}&search=${search}`,
       method: "GET",
     }),
+  ["tool"],
 );
 
 export const useGetToolQuery = createQueryHook<TToolState<TTool>, string>(
@@ -58,6 +59,7 @@ export const useGetToolQuery = createQueryHook<TToolState<TTool>, string>(
       url: `/tool/${id}`,
       method: "GET",
     }),
+  ["tool"],
 );
 
 export const useGetToolsByUserQuery = createQueryHook<TAllToolsState, string>(
@@ -66,6 +68,7 @@ export const useGetToolsByUserQuery = createQueryHook<TAllToolsState, string>(
       url: `/tool/user/${id}`,
       method: "GET",
     }),
+  ["tool"],
 );
 
 export const useAddToolMutation = createMutationHook<TToolState, TTool>(
@@ -75,6 +78,7 @@ export const useAddToolMutation = createMutationHook<TToolState, TTool>(
       method: "POST",
       body: data,
     }),
+  { invalidatesTags: ["tool"] },
 );
 
 export const useUpdateToolMutation = createMutationHook<unknown, any>((data) =>
@@ -83,6 +87,7 @@ export const useUpdateToolMutation = createMutationHook<unknown, any>((data) =>
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["tool"] },
 );
 
 export const useDeleteToolMutation = createMutationHook<unknown, string>((id) =>
@@ -90,4 +95,5 @@ export const useDeleteToolMutation = createMutationHook<unknown, string>((id) =>
     url: `/tool/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["tool"] },
 );

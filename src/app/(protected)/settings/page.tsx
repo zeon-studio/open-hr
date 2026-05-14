@@ -15,7 +15,7 @@ import SettingUserRoleForm from "./_components/setting-user-role-form";
 import SettingWeekendsForm from "./_components/setting-weekends-form";
 
 const Setting = () => {
-  const { data, isLoading } = useSettingsQuery();
+  const { data, isLoading } = useSettingsQuery(undefined);
   const { data: session } = useSession();
 
   if (isLoading) {

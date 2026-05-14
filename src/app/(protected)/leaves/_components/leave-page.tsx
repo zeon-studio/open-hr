@@ -30,7 +30,6 @@ const LeavePage = ({
   earnedEnabled: boolean;
   withoutPayEnabled: boolean;
 }) => {
-  const employeeMap = useEmployeeMap();
   const [leaveId, setLeaveId] = useState<string>("");
 
   return (
@@ -72,6 +71,7 @@ const LeaveModal = ({
 }) => {
   const { isDialogOpen, onDialogChange } = useDialog();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const employeeMap = useEmployeeMap();
 
   // Simulate fetching leave data
   const singleLeave = useMemo(() => {

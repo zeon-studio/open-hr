@@ -45,6 +45,7 @@ export const useGetEmployeeOffboardingsQuery = createQueryHook<
     url: `/employee-offboarding?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-offboarding"],
 );
 
 export const useGetEmployeeOffboardingQuery = createQueryHook<
@@ -55,6 +56,7 @@ export const useGetEmployeeOffboardingQuery = createQueryHook<
     url: `/employee-offboarding/${id}`,
     method: "GET",
   }),
+  ["employee-offboarding"],
 );
 
 export const useGetPendingOffboardingTaskQuery = createQueryHook<
@@ -65,6 +67,7 @@ export const useGetPendingOffboardingTaskQuery = createQueryHook<
     url: `/employee-offboarding/pending-task`,
     method: "GET",
   }),
+  ["employee-offboarding"],
 );
 
 export const useAddEmployeeOffboardingMutation = createMutationHook<
@@ -76,6 +79,7 @@ export const useAddEmployeeOffboardingMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["employee-offboarding"] },
 );
 
 export const useUpdateOffboardingTaskStatusMutation = createMutationHook<
@@ -86,6 +90,7 @@ export const useUpdateOffboardingTaskStatusMutation = createMutationHook<
     url: `/employee-offboarding/task/${data.employee_id}/${data.task_name}`,
     method: "PATCH",
   }),
+  { invalidatesTags: ["employee-offboarding"] },
 );
 
 export const useDeleteEmployeeOffboardingMutation = createMutationHook<
@@ -96,4 +101,5 @@ export const useDeleteEmployeeOffboardingMutation = createMutationHook<
     url: `/employee-offboarding/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["employee-offboarding"] },
 );

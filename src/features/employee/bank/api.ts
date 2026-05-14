@@ -33,6 +33,7 @@ export const useGetEmployeeBanksQuery = createQueryHook<
     url: `/employee-bank?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-bank"],
 );
 
 export const useGetEmployeeBankQuery = createQueryHook<
@@ -43,6 +44,7 @@ export const useGetEmployeeBankQuery = createQueryHook<
     url: `/employee-bank/${id}`,
     method: "GET",
   }),
+  ["employee-bank"],
 );
 
 export const useAddEmployeeBankMutation = createMutationHook<
@@ -54,6 +56,7 @@ export const useAddEmployeeBankMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["employee-bank"] },
 );
 
 export const useUpdateEmployeeBankMutation = createMutationHook<
@@ -65,6 +68,7 @@ export const useUpdateEmployeeBankMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee-bank"] },
 );
 
 export const useDeleteEmployeeBankMutation = createMutationHook<
@@ -75,4 +79,5 @@ export const useDeleteEmployeeBankMutation = createMutationHook<
     url: `/employee-bank/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["employee-bank"] },
 );

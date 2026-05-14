@@ -31,6 +31,7 @@ export const useGetEmployeeDocumentsQuery = createQueryHook<
     url: `/employee-document?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-document"],
 );
 
 export const useGetEmployeeDocumentQuery = createQueryHook<
@@ -41,6 +42,7 @@ export const useGetEmployeeDocumentQuery = createQueryHook<
     url: `/employee-document/${id}`,
     method: "GET",
   }),
+  ["employee-document"],
 );
 
 export const useAddEmployeeDocumentMutation = createMutationHook<
@@ -52,6 +54,7 @@ export const useAddEmployeeDocumentMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee-document"] },
 );
 
 export const useUpdateEmployeeDocumentMutation = createMutationHook<
@@ -63,6 +66,7 @@ export const useUpdateEmployeeDocumentMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee-document"] },
 );
 
 export const useDeleteEmployeeDocumentMutation = createMutationHook<
@@ -73,4 +77,5 @@ export const useDeleteEmployeeDocumentMutation = createMutationHook<
     url: `/employee-document/${employeeId}/${documentId}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["employee-document"] },
 );

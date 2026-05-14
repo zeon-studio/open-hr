@@ -8,6 +8,7 @@ export const useGetLeavesQuery = createQueryHook<TLeaveState, TPagination>(
       url: `/leave?page=${page}&limit=${limit}&year=${year}`,
       method: "GET",
     }),
+  ["leave"],
 );
 
 export const useGetLeaveQuery = createQueryHook<TLeaveState<TLeave>, string>(
@@ -16,6 +17,7 @@ export const useGetLeaveQuery = createQueryHook<TLeaveState<TLeave>, string>(
       url: `/leave/${id}`,
       method: "GET",
     }),
+  ["leave"],
 );
 
 export const useAddNewLeaveYearMutation = createMutationHook<unknown, string>(
@@ -24,6 +26,7 @@ export const useAddNewLeaveYearMutation = createMutationHook<unknown, string>(
       url: `/leave/update-year/${year}`,
       method: "PATCH",
     }),
+  { invalidatesTags: ["leave"] },
 );
 
 export const useUpdateLeaveMutation = createMutationHook<unknown, any>((data) =>
@@ -32,6 +35,7 @@ export const useUpdateLeaveMutation = createMutationHook<unknown, any>((data) =>
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["leave"] },
 );
 
 export const useDeleteLeaveMutation = createMutationHook<unknown, string>(
@@ -40,4 +44,5 @@ export const useDeleteLeaveMutation = createMutationHook<unknown, string>(
       url: `/leave/${id}`,
       method: "DELETE",
     }),
+  { invalidatesTags: ["leave"] },
 );

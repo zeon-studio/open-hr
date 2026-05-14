@@ -10,6 +10,7 @@ export const useGetLeaveRequestsQuery = createQueryHook<
     url: `/leave-request?page=${page}&limit=${limit}&search=${search}&employee_id=${employee_id}`,
     method: "GET",
   }),
+  ["leave-request"],
 );
 
 export const useGetLeaveRequestQuery = createQueryHook<
@@ -20,6 +21,7 @@ export const useGetLeaveRequestQuery = createQueryHook<
     url: `/leave-request/${id}`,
     method: "GET",
   }),
+  ["leave-request"],
 );
 
 export const useGetUpcomingLeaveRequestsQuery = createQueryHook<
@@ -30,6 +32,7 @@ export const useGetUpcomingLeaveRequestsQuery = createQueryHook<
     url: `/leave-request/upcoming/${date}`,
     method: "GET",
   }),
+  ["leave-request"],
 );
 
 export const useGetUpcomingLeaveDatesRequestsQuery = createQueryHook<
@@ -40,6 +43,7 @@ export const useGetUpcomingLeaveDatesRequestsQuery = createQueryHook<
     url: `/leave-request/upcoming-dates/${date}`,
     method: "GET",
   }),
+  ["leave-request"],
 );
 
 export const useAddLeaveRequestMutation = createMutationHook<
@@ -51,6 +55,7 @@ export const useAddLeaveRequestMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["leave-request"] },
 );
 
 export const useUpdateLeaveRequestMutation = createMutationHook<unknown, any>(
@@ -60,6 +65,7 @@ export const useUpdateLeaveRequestMutation = createMutationHook<unknown, any>(
       method: "PATCH",
       body: data,
     }),
+  { invalidatesTags: ["leave-request"] },
 );
 
 export const useDeleteLeaveRequestMutation = createMutationHook<
@@ -70,4 +76,5 @@ export const useDeleteLeaveRequestMutation = createMutationHook<
     url: `/leave-request/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["leave-request"] },
 );

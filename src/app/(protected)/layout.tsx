@@ -1,6 +1,7 @@
 "use client";
 
 import Loader from "@/components/loader";
+import { useSettingsQuery } from "@/features/settings/api";
 import { useAppState } from "@/lib/app-context";
 import { useSettings } from "@/hooks/use-settings";
 import Header from "@/layouts/header";
@@ -10,36 +11,13 @@ import { ReactNode, useEffect } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const { setSetting } = useAppState();
+  const { data: settingData } = useSettingsQuery(undefined);
 
-  // Initialize settings on first render
   useEffect(() => {
-    let mounted = true;
-
-    const loadSetting = async () => {
-      try {
-        const response = await fetch("/api/setting", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          return;
-        }
-
-        const data = await response.json();
-        if (mounted && data?.result) {
-          setSetting(data.result);
-        }
-      } catch {
-        // Ignore setting bootstrap failures in protected pages.
-      }
-    };
-
-    loadSetting();
-    return () => {
-      mounted = false;
-    };
-  }, [setSetting]);
+    if (settingData?.result) {
+      setSetting(settingData.result);
+    }
+  }, [settingData, setSetting]);
 
   const { status } = useSession();
   const { app_name, company_website, favicon_url } = useSettings() || {};

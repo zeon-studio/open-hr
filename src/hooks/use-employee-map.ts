@@ -1,4 +1,4 @@
-import { apiRequest } from "@/lib/api-client";
+import { apiRequest, subscribeToTag } from "@/lib/api-client";
 import { TEmployee, TEmployeeState } from "@/types/employee";
 import { useEffect, useMemo, useState } from "react";
 
@@ -6,8 +6,8 @@ let cachedData: TEmployeeState | undefined;
 let inflightPromise: Promise<TEmployeeState> | undefined;
 const subscribers = new Set<() => void>();
 
-const fetchBasics = (): Promise<TEmployeeState> => {
-  if (cachedData) return Promise.resolve(cachedData);
+const fetchBasics = (force = false): Promise<TEmployeeState> => {
+  if (cachedData && !force) return Promise.resolve(cachedData);
   if (inflightPromise) return inflightPromise;
 
   inflightPromise = apiRequest<TEmployeeState>({
@@ -34,7 +34,21 @@ const useBasicsData = () => {
     const notify = () => setData(cachedData);
     subscribers.add(notify);
     fetchBasics().catch(() => undefined);
-    return () => { subscribers.delete(notify); };
+    return () => {
+      subscribers.delete(notify);
+    };
+  }, []);
+
+  useEffect(() => {
+    const notify = () => {
+      cachedData = undefined;
+      fetchBasics(true).catch(() => undefined);
+      setData(cachedData);
+    };
+    const unsubscribe = subscribeToTag("employee-basics", notify);
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return data;

@@ -40,6 +40,7 @@ export const useGetEmployeeOnboardingsQuery = createQueryHook<
     url: `/employee-onboarding?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-onboarding"],
 );
 
 export const useGetEmployeeOnboardingQuery = createQueryHook<
@@ -50,6 +51,7 @@ export const useGetEmployeeOnboardingQuery = createQueryHook<
     url: `/employee-onboarding/${id}`,
     method: "GET",
   }),
+  ["employee-onboarding"],
 );
 
 export const useGetPendingOnboardingTaskQuery = createQueryHook<
@@ -60,6 +62,7 @@ export const useGetPendingOnboardingTaskQuery = createQueryHook<
     url: `/employee-onboarding/pending-task`,
     method: "GET",
   }),
+  ["employee-onboarding"],
 );
 
 export const useAddEmployeeOnboardingMutation = createMutationHook<
@@ -71,6 +74,7 @@ export const useAddEmployeeOnboardingMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["employee-onboarding"] },
 );
 
 export const useUpdateOnboardingTaskStatusMutation = createMutationHook<
@@ -81,6 +85,7 @@ export const useUpdateOnboardingTaskStatusMutation = createMutationHook<
     url: `/employee-onboarding/task/${data.employee_id}/${data.task_name}`,
     method: "PATCH",
   }),
+  { invalidatesTags: ["employee-onboarding"] },
 );
 
 export const useDeleteEmployeeOnboardingMutation = createMutationHook<
@@ -91,4 +96,5 @@ export const useDeleteEmployeeOnboardingMutation = createMutationHook<
     url: `/employee-onboarding/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["employee-onboarding"] },
 );

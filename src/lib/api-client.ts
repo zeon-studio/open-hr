@@ -13,6 +13,19 @@ export type ApiRequestArgs = {
 
 export type QueryOptions = {
   skip?: boolean;
+  tags?: string[];
+};
+
+const tagListeners = new Map<string, Set<() => void>>();
+
+export const subscribeToTag = (tag: string, cb: () => void) => {
+  if (!tagListeners.has(tag)) tagListeners.set(tag, new Set());
+  tagListeners.get(tag)!.add(cb);
+  return () => tagListeners.get(tag)?.delete(cb);
+};
+
+export const invalidateTags = (tags: string[]) => {
+  tags.forEach((tag) => tagListeners.get(tag)?.forEach((cb) => cb()));
 };
 
 type QueryState<TData> = {
@@ -64,9 +77,11 @@ export const apiRequest = async <TData>({
 
 export const createQueryHook = <TData, TArg = undefined>(
   request: (arg: TArg) => Promise<TData>,
+  defaultTags?: string[],
 ) => {
   return (arg: TArg, options?: QueryOptions) => {
     const skip = Boolean(options?.skip);
+    const tags = options?.tags ?? defaultTags;
     const [state, setState] = useState<QueryState<TData>>({
       data: undefined,
       isLoading: !skip,
@@ -134,6 +149,13 @@ export const createQueryHook = <TData, TArg = undefined>(
       fetchData().catch(() => undefined);
     }, [fetchData, skip]);
 
+    useEffect(() => {
+      if (!tags?.length) return;
+      const unsubs = tags.map((tag) => subscribeToTag(tag, () => fetchData().catch(() => undefined)));
+      return () => unsubs.forEach((unsub) => unsub());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchData, JSON.stringify(tags)]);
+
     const refetch = useCallback(async () => fetchData(), [fetchData]);
 
     return {
@@ -148,6 +170,7 @@ export const createMutationHook = <TData, TArg = unknown>(
   options?: {
     onSuccess?: (data: TData, arg: TArg) => void;
     onError?: (error: unknown, arg: TArg) => void;
+    invalidatesTags?: string[];
   },
 ) => {
   return () => {
@@ -178,6 +201,7 @@ export const createMutationHook = <TData, TArg = unknown>(
             error: undefined,
           });
           options?.onSuccess?.(data, arg);
+          if (options?.invalidatesTags?.length) invalidateTags(options.invalidatesTags);
           return data;
         })
         .catch((error) => {

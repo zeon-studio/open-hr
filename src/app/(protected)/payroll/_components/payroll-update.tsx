@@ -43,7 +43,7 @@ const PayrollUpdate = ({
     payrollData.increments,
   );
 
-  const [updatePayroll, { isSuccess, isError }] = useUpdatePayrollMutation();
+  const [updatePayroll, { isSuccess, isError, error }] = useUpdatePayrollMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -52,7 +52,7 @@ const PayrollUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

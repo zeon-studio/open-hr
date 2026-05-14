@@ -1,5 +1,6 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import { modules } from "@/config/modules";
+import { invalidateTags } from "@/lib/api-client";
 import { TModuleItem, TSetting } from "@/features/settings/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
@@ -52,6 +53,7 @@ const SettingModuleForm = ({ data }: { data: TSetting }) => {
         ...prev,
         [identifier]: newState,
       }));
+      invalidateTags(["setting"]);
       toast("Module update complete");
     } catch {
       toast("Something went wrong");

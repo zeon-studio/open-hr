@@ -8,6 +8,7 @@ export const useGetAssetsQuery = createQueryHook<TAssetState, TPagination>(
       url: `/asset?page=${page}&limit=${limit}&search=${search}`,
       method: "GET",
     }),
+  ["asset"],
 );
 
 export const useGetAssetQuery = createQueryHook<TAssetState<TAsset>, string>(
@@ -16,6 +17,7 @@ export const useGetAssetQuery = createQueryHook<TAssetState<TAsset>, string>(
       url: `/asset/${id}`,
       method: "GET",
     }),
+  ["asset"],
 );
 
 export const useGetAssetsByUserQuery = createQueryHook<TAllAssetsState, string>(
@@ -24,6 +26,7 @@ export const useGetAssetsByUserQuery = createQueryHook<TAllAssetsState, string>(
       url: `/asset/user/${id}`,
       method: "GET",
     }),
+  ["asset"],
 );
 
 export const useAddAssetMutation = createMutationHook<TAssetState, TAsset>(
@@ -33,6 +36,7 @@ export const useAddAssetMutation = createMutationHook<TAssetState, TAsset>(
       method: "POST",
       body: data,
     }),
+  { invalidatesTags: ["asset"] },
 );
 
 export const useUpdateAssetMutation = createMutationHook<unknown, any>((data) =>
@@ -41,6 +45,7 @@ export const useUpdateAssetMutation = createMutationHook<unknown, any>((data) =>
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["asset"] },
 );
 
 export const useDeleteAssetMutation = createMutationHook<unknown, string>(
@@ -49,4 +54,5 @@ export const useDeleteAssetMutation = createMutationHook<unknown, string>(
       url: `/asset/${id}`,
       method: "DELETE",
     }),
+  { invalidatesTags: ["asset"] },
 );

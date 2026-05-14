@@ -45,6 +45,7 @@ export const useGetEmployeeAchievementsQuery = createQueryHook<
     url: `/employee-achievement?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-achievement"],
 );
 
 export const useGetEmployeeAchievementQuery = createQueryHook<
@@ -55,6 +56,7 @@ export const useGetEmployeeAchievementQuery = createQueryHook<
     url: `/employee-achievement/${id}`,
     method: "GET",
   }),
+  ["employee-achievement"],
 );
 
 export const useUpdateEmployeeAchievementMutation = createMutationHook<
@@ -66,6 +68,7 @@ export const useUpdateEmployeeAchievementMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee-achievement"] },
 );
 
 export const useDeleteEmployeeAchievementMutation = createMutationHook<
@@ -76,4 +79,5 @@ export const useDeleteEmployeeAchievementMutation = createMutationHook<
     url: `/employee-achievement/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["employee-achievement"] },
 );

@@ -39,7 +39,7 @@ const LeaveUpdate = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

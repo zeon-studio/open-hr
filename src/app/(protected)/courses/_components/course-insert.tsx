@@ -9,7 +9,7 @@ const CourseInsert = ({
 }: {
   onDialogChange: (open: boolean) => void;
 }) => {
-  const [addCourse, { isSuccess, isError }] = useAddCourseMutation();
+  const [addCourse, { isSuccess, isError, error }] = useAddCourseMutation();
   const [loader, setLoader] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [courseData, setCourseData] = useState<TCourse>({
@@ -61,7 +61,7 @@ const CourseInsert = ({
       onDialogChange(false);
     } else if (isError) {
       setLoader(false);
-      toast("Something went wrong");
+      toast((error as any)?.data?.message || "Something went wrong");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);

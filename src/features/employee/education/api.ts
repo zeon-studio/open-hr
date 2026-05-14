@@ -33,6 +33,7 @@ export const useGetEmployeeEducationsQuery = createQueryHook<
     url: `/employee-education?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-education"],
 );
 
 export const useGetEmployeeEducationQuery = createQueryHook<
@@ -43,6 +44,7 @@ export const useGetEmployeeEducationQuery = createQueryHook<
     url: `/employee-education/${id}`,
     method: "GET",
   }),
+  ["employee-education"],
 );
 
 export const useAddEmployeeEducationMutation = createMutationHook<
@@ -54,6 +56,7 @@ export const useAddEmployeeEducationMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["employee-education"] },
 );
 
 export const useUpdateEmployeeEducationMutation = createMutationHook<
@@ -65,6 +68,7 @@ export const useUpdateEmployeeEducationMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee-education"] },
 );
 
 export const useDeleteEmployeeEducationMutation = createMutationHook<
@@ -75,4 +79,5 @@ export const useDeleteEmployeeEducationMutation = createMutationHook<
     url: `/employee-education/${id}`,
     method: "DELETE",
   }),
+  { invalidatesTags: ["employee-education"] },
 );

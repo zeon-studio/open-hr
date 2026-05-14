@@ -35,6 +35,7 @@ export default function PersonalInfo() {
       isLoading: isPersonalUpdating,
       isSuccess: isEmployeeUpdateSuccess,
       isError: isEmployeeUpdateError,
+      error: employeeUpdateError,
     },
   ] = useUpdateEmployeeMutation();
 
@@ -43,7 +44,7 @@ export default function PersonalInfo() {
     if (isEmployeeUpdateSuccess) {
       toast("Employee details updated successfully");
     } else if (isEmployeeUpdateError) {
-      toast("Failed to update employee details");
+      toast((employeeUpdateError as any)?.data?.message || "Failed to update employee details");
     }
   }, [isEmployeeUpdateSuccess, isEmployeeUpdateError]);
 
@@ -54,6 +55,7 @@ export default function PersonalInfo() {
       isLoading: isPasswordUpdating,
       isSuccess: isPasswordUpdateSuccess,
       isError: isPasswordUpdateError,
+      error: passwordUpdateError,
     },
   ] = useUpdateEmployeePasswordMutation();
 
@@ -62,7 +64,7 @@ export default function PersonalInfo() {
     if (isPasswordUpdateSuccess) {
       toast("Password updated successfully");
     } else if (isPasswordUpdateError) {
-      toast("Failed to update password");
+      toast((passwordUpdateError as any)?.data?.message || "Failed to update password");
     }
   }, [isPasswordUpdateSuccess, isPasswordUpdateError]);
 
@@ -77,6 +79,7 @@ export default function PersonalInfo() {
       isLoading: isBankInfoUpdating,
       isSuccess: isBankUpdateSuccess,
       isError: isBankUpdateError,
+      error: bankUpdateError,
     },
   ] = useUpdateEmployeeBankMutation();
 
@@ -85,7 +88,7 @@ export default function PersonalInfo() {
     if (isBankUpdateSuccess) {
       toast("Bank details updated successfully");
     } else if (isBankUpdateError) {
-      toast("Failed to update bank details");
+      toast((bankUpdateError as any)?.data?.message || "Failed to update bank details");
     }
   }, [isBankUpdateSuccess, isBankUpdateError]);
 
@@ -100,6 +103,7 @@ export default function PersonalInfo() {
       isLoading: isEducationUpdating,
       isSuccess: isEducationUpdateSuccess,
       isError: isEducationUpdateError,
+      error: educationUpdateError,
     },
   ] = useUpdateEmployeeEducationMutation();
 
@@ -108,7 +112,7 @@ export default function PersonalInfo() {
     if (isEducationUpdateSuccess) {
       toast("Education details updated successfully");
     } else if (isEducationUpdateError) {
-      toast("Failed to update education details");
+      toast((educationUpdateError as any)?.data?.message || "Failed to update education details");
     }
   }, [isEducationUpdateSuccess, isEducationUpdateError]);
 

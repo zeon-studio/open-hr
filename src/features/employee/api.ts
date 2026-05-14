@@ -30,7 +30,9 @@ export const useGetEmployeesQuery = createQueryHook<
     url: `/employee?${params.toString()}`,
     method: "GET",
   });
-});
+},
+  ["employee"],
+);
 
 export const useGetEmployeeDetailsByTokenQuery = createQueryHook<
   TEmployeeState<TEmployee>,
@@ -50,6 +52,7 @@ export const useGetEmployeesBasicsQueryBase = createQueryHook<
     url: `/employee/basics`,
     method: "GET",
   }),
+  ["employee-basics"],
 );
 
 export const useGetEmployeeQuery = createQueryHook<
@@ -60,6 +63,7 @@ export const useGetEmployeeQuery = createQueryHook<
     url: `/employee/${id}`,
     method: "GET",
   }),
+  ["employee"],
 );
 
 export const useGetAdminAndModsQuery = createQueryHook<
@@ -70,6 +74,7 @@ export const useGetAdminAndModsQuery = createQueryHook<
     url: `/employee/admin-and-mods`,
     method: "GET",
   }),
+  ["employee"],
 );
 
 export const useAddEmployeeMutation = createMutationHook<
@@ -81,6 +86,7 @@ export const useAddEmployeeMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useUpdateEmployeePasswordMutation = createMutationHook<
@@ -92,6 +98,7 @@ export const useUpdateEmployeePasswordMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useUpdateEmployeeMutation = createMutationHook<
@@ -104,6 +111,7 @@ export const useUpdateEmployeeMutation = createMutationHook<
     body: data,
     ...employeeAuthHeader(data.token),
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useDeleteEmployeeMutation = createMutationHook<unknown, string>(
@@ -112,6 +120,7 @@ export const useDeleteEmployeeMutation = createMutationHook<unknown, string>(
       url: `/employee/${id}`,
       method: "DELETE",
     }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useSetEmployeeEmailMutation = createMutationHook<
@@ -124,6 +133,7 @@ export const useSetEmployeeEmailMutation = createMutationHook<
     body: data,
     ...employeeAuthHeader(data.token),
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useSetEmployeePasswordMutation = createMutationHook<
@@ -136,6 +146,7 @@ export const useSetEmployeePasswordMutation = createMutationHook<
     body: data,
     ...employeeAuthHeader(data.token),
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useSetEmployeeCommunicationIdMutation = createMutationHook<
@@ -148,6 +159,7 @@ export const useSetEmployeeCommunicationIdMutation = createMutationHook<
     body: data,
     ...employeeAuthHeader(data.token),
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useSetEmployeePersonalityMutation = createMutationHook<
@@ -160,6 +172,7 @@ export const useSetEmployeePersonalityMutation = createMutationHook<
     body: data,
     ...employeeAuthHeader(data.token),
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );
 
 export const useUpdateEmployeeRoleMutation = createMutationHook<
@@ -171,4 +184,5 @@ export const useUpdateEmployeeRoleMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee", "employee-basics"] },
 );

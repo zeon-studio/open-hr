@@ -74,6 +74,7 @@ export const useGetEmployeeJobsQuery = createQueryHook<
     url: `/employee-job?page=${page}&limit=${limit}&search=${search}`,
     method: "GET",
   }),
+  ["employee-job"],
 );
 
 export const useGetEmployeeJobQuery = createQueryHook<
@@ -84,6 +85,7 @@ export const useGetEmployeeJobQuery = createQueryHook<
     url: `/employee-job/${id}`,
     method: "GET",
   }).then(normalizeEmployeeJob),
+  ["employee-job"],
 );
 
 export const useAddEmployeeJobMutation = createMutationHook<
@@ -95,6 +97,7 @@ export const useAddEmployeeJobMutation = createMutationHook<
     method: "POST",
     body: data,
   }),
+  { invalidatesTags: ["employee-job"] },
 );
 
 export const useUpdateEmployeeJobMutation = createMutationHook<
@@ -106,6 +109,7 @@ export const useUpdateEmployeeJobMutation = createMutationHook<
     method: "PATCH",
     body: data,
   }),
+  { invalidatesTags: ["employee-job"] },
 );
 
 export const useDeleteEmployeeJobMutation = createMutationHook<unknown, string>(
@@ -114,4 +118,5 @@ export const useDeleteEmployeeJobMutation = createMutationHook<unknown, string>(
       url: `/employee-job/${id}`,
       method: "DELETE",
     }),
+  { invalidatesTags: ["employee-job"] },
 );

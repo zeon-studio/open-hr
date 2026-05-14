@@ -31,7 +31,7 @@ export default function Achievement() {
   }
   const [
     addAchievement,
-    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError },
+    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError, error: addError },
   ] = useUpdateEmployeeAchievementMutation();
   const { data, isLoading } = useGetEmployeeAchievementQuery(employeeId);
 
@@ -39,7 +39,7 @@ export default function Achievement() {
     if (isAddSuccess) {
       toast("Achievement details updated successfully");
     } else if (isAddError) {
-      toast("Failed to update Achievement details");
+      toast((addError as any)?.data?.message || "Failed to update Achievement details");
     }
   }, [isAddSuccess, isAddError]);
 
