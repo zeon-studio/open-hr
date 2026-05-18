@@ -93,9 +93,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           response_type: "code",
         },
       },
-      profile(profile: { name: string; email: string; picture: string }) {
+      profile(profile: { sub: string; name: string; email: string; picture: string }) {
         return {
-          id: "",
+          id: profile.sub,
           name: profile.name,
           email: profile.email,
           image: profile.picture,
