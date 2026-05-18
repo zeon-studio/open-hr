@@ -29,8 +29,13 @@ export const EmployeeOffboarding = createLooseModel("employee_offboarding", [
 export const EmployeeOnboarding = createLooseModel("employee_onboarding", [
   "employee_id",
 ]);
-export const Leave = createLooseModel("leave", ["employee_id"]);
-export const LeaveRequest = createLooseModel("leave_request", ["employee_id"]);
+export const Leave = createLooseModel("leave", ["employee_id", "years.year"]);
+export const LeaveRequest = createLooseModel("leave_request", [
+  "employee_id",
+  "status",
+  "start_date",
+  "end_date",
+]);
 export const Payroll = createLooseModel("payroll", ["employee_id"]);
 export const Asset = createLooseModel("asset", ["asset_id", "employee_id"]);
 export const Calendar = createLooseModel("calendar", ["year"]);

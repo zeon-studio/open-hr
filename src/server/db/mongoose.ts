@@ -30,6 +30,10 @@ export const connectMongoose = async () => {
     cached.promise = mongoose.connect(variables.database_uri, {
       dbName: process.env.MONGO_DB_NAME,
       bufferCommands: false,
+      maxPoolSize: 20,
+      minPoolSize: 5,
+      socketTimeoutMS: 30000,
+      serverSelectionTimeoutMS: 5000,
     });
   }
 

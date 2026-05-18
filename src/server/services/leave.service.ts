@@ -90,6 +90,21 @@ export const addNewYearLeaveService = async (year: number) => {
   const employees = await EmployeeJob.find({});
   if (employees.length === 0) throw new Error("No employees found");
 
+  const employeeIds = employees.map((e: any) => e.employee_id);
+
+  const prevYearDocs = await Leave.find(
+    { employee_id: { $in: employeeIds }, "years.year": year - 1 },
+    { employee_id: 1, years: 1, _id: 0 },
+  ).lean();
+
+  const prevYearMap = new Map<string, any>(
+    prevYearDocs.map((doc: any) => [
+      doc.employee_id,
+      (doc.years ?? []).find((y: any) => y.year === year - 1),
+    ]),
+  );
+
+  const yearStart = new Date(`01-01-${year}`);
   const bulkOperations: any[] = [];
 
   for (const employee of employees) {
@@ -102,23 +117,14 @@ export const addNewYearLeaveService = async (year: number) => {
     };
 
     const permanentDate = new Date(employee.permanent_date);
-    const yearStart = new Date(`01-01-${year}`);
-
     if (!isOneYearPassed(permanentDate, yearStart)) {
       newYearData.earned.allotted = 0;
     }
 
-    const prevYearDoc = await Leave.findOne({
-      employee_id: employee.employee_id,
-      "years.year": year - 1,
-    });
-
-    if (prevYearDoc) {
-      const prevYear = prevYearDoc.years.find((y: any) => y.year === year - 1);
-      if (prevYear) {
-        const carryOver = prevYear.earned.allotted - prevYear.earned.consumed;
-        newYearData.earned.allotted += Math.max(0, carryOver);
-      }
+    const prevYear = prevYearMap.get(employee.employee_id);
+    if (prevYear) {
+      const carryOver = prevYear.earned.allotted - prevYear.earned.consumed;
+      newYearData.earned.allotted += Math.max(0, carryOver);
     }
 
     bulkOperations.push({

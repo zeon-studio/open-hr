@@ -1,20 +1,21 @@
 import Axios from "@/lib/axios";
 import { TError } from "@/types";
-import type { AxiosRequestConfig } from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type ApiRequestArgs = {
   url: string;
-  method: AxiosRequestConfig["method"];
-  body?: AxiosRequestConfig["data"];
-  params?: AxiosRequestConfig["params"];
-  headers?: AxiosRequestConfig["headers"];
+  method?: string;
+  body?: unknown;
+  params?: Record<string, unknown>;
+  headers?: Record<string, string>;
 };
 
 export type QueryOptions = {
   skip?: boolean;
   tags?: string[];
 };
+
+const inFlightRequests = new Map<string, Promise<any>>();
 
 const tagListeners = new Map<string, Set<() => void>>();
 
@@ -56,23 +57,25 @@ export const apiRequest = async <TData>({
   params,
   headers,
 }: ApiRequestArgs): Promise<TData> => {
-  try {
-    const result = await Axios({
-      url,
-      method,
-      data: body,
-      params,
-      headers,
+  const isReadOnly = !method || method.toUpperCase() === "GET";
+  const cacheKey = isReadOnly ? `${method}:${url}:${JSON.stringify(params)}` : null;
+
+  if (cacheKey && inFlightRequests.has(cacheKey)) {
+    return inFlightRequests.get(cacheKey) as Promise<TData>;
+  }
+
+  const request = (Axios({ url, method, data: body, params, headers }) as Promise<{ data: TData }>)
+    .then((result) => result.data)
+    .catch((axiosError: unknown) => {
+      const err = axiosError as TError;
+      throw { status: err.response?.status, data: err.response?.data || err.message };
+    })
+    .finally(() => {
+      if (cacheKey) inFlightRequests.delete(cacheKey);
     });
 
-    return result.data as TData;
-  } catch (axiosError) {
-    const err = axiosError as TError;
-    throw {
-      status: err.response?.status,
-      data: err.response?.data || err.message,
-    };
-  }
+  if (cacheKey) inFlightRequests.set(cacheKey, request);
+  return request;
 };
 
 export const createQueryHook = <TData, TArg = undefined>(

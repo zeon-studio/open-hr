@@ -36,7 +36,7 @@ export const listDocuments = async (
   }
 
   const [result, total] = await Promise.all([
-    model.find(filter).sort({ createdAt: -1 }).skip(skip).limit(safeLimit),
+    model.find(filter).sort({ createdAt: -1 }).skip(skip).limit(safeLimit).lean(),
     model.countDocuments(filter),
   ]);
 
@@ -55,17 +55,14 @@ export const getByIdOrField = async (
 ) => {
   const numericValue = value !== "" && !isNaN(Number(value)) ? Number(value) : null;
 
-  for (const field of fields) {
-    if (field === "_id" && !mongoose.Types.ObjectId.isValid(value)) continue;
-    const castValue = field !== "_id" && numericValue !== null ? numericValue : value;
-    try {
-      const found = await model.findOne({ [field]: castValue });
-      if (found) return found;
-    } catch {
-      continue;
-    }
-  }
-  return null;
+  const conditions = fields
+    .filter((field) => field !== "_id" || mongoose.Types.ObjectId.isValid(value))
+    .map((field) => ({
+      [field]: field !== "_id" && numericValue !== null ? numericValue : value,
+    }));
+
+  if (conditions.length === 0) return null;
+  return model.findOne({ $or: conditions }).lean();
 };
 
 export const createDocument = async (model: Model<any>, payload: any) => {

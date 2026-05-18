@@ -94,8 +94,10 @@ export const getAllLeaveRequestService = async (options: {
     },
   ];
 
-  const result = await LeaveRequest.aggregate(pipeline);
-  const total = await LeaveRequest.countDocuments(matchCondition);
+  const [result, total] = await Promise.all([
+    LeaveRequest.aggregate(pipeline),
+    LeaveRequest.countDocuments(matchCondition),
+  ]);
   return { result, meta: { total } };
 };
 
@@ -133,10 +135,14 @@ export const createLeaveRequestService = async (data: any) => {
       { session },
     );
 
-    const employeeData = await Employee.findOne({ id: data.employee_id }).session(session);
-    const employeeJobData = await EmployeeJob.findOne({ employee_id: data.employee_id }).session(session);
-    const managerData = await Employee.findOne({ id: employeeJobData?.manager_id }).session(session);
-    const adminAndModData = await Employee.find({ role: { $in: ["admin", "moderator"] } }).session(session);
+    const [employeeData, employeeJobData, adminAndModData] = await Promise.all([
+      Employee.findOne({ id: data.employee_id }).session(session).lean(),
+      EmployeeJob.findOne({ employee_id: data.employee_id }).session(session).lean(),
+      Employee.find({ role: { $in: ["admin", "moderator"] } }, { work_email: 1 }).session(session).lean(),
+    ]);
+    const managerData = employeeJobData?.manager_id
+      ? await Employee.findOne({ id: employeeJobData.manager_id }, { work_email: 1 }).session(session).lean()
+      : null;
 
     const notifyEmails = [
       ...adminAndModData.map((e: any) => e.work_email).filter(Boolean),
@@ -155,19 +161,22 @@ export const createLeaveRequestService = async (data: any) => {
 
     if (variables.discord_webhook_url) {
       try {
-        const { default: axiosLib } = await import("axios");
-        await axiosLib.post(variables.discord_webhook_url, {
-          content: leaveRequestDiscord(
-            employeeData?.name ?? data.employee_id,
-            data.leave_type,
-            dayCount,
-            startDate,
-            endDate,
-            data.reason,
-          ),
+        await fetch(variables.discord_webhook_url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: leaveRequestDiscord(
+              employeeData?.name ?? data.employee_id,
+              data.leave_type,
+              dayCount,
+              startDate,
+              endDate,
+              data.reason,
+            ),
+          }),
         });
       } catch (e: any) {
-        if (e?.response?.status !== 429) console.warn("Discord notification failed:", e?.message);
+        if (e?.status !== 429) console.warn("Discord notification failed:", e?.message);
       }
     }
 
