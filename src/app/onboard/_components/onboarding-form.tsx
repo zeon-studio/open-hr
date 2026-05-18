@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/ui/select";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { DialogClose } from "@/ui/dialog";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";

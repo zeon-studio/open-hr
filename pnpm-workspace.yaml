@@ -5,3 +5,4 @@ allowBuilds:
   sharp: true
   bcrypt: true
   unrs-resolver: false
+  msw: true

@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/ui/dialog";
 import { Input } from "@/ui/input";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { DialogClose } from "@/ui/dialog";
 import { useState } from "react";
 import { Button } from "@/ui/button";
 

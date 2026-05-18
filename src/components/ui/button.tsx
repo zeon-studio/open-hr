@@ -1,5 +1,7 @@
 import { cn } from "@/lib/shadcn";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot as SlotPrimitive } from "radix-ui";
+
+const { Slot } = SlotPrimitive;
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 

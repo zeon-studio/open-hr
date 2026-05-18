@@ -4,7 +4,7 @@ import { invalidateTags } from "@/lib/api-client";
 import { TModuleItem, TSetting } from "@/features/settings/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Switch } from "@/ui/switch";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { Dialog, DialogTrigger } from "@/ui/dialog";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
