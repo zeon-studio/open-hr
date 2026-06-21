@@ -1,4 +1,8 @@
-import { useGetEmployeeContactQuery, useUpdateEmployeeContactMutation, type TEmployeeContact } from "@/features/employee/contact/api";
+import {
+  useGetEmployeeContactQuery,
+  useUpdateEmployeeContactMutation,
+  type TEmployeeContact,
+} from "@/features/employee/contact/api";
 import EditFrom from "@/layouts/edit-from";
 import { Button } from "@/ui/button";
 import { Card, CardContent } from "@/ui/card";
@@ -20,7 +24,12 @@ export default function Emergency() {
   }
   const [
     addContact,
-    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError, error: addError },
+    {
+      isLoading: isAddLoading,
+      isSuccess: isAddSuccess,
+      isError: isAddError,
+      error: addError,
+    },
   ] = useUpdateEmployeeContactMutation();
   const { data, isLoading } = useGetEmployeeContactQuery(employeeId);
 
@@ -28,9 +37,12 @@ export default function Emergency() {
     if (isAddSuccess) {
       toast("Emergency contact details updated successfully");
     } else if (isAddError) {
-      toast((addError as any)?.data?.message || "Failed to update emergency contact details");
+      toast(
+        (addError as any)?.data?.message ||
+          "Failed to update emergency contact details",
+      );
     }
-  }, [isAddSuccess, isAddError]);
+  }, [isAddSuccess, isAddError, addError]);
 
   return (
     <div>

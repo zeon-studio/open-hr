@@ -1,5 +1,10 @@
 import options from "@/config/options.json";
-import { useGetEmployeeAchievementQuery, useUpdateEmployeeAchievementMutation, type TAchievement, type TEmployeeAchievement } from "@/features/employee/achievement/api";
+import {
+  useGetEmployeeAchievementQuery,
+  useUpdateEmployeeAchievementMutation,
+  type TAchievement,
+  type TEmployeeAchievement,
+} from "@/features/employee/achievement/api";
 import EditFrom from "@/layouts/edit-from";
 import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
 import { Button } from "@/ui/button";
@@ -31,7 +36,12 @@ export default function Achievement() {
   }
   const [
     addAchievement,
-    { isLoading: isAddLoading, isSuccess: isAddSuccess, isError: isAddError, error: addError },
+    {
+      isLoading: isAddLoading,
+      isSuccess: isAddSuccess,
+      isError: isAddError,
+      error: addError,
+    },
   ] = useUpdateEmployeeAchievementMutation();
   const { data, isLoading } = useGetEmployeeAchievementQuery(employeeId);
 
@@ -39,9 +49,12 @@ export default function Achievement() {
     if (isAddSuccess) {
       toast("Achievement details updated successfully");
     } else if (isAddError) {
-      toast((addError as any)?.data?.message || "Failed to update Achievement details");
+      toast(
+        (addError as any)?.data?.message ||
+          "Failed to update Achievement details",
+      );
     }
-  }, [isAddSuccess, isAddError]);
+  }, [isAddSuccess, isAddError, addError]);
 
   return (
     <div>

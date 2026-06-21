@@ -1,6 +1,16 @@
-import { useGetEmployeeQuery, useUpdateEmployeeMutation, useUpdateEmployeePasswordMutation } from "@/features/employee/api"
-import { useGetEmployeeBankQuery, useUpdateEmployeeBankMutation } from "@/features/employee/bank/api"
-import { useGetEmployeeEducationQuery, useUpdateEmployeeEducationMutation } from "@/features/employee/education/api";
+import {
+  useGetEmployeeQuery,
+  useUpdateEmployeeMutation,
+  useUpdateEmployeePasswordMutation,
+} from "@/features/employee/api";
+import {
+  useGetEmployeeBankQuery,
+  useUpdateEmployeeBankMutation,
+} from "@/features/employee/bank/api";
+import {
+  useGetEmployeeEducationQuery,
+  useUpdateEmployeeEducationMutation,
+} from "@/features/employee/education/api";
 import { useSettings } from "@/hooks/use-settings";
 import { Card, CardContent } from "@/ui/card";
 import { Loader2 } from "lucide-react";
@@ -44,9 +54,12 @@ export default function PersonalInfo() {
     if (isEmployeeUpdateSuccess) {
       toast("Employee details updated successfully");
     } else if (isEmployeeUpdateError) {
-      toast((employeeUpdateError as any)?.data?.message || "Failed to update employee details");
+      toast(
+        (employeeUpdateError as any)?.data?.message ||
+          "Failed to update employee details",
+      );
     }
-  }, [isEmployeeUpdateSuccess, isEmployeeUpdateError]);
+  }, [isEmployeeUpdateSuccess, isEmployeeUpdateError, employeeUpdateError]);
 
   // update employee password
   const [
@@ -64,9 +77,12 @@ export default function PersonalInfo() {
     if (isPasswordUpdateSuccess) {
       toast("Password updated successfully");
     } else if (isPasswordUpdateError) {
-      toast((passwordUpdateError as any)?.data?.message || "Failed to update password");
+      toast(
+        (passwordUpdateError as any)?.data?.message ||
+          "Failed to update password",
+      );
     }
-  }, [isPasswordUpdateSuccess, isPasswordUpdateError]);
+  }, [isPasswordUpdateSuccess, isPasswordUpdateError, passwordUpdateError]);
 
   // get employee bank
   const { data: bankDetails, isLoading: isBankLoading } =
@@ -88,9 +104,12 @@ export default function PersonalInfo() {
     if (isBankUpdateSuccess) {
       toast("Bank details updated successfully");
     } else if (isBankUpdateError) {
-      toast((bankUpdateError as any)?.data?.message || "Failed to update bank details");
+      toast(
+        (bankUpdateError as any)?.data?.message ||
+          "Failed to update bank details",
+      );
     }
-  }, [isBankUpdateSuccess, isBankUpdateError]);
+  }, [isBankUpdateSuccess, isBankUpdateError, bankUpdateError]);
 
   // get employee education
   const { data: educationDetails, isLoading: isEducationLoading } =
@@ -112,9 +131,12 @@ export default function PersonalInfo() {
     if (isEducationUpdateSuccess) {
       toast("Education details updated successfully");
     } else if (isEducationUpdateError) {
-      toast((educationUpdateError as any)?.data?.message || "Failed to update education details");
+      toast(
+        (educationUpdateError as any)?.data?.message ||
+          "Failed to update education details",
+      );
     }
-  }, [isEducationUpdateSuccess, isEducationUpdateError]);
+  }, [isEducationUpdateSuccess, isEducationUpdateError, educationUpdateError]);
 
   // loading
   if (isPersonalLoading || isBankLoading || isEducationLoading) {

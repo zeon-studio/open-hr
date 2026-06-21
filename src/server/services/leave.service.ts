@@ -2,6 +2,28 @@ import { isOneYearPassed } from "@/lib/date-converter";
 import { EmployeeJob, Leave, Setting } from "@/server/models/module.model";
 import { PipelineStage } from "mongoose";
 
+const LEAVE_TYPES = ["casual", "earned", "sick", "without_pay"] as const;
+
+const safeNumber = (value: unknown) => {
+  const numeric = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(numeric) ? numeric : 0;
+};
+
+const sanitizeYearLeaveData = (yearData: any) => {
+  const nextYearData = { ...yearData };
+
+  for (const leaveType of LEAVE_TYPES) {
+    const leaveTypeData = nextYearData[leaveType] ?? {};
+    nextYearData[leaveType] = {
+      ...leaveTypeData,
+      allotted: safeNumber(leaveTypeData.allotted),
+      consumed: safeNumber(leaveTypeData.consumed),
+    };
+  }
+
+  return nextYearData;
+};
+
 const getLeaveAllottedDays = async () => {
   const setting = await Setting.findOne().exec();
   if (!setting) throw new Error("Settings not found");
@@ -113,7 +135,10 @@ export const addNewYearLeaveService = async (year: number) => {
       casual: { allotted: leaveAllottedDays.casual ?? 0, consumed: 0 },
       sick: { allotted: leaveAllottedDays.sick ?? 0, consumed: 0 },
       earned: { allotted: leaveAllottedDays.earned ?? 0, consumed: 0 },
-      without_pay: { allotted: leaveAllottedDays.without_pay ?? 0, consumed: 0 },
+      without_pay: {
+        allotted: leaveAllottedDays.without_pay ?? 0,
+        consumed: 0,
+      },
     };
 
     const permanentDate = new Date(employee.permanent_date);
@@ -149,9 +174,11 @@ export const updateLeaveService = async (
     throw new Error("Employee ID, year, and update data are required");
   }
 
+  const sanitizedUpdateData = sanitizeYearLeaveData(updateData);
+
   const result = await Leave.findOneAndUpdate(
     { employee_id: id, "years.year": year },
-    { $set: { "years.$": updateData } },
+    { $set: { "years.$": sanitizedUpdateData } },
     { returnDocument: "after" },
   );
 

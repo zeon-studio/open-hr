@@ -1,10 +1,57 @@
 import variables from "@/config/variables";
 import { localDate } from "@/lib/date-converter";
 import { dayCounter } from "@/lib/leaveHelper";
+import { leaveRequestDiscord, mailSender } from "@/server/mail/mail-sender";
 import { Employee } from "@/server/models/employee.model";
 import { EmployeeJob, Leave, LeaveRequest } from "@/server/models/module.model";
-import { leaveRequestDiscord, mailSender } from "@/server/mail/mail-sender";
 import mongoose, { PipelineStage } from "mongoose";
+
+const LEAVE_TYPES = ["casual", "earned", "sick", "without_pay"] as const;
+
+const safeNumber = (value: unknown) => {
+  const numeric = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(numeric) ? numeric : 0;
+};
+
+const normalizeLeaveCountersForYear = async (
+  employeeId: string,
+  year: number,
+  session?: mongoose.ClientSession,
+) => {
+  const leaveData = await Leave.findOne(
+    { employee_id: employeeId, "years.year": year },
+    { years: 1, _id: 0 },
+  )
+    .session(session ?? null)
+    .lean();
+
+  if (!leaveData) return;
+
+  const yearData = (leaveData.years ?? []).find((y: any) => y.year === year);
+  if (!yearData) return;
+
+  const setPayload: Record<string, number> = {};
+  for (const leaveType of LEAVE_TYPES) {
+    const leaveTypeData = yearData[leaveType] ?? {};
+    const consumed = leaveTypeData.consumed;
+    const allotted = leaveTypeData.allotted;
+
+    if (typeof consumed !== "number") {
+      setPayload[`years.$.${leaveType}.consumed`] = safeNumber(consumed);
+    }
+    if (typeof allotted !== "number") {
+      setPayload[`years.$.${leaveType}.allotted`] = safeNumber(allotted);
+    }
+  }
+
+  if (Object.keys(setPayload).length > 0) {
+    await Leave.findOneAndUpdate(
+      { employee_id: employeeId, "years.year": year },
+      { $set: setPayload },
+      { session },
+    );
+  }
+};
 
 const leaveValidator = async (data: {
   leave_type: string;
@@ -23,7 +70,9 @@ const leaveValidator = async (data: {
   ).exec();
 
   if (!leaveData) {
-    throw new Error(`No leave data found for employee ${employee_id} in ${year}`);
+    throw new Error(
+      `No leave data found for employee ${employee_id} in ${year}`,
+    );
   }
 
   const yearData = leaveData.years.find((y: any) => y.year === year);
@@ -32,9 +81,7 @@ const leaveValidator = async (data: {
   const overlapping = await LeaveRequest.findOne({
     employee_id,
     status: { $in: ["approved", "pending"] },
-    $or: [
-      { start_date: { $lte: end_date }, end_date: { $gte: start_date } },
-    ],
+    $or: [{ start_date: { $lte: end_date }, end_date: { $gte: start_date } }],
   });
 
   if (overlapping) {
@@ -73,7 +120,9 @@ export const getAllLeaveRequestService = async (options: {
     { $match: matchCondition },
     {
       $addFields: {
-        isPending: { $cond: { if: { $eq: ["$status", "pending"] }, then: 1, else: 0 } },
+        isPending: {
+          $cond: { if: { $eq: ["$status", "pending"] }, then: 1, else: 0 },
+        },
       },
     },
     { $sort: { isPending: -1, createdAt: -1 } },
@@ -113,11 +162,19 @@ export const createLeaveRequestService = async (data: any) => {
     const endDate = localDate(new Date(data.end_date));
     const dayCount = await dayCounter(startDate, endDate);
 
-    const enrichedData = { ...data, start_date: startDate, end_date: endDate, day_count: dayCount };
+    const enrichedData = {
+      ...data,
+      start_date: startDate,
+      end_date: endDate,
+      day_count: dayCount,
+    };
+    const currentYear = startDate.getFullYear();
+
+    await normalizeLeaveCountersForYear(data.employee_id, currentYear, session);
 
     const yearData = await leaveValidator(enrichedData);
-    const consumedDays = yearData[data.leave_type].consumed;
-    const allottedDays = yearData[data.leave_type].allotted;
+    const consumedDays = safeNumber(yearData[data.leave_type].consumed);
+    const allottedDays = safeNumber(yearData[data.leave_type].allotted);
 
     if (consumedDays + dayCount > allottedDays) {
       throw new Error(
@@ -128,7 +185,6 @@ export const createLeaveRequestService = async (data: any) => {
     const postData = new LeaveRequest(enrichedData);
     await postData.save({ session });
 
-    const currentYear = startDate.getFullYear();
     await Leave.findOneAndUpdate(
       { employee_id: data.employee_id, "years.year": currentYear },
       { $inc: { [`years.$.${data.leave_type}.consumed`]: dayCount } },
@@ -137,11 +193,23 @@ export const createLeaveRequestService = async (data: any) => {
 
     const [employeeData, employeeJobData, adminAndModData] = await Promise.all([
       Employee.findOne({ id: data.employee_id }).session(session).lean(),
-      EmployeeJob.findOne({ employee_id: data.employee_id }).session(session).lean(),
-      Employee.find({ role: { $in: ["admin", "moderator"] } }, { work_email: 1 }).session(session).lean(),
+      EmployeeJob.findOne({ employee_id: data.employee_id })
+        .session(session)
+        .lean(),
+      Employee.find(
+        { role: { $in: ["admin", "moderator"] } },
+        { work_email: 1 },
+      )
+        .session(session)
+        .lean(),
     ]);
     const managerData = employeeJobData?.manager_id
-      ? await Employee.findOne({ id: employeeJobData.manager_id }, { work_email: 1 }).session(session).lean()
+      ? await Employee.findOne(
+          { id: employeeJobData.manager_id },
+          { work_email: 1 },
+        )
+          .session(session)
+          .lean()
       : null;
 
     const notifyEmails = [
@@ -176,7 +244,8 @@ export const createLeaveRequestService = async (data: any) => {
           }),
         });
       } catch (e: any) {
-        if (e?.status !== 429) console.warn("Discord notification failed:", e?.message);
+        if (e?.status !== 429)
+          console.warn("Discord notification failed:", e?.message);
       }
     }
 
@@ -190,7 +259,10 @@ export const createLeaveRequestService = async (data: any) => {
   }
 };
 
-export const updateLeaveRequestService = async (id: string, updateData: any) => {
+export const updateLeaveRequestService = async (
+  id: string,
+  updateData: any,
+) => {
   const leaveReqData = await LeaveRequest.findOne({ _id: id });
   if (!leaveReqData) throw new Error("Leave request not found");
 
@@ -201,9 +273,19 @@ export const updateLeaveRequestService = async (id: string, updateData: any) => 
   try {
     if (updateData.status === "rejected") {
       const currentYear = leaveReqData.start_date.getFullYear();
+      await normalizeLeaveCountersForYear(
+        leaveReqData.employee_id,
+        currentYear,
+        session,
+      );
       await Leave.findOneAndUpdate(
         { employee_id: leaveReqData.employee_id, "years.year": currentYear },
-        { $inc: { [`years.$.${leaveReqData.leave_type}.consumed`]: -leaveReqData.day_count } },
+        {
+          $inc: {
+            [`years.$.${leaveReqData.leave_type}.consumed`]:
+              -leaveReqData.day_count,
+          },
+        },
         { session },
       );
     }
@@ -239,17 +321,31 @@ export const deleteLeaveRequestService = async (id: string) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const leaveReqData = await LeaveRequest.findOne({ _id: id }).session(session);
+    const leaveReqData = await LeaveRequest.findOne({ _id: id }).session(
+      session,
+    );
     if (!leaveReqData) throw new Error("Leave request not found");
 
     const currentYear = leaveReqData.start_date.getFullYear();
+    await normalizeLeaveCountersForYear(
+      leaveReqData.employee_id,
+      currentYear,
+      session,
+    );
     await Leave.findOneAndUpdate(
       { employee_id: leaveReqData.employee_id, "years.year": currentYear },
-      { $inc: { [`years.$.${leaveReqData.leave_type}.consumed`]: -leaveReqData.day_count } },
+      {
+        $inc: {
+          [`years.$.${leaveReqData.leave_type}.consumed`]:
+            -leaveReqData.day_count,
+        },
+      },
       { session },
     );
 
-    await LeaveRequest.findOneAndDelete({ _id: id, status: "pending" }).session(session);
+    await LeaveRequest.findOneAndDelete({ _id: id, status: "pending" }).session(
+      session,
+    );
 
     await session.commitTransaction();
   } catch (error: any) {
@@ -267,7 +363,9 @@ export const getUpcomingLeaveRequestService = async (currentDate: Date) => {
   }).sort({ start_date: 1 });
 };
 
-export const getUpcomingLeaveRequestDatesService = async (currentDate: Date) => {
+export const getUpcomingLeaveRequestDatesService = async (
+  currentDate: Date,
+) => {
   const requests = await LeaveRequest.find({
     status: { $in: ["approved", "pending"] },
     start_date: { $gte: currentDate },
