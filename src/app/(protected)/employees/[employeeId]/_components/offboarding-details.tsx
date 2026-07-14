@@ -41,6 +41,7 @@ export default function Offboarding() {
       resignation_date: new Date(),
     });
 
+  const [open, setOpen] = useState(false);
   const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
     null,
@@ -121,7 +122,7 @@ export default function Offboarding() {
                   <p>No offboarding tasks created</p>
                 </div>
               ) : (
-                <Dialog>
+                <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
                     <Button>Initiate Off-boarding</Button>
                   </DialogTrigger>
@@ -148,6 +149,7 @@ export default function Offboarding() {
                             toast.success(
                               "Off-boarding initiated successfully",
                             );
+                            setOpen(false);
                           } catch (error) {
                             const errorMessage =
                               (error as ErrorResponse).data.message ||

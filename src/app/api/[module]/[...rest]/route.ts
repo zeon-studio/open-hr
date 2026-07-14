@@ -167,7 +167,7 @@ export async function PATCH(request: NextRequest, context: Context) {
           employee_id: rest[1],
           "tasks.task_name": decodeURIComponent(rest[2]),
         },
-        { $set: { "tasks.$.status": "done" } },
+        { $set: { "tasks.$.status": "completed" } },
         { new: true },
       );
       return apiSuccess(updated, "data updated successfully");
