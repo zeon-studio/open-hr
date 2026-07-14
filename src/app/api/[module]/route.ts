@@ -75,7 +75,10 @@ export async function POST(
         resignation_date: body.resignation_date,
         tasks,
       });
-      await patchEmployeeService(body.employee_id, { role: ENUM_ROLE.FORMER });
+      await patchEmployeeService(body.employee_id, {
+        role: ENUM_ROLE.FORMER,
+        status: "archived",
+      });
       return apiSuccess(created, "data inserted successfully");
     }
 
