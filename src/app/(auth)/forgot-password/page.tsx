@@ -49,7 +49,7 @@ function ForgotPassword() {
             />
           </div>
           <div>
-            <Button disabled={isLoading} className="w-full">
+            <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? (
                 <>
                   Sending

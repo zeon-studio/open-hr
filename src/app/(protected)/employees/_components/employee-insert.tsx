@@ -264,7 +264,7 @@ const EmployeeInsert = ({
           </div>
 
           <div className="col-12 text-right">
-            <Button className="self-end" disabled={loader}>
+            <Button type="submit" className="self-end" disabled={loader}>
               {loader ? (
                 <>
                   Please wait

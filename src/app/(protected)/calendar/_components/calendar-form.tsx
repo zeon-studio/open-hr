@@ -384,7 +384,7 @@ const CalendarForm = ({
       {/* for insert */}
       {formType === "insert" && (
         <div className="col-12 text-right">
-          <Button disabled={loader}>
+          <Button type="submit" disabled={loader}>
             {loader ? (
               <>
                 Please wait

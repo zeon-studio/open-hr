@@ -338,7 +338,7 @@ export default function OnboardingForm({
         <DialogClose type="button" className="sr-only" ref={buttonRef}>
           Modal close
         </DialogClose>
-        <Button disabled={isUpdating} variant={"outline"} size={"lg"}>
+        <Button type="submit" disabled={isUpdating} variant={"outline"} size={"lg"}>
           Submit
           {isUpdating && <Loader2 className="ml-1.5 h-4 w-4 animate-spin" />}
         </Button>

@@ -352,7 +352,7 @@ export default function PreviousJobs({
                   </Button>
 
                   <div className="col-12 text-right">
-                    <Button disabled={isPrevJobLoading}>
+                    <Button type="submit" disabled={isPrevJobLoading}>
                       {isPrevJobLoading ? (
                         <>
                           Please wait

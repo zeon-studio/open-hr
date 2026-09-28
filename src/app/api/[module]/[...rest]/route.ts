@@ -4,6 +4,7 @@ import {
   getByIdOrField,
   upsertByField,
 } from "@/server/services/module.service";
+import mongoose from "mongoose";
 import { NextRequest } from "next/server";
 import { withDb } from "../../_lib/handler";
 import { getModel, VALID_MODULES } from "../_lib/model-map";
@@ -208,8 +209,10 @@ export async function DELETE(_request: NextRequest, context: Context) {
     }
 
     if (rest.length === 1) {
+      // Only match `_id` for valid ObjectIds; tag IDs like "TF_OTH_1" would throw a CastError.
       const deleted =
-        (await deleteByFields(model, { _id: rest[0] })) ||
+        (mongoose.Types.ObjectId.isValid(rest[0]) &&
+          (await deleteByFields(model, { _id: rest[0] }))) ||
         (await deleteByFields(model, { employee_id: rest[0] })) ||
         (await deleteByFields(model, { asset_id: rest[0] })) ||
         (await deleteByFields(model, {

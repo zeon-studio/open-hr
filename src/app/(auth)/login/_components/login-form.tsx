@@ -76,7 +76,7 @@ export default function LoginForm() {
         </Link>
       </div>
       <div>
-        <Button disabled={loading} className="w-full">
+        <Button type="submit" disabled={loading} className="w-full">
           {loading ? (
             <>
               Login
