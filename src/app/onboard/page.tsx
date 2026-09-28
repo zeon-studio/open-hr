@@ -5,15 +5,15 @@ import Loader from "@/components/loader";
 import { useGetEmployeeDetailsByTokenQuery } from "@/features/employee/api"
 import { type TEmployee } from "@/types/employee";
 import { useSettings } from "@/hooks/use-settings";
-import { checkCompletion } from "@/lib/check-completion";
-import { buttonVariants } from "@/ui/button";
+import { checkCompletion } from "@/lib/utils/check-completion";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/ui/card";
+} from "@/components/ui/card";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

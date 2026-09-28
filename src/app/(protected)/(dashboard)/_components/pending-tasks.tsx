@@ -1,12 +1,12 @@
 import { useGetPendingOffboardingTaskQuery, useUpdateOffboardingTaskStatusMutation } from "@/features/employee/offboarding/api";
 import { useGetPendingOnboardingTaskQuery, useUpdateOnboardingTaskStatusMutation, type TOnboardingTask } from "@/features/employee/onboarding/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
-import { Button } from "@/ui/button";
-import { dateFormat } from "@/lib/date-converter";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { dateFormat } from "@/lib/utils/date-converter";
 import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { BadgeInfo, CheckCircle, CircleDashed } from "lucide-react";
 import { useMemo } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 const PendingTasks = () => {
   const { data: offboardingTasks } =

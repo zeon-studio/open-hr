@@ -3,20 +3,20 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import { useDeleteToolMutation, type TTool } from "@/features/tool/api";
 import { useDialog } from "@/hooks/use-dialog";
-import { Button } from "@/ui/button";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
-import { TableCell, TableRow } from "@/ui/table";
+} from "@/components/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { Ellipsis, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { memo, useMemo, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import ToolPreview from "./tool-preview";
 import ToolUpdate from "./tool-update";
 

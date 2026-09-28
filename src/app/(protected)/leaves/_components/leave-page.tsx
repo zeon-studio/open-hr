@@ -4,15 +4,15 @@ import UserInfo from "@/components/user-info";
 import { useDialog } from "@/hooks/use-dialog";
 import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { TLeaveYear } from "@/types/leave";
-import { Button } from "@/ui/button";
-import { Dialog } from "@/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
-import { TableCell, TableRow } from "@/ui/table";
+} from "@/components/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { Ellipsis } from "lucide-react";
 import { memo, useMemo, useState } from "react";
 import LeaveUpdate from "./leave-update";

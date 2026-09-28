@@ -5,27 +5,27 @@ import {
   type TAchievement,
   type TEmployeeAchievement,
 } from "@/features/employee/achievement/api";
-import EditFrom from "@/layouts/edit-from";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { Button } from "@/ui/button";
-import { Calendar } from "@/ui/calendar";
-import { Card, CardContent } from "@/ui/card";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import EditFrom from "@/partials/edit-from";
+import { dateFormat, formatDateWithTime } from "@/lib/utils/date-converter";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
-import { Separator } from "@/ui/separator";
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 export default function Achievement() {
   const { data: session } = useSession();

@@ -1,8 +1,8 @@
 import { useAddAssetMutation } from "@/features/asset/api";
 import type { TAsset } from "@/types/asset";
-import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import AssetForm from "./asset-form";
 
 const AssetInsert = ({

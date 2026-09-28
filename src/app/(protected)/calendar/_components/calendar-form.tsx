@@ -1,10 +1,10 @@
-import { dateFormat, dayCount, formatDateWithTime } from "@/lib/date-converter";
+import { dateFormat, dayCount, formatDateWithTime } from "@/lib/utils/date-converter";
 import { TCalendar, TEvent } from "@/types/calendar";
-import { Button } from "@/ui/button";
-import { Calendar } from "@/ui/calendar";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";

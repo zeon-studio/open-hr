@@ -1,6 +1,6 @@
 import variables from "@/config/variables";
-import { localDate } from "@/lib/date-converter";
-import { dayCounter } from "@/lib/leaveHelper";
+import { localDate } from "@/lib/utils/date-converter";
+import { dayCounter } from "@/lib/utils/leaveHelper";
 import { leaveRequestDiscord, mailSender } from "@/server/mail/mail-sender";
 import { Employee } from "@/server/models/employee.model";
 import { EmployeeJob, Leave, LeaveRequest } from "@/server/models/module.model";

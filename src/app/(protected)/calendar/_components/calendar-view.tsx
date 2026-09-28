@@ -6,7 +6,7 @@ import {
   CalendarHeader,
   CalendarItem,
   CalendarProvider,
-} from "@/ui/event-calendar";
+} from "@/components/ui/event-calendar";
 import { useMemo } from "react";
 
 const CalendarView = ({ yearlyData }: { yearlyData: TEvent[] }) => {

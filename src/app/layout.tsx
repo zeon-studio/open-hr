@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
-import TwSizeIndicator from "@/lib/helpers/tw-size-indicator";
-import Providers from "@/layouts/providers";
+import TwSizeIndicator from "@/helpers/tw-size-indicator";
+import Providers from "@/partials/providers";
 import "@/styles/main.css";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/toast";
 
 const fontPrimary = Inter({
   weight: ["400", "500", "600"],

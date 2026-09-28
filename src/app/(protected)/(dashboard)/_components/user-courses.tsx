@@ -1,6 +1,6 @@
 import CopyText from "@/components/copy-text";
 import { useGetCoursesByUserQuery } from "@/features/course/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink, SquareLibrary } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

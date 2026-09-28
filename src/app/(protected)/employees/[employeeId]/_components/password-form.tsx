@@ -1,7 +1,7 @@
-import EditForm from "@/layouts/edit-from";
+import EditForm from "@/partials/edit-from";
 import { TEmployeePasswordUpdate } from "@/types/employee";
-import { Label } from "@/ui/label";
-import PasswordInput from "@/ui/password-input";
+import { Label } from "@/components/ui/label";
+import PasswordInput from "@/components/ui/password-input";
 
 export default function PasswordForm({
   data,

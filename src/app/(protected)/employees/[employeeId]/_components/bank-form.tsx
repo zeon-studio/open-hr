@@ -1,9 +1,9 @@
 import { type TEmployeeBank } from "@/features/employee/bank/api";
-import EditForm from "@/layouts/edit-from";
-import { Button } from "@/ui/button";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import { Separator } from "@/ui/separator";
+import EditForm from "@/partials/edit-from";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Trash2 } from "lucide-react";
 import { useEffect } from "react";
 

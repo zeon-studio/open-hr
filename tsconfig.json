@@ -25,16 +25,17 @@
       }
     ],
     "paths": {
-      "@/ui/*": ["./src/components/ui/*"],
-      "@/components/*": ["./src/components/common/*"],
-      "@/layouts/*": ["./src/components/layouts/*"],
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/layouts/components/*"],
+      "@/layouts/*": ["./src/layouts/*"],
+      "@/helpers/*": ["./src/layouts/helpers/*"],
+      "@/partials/*": ["./src/layouts/partials/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/types/*": ["./src/types/*"],
       "@/constants/*": ["./src/constants/*"],
       "@/server/*": ["./src/server/*"],
-      "@/assets/*": ["./public/*"],
-      "@/*": ["./src/*"]
+      "@/assets/*": ["./public/*"]
     }
   },
   "include": [

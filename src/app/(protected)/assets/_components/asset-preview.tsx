@@ -1,7 +1,7 @@
-import { dateFormat } from "@/lib/date-converter"
+import { dateFormat } from "@/lib/utils/date-converter"
 import { useEmployeeMap } from "@/hooks/use-employee-map";
 import type { TAsset } from "@/types/asset";
-import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useRef } from "react";
 
 const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {

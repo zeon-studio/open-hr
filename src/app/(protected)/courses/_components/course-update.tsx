@@ -1,7 +1,7 @@
 import { useUpdateCourseMutation, type TCourse } from "@/features/course/api";
-import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import CourseForm from "./course-form";
 
 const CourseUpdate = ({

@@ -1,8 +1,8 @@
 import { useUpdateLeaveMutation } from "@/features/leave/api"
 import { type TLeaveYear } from "@/types/leave";
-import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import LeaveForm from "./leave-form";
 
 const LeaveUpdate = ({

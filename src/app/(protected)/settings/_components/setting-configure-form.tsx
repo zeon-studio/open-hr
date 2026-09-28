@@ -1,9 +1,9 @@
 import { TSetting } from "@/features/settings/types";
-import EditFrom from "@/layouts/edit-from";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
+import EditFrom from "@/partials/edit-from";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 interface SettingConfigureFormProps {
   data: TSetting;

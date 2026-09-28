@@ -2,11 +2,11 @@ import ConfirmationPopup from "@/components/confirmation-popup";
 import { modules } from "@/config/modules";
 import { invalidateTags } from "@/lib/api-client";
 import { TModuleItem, TSetting } from "@/features/settings/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
-import { Switch } from "@/ui/switch";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useMemo, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 const SettingModuleForm = ({ data }: { data: TSetting }) => {
   // Initialize enabled states from data.modules using useMemo

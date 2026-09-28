@@ -18,7 +18,7 @@ A full-stack HR application built with Next.js App Router. UI and server-side bu
 - TypeScript
 - MongoDB + Mongoose
 - NextAuth v5 (Credentials + Google OAuth)
-- Tailwind CSS v4 + shadcn/ui
+- Tailwind CSS v4 + shadcn/ui (Base UI primitives)
 - AWS S3-compatible storage (DigitalOcean Spaces)
 
 ## Architecture
@@ -32,9 +32,11 @@ src/
       authentication/     # Auth routes (OTP, password reset)
       setting/            # App settings routes
       bucket/             # File upload/download routes
-  components/             # Shared UI and layout components
-    ui/                   # shadcn/ui primitives
-    common/               # App-specific shared components
+  layouts/                # UI components and page partials
+    components/           # App-specific shared components (@/components/*)
+      ui/                 # shadcn/ui primitives on Base UI (@/components/ui/*)
+    partials/             # Header, sidebar, providers (@/partials/*)
+    helpers/              # Dev/utility components (@/helpers/*)
   features/               # Client-side feature modules
     [feature]/
       api.ts              # React query hooks
@@ -51,6 +53,7 @@ src/
     api-client.ts         # Axios-based React hooks factory
     axios.ts              # Axios instance with auth interceptor
     client-api.ts         # fetch-based API client
+    utils/                # Pure helpers (cn, date/text converters, errors)
   hooks/                  # Reusable React hooks
   types/                  # Shared TypeScript types
   config/                 # App configuration and env variables
@@ -61,7 +64,7 @@ src/
 
 ### Layering Rules
 
-- `app/` can depend on `features/`, `components/`, `hooks/`, `server/`, `lib/`.
+- `app/` can depend on `features/`, `layouts/`, `hooks/`, `server/`, `lib/`.
 - `server/services/` can depend on `server/models/`, `lib/`, `types/`.
 - `server/models/` defines schemas only.
 - `lib/` and `types/` must not import from `features/` or `server/`.

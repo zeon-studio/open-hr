@@ -1,5 +1,5 @@
 import { useGetToolsByUserQuery } from "@/features/tool/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

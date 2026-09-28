@@ -4,16 +4,16 @@ import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
 import { useUpdateLeaveRequestMutation } from "@/features/leave-request/api"
 import { type TLeaveRequest } from "@/features/leave-request/types";
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat } from "@/lib/utils/date-converter";
 import { useEmployeeMap } from "@/hooks/use-employee-map";
-import { Badge } from "@/ui/badge";
-import { Button } from "@/ui/button";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
-import { TableCell, TableRow } from "@/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { Check, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { memo } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 const LeaveRequestPage = ({
   leaveRequest,

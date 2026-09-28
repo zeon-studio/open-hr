@@ -1,19 +1,19 @@
 import options from "@/config/options.json";
 import { TSetting } from "@/features/settings/types";
-import EditFrom from "@/layouts/edit-from";
-import { Button } from "@/ui/button";
-import { Label } from "@/ui/label";
-import MultiSelect from "@/ui/multi-select";
+import EditFrom from "@/partials/edit-from";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import MultiSelect from "@/components/ui/multi-select";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
+} from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 interface SettingWeekendsFormProps {
   data: TSetting;

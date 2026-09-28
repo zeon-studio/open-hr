@@ -3,17 +3,17 @@ import {
   useUpdateEmployeeContactMutation,
   type TEmployeeContact,
 } from "@/features/employee/contact/api";
-import EditFrom from "@/layouts/edit-from";
-import { Button } from "@/ui/button";
-import { Card, CardContent } from "@/ui/card";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import { Separator } from "@/ui/separator";
+import EditFrom from "@/partials/edit-from";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Loader2, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 export default function Emergency() {
   const { data: session } = useSession();

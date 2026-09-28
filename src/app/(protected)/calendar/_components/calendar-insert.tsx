@@ -1,8 +1,8 @@
 import { useAddCalendarMutation } from "@/features/calendar/api"
 import { type TCalendar } from "@/types/calendar";
-import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import CalendarForm from "./calendar-form";
 
 const CalendarInsert = ({

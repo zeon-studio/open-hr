@@ -5,7 +5,7 @@ import { useGetLeaveRequestsQuery } from "@/features/leave-request/api";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import { useSettings } from "@/hooks/use-settings";
-import { Button } from "@/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,7 +13,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/ui/table";
+} from "@/components/ui/table";
 import Link from "next/link";
 import { notFound, useSearchParams } from "next/navigation";
 import LeaveRequestPage from "./_components/leave-request-page";

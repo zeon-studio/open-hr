@@ -1,7 +1,7 @@
 import { useGetUpcomingHolidaysAndEventsQuery } from "@/features/calendar/api"
 import { type TEvent } from "@/types/calendar";
-import { dateFormat } from "@/lib/date-converter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { dateFormat } from "@/lib/utils/date-converter";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarCheck } from "lucide-react";
 
 const UpcomingEvents = () => {

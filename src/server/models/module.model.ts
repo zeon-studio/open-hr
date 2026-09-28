@@ -6,7 +6,7 @@ const createLooseModel = (name: string, indexedFields: string[] = []): Model<any
 
   // Delete stale cached model so schema changes always take effect.
   delete (mongoose.models as Record<string, unknown>)[name];
-  return mongoose.model(name, schema);
+  return mongoose.model<any, Model<any>>(name, schema);
 };
 
 export const EmployeeAchievement = createLooseModel("employee_achievement", [

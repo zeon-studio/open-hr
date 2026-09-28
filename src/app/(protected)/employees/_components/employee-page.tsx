@@ -2,23 +2,22 @@
 
 import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
-import { useDeleteEmployeeMutation } from "@/features/employee/api"
+import { useDeleteEmployeeMutation } from "@/features/employee/api";
 import { type TEmployee } from "@/types/employee";
-import { Badge } from "@/ui/badge";
-import { Button } from "@/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
-import { TableCell, TableRow } from "@/ui/table";
+} from "@/components/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { Ellipsis } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import EmployeeAppointmentLetter, {
   getAppointmentLetterHtml,
 } from "./employee-appointment-letter";
@@ -137,90 +136,82 @@ const EmployeePage = ({ employees }: { employees: TEmployee[] }) => {
                   <DropdownMenuContent align="end">
                     <ul>
                       <li>
-                        <DropdownMenuItem asChild>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button
-                                className="w-full text-destructive hover:bg-destructive justify-start"
-                                variant={"ghost"}
-                                size={"sm"}
-                              >
-                                Delete
-                              </Button>
-                            </DialogTrigger>
-                            <ConfirmationPopup
-                              handleConfirmation={() =>
-                                handleEmployeeDelete(employee?.id)
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              className="w-full text-destructive hover:bg-destructive justify-start"
+                              variant={"ghost"}
+                              size={"sm"}
+                            >
+                              Delete
+                            </Button>
+                          </DialogTrigger>
+                          <ConfirmationPopup
+                            handleConfirmation={() =>
+                              handleEmployeeDelete(employee?.id)
+                            }
+                            id={employee?.id}
+                            description="All the data related to this employee will be deleted."
+                          />
+                        </Dialog>
+                      </li>
+                      <li>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              className="w-full justify-start"
+                              variant="ghost"
+                              size="sm"
+                            >
+                              Appointment Letter
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <h3 className="text-lg font-semibold mb-2">
+                              Appointment Letter
+                            </h3>
+                            <EmployeeAppointmentLetter employee={employee} />
+                            <Button
+                              className="mt-4"
+                              onClick={() =>
+                                handlePrint(getAppointmentLetterHtml(employee))
                               }
-                              id={employee?.id}
-                              description="All the data related to this employee will be deleted."
+                            >
+                              Print
+                            </Button>
+                          </DialogContent>
+                        </Dialog>
+                      </li>
+                      <li>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              className="w-full justify-start"
+                              variant="ghost"
+                              size="sm"
+                            >
+                              Employment Certificate
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <h3 className="text-lg font-semibold mb-2">
+                              Employment Certificate
+                            </h3>
+                            <EmployeeEmploymentCertificate
+                              employee={employee}
                             />
-                          </Dialog>
-                        </DropdownMenuItem>
-                      </li>
-                      <li>
-                        <DropdownMenuItem asChild>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button
-                                className="w-full justify-start"
-                                variant="ghost"
-                                size="sm"
-                              >
-                                Appointment Letter
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <h3 className="text-lg font-semibold mb-2">
-                                Appointment Letter
-                              </h3>
-                              <EmployeeAppointmentLetter employee={employee} />
-                              <Button
-                                className="mt-4"
-                                onClick={() =>
-                                  handlePrint(
-                                    getAppointmentLetterHtml(employee),
-                                  )
-                                }
-                              >
-                                Print
-                              </Button>
-                            </DialogContent>
-                          </Dialog>
-                        </DropdownMenuItem>
-                      </li>
-                      <li>
-                        <DropdownMenuItem asChild>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button
-                                className="w-full justify-start"
-                                variant="ghost"
-                                size="sm"
-                              >
-                                Employment Certificate
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <h3 className="text-lg font-semibold mb-2">
-                                Employment Certificate
-                              </h3>
-                              <EmployeeEmploymentCertificate
-                                employee={employee}
-                              />
-                              <Button
-                                className="mt-4"
-                                onClick={() =>
-                                  handlePrint(
-                                    getEmploymentCertificateHtml(employee),
-                                  )
-                                }
-                              >
-                                Print
-                              </Button>
-                            </DialogContent>
-                          </Dialog>
-                        </DropdownMenuItem>
+                            <Button
+                              className="mt-4"
+                              onClick={() =>
+                                handlePrint(
+                                  getEmploymentCertificateHtml(employee),
+                                )
+                              }
+                            >
+                              Print
+                            </Button>
+                          </DialogContent>
+                        </Dialog>
                       </li>
                     </ul>
                   </DropdownMenuContent>

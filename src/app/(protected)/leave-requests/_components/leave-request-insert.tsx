@@ -1,9 +1,9 @@
 import { useAddLeaveRequestMutation } from "@/features/leave-request/api"
 import { type TLeaveRequest } from "@/features/leave-request/types";
-import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import LeaveRequestForm from "./leave-request-form";
 
 const LeaveRequestInsert = ({

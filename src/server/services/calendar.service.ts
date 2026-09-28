@@ -1,4 +1,4 @@
-import { localDate } from "@/lib/date-converter";
+import { localDate } from "@/lib/utils/date-converter";
 import { Calendar, Setting } from "@/server/models/module.model";
 
 const getWeekendsFromSettings = async () => {

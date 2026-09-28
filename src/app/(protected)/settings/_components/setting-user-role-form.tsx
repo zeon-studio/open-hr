@@ -1,18 +1,18 @@
 import { TEmployee } from "@/types/employee"
 import { useEmployeeRoleData } from "@/features/settings/api";
-import EditFrom from "@/layouts/edit-from";
-import { Button } from "@/ui/button";
-import { Label } from "@/ui/label";
+import EditFrom from "@/partials/edit-from";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
+} from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 const SettingUserRoleForm = () => {
   const { adminAndMods, employees } = useEmployeeRoleData();

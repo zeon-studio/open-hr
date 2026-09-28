@@ -1,7 +1,7 @@
 "use client";
 
 import { TLeaveYear } from "@/types/leave";
-import { TableCell, TableRow } from "@/ui/table";
+import { TableCell, TableRow } from "@/components/ui/table";
 
 interface MyLeavePageProps {
   leave: TLeaveYear[];

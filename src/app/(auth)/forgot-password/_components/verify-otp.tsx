@@ -1,14 +1,14 @@
 "use client";
 
 import { clientApi } from "@/lib/client-api";
-import { Button } from "@/ui/button";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/ui/input-otp";
-import { Label } from "@/ui/label";
-import PasswordInput from "@/ui/password-input";
+import { Button } from "@/components/ui/button";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { Label } from "@/components/ui/label";
+import PasswordInput from "@/components/ui/password-input";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import { Timer } from "./resend-otp-timer";
 
 export default function Verify({ email }: { email: string }) {

@@ -1,18 +1,20 @@
 import ConfirmationPopup from "@/components/confirmation-popup";
 import FileManager from "@/components/file-manager";
 import { MAX_SIZE } from "@/constants";
-import { useDeleteEmployeeDocumentMutation, useGetEmployeeDocumentQuery } from "@/features/employee/document/api";
+import {
+  useDeleteEmployeeDocumentMutation,
+  useGetEmployeeDocumentQuery,
+} from "@/features/employee/document/api";
 import useAxios from "@/hooks/use-axios";
 import { useSettings } from "@/hooks/use-settings";
-import { Button } from "@/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { Ellipsis, Loader2, Upload } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -84,51 +86,47 @@ export default function Document() {
                           <Ellipsis className="size-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem asChild>
-                            <UploadDialog
-                              size={"sm"}
-                              type="button"
-                              file={document.file}
-                              variant={"outline"}
-                              className="h-auto p-1.5 border-none w-full justify-start bg-transparent max-w-sm"
-                            >
-                              Preview
-                            </UploadDialog>
-                          </DropdownMenuItem>
+                          <UploadDialog
+                            size={"sm"}
+                            type="button"
+                            file={document.file}
+                            variant={"outline"}
+                            className="h-auto p-1.5 border-none w-full justify-start bg-transparent max-w-sm"
+                          >
+                            Preview
+                          </UploadDialog>
                           {(session?.user.role === "admin" ||
                             session?.user.role === "moderator") && (
-                            <DropdownMenuItem asChild>
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button
-                                    size={"sm"}
-                                    className="border-none w-full bg-transparent text-left justify-start text-sm h-auto py-1.5 px-1.5 text-text-dark hover:text-white"
-                                    variant={"destructive"}
-                                    type="button"
-                                  >
-                                    Delete
-                                  </Button>
-                                </DialogTrigger>
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button
+                                  size={"sm"}
+                                  className="border-none w-full bg-transparent text-left justify-start text-sm h-auto py-1.5 px-1.5 text-text-dark hover:text-white"
+                                  variant={"destructive"}
+                                  type="button"
+                                >
+                                  Delete
+                                </Button>
+                              </DialogTrigger>
 
-                                <ConfirmationPopup
-                                  handleConfirmation={async () => {
-                                    const encodedKey = encodeURIComponent(
-                                      document.file,
-                                    );
-                                    const res = await axios.delete(
-                                      `bucket/delete/${encodedKey}`,
-                                    );
-                                    if (res.status !== 200) {
-                                      return;
-                                    }
-                                    deleteDocument({
-                                      documentId: document._id!,
-                                      employeeId: employeeId,
-                                    });
-                                  }}
-                                />
-                              </Dialog>
-                            </DropdownMenuItem>
+                              <ConfirmationPopup
+                                handleConfirmation={async () => {
+                                  const encodedKey = encodeURIComponent(
+                                    document.file,
+                                  );
+                                  const res = await axios.delete(
+                                    `bucket/delete/${encodedKey}`,
+                                  );
+                                  if (res.status !== 200) {
+                                    return;
+                                  }
+                                  deleteDocument({
+                                    documentId: document._id!,
+                                    employeeId: employeeId,
+                                  });
+                                }}
+                              />
+                            </Dialog>
                           )}
                         </DropdownMenuContent>
                       </DropdownMenu>

@@ -1,5 +1,5 @@
 import { useGetAssetsByUserQuery } from "@/features/asset/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -38,7 +38,7 @@ export default function Assets() {
                 {data?.result?.map((asset) => (
                   <li
                     className="row mx-0! space-y-3 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
-                    key={asset.asset_id}
+                    key={asset.asset_id ?? asset._id}
                   >
                     <div className="flex! items-center gap-3">
                       <Image

@@ -6,14 +6,14 @@ import { type TLeaveYear } from "@/types/leave";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import { useSettings } from "@/hooks/use-settings";
-import { Label } from "@/ui/label";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/ui/table";
+} from "@/components/ui/table";
 import { notFound, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import LeavePage from "./_components/leave-page";

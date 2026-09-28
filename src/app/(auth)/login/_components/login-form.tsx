@@ -1,14 +1,14 @@
 "use client";
 
-import { Button, buttonVariants } from "@/ui/button";
-import { cn } from "@/lib/shadcn";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import PasswordInput from "@/ui/password-input";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils/shadcn";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import PasswordInput from "@/components/ui/password-input";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import { loginUser } from "./utils";
 
 export default function LoginForm() {

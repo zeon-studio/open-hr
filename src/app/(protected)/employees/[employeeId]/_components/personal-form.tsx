@@ -1,21 +1,21 @@
 import options from "@/config/options.json";
-import EditForm from "@/layouts/edit-from";
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
-import { cn } from "@/lib/shadcn";
+import EditForm from "@/partials/edit-from";
+import { dateFormat, formatDateWithTime } from "@/lib/utils/date-converter";
+import { cn } from "@/lib/utils/shadcn";
 import { TEmployee } from "@/types/employee";
-import { Button } from "@/ui/button";
-import { Calendar } from "@/ui/calendar";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
-import { Textarea } from "@/ui/textarea";
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import {
   AtSign,
   Briefcase,

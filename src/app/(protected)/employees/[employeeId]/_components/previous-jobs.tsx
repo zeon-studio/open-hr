@@ -1,31 +1,31 @@
 import { useUpdateEmployeeJobMutation, type TEmployeeJob, type TPrevJob } from "@/features/employee/job/api";
 import { useDialog } from "@/hooks/use-dialog";
-import { dateFormat, formatDateWithTime, getDuration } from "@/lib/date-converter";
-import { Button } from "@/ui/button";
-import { Calendar } from "@/ui/calendar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { dateFormat, formatDateWithTime, getDuration } from "@/lib/utils/date-converter";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/ui/dialog";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
+} from "@/components/ui/select";
 import { CalendarIcon, Loader2, Pen, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 const initialPrevJobData: TPrevJob = {
   company_name: "",
@@ -116,7 +116,19 @@ export default function PreviousJobs({
       <CardHeader className="border-b-transparent pb-0 flex-row gap-0 space-y-0">
         <CardTitle>Previous Jobs</CardTitle>
         {(userRole === "admin" || userRole === "moderator") && (
-          <Dialog open={isDialogOpen} onOpenChange={onDialogChange}>
+          <Dialog
+            open={isDialogOpen}
+            onOpenChange={(open, { reason }) => {
+              // Keep the dialog open while saving, unless closed explicitly.
+              if (
+                isPrevJobLoading &&
+                (reason === "escape-key" || reason === "outside-press")
+              ) {
+                return;
+              }
+              onDialogChange(open);
+            }}
+          >
             <DialogTrigger asChild>
               <Button
                 type="button"
@@ -130,12 +142,6 @@ export default function PreviousJobs({
             </DialogTrigger>
             <DialogContent
               ref={setDialogContentRef}
-              onEscapeKeyDown={(e) => {
-                if (isPrevJobLoading) e.preventDefault();
-              }}
-              onPointerDownOutside={(e) => {
-                if (isPrevJobLoading) e.preventDefault();
-              }}
               className="max-w-2xl! w-full"
             >
               <DialogHeader className="mb-8">

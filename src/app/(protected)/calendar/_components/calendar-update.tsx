@@ -1,18 +1,18 @@
 import { useGetCalendarsQuery, useUpdateCalendarMutation } from "@/features/calendar/api"
 import { type TCalendar } from "@/types/calendar";
 import { useDialog } from "@/hooks/use-dialog";
-import { Button } from "@/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/ui/dialog";
-import { Label } from "@/ui/label";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
+} from "@/components/ui/select";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import CalendarForm from "./calendar-form";
 
 const CalendarUpdate = () => {

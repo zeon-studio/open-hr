@@ -1,4 +1,4 @@
-import { isOneYearPassed } from "@/lib/date-converter";
+import { isOneYearPassed } from "@/lib/utils/date-converter";
 import { EmployeeJob, Leave, Setting } from "@/server/models/module.model";
 import { PipelineStage } from "mongoose";
 

@@ -5,11 +5,25 @@ import {
   upsertByField,
 } from "@/server/services/module.service";
 import { patchEmployeeService } from "@/server/services/employee.service";
-import { Setting } from "@/server/models/module.model";
+import { Asset, Setting } from "@/server/models/module.model";
+import { generateAssetId } from "@/server/utils/id-generator";
 import { ENUM_ROLE } from "@/enums/roles";
 import { NextRequest } from "next/server";
 import { withDb } from "../_lib/handler";
 import { getModel, listSearchFields, VALID_MODULES } from "./_lib/model-map";
+
+// Asset tag IDs are `<prefix>_<TYPE>_<serial>` with a per-type serial. Use the
+// highest existing serial (not a count) so deleted assets never cause reuse.
+async function nextAssetId(type: string) {
+  const assets = await Asset.find({ type, asset_id: { $exists: true } })
+    .select({ asset_id: 1 })
+    .lean<{ asset_id?: string }[]>();
+  const maxSerial = assets.reduce((max, { asset_id }) => {
+    const serial = Number(asset_id?.split("_").pop());
+    return Number.isFinite(serial) ? Math.max(max, serial) : max;
+  }, 0);
+  return generateAssetId(type, maxSerial + 1);
+}
 
 export async function GET(
   request: NextRequest,
@@ -80,6 +94,10 @@ export async function POST(
         status: "archived",
       });
       return apiSuccess(created, "data inserted successfully");
+    }
+
+    if (moduleName === "asset" && !body.asset_id) {
+      body.asset_id = await nextAssetId(body.type);
     }
 
     const created = await createDocument(model, body);

@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/ui/table";
+} from "@/components/ui/table";
 import { useSession } from "next-auth/react";
 import { notFound } from "next/navigation";
 import EmployeeLeavePage from "./_components/my-leave-page";

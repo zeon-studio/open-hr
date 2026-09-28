@@ -1,7 +1,7 @@
 import { useGetEmployeeOnboardingQuery } from "@/features/employee/onboarding/api";
 import { useEmployeeMap } from "@/hooks/use-employee-map";
-import { Badge } from "@/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";

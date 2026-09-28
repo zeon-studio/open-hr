@@ -1,10 +1,10 @@
 import { useGetEmployeeJobQuery } from "@/features/employee/job/api";
 import { useDialog } from "@/hooks/use-dialog";
 import { useSettings } from "@/hooks/use-settings";
-import { dateFormat, getDuration } from "@/lib/date-converter";
-import { Button } from "@/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
+import { dateFormat, getDuration } from "@/lib/utils/date-converter";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Loader2, Pen } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

@@ -1,4 +1,4 @@
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat } from "@/lib/utils/date-converter";
 import { TEvent } from "@/types/calendar";
 import {
   Table,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/ui/table";
+} from "@/components/ui/table";
 
 const CalendarList = ({
   calendar,

@@ -1,26 +1,26 @@
-import { dateFormat, formatDateWithTime } from "@/lib/date-converter";
+import { dateFormat, formatDateWithTime } from "@/lib/utils/date-converter";
 import options from "@/config/options.json";
 import { type TEmployee } from "@/types/employee"
 import { useUpdateEmployeeMutation } from "@/features/employee/api";
-import { cn } from "@/lib/shadcn";
+import { cn } from "@/lib/utils/shadcn";
 import { ErrorResponse } from "@/types";
-import { Button } from "@/ui/button";
-import { Calendar } from "@/ui/calendar";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
-import { DialogClose } from "@/ui/dialog";
+} from "@/components/ui/select";
+import { DialogClose } from "@/components/ui/dialog";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import { useStepper } from "./use-stepper";
 
 export default function OnboardingForm({

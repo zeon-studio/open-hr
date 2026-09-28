@@ -1,30 +1,30 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useSetEmployeeCommunicationIdMutation, useSetEmployeeEmailMutation, useSetEmployeePasswordMutation, useSetEmployeePersonalityMutation } from "@/features/employee/api";
 import { useSettings } from "@/hooks/use-settings";
-import { cn } from "@/lib/shadcn";
+import { cn } from "@/lib/utils/shadcn";
 import { ErrorResponse } from "@/types";
-import { Button, buttonVariants } from "@/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/ui/card";
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/ui/dialog";
-import { Input } from "@/ui/input";
-import PasswordInput from "@/ui/password-input";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import PasswordInput from "@/components/ui/password-input";
 import { Check, ExternalLink, Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import OnboardingForm from "./onboarding-form";
 
 interface Props {

@@ -4,22 +4,22 @@ import ConfirmationPopup from "@/components/confirmation-popup";
 import UserInfo from "@/components/user-info";
 import { useDeleteAssetMutation } from "@/features/asset/api";
 import { useDialog } from "@/hooks/use-dialog";
-import { dateFormat } from "@/lib/date-converter"
+import { dateFormat } from "@/lib/utils/date-converter"
 import { useEmployeeMap } from "@/hooks/use-employee-map";
 import type { TAsset } from "@/types/asset";
-import { Button } from "@/ui/button";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
-import { TableCell, TableRow } from "@/ui/table";
+} from "@/components/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { Ellipsis } from "lucide-react";
 import Image from "next/image";
 import { memo, useMemo, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import AssetPreview from "./asset-preview";
 import AssetUpdate from "./asset-update";
 
@@ -32,7 +32,7 @@ const AssetPage = ({ asset }: { asset: TAsset[] }) => {
         <MemoizedAssetModal
           assetId={assetId}
           setAssetId={setAssetId}
-          key={item.asset_id}
+          key={item.asset_id ?? item._id}
           item={item}
         />
       ))}
@@ -92,7 +92,7 @@ const AssetModal = ({
   return (
     <>
       <DropdownMenu
-        key={item.asset_id}
+        key={item.asset_id ?? item._id}
         open={isMenuOpen}
         onOpenChange={setIsMenuOpen}
         modal={false}

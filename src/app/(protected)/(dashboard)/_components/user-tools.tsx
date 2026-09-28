@@ -1,6 +1,6 @@
 import CopyText from "@/components/copy-text";
 import { useGetToolsByUserQuery } from "@/features/tool/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookKey, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

@@ -1,9 +1,9 @@
 "use client";
 
 import { clientApi } from "@/lib/client-api";
-import { Button } from "@/ui/button";
+import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 export function Timer({ email }: { email: string }) {
   const [isLoading, setIsLoading] = useState(false);

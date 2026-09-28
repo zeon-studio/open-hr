@@ -1,6 +1,6 @@
 import { useGetAssetsByUserQuery } from "@/features/asset/api";
-import { dateFormat } from "@/lib/date-converter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { dateFormat } from "@/lib/utils/date-converter";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package } from "lucide-react";
 import Image from "next/image";
 
@@ -24,7 +24,7 @@ const UserAssets = ({ userId }: { userId: string }) => {
               {data?.result?.map((asset) => (
                 <li
                   className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center bg-light rounded py-3 px-3"
-                  key={asset.asset_id}
+                  key={asset.asset_id ?? asset._id}
                 >
                   <div className="flex items-center">
                     <Image

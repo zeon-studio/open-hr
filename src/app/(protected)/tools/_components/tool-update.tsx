@@ -1,7 +1,7 @@
 import { useUpdateToolMutation, type TTool } from "@/features/tool/api";
-import { DialogContent, DialogTitle } from "@/ui/dialog";
+import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import ToolForm from "./tool-form";
 
 const ToolUpdate = ({

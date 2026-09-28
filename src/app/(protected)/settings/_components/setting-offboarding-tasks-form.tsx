@@ -1,9 +1,9 @@
 import { TSetting } from "@/features/settings/types";
-import EditFrom from "@/layouts/edit-from";
+import EditFrom from "@/partials/edit-from";
 import { useEmployeeGroupByDepartment, useEmployeeMap } from "@/hooks/use-employee-map";
-import { Button } from "@/ui/button";
-import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -12,10 +12,10 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/ui/select";
+} from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 interface SettingOffboardingTasksFormProps {
   data: TSetting;

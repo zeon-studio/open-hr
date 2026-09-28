@@ -7,8 +7,8 @@ import { useDialog } from "@/hooks/use-dialog";
 import useLocalCacheHook from "@/hooks/use-local-cache";
 import { usePaginationFilter } from "@/hooks/use-pagination-filter";
 import { useSettings } from "@/hooks/use-settings";
-import { Button } from "@/ui/button";
-import { Dialog, DialogTrigger } from "@/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/ui/table";
+} from "@/components/ui/table";
 import { notFound, useSearchParams } from "next/navigation";
 import AssetInsert from "./_components/asset-insert";
 import AssetPage from "./_components/asset-page";

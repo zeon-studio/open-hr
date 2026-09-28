@@ -3,20 +3,20 @@ import { MAX_SIZE } from "@/constants";
 import { useAddEmployeeDocumentMutation } from "@/features/employee/document/api";
 import { useDialog } from "@/hooks/use-dialog";
 import { useSettings } from "@/hooks/use-settings";
-import { cn } from "@/lib/shadcn";
+import { cn } from "@/lib/utils/shadcn";
 import { ErrorResponse } from "@/types";
-import { Button, ButtonProps } from "@/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/ui/dialog";
+} from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 
 export default function UploadDialog({
   file,

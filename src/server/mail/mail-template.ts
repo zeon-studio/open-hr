@@ -1,4 +1,4 @@
-import { dateFormat } from "@/lib/date-converter";
+import { dateFormat } from "@/lib/utils/date-converter";
 
 export function otpSenderTemplate(otp: string): string {
   return `<div style="text-align:center;font-family:Arial,sans-serif;color:#333;">

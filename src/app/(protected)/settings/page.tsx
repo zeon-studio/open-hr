@@ -1,7 +1,7 @@
 "use client";
 
 import { useSettingsQuery } from "@/features/settings/api";
-import { Card, CardContent } from "@/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound } from "next/navigation";

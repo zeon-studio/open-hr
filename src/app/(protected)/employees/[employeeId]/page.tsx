@@ -5,18 +5,18 @@ import { Facebook, Linkedin, Twitter } from "@/components/icons";
 import { useGetEmployeeQuery } from "@/features/employee/api";
 import { useGetEmployeeJobQuery } from "@/features/employee/job/api";
 import { useSettings } from "@/hooks/use-settings";
-import { getDuration } from "@/lib/date-converter";
-import { profileCompletion } from "@/lib/profile-completion";
-import { cn } from "@/lib/shadcn";
-import { Button } from "@/ui/button";
+import { getDuration } from "@/lib/utils/date-converter";
+import { profileCompletion } from "@/lib/utils/profile-completion";
+import { cn } from "@/lib/utils/shadcn";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
-import { Separator } from "@/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
 import {
   Building,
@@ -297,7 +297,7 @@ export default function EmployeeSingle() {
                     value={tab.value}
                     key={index}
                     asChild
-                    className="data-[state=active]:bg-light shrink-0 whitespace-nowrap"
+                    className="data-active:bg-light shrink-0 whitespace-nowrap"
                     onMouseDown={(e) => {
                       e.preventDefault();
                       handleMouseDown(tab);
@@ -307,7 +307,7 @@ export default function EmployeeSingle() {
                       onClick={() => {
                         setTab(tab);
                       }}
-                      className="rounded-none px-4 h-9 data-[state=active]:border-none data-[state=active]:rounded rounded-b-none! data-[state=active]:ring-offset-0 data-[state=active]:ring-0 shadow-none!"
+                      className="rounded-none px-4 h-9 data-active:border-none data-active:rounded rounded-b-none! data-active:ring-offset-0 data-active:ring-0 shadow-none!"
                     >
                       {tab.label}
                     </Button>

@@ -1,6 +1,6 @@
 import ImageFallback from "@/components/image-fallback";
 import { useGetCoursesByUserQuery } from "@/features/course/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";

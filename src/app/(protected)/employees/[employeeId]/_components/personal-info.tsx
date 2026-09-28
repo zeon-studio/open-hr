@@ -12,12 +12,12 @@ import {
   useUpdateEmployeeEducationMutation,
 } from "@/features/employee/education/api";
 import { useSettings } from "@/hooks/use-settings";
-import { Card, CardContent } from "@/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
 import { useEffect } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/toast";
 import BankForm from "./bank-form";
 import EducationForm from "./education-form";
 import PasswordForm from "./password-form";

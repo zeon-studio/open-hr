@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { InvalidCredentials } from "./lib/error";
+import { InvalidCredentials } from "@/lib/utils/error";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
