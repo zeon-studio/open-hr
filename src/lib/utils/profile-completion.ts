@@ -1,5 +1,4 @@
 import type { TEmployee } from "@/types/employee";
-import { hasGravatarByEmail } from "./gravatar";
 
 const SCORED_FIELDS: { key: keyof TEmployee; label: string }[] = [
   { key: "name", label: "Full Name" },
@@ -64,53 +63,3 @@ export function profileCompletion(employee?: Partial<TEmployee> | null): {
   };
 }
 
-export async function profileCompletionAsync(
-  employee?: Partial<TEmployee> | null,
-): Promise<{
-  filled: number;
-  total: number;
-  percent: number;
-  missing: string[];
-}> {
-  const total = SCORED_FIELDS.length;
-  if (!employee) {
-    return {
-      filled: 0,
-      total,
-      percent: 0,
-      missing: SCORED_FIELDS.map((f) => f.label),
-    };
-  }
-
-  const missing: string[] = [];
-  let filled = 0;
-
-  for (const { key, label } of SCORED_FIELDS) {
-    if (key === "image") {
-      const hasUploadedImage = isFilled(employee[key]);
-      if (hasUploadedImage) {
-        filled += 1;
-      } else {
-        const hasGravatar =
-          employee.work_email &&
-          (await hasGravatarByEmail(employee.work_email));
-        if (hasGravatar) {
-          filled += 1;
-        } else {
-          missing.push(label);
-        }
-      }
-    } else if (isFilled(employee[key])) {
-      filled += 1;
-    } else {
-      missing.push(label);
-    }
-  }
-
-  return {
-    filled,
-    total,
-    percent: Math.round((filled / total) * 100),
-    missing,
-  };
-}

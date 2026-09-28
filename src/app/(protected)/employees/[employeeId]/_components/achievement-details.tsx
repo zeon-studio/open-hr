@@ -233,7 +233,6 @@ function AchievementForm({
                       <PopoverContent
                         className="w-auto p-0"
                         align="start"
-                        container={undefined}
                       >
                         <Calendar
                           mode="single"

@@ -2,14 +2,11 @@ import { dateFormat } from "@/lib/utils/date-converter"
 import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { TTool } from "@/types/tool";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useRef } from "react";
 
 const ToolPreview = ({ toolData }: { toolData: Partial<TTool> }) => {
   const employeeMap = useEmployeeMap();
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   return (
     <DialogContent
-      ref={dialogContentRef}
       className="max-w-4xl! overflow-y-auto max-h-[90vh]"
     >
       <DialogTitle className="mb-4">Tool Platform</DialogTitle>

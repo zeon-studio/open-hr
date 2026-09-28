@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 
 const EmployeeJobForm = ({
@@ -30,14 +30,6 @@ const EmployeeJobForm = ({
 }) => {
   const employeeGroups = useEmployeeGroupByDepartment();
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
-  const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
-    null,
-  );
-  const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
-    dialogContentRef.current = node;
-    setPopoverContainer(node);
-  }, []);
   const [employeeJobData, setEmployeeJobData] = useState<Partial<TEmployeeJob>>(
     {
       employee_id: employeeJob.employee_id,
@@ -104,7 +96,7 @@ const EmployeeJobForm = ({
   };
 
   return (
-    <DialogContent ref={setDialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Update Employee Job Details</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <form
@@ -136,7 +128,6 @@ const EmployeeJobForm = ({
               <PopoverContent
                 className="w-auto p-0"
                 align="start"
-                container={popoverContainer || undefined}
               >
                 <Calendar
                   mode="single"
@@ -181,7 +172,6 @@ const EmployeeJobForm = ({
               <PopoverContent
                 className="w-auto p-0"
                 align="start"
-                container={popoverContainer || undefined}
               >
                 <Calendar
                   mode="single"
@@ -303,7 +293,6 @@ const EmployeeJobForm = ({
                       <PopoverContent
                         className="w-auto p-0"
                         align="start"
-                        container={popoverContainer || undefined}
                       >
                         <Calendar
                           mode="single"

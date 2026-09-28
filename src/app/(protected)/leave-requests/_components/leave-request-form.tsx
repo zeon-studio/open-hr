@@ -24,13 +24,11 @@ const LeaveRequestForm = ({
   setLeaveRequestData,
   handleSubmit,
   loader,
-  popoverContainer,
 }: {
   leaveRequestData: Partial<TLeaveRequest>;
   setLeaveRequestData: SetStateAction<any>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
-  popoverContainer?: HTMLElement | null;
 }) => {
   const { max_leave_per_day, leave_threshold_days } = useSettings();
 
@@ -173,7 +171,6 @@ const LeaveRequestForm = ({
           <PopoverContent
             className="w-auto p-0"
             align="start"
-            container={popoverContainer || undefined}
           >
             <Calendar
               mode="range"

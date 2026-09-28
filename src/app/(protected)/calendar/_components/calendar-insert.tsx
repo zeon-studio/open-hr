@@ -1,7 +1,7 @@
 import { useAddCalendarMutation } from "@/features/calendar/api"
 import { type TCalendar } from "@/types/calendar";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import CalendarForm from "./calendar-form";
 
@@ -33,7 +33,6 @@ const CalendarInsert = ({
 
   const [addCalendar, { isSuccess, isError, error }] = useAddCalendarMutation();
 
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -66,7 +65,7 @@ const CalendarInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Add New Year Calendar</DialogTitle>
 
       <div className="max-h-[90vh] overflow-y-auto pr-2">
@@ -76,7 +75,6 @@ const CalendarInsert = ({
           handleSubmit={handleSubmit}
           loader={loader}
           formType="insert"
-          popoverContainer={dialogContentRef.current}
         />
       </div>
     </DialogContent>

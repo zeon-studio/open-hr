@@ -270,16 +270,6 @@ export const steppers = [
     completed: false,
     name: "onboarding_form",
     component: ({ isActive, isCompleted, employeeId, value }: Props) => {
-      const dialogContentRef = React.useRef<HTMLDivElement | null>(null);
-      const [popoverContainer, setPopoverContainer] =
-        React.useState<HTMLElement | null>(null);
-      const setDialogContentRef = React.useCallback(
-        (node: HTMLDivElement | null) => {
-          dialogContentRef.current = node;
-          setPopoverContainer(node);
-        },
-        [],
-      );
       return (
         <StepperCard
           isActive={isActive}
@@ -301,7 +291,7 @@ export const steppers = [
                 <ExternalLink className="ml-1.5 size-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent ref={setDialogContentRef} className="max-w-3xl!">
+            <DialogContent className="max-w-3xl!">
               <DialogHeader>
                 <DialogTitle>Complete Onboarding Form</DialogTitle>
               </DialogHeader>
@@ -309,7 +299,6 @@ export const steppers = [
                 <OnboardingForm
                   defaultValue={value}
                   employeeId={employeeId}
-                  popoverContainer={popoverContainer || undefined}
                 />
               </div>
             </DialogContent>

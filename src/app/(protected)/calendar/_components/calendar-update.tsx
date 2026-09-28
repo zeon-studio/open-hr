@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import CalendarForm from "./calendar-form";
 
@@ -24,7 +24,6 @@ const CalendarUpdate = () => {
 
   const { isDialogOpen, onDialogChange } = useDialog();
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   const [updatedCalendarData, setUpdatedCalendarData] = useState<TCalendar>(
     () => {
@@ -86,7 +85,7 @@ const CalendarUpdate = () => {
           Update Calendar Year
         </Button>
       </DialogTrigger>
-      <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+      <DialogContent className="max-w-4xl!">
         <DialogTitle className="mb-4">Update Calendar</DialogTitle>
 
         <div className="max-h-[90vh] overflow-y-auto pr-2">
@@ -118,7 +117,6 @@ const CalendarUpdate = () => {
             handleSubmit={handleSubmit}
             loader={loader}
             formType="update"
-            popoverContainer={dialogContentRef.current}
           />
         </div>
       </DialogContent>

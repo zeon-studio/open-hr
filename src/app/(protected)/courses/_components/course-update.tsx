@@ -1,6 +1,6 @@
 import { useUpdateCourseMutation, type TCourse } from "@/features/course/api";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import CourseForm from "./course-form";
 
@@ -12,7 +12,6 @@ const CourseUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [courseData, setCourseData] = useState({
     _id: course._id,
     platform: course.platform,
@@ -46,7 +45,7 @@ const CourseUpdate = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Update Course Platform</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <CourseForm
@@ -55,7 +54,6 @@ const CourseUpdate = ({
           handleSubmit={handleSubmit}
           formType="update"
           loader={loader}
-          popoverContainer={dialogContentRef.current}
         />
       </div>
     </DialogContent>

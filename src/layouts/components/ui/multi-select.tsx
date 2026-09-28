@@ -8,11 +8,8 @@ import * as React from "react";
 export interface Option {
   value: string;
   label: string;
-  disable?: boolean;
-  /** fixed option that can't be removed. */
-  fixed?: boolean;
-  /** Group the options by providing key. */
-  [key: string]: string | boolean | undefined;
+  /** Extra fields, e.g. the key used by `groupBy`. */
+  [key: string]: string | undefined;
 }
 
 type OptionGroup = { value: string; items: Option[] };
@@ -21,18 +18,12 @@ interface MultiSelectProps {
   value?: Option[];
   options?: Option[];
   placeholder?: string;
-  /** Rendered when no option matches the search. */
-  emptyIndicator?: React.ReactNode;
   onChange?: (options: Option[]) => void;
-  /** Limit the maximum number of selected options. */
-  maxSelected?: number;
   /** Hide the placeholder when there are options selected. */
   hidePlaceholderWhenSelected?: boolean;
-  disabled?: boolean;
   /** Group the options base on provided key. */
   groupBy?: string;
   className?: string;
-  badgeClassName?: string;
 }
 
 function groupOptions(options: Option[], groupBy: string): OptionGroup[] {
@@ -50,8 +41,7 @@ function OptionItem({ option }: { option: Option }) {
   return (
     <ComboboxPrimitive.Item
       value={option}
-      disabled={option.disable}
-      className="relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-highlighted:bg-primary data-highlighted:text-primary-foreground data-disabled:cursor-default data-disabled:text-muted-foreground"
+      className="relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-highlighted:bg-primary data-highlighted:text-primary-foreground"
     >
       <ComboboxPrimitive.ItemIndicator className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
         <Check className="h-4 w-4" />
@@ -65,14 +55,10 @@ function MultiSelect({
   value,
   options = [],
   placeholder,
-  emptyIndicator = "No results found.",
   onChange,
-  maxSelected = Number.MAX_SAFE_INTEGER,
   hidePlaceholderWhenSelected,
-  disabled,
   groupBy,
   className,
-  badgeClassName,
 }: MultiSelectProps) {
   const items = React.useMemo(
     () => (groupBy ? groupOptions(options, groupBy) : options),
@@ -84,7 +70,6 @@ function MultiSelect({
       multiple
       items={items}
       value={value}
-      disabled={disabled}
       isItemEqualToValue={isSameOption}
       onValueChange={(selected: Option[], eventDetails) => {
         // Base UI clears the selection on Escape; keep it, and let Escape
@@ -93,19 +78,12 @@ function MultiSelect({
           eventDetails.allowPropagation();
           return;
         }
-        // Fixed options can't be removed, and the list can't grow past maxSelected.
-        const kept = (value ?? []).filter(
-          (option) =>
-            option.fixed && !selected.some((s) => isSameOption(s, option)),
-        );
-        const next = [...kept, ...selected];
-        if (next.length > maxSelected) return;
-        onChange?.(next);
+        onChange?.(selected);
       }}
     >
       <ComboboxPrimitive.InputGroup
         className={cn(
-          "min-h-10 cursor-text rounded border border-border bg-white px-3 py-1 text-sm ring-offset-background data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          "min-h-10 cursor-text rounded border border-border bg-white px-3 py-1 text-sm ring-offset-background",
           className,
         )}
       >
@@ -116,21 +94,15 @@ function MultiSelect({
                 {selected.map((option) => (
                   <ComboboxPrimitive.Chip
                     key={option.value}
-                    className={cn(
-                      "inline-flex items-center rounded-md border border-transparent bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground outline-none focus-within:ring-2 focus-within:ring-ring data-disabled:bg-muted-foreground data-disabled:text-muted",
-                      option.fixed && "bg-muted-foreground text-muted",
-                      badgeClassName,
-                    )}
+                    className="inline-flex items-center rounded-md border border-transparent bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground outline-none focus-within:ring-2 focus-within:ring-ring"
                   >
                     {option.label}
-                    {!option.fixed && (
-                      <ComboboxPrimitive.ChipRemove
-                        aria-label={`Remove ${option.label}`}
-                        className="ml-1 rounded-full outline-none"
-                      >
-                        <X className="h-3 w-3 opacity-70 hover:opacity-100" />
-                      </ComboboxPrimitive.ChipRemove>
-                    )}
+                    <ComboboxPrimitive.ChipRemove
+                      aria-label={`Remove ${option.label}`}
+                      className="ml-1 rounded-full outline-none"
+                    >
+                      <X className="h-3 w-3 opacity-70 hover:opacity-100" />
+                    </ComboboxPrimitive.ChipRemove>
                   </ComboboxPrimitive.Chip>
                 ))}
                 <ComboboxPrimitive.Input
@@ -151,7 +123,7 @@ function MultiSelect({
         <ComboboxPrimitive.Positioner sideOffset={4} className="z-50">
           <ComboboxPrimitive.Popup className="max-h-[min(var(--available-height),300px)] w-(--anchor-width) overflow-y-auto overscroll-contain rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md outline-none">
             <ComboboxPrimitive.Empty className="py-6 text-center text-sm empty:hidden">
-              {emptyIndicator}
+              No results found.
             </ComboboxPrimitive.Empty>
             <ComboboxPrimitive.List>
               {(item: Option | OptionGroup) =>

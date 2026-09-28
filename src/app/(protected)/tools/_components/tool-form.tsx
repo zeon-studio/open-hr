@@ -24,18 +24,15 @@ const ToolForm = ({
   handleSubmit,
   loader,
   formType,
-  popoverContainer,
 }: {
   toolData: Partial<TTool>;
   setToolData: SetStateAction<any>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
   formType: string;
-  popoverContainer?: HTMLElement | null;
 }) => {
   const employeeMap = useEmployeeMap();
   const employeeGroups = useEmployeeGroupByDepartment();
-  const _popoverContainer = popoverContainer || undefined;
   const [toolItems, setToolItems] = useState<TOrganization[]>(
     toolData.organizations || [],
   );
@@ -291,7 +288,6 @@ const ToolForm = ({
                   <PopoverContent
                     className="w-auto p-0"
                     align="start"
-                    container={_popoverContainer}
                   >
                     <Calendar
                       mode="single"
@@ -359,7 +355,6 @@ const ToolForm = ({
                   <PopoverContent
                     className="w-auto p-0"
                     align="start"
-                    container={_popoverContainer}
                   >
                     <Calendar
                       mode="single"
@@ -559,7 +554,6 @@ const ToolForm = ({
                           <PopoverContent
                             className="w-auto p-0"
                             align="start"
-                            container={_popoverContainer}
                           >
                             <Calendar
                               mode="single"

@@ -38,7 +38,7 @@ export default function Assets() {
                 {data?.result?.map((asset) => (
                   <li
                     className="row mx-0! space-y-3 xl:space-y-0 xl:row-cols-4 items-center bg-light rounded py-3"
-                    key={asset.asset_id ?? asset._id}
+                    key={asset.asset_id}
                   >
                     <div className="flex! items-center gap-3">
                       <Image

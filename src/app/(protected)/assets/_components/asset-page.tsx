@@ -32,7 +32,7 @@ const AssetPage = ({ asset }: { asset: TAsset[] }) => {
         <MemoizedAssetModal
           assetId={assetId}
           setAssetId={setAssetId}
-          key={item.asset_id ?? item._id}
+          key={item.asset_id}
           item={item}
         />
       ))}
@@ -92,7 +92,7 @@ const AssetModal = ({
   return (
     <>
       <DropdownMenu
-        key={item.asset_id ?? item._id}
+        key={item.asset_id}
         open={isMenuOpen}
         onOpenChange={setIsMenuOpen}
         modal={false}

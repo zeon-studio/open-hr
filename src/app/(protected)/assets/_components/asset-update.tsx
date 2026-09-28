@@ -1,7 +1,7 @@
 import { useUpdateAssetMutation } from "@/features/asset/api";
 import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import AssetForm from "./asset-form";
 
@@ -13,7 +13,6 @@ const AssetUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [assetData, setAssetData] = useState({
     asset_id: asset.asset_id,
     name: asset.name,
@@ -51,7 +50,7 @@ const AssetUpdate = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Update Asset</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <AssetForm
@@ -60,7 +59,6 @@ const AssetUpdate = ({
           handleSubmit={handleSubmit}
           formType="update"
           loader={loader}
-          popoverContainer={dialogContentRef.current}
         />
       </div>
     </DialogContent>

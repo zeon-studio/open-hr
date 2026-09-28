@@ -15,16 +15,13 @@ const CalendarForm = ({
   handleSubmit,
   loader,
   formType,
-  popoverContainer,
 }: {
   calendarData: Partial<TCalendar>;
   setCalendarData: Dispatch<SetStateAction<TCalendar>>;
   handleSubmit: (e: any) => Promise<void>;
   loader: boolean;
   formType: string;
-  popoverContainer?: HTMLElement | null;
 }) => {
-  const _popoverContainer = popoverContainer || undefined;
   const [holidayItems, setHolidayItems] = useState<TEvent[]>(
     calendarData.holidays || [],
   );
@@ -239,7 +236,6 @@ const CalendarForm = ({
                   <PopoverContent
                     className="w-auto p-0"
                     align="start"
-                    container={_popoverContainer}
                   >
                     <Calendar
                       mode="range"
@@ -350,7 +346,6 @@ const CalendarForm = ({
                   <PopoverContent
                     className="w-auto p-0"
                     align="start"
-                    container={_popoverContainer}
                   >
                     <Calendar
                       mode="range"

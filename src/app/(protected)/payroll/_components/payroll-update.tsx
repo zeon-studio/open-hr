@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader2, Trash2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 
 const PayrollUpdate = ({
@@ -27,7 +27,6 @@ const PayrollUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [payrollData, setPayrollData] = useState({
     employee_id: payroll.employee_id,
     gross_salary: payroll.gross_salary || 0,
@@ -130,7 +129,7 @@ const PayrollUpdate = ({
   };
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Update Payroll</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <form
@@ -231,7 +230,6 @@ const PayrollUpdate = ({
                       <PopoverContent
                         className="w-auto p-0"
                         align="start"
-                        container={dialogContentRef.current}
                       >
                         <Calendar
                           mode="single"
@@ -373,7 +371,6 @@ const PayrollUpdate = ({
                       <PopoverContent
                         className="w-auto p-0"
                         align="start"
-                        container={dialogContentRef.current}
                       >
                         <Calendar
                           mode="single"
@@ -480,7 +477,6 @@ const PayrollUpdate = ({
                       <PopoverContent
                         className="w-auto p-0"
                         align="start"
-                        container={dialogContentRef.current}
                       >
                         <Calendar
                           mode="single"

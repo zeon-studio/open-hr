@@ -26,11 +26,9 @@ import { useStepper } from "./use-stepper";
 export default function OnboardingForm({
   employeeId,
   defaultValue,
-  popoverContainer,
 }: {
   employeeId: string;
   defaultValue: TEmployee;
-  popoverContainer?: HTMLElement | null;
 }) {
   const params = useSearchParams();
   const token = params?.get("token") as string;
@@ -130,7 +128,6 @@ export default function OnboardingForm({
           <PopoverContent
             className="w-auto p-0"
             align="start"
-            container={popoverContainer || undefined}
           >
             <Calendar
               required

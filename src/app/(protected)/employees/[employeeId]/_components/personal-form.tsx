@@ -62,7 +62,6 @@ interface PersonalFormProps {
   userRole: string;
   communication_platform: string;
   onSubmit: (data: TEmployee) => void;
-  popoverContainer?: HTMLElement | null;
 }
 
 // Read-only display for a field value. Empty values render as a muted
@@ -92,7 +91,6 @@ export default function PersonalForm({
   userRole,
   communication_platform,
   onSubmit,
-  popoverContainer,
 }: PersonalFormProps) {
   return (
     <EditForm<TEmployee>
@@ -221,7 +219,6 @@ export default function PersonalForm({
                 <PopoverContent
                   className="w-auto p-0"
                   align="start"
-                  container={popoverContainer}
                 >
                   <Calendar
                     mode="single"

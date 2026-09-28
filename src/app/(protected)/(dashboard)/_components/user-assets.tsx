@@ -24,7 +24,7 @@ const UserAssets = ({ userId }: { userId: string }) => {
               {data?.result?.map((asset) => (
                 <li
                   className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center bg-light rounded py-3 px-3"
-                  key={asset.asset_id ?? asset._id}
+                  key={asset.asset_id}
                 >
                   <div className="flex items-center">
                     <Image

@@ -1,6 +1,6 @@
 import { useAddCourseMutation, type TCourse } from "@/features/course/api";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import CourseForm from "./course-form";
 
@@ -11,7 +11,6 @@ const CourseInsert = ({
 }) => {
   const [addCourse, { isSuccess, isError, error }] = useAddCourseMutation();
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [courseData, setCourseData] = useState<TCourse>({
     platform: "",
     website: "",
@@ -67,7 +66,7 @@ const CourseInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Add New Course Platform</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <CourseForm
@@ -76,7 +75,6 @@ const CourseInsert = ({
           handleSubmit={handleSubmit}
           loader={loader}
           formType="insert"
-          popoverContainer={dialogContentRef.current}
         />
       </div>
     </DialogContent>

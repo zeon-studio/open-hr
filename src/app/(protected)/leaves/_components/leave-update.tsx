@@ -1,7 +1,7 @@
 import { useUpdateLeaveMutation } from "@/features/leave/api"
 import { type TLeaveYear } from "@/types/leave";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import LeaveForm from "./leave-form";
 
@@ -13,7 +13,6 @@ const LeaveUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [leaveData, setLeaveData] = useState({
     employee_id: leave.employee_id,
     year: leave.year,
@@ -47,7 +46,6 @@ const LeaveUpdate = ({
 
   return (
     <DialogContent
-      ref={dialogContentRef}
       className="max-w-4xl! overflow-y-auto max-h-[90vh]"
     >
       <DialogTitle className="mb-4">Update Leave Platform</DialogTitle>

@@ -1,7 +1,7 @@
 import { useAddAssetMutation } from "@/features/asset/api";
 import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import AssetForm from "./asset-form";
 
@@ -12,7 +12,6 @@ const AssetInsert = ({
 }) => {
   const [addAsset, { isSuccess, isError, error }] = useAddAssetMutation();
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [assetData, setAssetData] = useState<TAsset>({
     name: "",
     user: "",
@@ -62,7 +61,7 @@ const AssetInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Add Asset</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <AssetForm
@@ -71,7 +70,6 @@ const AssetInsert = ({
           handleSubmit={handleSubmit}
           loader={loader}
           formType="insert"
-          popoverContainer={dialogContentRef.current}
         />
       </div>
     </DialogContent>

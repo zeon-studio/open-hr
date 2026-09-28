@@ -24,7 +24,7 @@ import {
 import { CalendarIcon, Loader2, Pen, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "@/components/ui/toast";
 
 const initialPrevJobData: TPrevJob = {
@@ -102,14 +102,6 @@ export default function PreviousJobs({
     ]);
   };
 
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
-  const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
-    null,
-  );
-  const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
-    dialogContentRef.current = node;
-    setPopoverContainer(node);
-  }, []);
 
   return (
     <Card>
@@ -141,7 +133,6 @@ export default function PreviousJobs({
               </Button>
             </DialogTrigger>
             <DialogContent
-              ref={setDialogContentRef}
               className="max-w-2xl! w-full"
             >
               <DialogHeader className="mb-8">
@@ -279,7 +270,6 @@ export default function PreviousJobs({
                             <PopoverContent
                               className="w-auto p-0"
                               align="start"
-                              container={popoverContainer || undefined}
                             >
                               <Calendar
                                 mode="single"
@@ -326,7 +316,6 @@ export default function PreviousJobs({
                             <PopoverContent
                               className="w-auto p-0"
                               align="start"
-                              container={popoverContainer || undefined}
                             >
                               <Calendar
                                 mode="single"

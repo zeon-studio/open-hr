@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FileDown, FileUp, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 
 const CalendarInsertSheet = () => {
@@ -22,7 +22,6 @@ const CalendarInsertSheet = () => {
 
   const [addCalendar, { isSuccess, isError, error }] = useAddCalendarMutation();
 
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -60,7 +59,7 @@ const CalendarInsertSheet = () => {
           <FileUp size={16} />
         </Button>
       </DialogTrigger>
-      <DialogContent ref={dialogContentRef}>
+      <DialogContent>
         <DialogTitle className="mb-4">Add New Year Calendar Sheet</DialogTitle>
         <form className="row" onSubmit={handleSubmit}>
           <div className="col-12 mb-4">

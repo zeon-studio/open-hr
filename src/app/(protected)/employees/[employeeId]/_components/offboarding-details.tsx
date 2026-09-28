@@ -19,7 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "@/components/ui/toast";
 
 export default function Offboarding() {
@@ -42,14 +42,6 @@ export default function Offboarding() {
     });
 
   const [open, setOpen] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
-  const [popoverContainer, setPopoverContainer] = useState<HTMLElement | null>(
-    null,
-  );
-  const setDialogContentRef = useCallback((node: HTMLDivElement | null) => {
-    dialogContentRef.current = node;
-    setPopoverContainer(node);
-  }, []);
 
   return (
     <div>
@@ -127,7 +119,6 @@ export default function Offboarding() {
                     <Button>Initiate Off-boarding</Button>
                   </DialogTrigger>
                   <DialogContent
-                    ref={setDialogContentRef}
                     data-slot="dialog-content"
                   >
                     <DialogHeader>
@@ -192,7 +183,6 @@ export default function Offboarding() {
                               <PopoverContent
                                 className="w-auto p-0"
                                 align="start"
-                                container={popoverContainer || undefined}
                               >
                                 <Calendar
                                   mode="single"

@@ -1,7 +1,6 @@
 import {
   differenceInDays,
   Duration,
-  formatDistance,
   intervalToDuration,
 } from "date-fns";
 
@@ -57,12 +56,6 @@ export const dateFormat = (
   }
 
   return formattedDate;
-};
-
-export const dateDistance = (date: string) => {
-  const currentDate = new Date();
-
-  return formatDistance(currentDate, new Date(date));
 };
 
 export function getDuration(

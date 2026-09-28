@@ -5,7 +5,6 @@ export type TAssetLog = {
 };
 
 export type TAsset = {
-  _id?: string;
   asset_id?: string;
   user: string;
   name: string;

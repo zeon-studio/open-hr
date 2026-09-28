@@ -4,6 +4,7 @@ import {
   issueInviteTokenService,
   verifyInviteToken,
 } from "@/server/services/authentication.service";
+import { generateEmployeeId } from "@/server/utils/id-generator";
 import bcrypt from "bcrypt";
 
 export const getEmployeesService = async (query: URLSearchParams) => {
@@ -62,12 +63,33 @@ export const getEmployeeService = async (id: string) => {
   return Employee.findOne({ id });
 };
 
+// Employee IDs are `<prefix><DEPT><joining year><serial>`, e.g. TFADM2026004.
+// The 3-digit serial runs per department across years; use the highest
+// existing one (not a count) so removed employees never cause reuse.
+const nextEmployeeId = async (department: string, joiningDate: unknown) => {
+  const employees = await Employee.find({ department })
+    .select({ id: 1 })
+    .lean<{ id?: string }[]>();
+  const maxSerial = employees.reduce((max, { id }) => {
+    const match = id?.match(/\d{4}(\d{3,})$/);
+    return match ? Math.max(max, Number(match[1])) : max;
+  }, 0);
+  const joined = new Date(String(joiningDate));
+  return generateEmployeeId(
+    department,
+    Number.isNaN(joined.getTime()) ? new Date() : joined,
+    maxSerial + 1,
+  );
+};
+
 export const createEmployeeService = async (
   payload: Record<string, unknown>,
 ) => {
   if (!payload.id) {
-    const timestamp = Date.now().toString().slice(-6);
-    payload.id = `EMP-${timestamp}`;
+    payload.id = await nextEmployeeId(
+      String(payload.department || ""),
+      payload.joining_date,
+    );
   }
 
   const inviteToken = await issueInviteTokenService(

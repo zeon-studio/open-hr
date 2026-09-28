@@ -1,6 +1,6 @@
 import { useUpdateToolMutation, type TTool } from "@/features/tool/api";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import ToolForm from "./tool-form";
 
@@ -12,7 +12,6 @@ const ToolUpdate = ({
   onDialogChange: (open: boolean) => void;
 }) => {
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [toolData, setToolData] = useState({
     _id: tool._id,
     platform: tool.platform,
@@ -47,7 +46,7 @@ const ToolUpdate = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Update Tool Platform</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <ToolForm
@@ -56,7 +55,6 @@ const ToolUpdate = ({
           handleSubmit={handleSubmit}
           formType="update"
           loader={loader}
-          popoverContainer={dialogContentRef.current}
         />
       </div>
     </DialogContent>

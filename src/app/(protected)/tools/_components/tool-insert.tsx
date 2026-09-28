@@ -1,6 +1,6 @@
 import { useAddToolMutation, type TTool } from "@/features/tool/api";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import ToolForm from "./tool-form";
 
@@ -11,7 +11,6 @@ const ToolInsert = ({
 }) => {
   const [addTool, { isSuccess, isError, error }] = useAddToolMutation();
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [toolData, setToolData] = useState<TTool>({
     platform: "",
     website: "",
@@ -71,7 +70,7 @@ const ToolInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-4xl!">
+    <DialogContent className="max-w-4xl!">
       <DialogTitle className="mb-4">Add New Tool Platform</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <ToolForm
@@ -80,7 +79,6 @@ const ToolInsert = ({
           handleSubmit={handleSubmit}
           loader={loader}
           formType="insert"
-          popoverContainer={dialogContentRef.current}
         />
       </div>
     </DialogContent>

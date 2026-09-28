@@ -2,7 +2,7 @@ import { useAddLeaveRequestMutation } from "@/features/leave-request/api"
 import { type TLeaveRequest } from "@/features/leave-request/types";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 import LeaveRequestForm from "./leave-request-form";
 
@@ -15,7 +15,6 @@ const LeaveRequestInsert = ({
   const [addLeaveRequest, { isSuccess, isError, error }] =
     useAddLeaveRequestMutation();
   const [loader, setLoader] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const [leaveRequestData, setLeaveRequestData] = useState<TLeaveRequest>({
     employee_id: data?.user?.id!,
     leave_type: "casual",
@@ -57,14 +56,13 @@ const LeaveRequestInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-md!">
+    <DialogContent className="max-w-md!">
       <DialogTitle className="mb-4">Leave Request</DialogTitle>
       <LeaveRequestForm
         leaveRequestData={leaveRequestData}
         setLeaveRequestData={setLeaveRequestData}
         handleSubmit={handleSubmit}
         loader={loader}
-        popoverContainer={dialogContentRef.current}
       />
     </DialogContent>
   );

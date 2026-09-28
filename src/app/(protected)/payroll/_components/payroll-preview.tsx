@@ -2,7 +2,6 @@ import { type TPayroll } from "@/features/payroll/api";
 import { dateFormat } from "@/lib/utils/date-converter";
 import { useEmployeeMap } from "@/hooks/use-employee-map";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useRef } from "react";
 
 const PayrollPreview = ({
   payrollData,
@@ -10,13 +9,9 @@ const PayrollPreview = ({
   payrollData: Partial<TPayroll>;
 }) => {
   const employeeMap = useEmployeeMap();
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <DialogContent
-      ref={dialogContentRef}
-      className="max-w-4xl! overflow-y-auto max-h-[90vh]"
-    >
+    <DialogContent className="max-w-4xl! overflow-y-auto max-h-[90vh]">
       <DialogTitle className="mb-4">Payroll Details</DialogTitle>
       <div className="row justify-between items-center">
         <div className="lg:col-6 mb-4">

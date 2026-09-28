@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CalendarIcon, Loader2, Trash2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
 
 const PayrollInsert = ({
@@ -41,7 +41,6 @@ const PayrollInsert = ({
   const [payrollData, setPayrollData] =
     useState<TCreateMonthlySalary>(initialPayrollData);
 
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
 
   const [addPayroll, { isSuccess, isError, error }] =
     useAddMonthlyPayrollMutation();
@@ -128,7 +127,7 @@ const PayrollInsert = ({
   }, [isSuccess, isError]);
 
   return (
-    <DialogContent ref={dialogContentRef} className="max-w-2xl!">
+    <DialogContent className="max-w-2xl!">
       <DialogTitle className="mb-4">Add New Payroll</DialogTitle>
       <div className="max-h-[90vh] overflow-y-auto pr-2">
         <form onSubmit={handleSubmit} className="row gx-3">
@@ -156,7 +155,6 @@ const PayrollInsert = ({
               <PopoverContent
                 className="w-auto p-0"
                 align="start"
-                container={dialogContentRef.current}
               >
                 <Calendar
                   required

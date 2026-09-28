@@ -2,14 +2,11 @@ import { dateFormat } from "@/lib/utils/date-converter"
 import { useEmployeeMap } from "@/hooks/use-employee-map";
 import type { TAsset } from "@/types/asset";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useRef } from "react";
 
 const AssetPreview = ({ assetData }: { assetData: Partial<TAsset> }) => {
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
   const employeeMap = useEmployeeMap();
   return (
     <DialogContent
-      ref={dialogContentRef}
       className="max-w-4xl! overflow-y-auto max-h-[90vh]"
     >
       <DialogTitle className="mb-4">Asset Details</DialogTitle>
