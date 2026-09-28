@@ -1,4 +1,5 @@
 import { hasGravatarByEmail } from "@/lib/utils/gravatar";
+import { withApiAuth } from "@/server/auth/api-auth";
 import { NextResponse } from "next/server";
 
 /**
@@ -6,6 +7,9 @@ import { NextResponse } from "next/server";
  * Checks if user has gravatar and returns photo source
  */
 export async function POST(request: Request) {
+  const { error } = await withApiAuth();
+  if (error) return error;
+
   try {
     const { email, hasUploadedImage } = await request.json();
 

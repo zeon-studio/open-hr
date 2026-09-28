@@ -1,3 +1,4 @@
+import { withEmployeeAccess } from "@/server/auth/api-auth";
 import { apiSuccess } from "@/server/utils/api-response";
 import { patchEmployeeService } from "@/server/services/employee.service";
 import { NextRequest } from "next/server";
@@ -9,6 +10,9 @@ export async function PATCH(
 ) {
   return withDb(async () => {
     const { id } = await context.params;
+    const { error } = await withEmployeeAccess(request, id);
+    if (error) return error;
+
     const body = await request.json().catch(() => ({}));
     const data = await patchEmployeeService(id, { personality: body.personality });
     return apiSuccess(data, "data updated successfully");

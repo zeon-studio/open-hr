@@ -10,6 +10,7 @@ import { generateAssetId } from "@/server/utils/id-generator";
 import { ENUM_ROLE } from "@/enums/roles";
 import { NextRequest } from "next/server";
 import { withDb } from "../_lib/handler";
+import { authorizeModule } from "./_lib/access";
 import { getModel, listSearchFields, VALID_MODULES } from "./_lib/model-map";
 
 // Asset tag IDs are `<prefix>_<TYPE>_<serial>` with a per-type serial. Use the
@@ -35,6 +36,9 @@ export async function GET(
     if (!VALID_MODULES.includes(moduleName)) {
       return apiError("Route not found", 404);
     }
+
+    const { error } = await authorizeModule(moduleName, { write: false });
+    if (error) return error;
 
     const model = getModel(moduleName);
     const { searchParams } = request.nextUrl;
@@ -71,8 +75,14 @@ export async function POST(
       return apiError("Route not found", 404);
     }
 
-    const model = getModel(moduleName);
     const body = await request.json().catch(() => ({}));
+    const { error } = await authorizeModule(moduleName, {
+      write: true,
+      ownerId: body.employee_id,
+    });
+    if (error) return error;
+
+    const model = getModel(moduleName);
 
     if (moduleName === "employee-offboarding") {
       const setting = await Setting.findOne({})

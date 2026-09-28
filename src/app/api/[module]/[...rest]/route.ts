@@ -7,9 +7,14 @@ import {
 import mongoose from "mongoose";
 import { NextRequest } from "next/server";
 import { withDb } from "../../_lib/handler";
+import { authorizeModule } from "../_lib/access";
 import { getModel, VALID_MODULES } from "../_lib/model-map";
 
 type Context = { params: Promise<{ module: string; rest: string[] }> };
+
+// Modules whose single-record routes are addressed by `employee_id`.
+const isEmployeeKeyed = (moduleName: string) =>
+  moduleName === "payroll" || moduleName.startsWith("employee-");
 
 export async function GET(request: NextRequest, context: Context) {
   return withDb(async () => {
@@ -18,6 +23,18 @@ export async function GET(request: NextRequest, context: Context) {
     if (!VALID_MODULES.includes(moduleName)) {
       return apiError("Route not found", 404);
     }
+
+    const ownerId =
+      rest[0] === "user"
+        ? rest[1]
+        : rest.length === 1 && isEmployeeKeyed(moduleName)
+          ? rest[0]
+          : undefined;
+    const { error } = await authorizeModule(moduleName, {
+      write: false,
+      ownerId,
+    });
+    if (error) return error;
 
     const model = getModel(moduleName);
 
@@ -159,8 +176,22 @@ export async function PATCH(request: NextRequest, context: Context) {
       return apiError("Route not found", 404);
     }
 
-    const model = getModel(moduleName);
     const body = await request.json().catch(() => ({}));
+    // Self-service updates must target the caller's own record, and may not
+    // move it to another employee via the body.
+    const ownerId =
+      rest.length === 1 &&
+      isEmployeeKeyed(moduleName) &&
+      (!body.employee_id || body.employee_id === rest[0])
+        ? rest[0]
+        : undefined;
+    const { error } = await authorizeModule(moduleName, {
+      write: true,
+      ownerId,
+    });
+    if (error) return error;
+
+    const model = getModel(moduleName);
 
     if (rest[0] === "task" && rest[1] && rest[2]) {
       const updated = await model.findOneAndUpdate(
@@ -196,6 +227,9 @@ export async function DELETE(_request: NextRequest, context: Context) {
     if (!VALID_MODULES.includes(moduleName)) {
       return apiError("Route not found", 404);
     }
+
+    const { error } = await authorizeModule(moduleName, { write: true });
+    if (error) return error;
 
     const model = getModel(moduleName);
 

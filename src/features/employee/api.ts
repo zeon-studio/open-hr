@@ -106,7 +106,7 @@ export const useUpdateEmployeeMutation = createMutationHook<
   TEmployee & { token?: string }
 >((data) =>
   apiRequest<TEmployeeState<TEmployee>>({
-    url: `/employee/update/${data.id}`,
+    url: `/employee/${data.id}/update`,
     method: "PATCH",
     body: data,
     ...employeeAuthHeader(data.token),
@@ -128,7 +128,7 @@ export const useSetEmployeeEmailMutation = createMutationHook<
   Pick<TEmployee, "id"> & { email: string; token?: string }
 >((data) =>
   apiRequest<TEmployeeState<TEmployee>>({
-    url: `/employee/email/${data.id}`,
+    url: `/employee/${data.id}/email`,
     method: "PATCH",
     body: data,
     ...employeeAuthHeader(data.token),
@@ -141,7 +141,7 @@ export const useSetEmployeePasswordMutation = createMutationHook<
   Pick<TEmployee, "id"> & { password: string; token?: string }
 >((data) =>
   apiRequest<TEmployeeState<TEmployee>>({
-    url: `/employee/password/${data.id}`,
+    url: `/employee/${data.id}/password`,
     method: "PATCH",
     body: data,
     ...employeeAuthHeader(data.token),
@@ -154,7 +154,7 @@ export const useSetEmployeeCommunicationIdMutation = createMutationHook<
   Pick<TEmployee, "id" | "communication_id"> & { token?: string }
 >((data) =>
   apiRequest<TEmployeeState<TEmployee>>({
-    url: `/employee/communication_id/${data.id}`,
+    url: `/employee/${data.id}/communication_id`,
     method: "PATCH",
     body: data,
     ...employeeAuthHeader(data.token),
@@ -167,7 +167,7 @@ export const useSetEmployeePersonalityMutation = createMutationHook<
   Pick<TEmployee, "id" | "personality"> & { token?: string }
 >((data) =>
   apiRequest<TEmployeeState<TEmployee>>({
-    url: `/employee/personality/${data.id}`,
+    url: `/employee/${data.id}/personality`,
     method: "PATCH",
     body: data,
     ...employeeAuthHeader(data.token),
@@ -180,7 +180,7 @@ export const useUpdateEmployeeRoleMutation = createMutationHook<
   Partial<TEmployee>
 >((data) =>
   apiRequest<TEmployeeState<TEmployee>>({
-    url: `/employee/role/${data.id}`,
+    url: `/employee/${data.id}/role`,
     method: "PATCH",
     body: data,
   }),

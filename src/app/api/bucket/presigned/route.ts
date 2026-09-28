@@ -3,9 +3,13 @@ import { apiError, apiSuccess } from "@/server/utils/api-response";
 import { s3Client } from "@/server/storage/s3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { STAFF_ROLES, withApiAuth } from "@/server/auth/api-auth";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const { error } = await withApiAuth(...STAFF_ROLES);
+  if (error) return error;
+
   try {
     const body = await request.json().catch(() => ({}));
     const key = String(body.key || `uploads/${Date.now()}`);

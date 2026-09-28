@@ -1,12 +1,16 @@
 import variables from "@/config/variables";
 import { apiError, apiSuccess } from "@/server/utils/api-response";
 import { s3Client } from "@/server/storage/s3";
+import { STAFF_ROLES, withApiAuth } from "@/server/auth/api-auth";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 export async function DELETE(
   _request: Request,
   context: { params: Promise<{ key: string[] }> },
 ) {
+  const { error } = await withApiAuth(...STAFF_ROLES);
+  if (error) return error;
+
   try {
     const { key } = await context.params;
     const filePath = key.map(decodeURIComponent).join("/");
